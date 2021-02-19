@@ -1,0 +1,265 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package biz.ei6.interventions.desktop.lib.domain;
+
+import java.time.LocalDate;
+import java.util.List;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleListProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+
+/**
+ *
+ * @author Eixa6
+ * 
+ */
+public class Intervention {
+    private StringProperty Id = new SimpleStringProperty();
+    private StringProperty title= new SimpleStringProperty();
+    private StringProperty client_id= new SimpleStringProperty();
+    private StringProperty description= new SimpleStringProperty();
+    private ListProperty<Period> period= new SimpleListProperty();
+    private StringProperty address= new SimpleStringProperty();
+    private StringProperty km= new SimpleStringProperty();
+    private StringProperty billNumber= new SimpleStringProperty();
+    private ObjectProperty<LocalDate> billDate = new SimpleObjectProperty();
+    private StringProperty paymentType= new SimpleStringProperty();
+    private ObjectProperty<LocalDate> paymentDate= new SimpleObjectProperty();
+    private StringProperty status= new SimpleStringProperty();
+    private ListProperty<String> medias = new SimpleListProperty();
+    private BooleanProperty deleted= new SimpleBooleanProperty();
+   
+             
+    /*
+     * @return the Id
+     */
+    public String getId() {
+        return Id.get();
+    }
+
+    /**
+     * @param Id the Id to set
+     */
+    public void setId(String Id) {
+        this.Id.set(Id);
+    }
+
+    /**
+     * @return the title
+     */
+    public String getTitle() {
+        return title.get();
+    }
+    public StringProperty getTitleProperty() {
+        return title;
+    }
+    /**
+     * @param title the title to set
+     */
+    public void setTitle(String title) {
+        this.title.set(title);
+    }
+
+    /**
+     * @return the client_id
+     */
+    public String getClient_id() {
+        return client_id.get();
+    }
+    public StringProperty getClient_idProperty() {
+        return client_id;
+    }
+    /**
+     * @param client_id the client_id to set
+     */
+    public void setClient_id(String client_id) {
+        this.client_id .set(client_id);
+    }
+
+    /**
+     * @return the description
+     */
+    public StringProperty getDescriptionProperty() {
+        return description;
+    }
+    public String getDescription() {
+        return description.get();
+    }
+    /**
+     * @param description the description to set
+     */
+    public void setDescription(String description) {
+        this.description .set( description);
+    }
+
+    /**
+     * @return the period
+     */
+    public ListProperty<Period> getPeriodProperty() {
+        return period;
+    }
+    public List<Period> getPeriod() {
+        return period.get();
+    }
+    /**
+     * @param period the period to set
+     */
+    public void setPeriod(List<Period> period) {
+        this.period.set(  FXCollections.observableArrayList(period));
+    }
+
+    /**
+     * @return the address
+     */
+    public StringProperty getAddressProperty() {
+        return address;
+    }
+    public String getAddress() {
+        return address.get();
+    }
+    /**
+     * @param address the address to set
+     */
+    public void setAddress(String address) {
+        this.address.set(address);
+    }
+
+    /**
+     * @return the km
+     */
+    public String getKm() {
+        return km.get();
+    }
+    public StringProperty getKmProperty() {
+        return km;
+    }
+    /**
+     * @param km the km to set
+     */
+    public void setKm(String km) {
+        this.km.set(km);
+    }
+
+    /**
+     * @return the billNumber
+     */
+    public StringProperty getBillNumberProperty() {
+        return billNumber;
+    }
+    public String getBillNumber() {
+        return billNumber.get();
+    }
+    /**
+     * @param billNumber the billNumber to set
+     */
+    public void setBillNumber(String billNumber) {
+        this.billNumber.set(billNumber);
+    }
+
+    /**
+     * @return the billDate
+     */
+    public LocalDate getBillDate() {
+        return billDate.get();
+    }
+    public ObjectProperty<LocalDate> getBillDateProperty() {
+        return billDate;
+    }
+    /**
+     * @param billDate the billDate to set
+     */
+    public void setBillDate(LocalDate billDate) {
+        this.billDate.set( billDate);
+    }
+
+    /**
+     * @return the paymentType
+     */
+    public StringProperty getPaymentTypeProperty() {
+        return paymentType;
+    }
+    public String getPaymentType() {
+        return paymentType.get();
+    }
+    /**
+     * @param paymentType the paymentType to set
+     */
+    public void setPaymentType(String paymentType) {
+        this.paymentType.set(paymentType);
+    }
+
+    /**
+     * @return the paymentDate
+     */
+    public ObjectProperty<LocalDate> getPaymentDateProperty() {
+        return paymentDate;
+    }
+    public LocalDate getPaymentDate() {
+        return paymentDate.get();
+    }
+    /**
+     * @param paymentDate the paymentDate to set
+     */
+    public void setPaymentDate(LocalDate paymentDate) {
+        this.paymentDate.set(paymentDate);
+    }
+
+    /**
+     * @return the status
+     */
+    public StringProperty getStatusProperty() {
+        return status;
+    }
+    public String getStatus() {
+        return status.get();
+    }
+    /**
+     * @param status the status to set
+     */
+    public void setStatus(String status) {
+        this.status.set( status);
+    }
+
+    /**
+     * @return the medias
+     */
+    public ListProperty<String> getMediasProperty() {
+        return medias;
+    }
+    public List<String> getMedias() {
+        return medias.get();
+    }
+    /**
+     * @param medias the medias to set
+     */
+    public void setMedias(List<String> medias) {
+        this.medias.set( FXCollections.observableArrayList(medias));
+    }
+
+    /**
+     * @return the deleted
+     */
+    public BooleanProperty getDeletedProperty() {
+        return deleted;
+    }
+    public Boolean getDeleted() {
+        return deleted.get();
+    }
+    /**
+     * @param deleted the deleted to set
+     */
+    public void setDeleted(Boolean deleted) {
+        this.deleted.set( deleted);
+    }
+        
+        
+}

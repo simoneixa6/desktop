@@ -1,0 +1,312 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 9 févr. 2021, 11:24:17
+    Author     : Eixa6
+*/
+
+.root {
+    -fx-background-color: #ffffff;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: #ffffff;
+}
+
+#AnchorPane {
+    -fx-background-color: #ffffff; 
+    -fx-border-width: 0;
+}
+
+.scroll-pane > .viewport {
+   -fx-background-color: transparent;
+}
+
+.scroll-pane {
+   -fx-background-color: white;
+}
+
+#splitpanestyle {
+    -fx-box-border: transparent;
+}
+
+.split-pane-divider {
+   -fx-background-color: #F2F2F2;
+   -fx-padding: 0 1px 0 1px;  
+}
+
+/*Left Side Menubar styling*/
+
+#sidebarmenu {
+    -fx-background-color: #F2F2F2;  
+    -fx-border-width: 0;
+}
+
+#sidebarBtn{
+    -fx-background-color: #F2F2F2;
+    -fx-font-size : 14px;
+}
+
+#sidebarBtn:hover{
+    -fx-background-color: #eaeaea;  
+}
+
+#menubarTitle{
+    -fx-font-size : 16px;
+}
+
+/*Text Styling*/
+
+#title {
+    -fx-font-size : 22px;
+}
+
+#textinputlabel {
+    -fx-font-size : 12px;
+    -fx-font-weight: bold;   
+}
+
+#bluelabel {
+    -fx-text-fill: #0066cc;
+    -fx-font-size : 11px;
+}
+
+#bluelabel:hover {
+    -fx-text-fill: #fc3300;   
+}
+
+/*Styling of the text input*/
+
+#textInput {
+    -fx-background-color: #F2F2F2;
+    -fx-prompt-text-fill: gray;
+    -fx-border-width: 0;
+}
+
+/*Styling of the text area*/
+
+#textAreaInput {
+    -fx-background-color: #F2F2F2;
+    -fx-border-width: 1;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-border-color: #F2F2F2;
+}
+
+#textAreaInput  .content {
+    -fx-background-color: #F2F2F2;
+}
+
+#textAreaInput  .scroll-pane {
+    -fx-background-color: transparent;
+}
+#textAreaInput  .scroll-pane .viewport{
+    -fx-background-color: transparent;
+}
+#textAreaInput  .scroll-pane .content{
+    -fx-background-color: transparent;
+}
+
+/*ComboBox Styling*/
+
+#combobox {
+   -fx-background-color: #F2F2F2;
+   -fx-border-width: 1;
+}
+
+#combobox .list-view {
+    -fx-background-color: #F2F2F2;
+}
+
+/*Styling of the buttons*/
+
+#bluebtn {
+    -fx-background-color: #0079C2;  
+    -fx-text-fill: #ffffff;
+    -fx-padding: 7px;
+    -fx-font-weight: bold;  
+}
+
+#bluebtn:hover {
+    -fx-background-color: #0044dc;      
+}
+
+#redbtn {
+    -fx-background-color: #CD0000;    
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;  
+    -fx-padding: 7px;
+}
+
+#redbtn:hover {
+    -fx-background-color: #9e0000       
+}
+
+/*Styling of the scrollbar*/
+
+.scroll-bar:horizontal, .scroll-bar:vertical{
+    -fx-background-color: #f0f0f0;
+}
+
+.increment-button, .decrement-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track{
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0em;
+}
+
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #dfdfdf;
+    -fx-background-radius: 4em;
+}
+
+/*Styling of the listviews*/
+
+#greylistview {
+    -fx-background-color: #F2F2F2;
+    -fx-border-width: 1;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-border-color: #F2F2F2;
+    -fx-background-insets: 0; 
+}
+
+#greylistview .list-cell:hover {
+    -fx-background-color: #eaeaea;
+}
+
+#greylistview .list-cell:selected {
+    -fx-background-color: #eaeaea;
+}
+
+#greylistview .list-cell {
+    -fx-background-color: #F2F2F2;
+    -fx-text-fill: black;
+    -fx-font-size : 13px;
+}
+
+#greylistview .label {
+    -fx-text-fill: black;
+}
+
+/* Styling of the tableview */
+
+.table-view {
+    -fx-border-color: #ffffff;
+}
+
+.table-view .placeholder {
+    -fx-border-color: #F2F2F2;
+    -fx-background-color:#f2f2f2;
+}
+
+.table-view .table-cell{
+    -fx-text-fill: black;
+    -fx-border-color: #f2f2f2;
+}
+
+.table-row-cell {
+    -fx-border-color: #f2f2f2;
+}
+
+.table-row-cell:hover {
+    -fx-background-color: #eaeaea;
+}
+
+.table-row-cell:filled:selected:focused {
+    -fx-border-color: #f2f2f2;
+    -fx-border-width: 0px;
+}
+
+.table-row-cell:odd{
+    -fx-background-color: #f2f2f2;
+}
+.table-row-cell:even{
+    -fx-background-color: #f2f2f2;
+}
+
+.table-view .column-header-background{
+    -fx-background-color: white;
+    -fx-background-radius: 4px 4px 0px 0px;
+    -fx-padding: 5px 0px 3px 0px;
+}
+
+.table-view .column-header {
+    -fx-background-color: white;
+}
+
+/*Styling of the date pickers*/
+
+.date-picker {
+    -fx-background-color: #F2F2F2;
+    -fx-border-color: #F2F2F2;
+}
+
+.date-picker .arrow-button, .date-picker .date-picker-display-node {
+    -fx-background-color: #F2F2F2;
+    -fx-border-color: #F2F2F2;
+    -fx-border-width: 1;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-background-insets: 0; 
+    -fx-focus-color: #F2F2F2;
+    -fx-faint-focus-color: #F2F2F2;
+}
+
+/*Styling of the menubutton*/
+
+.menu-item {
+    -fx-background-color: #f2f2f2; 
+}
+
+.menu-bar > .container > .menu-button:hover,
+.menu-bar > .container > .menu-button:focused,
+.menu-bar > .container > .menu-button:showing {
+    -fx-background-color: #eaeaea;
+}
+  
+.menu-item:focused, .menu-item:hovered {
+    -fx-background-color: #eaeaea; 
+}
+
+.menu-item:focused .label, .menu-item:hovered .label {
+    -fx-text-fill: black;
+}
+
+.context-menu {
+    -fx-background-color: #F2F2F2;
+    -fx-border-color: #F2F2F2;
+    -fx-border-width: 1;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+}
+
+/*Add icons to the menu items of the menubutton*/
+
+#greenitem > .label {
+    -fx-graphic: url(assets/green.png);
+}
+
+#orangeitem > .label {
+    -fx-graphic: url(assets/orange.png);
+}
+
+#yellowitem > .label {
+    -fx-graphic: url(assets/yellow.png);
+}
+
+#reditem > .label {
+    -fx-graphic: url(assets/red.png);
+}
+
+
+#buttonflowpane {
+    -fx-background-color: #FFFFFF;
+}
