@@ -1,12 +1,9 @@
 package biz.ei6.interventions.desktop;
 
-import biz.ei6.interventions.InterventionsListener;
 import biz.ei6.interventions.desktop.App.Interactors;
 import biz.ei6.interventions.desktop.lib.domain.Intervention;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,7 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SplitPane;
 
-public class InterventionsController implements Initializable, InterventionsListener {
+public class InterventionsController implements Initializable, DesktopListener {
 
     @FXML
     SplitPane splitPane;
@@ -35,6 +32,7 @@ public class InterventionsController implements Initializable, InterventionsList
     @Override
     public void close() {
         splitPane.getItems().remove(1);
+        interventionsListView.getSelectionModel().clearSelection();
         updateInterventionsListView();
     }
 
@@ -66,7 +64,6 @@ public class InterventionsController implements Initializable, InterventionsList
     }
 
     private void addInterventionFormToSplitPane(InterventionsForm interventionsForm) {
-
         /*
          * Supprime la partie formulaire d'intervention si elle est déjà présente
          */
@@ -77,11 +74,9 @@ public class InterventionsController implements Initializable, InterventionsList
     }
 
     public void updateInterventionsListView() {
-
         var data = interactors.getInterventions.invoke();
         var dataobs = FXCollections.observableArrayList(data);
         interventionsListView.setItems(dataobs);
-
     }
 
 }

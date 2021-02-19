@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package biz.ei6.interventions;
+package biz.ei6.interventions.desktop;
 
 /**
  *
  * @author Eixa6
  */
-public interface InterventionsListener {
+public interface DesktopListener {
     void close();
 }

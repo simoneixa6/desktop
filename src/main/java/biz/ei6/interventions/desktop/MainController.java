@@ -20,7 +20,6 @@ import javafx.scene.layout.BorderPane;
  */
 public class MainController implements Initializable {
 
-    
     @FXML
     BorderPane mainBorderPane;
 
@@ -36,10 +35,11 @@ public class MainController implements Initializable {
     @FXML
     Button rolesBtn;
 
-    
     Interactors interactors;
 
     InterventionsPane interventionsPane;
+    
+    ClientsPane clientsPane;
 
     public void setInteractors(Interactors interactors) {
         this.interactors = interactors;
@@ -53,22 +53,21 @@ public class MainController implements Initializable {
          */
         interventionsBtn.setOnAction((ActionEvent actionEvent) -> {
             //if (mainBorderPane.getCenter() != interventionsPane) {
-                // Interventions par défault
-                interventionsPane = new InterventionsPane(interactors);
-                mainBorderPane.setCenter(interventionsPane);
-           // }
+            // Interventions par défault
+            interventionsPane = new InterventionsPane(interactors);
+            mainBorderPane.setCenter(interventionsPane);
+            // }
         });
 
         /*
          * Action sur le clic du bouton "Clients"
          */
-//        clientsBtn.setOnAction((ActionEvent actionEvent) -> {       
-//            if(mainBorderPane.getCenter() != clientsPane )
-//            {
-//                 mainBorderPane.setCenter(clientsPane);
-//            }
-//        });   
-//        
+        clientsBtn.setOnAction((ActionEvent actionEvent) -> {
+
+            clientsPane = new ClientsPane(interactors);
+            mainBorderPane.setCenter(clientsPane);
+        });
+
     }
 
 }

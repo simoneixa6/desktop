@@ -5,7 +5,6 @@
  */
 package biz.ei6.interventions.desktop;
 
-import biz.ei6.interventions.InterventionsListener;
 import biz.ei6.interventions.desktop.App.Interactors;
 import biz.ei6.interventions.desktop.lib.domain.Intervention;
 import biz.ei6.interventions.desktop.lib.domain.Period;
@@ -79,7 +78,9 @@ public class InterventionsFormController implements Initializable {
 
     Interactors interactors;
 
-    InterventionsListener interventionsListener;
+    DesktopListener desktopListener;
+
+    Boolean isNewIntervention;
 
     /**
      * Intervention éditée par la partie droite de l'interface
@@ -94,8 +95,8 @@ public class InterventionsFormController implements Initializable {
         this.interactors = interactors;
     }
 
-    public void setInterventionsListener(InterventionsListener interventionsListener) {
-        this.interventionsListener = interventionsListener;
+    public void setDesktopListener(DesktopListener desktopListener) {
+        this.desktopListener = desktopListener;
     }
 
     @Override
@@ -108,8 +109,24 @@ public class InterventionsFormController implements Initializable {
         // Binding à l'initialisation
         bind();
 
+        // Si une intervention n'a pas d'id c'est que c'est une nouvelle intervention
+        if (getEditedIntervention().getId() == null ) {
+
+            // Valeurs pas défault pour une nouvelle intervention
+            getEditedIntervention().setStatus("Ouverte");
+            getEditedIntervention().setPaymentType("Chèque");
+            
+            registerBtn.setText("Enregistrer");
+            deleteBtn.setDisable(true);
+        } else {
+
+            registerBtn.setText("Modifier");
+            deleteBtn.setDisable(false);
+
+        }
+
         /*
-         * Action sur le clic du bouton "Enregistrer"
+         * Action sur le clic du bouton "Enregistrer" / "Modifier"
          */
         registerBtn.setOnAction((ActionEvent actionEvent) -> {
 
@@ -126,7 +143,7 @@ public class InterventionsFormController implements Initializable {
                 new Alert(Alert.AlertType.ERROR, e.toString()).show();
             }
 
-            interventionsListener.close();
+            desktopListener.close();
 
         });
 
@@ -135,7 +152,7 @@ public class InterventionsFormController implements Initializable {
          */
         deleteBtn.setOnAction((ActionEvent actionEvent) -> {
             interactors.removeIntervention.invoke(getEditedIntervention().getId());
-            interventionsListener.close();
+            desktopListener.close();
         });
 
         /*

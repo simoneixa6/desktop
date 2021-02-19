@@ -38,13 +38,12 @@ public class App extends Application {
         var ctrl = (MainController) fxmlLoader.getController();
         ctrl.setInteractors(interactors);
 
-        scene = new Scene(root, 1200, 900);
+        scene = new Scene(root, 1200, 940);
         stage.setTitle("Gestion des interventions");
         stage.setScene(scene);
         stage.setMinHeight(300);
         stage.setMinWidth(750);
         stage.show();
-
     }
 
     public static void main(String[] args) {

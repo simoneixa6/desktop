@@ -6,28 +6,24 @@
 package biz.ei6.interventions.desktop;
 
 import biz.ei6.interventions.desktop.App.Interactors;
-import biz.ei6.interventions.desktop.lib.domain.Intervention;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.control.SplitPane;
 
 /**
  *
  * @author Eixa6
  */
-public class InterventionsForm extends AnchorPane {
+public class ClientsPane extends SplitPane {
 
-    public InterventionsForm(Interactors interactors, Intervention intervention, DesktopListener desktopListener) {
+    public ClientsPane(Interactors interactors) {
 
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("interventionsForm.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("clientsPane.fxml"));
 
-        InterventionsFormController ctrl = new InterventionsFormController(intervention);
+        ClientsController ctrl = new ClientsController();
 
         fxmlLoader.setController(ctrl);
-        
         ctrl.setInteractors(interactors);
-        
-        ctrl.setDesktopListener(desktopListener);
 
         fxmlLoader.setRoot(this);
 
@@ -37,5 +33,4 @@ public class InterventionsForm extends AnchorPane {
             e.printStackTrace();
         }
     }
-
 }
