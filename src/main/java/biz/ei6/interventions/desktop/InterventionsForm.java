@@ -9,6 +9,7 @@ import biz.ei6.interventions.desktop.App.Interactors;
 import biz.ei6.interventions.desktop.lib.domain.Intervention;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 
 /**
@@ -33,8 +34,8 @@ public class InterventionsForm extends AnchorPane {
 
         try {
             fxmlLoader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+           new Alert(Alert.AlertType.ERROR, "Erreur lors de l'ajout de la partie formulaire d'une intervention : " + e.toString()).show();
         }
     }
 

@@ -171,7 +171,7 @@
                                     </TableView>
                                     <HBox>
                                        <children>
-                                          <Label id="bluelabel" onMouseClicked="#addPeriodRow" text="Ajouter">
+                                          <Label id="bluelabel" text="Ajouter">
                                              <HBox.margin>
                                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                              </HBox.margin>

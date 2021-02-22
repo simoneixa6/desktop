@@ -38,7 +38,7 @@ public class MainController implements Initializable {
     Interactors interactors;
 
     InterventionsPane interventionsPane;
-    
+
     ClientsPane clientsPane;
 
     public void setInteractors(Interactors interactors) {
@@ -53,10 +53,10 @@ public class MainController implements Initializable {
          */
         interventionsBtn.setOnAction((ActionEvent actionEvent) -> {
             //if (mainBorderPane.getCenter() != interventionsPane) {
-            // Interventions par défault
-            interventionsPane = new InterventionsPane(interactors);
-            mainBorderPane.setCenter(interventionsPane);
-            // }
+                // Interventions par défault
+                interventionsPane = new InterventionsPane(interactors);
+                mainBorderPane.setCenter(interventionsPane);
+            //}
         });
 
         /*
@@ -64,10 +64,11 @@ public class MainController implements Initializable {
          */
         clientsBtn.setOnAction((ActionEvent actionEvent) -> {
 
-            clientsPane = new ClientsPane(interactors);
-            mainBorderPane.setCenter(clientsPane);
+            //if (mainBorderPane.getCenter() != clientsPane) {
+                clientsPane = new ClientsPane(interactors);
+                mainBorderPane.setCenter(clientsPane);
+            //}
         });
 
     }
-
 }

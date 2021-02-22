@@ -8,6 +8,7 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SplitPane;
@@ -44,6 +45,8 @@ public class InterventionsController implements Initializable, DesktopListener {
          */
         interventionsListView.setCellFactory(new InterventionCellFactory());
 
+        // Muse à jour de la liste des interventions au démarrage
+        //updateInterventionsListView();
         /*
          * Action lors de la selection d'une intervention dans la listview
          */
@@ -64,19 +67,30 @@ public class InterventionsController implements Initializable, DesktopListener {
     }
 
     private void addInterventionFormToSplitPane(InterventionsForm interventionsForm) {
+
         /*
          * Supprime la partie formulaire d'intervention si elle est déjà présente
          */
-        if (splitPane.getItems().size() > 1) {
-            splitPane.getItems().remove(1);
+        try {
+            if (splitPane.getItems().size() > 1) {
+                splitPane.getItems().remove(1);
+                splitPane.getItems().add(1, interventionsForm);
+            } else {
+                splitPane.getItems().add(1, interventionsForm);
+            }
+        } catch (Exception e) {
+            new Alert(Alert.AlertType.ERROR, "Erreur lors de l'ajout du formulaire d'intervention : " + e.toString()).show();
         }
-        splitPane.getItems().add(1, interventionsForm);
     }
 
     public void updateInterventionsListView() {
-        var data = interactors.getInterventions.invoke();
-        var dataobs = FXCollections.observableArrayList(data);
-        interventionsListView.setItems(dataobs);
-    }
+        try {
+            var data = interactors.getInterventions.invoke();
+            var dataobs = FXCollections.observableArrayList(data);
+            interventionsListView.setItems(dataobs);
+        } catch (Exception e) {
+            new Alert(Alert.AlertType.ERROR, "Erreur lors de la récupération des interventions et la mise à jour de la liste : " + e.toString()).show();
+        }
 
+    }
 }

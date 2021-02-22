@@ -1,6 +1,7 @@
 package biz.ei6.interventions.desktop;
 
 import biz.ei6.interventions.desktop.framework.MemoryDataSource;
+import biz.ei6.interventions.desktop.framework.WSDataSource;
 import biz.ei6.interventions.desktop.lib.data.InterventionsDataSource;
 import biz.ei6.interventions.desktop.lib.data.InterventionsRepository;
 import biz.ei6.interventions.desktop.lib.interactors.AddIntervention;
@@ -20,7 +21,7 @@ import java.io.IOException;
 public class App extends Application {
 
     static class Interactors {
-        InterventionsDataSource interventionsDataSource = new MemoryDataSource();
+        InterventionsDataSource interventionsDataSource = new WSDataSource();//new MemoryDataSource();
         InterventionsRepository interventionsRepository = new InterventionsRepository(interventionsDataSource);
         AddIntervention addIntervention = new AddIntervention(interventionsRepository);
         UpdateIntervention updateIntervention = new UpdateIntervention(interventionsRepository);

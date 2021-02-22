@@ -6,6 +6,7 @@
 package biz.ei6.interventions.desktop.lib.domain;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ListProperty;
@@ -31,14 +32,14 @@ public class Intervention {
     private StringProperty address= new SimpleStringProperty();
     private StringProperty km= new SimpleStringProperty();
     private StringProperty billNumber= new SimpleStringProperty();
-    private ObjectProperty<LocalDate> billDate = new SimpleObjectProperty();
+    private ObjectProperty<LocalDateTime> billDate = new SimpleObjectProperty();
     private StringProperty paymentType= new SimpleStringProperty();
-    private ObjectProperty<LocalDate> paymentDate= new SimpleObjectProperty();
+    private ObjectProperty<LocalDateTime> paymentDate= new SimpleObjectProperty();
     private StringProperty status= new SimpleStringProperty();
     private ListProperty<String> medias = new SimpleListProperty();
     private BooleanProperty deleted= new SimpleBooleanProperty();
    
-             
+
     /*
      * @return the Id
      */
@@ -168,17 +169,17 @@ public class Intervention {
     /**
      * @return the billDate
      */
-    public LocalDate getBillDate() {
+    public LocalDateTime getBillDate() {
         return billDate.get();
     }
-    public ObjectProperty<LocalDate> getBillDateProperty() {
+    public ObjectProperty<LocalDateTime> getBillDateProperty() {
         return billDate;
     }
     /**
      * @param billDate the billDate to set
      */
-    public void setBillDate(LocalDate billDate) {
-        this.billDate.set( billDate);
+    public void setBillDate(LocalDateTime billDate) {
+        this.billDate.set(billDate);
     }
 
     /**
@@ -200,16 +201,16 @@ public class Intervention {
     /**
      * @return the paymentDate
      */
-    public ObjectProperty<LocalDate> getPaymentDateProperty() {
+    public ObjectProperty<LocalDateTime> getPaymentDateProperty() {
         return paymentDate;
     }
-    public LocalDate getPaymentDate() {
+    public LocalDateTime getPaymentDate() {
         return paymentDate.get();
     }
     /**
      * @param paymentDate the paymentDate to set
      */
-    public void setPaymentDate(LocalDate paymentDate) {
+    public void setPaymentDate(LocalDateTime paymentDate) {
         this.paymentDate.set(paymentDate);
     }
 

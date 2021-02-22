@@ -8,6 +8,7 @@ package biz.ei6.interventions.desktop;
 import biz.ei6.interventions.desktop.App.Interactors;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.control.SplitPane;
 
 /**
@@ -30,7 +31,7 @@ public class ClientsPane extends SplitPane {
         try {
             fxmlLoader.load();
         } catch (IOException e) {
-            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Erreur lors du chargement de la pane des clients : " + e.toString()).show();
         }
     }
 }

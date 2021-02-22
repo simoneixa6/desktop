@@ -9,7 +9,12 @@ import biz.ei6.interventions.desktop.App.Interactors;
 import biz.ei6.interventions.desktop.lib.domain.Intervention;
 import biz.ei6.interventions.desktop.lib.domain.Period;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.Month;
 import java.util.ResourceBundle;
+import javafx.beans.binding.ObjectBinding;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -110,12 +115,12 @@ public class InterventionsFormController implements Initializable {
         bind();
 
         // Si une intervention n'a pas d'id c'est que c'est une nouvelle intervention
-        if (getEditedIntervention().getId() == null ) {
+        if (getEditedIntervention().getId() == null) {
 
             // Valeurs pas défault pour une nouvelle intervention
             getEditedIntervention().setStatus("Ouverte");
             getEditedIntervention().setPaymentType("Chèque");
-            
+
             registerBtn.setText("Enregistrer");
             deleteBtn.setDisable(true);
         } else {
@@ -130,17 +135,21 @@ public class InterventionsFormController implements Initializable {
          */
         registerBtn.setOnAction((ActionEvent actionEvent) -> {
 
-            try {
-                switch (registerBtn.getText()) {
-                    case "Enregistrer":
-                        interactors.addIntervention.invoke(getEditedIntervention());
-                        break;
-                    case "Modifier":
-                        interactors.updateIntervention.invoke(getEditedIntervention());
-                        break;
+            switch (registerBtn.getText()) {
+                case "Enregistrer":
+                    try {
+                    interactors.addIntervention.invoke(getEditedIntervention());
+                } catch (Exception e) {
+                    new Alert(Alert.AlertType.ERROR, "Erreur lors de l'ajout de l'intervention :" + e.toString()).show();
                 }
-            } catch (Exception e) {
-                new Alert(Alert.AlertType.ERROR, e.toString()).show();
+                break;
+                case "Modifier":
+                    try {
+                    interactors.updateIntervention.invoke(getEditedIntervention());
+                } catch (Exception e) {
+                    new Alert(Alert.AlertType.ERROR, "Erreur lors de la modification de l'intervention :" + e.toString()).show();
+                }
+                break;
             }
 
             desktopListener.close();
@@ -151,7 +160,14 @@ public class InterventionsFormController implements Initializable {
          * Action sur le clic du bouton "Supprimer"
          */
         deleteBtn.setOnAction((ActionEvent actionEvent) -> {
-            interactors.removeIntervention.invoke(getEditedIntervention().getId());
+
+            try {
+                interactors.removeIntervention.invoke(getEditedIntervention().getId());
+            } catch (Exception e) {
+
+                new Alert(Alert.AlertType.ERROR, "Erreur lors de la suppression de l'intervention : " + e.toString()).show();
+            }
+
             desktopListener.close();
         });
 
@@ -181,22 +197,44 @@ public class InterventionsFormController implements Initializable {
         inputNom.textProperty().bindBidirectional(getEditedIntervention().getTitleProperty());
         inputDescription.textProperty().bindBidirectional(getEditedIntervention().getDescriptionProperty());
         inputKm.textProperty().bindBidirectional(getEditedIntervention().getKmProperty());
-        inputDateFacturation.valueProperty().bindBidirectional(getEditedIntervention().getBillDateProperty());
-        inputNumeroFacture.textProperty().bindBidirectional(getEditedIntervention().getBillNumberProperty());
-        inputDateReglement.valueProperty().bindBidirectional(getEditedIntervention().getPaymentDateProperty());
-        statusBox.valueProperty().bindBidirectional(getEditedIntervention().getStatusProperty());
-        paymenttypeBox.valueProperty().bindBidirectional(getEditedIntervention().getPaymentTypeProperty());
-    }
 
-    private void unbind() {
-        inputNom.textProperty().unbindBidirectional(getEditedIntervention().getTitleProperty());
-        inputDescription.textProperty().unbindBidirectional(getEditedIntervention().getDescriptionProperty());
-        inputKm.textProperty().unbindBidirectional(getEditedIntervention().getKmProperty());
-        inputDateFacturation.valueProperty().unbindBidirectional(getEditedIntervention().getBillDateProperty());
-        inputNumeroFacture.textProperty().unbindBidirectional(getEditedIntervention().getBillNumberProperty());
-        inputDateReglement.valueProperty().unbindBidirectional(getEditedIntervention().getPaymentDateProperty());
-        statusBox.valueProperty().unbindBidirectional(getEditedIntervention().getStatusProperty());
-        paymenttypeBox.valueProperty().unbindBidirectional(getEditedIntervention().getPaymentTypeProperty());
+        var source = getEditedIntervention().getBillDateProperty();
+
+        var dtebinding = new ObjectBinding<LocalDate>() {
+            {
+                this.bind(source);
+            }
+
+            @Override
+            protected LocalDate computeValue() {
+                return LocalDate.of(source.getValue().getYear(), source.getValue().getMonth(), source.getValue().getDayOfMonth());
+            }
+        };
+
+        var inputBillDate = inputDateFacturation.valueProperty();
+
+        var inputdtbinding = new ObjectBinding<LocalDateTime>() {
+            {
+                this.bind(inputBillDate);
+            }
+
+            @Override
+            protected LocalDateTime computeValue() {
+                return LocalDateTime.of(inputBillDate.getValue(), LocalTime.of(0, 0));
+            }
+        };
+
+        inputDateFacturation.valueProperty().bind(dtebinding);
+        getEditedIntervention().getBillDateProperty().bind(inputdtbinding);
+        
+        inputNumeroFacture.textProperty()
+                .bindBidirectional(getEditedIntervention().getBillNumberProperty());
+        //inputDateReglement.valueProperty()
+        //        .bindBidirectional(getEditedIntervention().getPaymentDateProperty());
+        statusBox.valueProperty()
+                .bindBidirectional(getEditedIntervention().getStatusProperty());
+        paymenttypeBox.valueProperty()
+                .bindBidirectional(getEditedIntervention().getPaymentTypeProperty());
     }
 
     /**

@@ -31,9 +31,4 @@ public class InterventionsRepository {
     public void removeIntervention(String id) {
         interventionsDataSource.remove(id);
     }
-    
-//    public void updateIntervention(Intervention intervention) {
-//        dataSource.update(intervention);
-//    }    
-    
 }
