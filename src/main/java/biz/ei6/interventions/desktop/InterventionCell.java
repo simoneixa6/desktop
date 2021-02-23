@@ -64,9 +64,6 @@ public class InterventionCell  extends ListCell<Intervention> {
                 Image yellowDot = new Image("file:///C:\\Users\\Eixa6\\Documents\\NetBeansProjects\\desktop\\src\\main\\resources\\biz\\ei6\\interventions\\desktop\\assets\\yellow.png");
                 Image redDot = new Image("file:///C:\\Users\\Eixa6\\Documents\\NetBeansProjects\\desktop\\src\\main\\resources\\biz\\ei6\\interventions\\desktop\\assets\\red.png");
 
-        
-                try
-                {
                     switch(intervention.getStatus()){
                         case "Ouverte":
                             status.setImage(redDot);  
@@ -84,18 +81,7 @@ public class InterventionCell  extends ListCell<Intervention> {
                             status.setImage(redDot);
                             break;
                     }
-                } catch(Exception e)
-                {
-                    Alert alert = new Alert(AlertType.ERROR);
-                    alert.setTitle("Error Dialog");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Pas de status choisi : " + e);
-
-                    alert.show();
-                }
-                      
-
-                
+             
                 setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
             }
         }

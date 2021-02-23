@@ -7,6 +7,7 @@ package biz.ei6.interventions.desktop.framework;
 
 import biz.ei6.interventions.desktop.lib.data.InterventionsDataSource;
 import biz.ei6.interventions.desktop.lib.domain.Intervention;
+import biz.ei6.interventions.desktop.lib.domain.InterventionFake;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.ArrayList;
 import java.net.URI;
@@ -23,12 +24,17 @@ import javafx.scene.control.Alert;
  */
 public class WSDataSource implements InterventionsDataSource {
 
+    static HttpClient httpClient;
+
+    static {
+        // Création du client HTTP
+        httpClient = HttpClient.newHttpClient();
+    }
+
     @Override
     public void add(Intervention intervention) {
 
         try {
-            // Création du client HTTP
-            var httpClient = HttpClient.newHttpClient();
 
             ObjectMapper om = new ObjectMapper();
 
@@ -38,7 +44,7 @@ public class WSDataSource implements InterventionsDataSource {
             var request = HttpRequest.newBuilder(
                     URI.create("https://simon.biz/interventionswr"))
                     .header("Content-Type", "application/json")
-                    .version(HttpClient.Version.HTTP_1_1)
+                    //.version(HttpClient.Version.HTTP_1_1)
                     .POST(HttpRequest.BodyPublishers.ofString(data))
                     .build();
 
@@ -57,34 +63,36 @@ public class WSDataSource implements InterventionsDataSource {
     public ArrayList<Intervention> readAll() {
 
         ArrayList<Intervention> interventions = new ArrayList<Intervention>();
-        
+
         try {
             // Création du client HTTP
-            var httpClient = HttpClient.newHttpClient();
+            //var httpClient = HttpClient.newHttpClient();
 
             // Création de la requête
             var request = HttpRequest.newBuilder(
                     URI.create("https://simon.biz/interventions"))
                     .header("Accept", "application/json")
+                    //.version(HttpClient.Version.HTTP_1_1)
+                    .GET()
                     .build();
 
-            var response = httpClient.sendAsync(request, new JsonBodyHandler<Intervention[]>(Intervention[].class));
+            var response = httpClient.sendAsync(request, new JsonBodyHandler<InterventionFake[]>(InterventionFake[].class));
 
             // This blocks until the request is complete
             var resp = response.get();
-
-            var respbody = resp.body();
+            var head = resp.headers();
 
             var res = resp.body().get();
-            
-            for (var c : res) {
-                interventions.add(c);
-            }
 
-        } catch (InterruptedException | ExecutionException e) {
+            System.out.println(res.toString());
+//            for (var c : res) {
+//                interventions.add(c);
+//            }
+
+        } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, "Erreur lors du get des interventions au webservice : " + e.toString()).show();
         }
-        
+
         return interventions;
     }
 

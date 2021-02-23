@@ -26,13 +26,13 @@ import javafx.collections.FXCollections;
  * @author Eixa6
  *
  */
-public class Intervention {
+public class InterventionFake {
 
     private StringProperty Id = new SimpleStringProperty();
     private StringProperty title = new SimpleStringProperty();
     private StringProperty client_id = new SimpleStringProperty();
     private StringProperty description = new SimpleStringProperty();
-    private ListProperty<Period> period = new SimpleListProperty();
+    //private ListProperty<Period> period = new SimpleListProperty();
     private StringProperty address = new SimpleStringProperty();
     private StringProperty km = new SimpleStringProperty();
     private StringProperty billNumber = new SimpleStringProperty();
@@ -40,9 +40,10 @@ public class Intervention {
     private StringProperty paymentType = new SimpleStringProperty();
     private ObjectProperty<LocalDate> paymentDate = new SimpleObjectProperty();
     private StringProperty status = new SimpleStringProperty();
-    private ListProperty<String> medias = new SimpleListProperty();
+    //private ListProperty<String> medias = new SimpleListProperty();
     private BooleanProperty deleted = new SimpleBooleanProperty();
-    {
+    
+    //{
 
     // Ajout d'une période par défault
 //    Period period = new Period();
@@ -50,13 +51,13 @@ public class Intervention {
 //    List<Period> listperiod = List.of(period) ;
 //    
 //    this.setPeriod(listperiod);
-    
-    this.setPeriod(new ArrayList<Period>());
-        
-    // Ajout du tableau de médias vide par défault
-    this.setMedias(new ArrayList<String>());
-    
-    }
+//    
+//    this.setPeriod(new ArrayList<Period>());
+//        
+//    // Ajout du tableau de médias vide par défault
+//    this.setMedias(new ArrayList<String>());
+//    
+//    }
     
     
     /*
@@ -130,20 +131,20 @@ public class Intervention {
     /**
      * @return the period
      */
-    public ListProperty<Period> getPeriodProperty() {
-        return period;
-    }
+//    public ListProperty<Period> getPeriodProperty() {
+//        return period;
+//    }
 
-    public List<Period> getPeriod() {
-        return period.get();
-    }
+//    public List<Period> getPeriod() {
+//        return period.get();
+//    }
 
     /**
      * @param period the period to set
      */
-    public void setPeriod(List<Period> period) {
-        this.period.set(FXCollections.observableArrayList(period));
-    }
+//    public void setPeriod(List<Period> period) {
+//        this.period.set(FXCollections.observableArrayList(period));
+//    }
 
     /**
      * @return the address
@@ -291,20 +292,20 @@ public class Intervention {
     /**
      * @return the medias
      */
-    public ListProperty<String> getMediasProperty() {
-        return medias;
-    }
+//    public ListProperty<String> getMediasProperty() {
+//        return medias;
+//    }
 
-    public List<String> getMedias() {
-        return medias.get();
-    }
+//    public List<String> getMedias() {
+//        return medias.get();
+//    }
 
     /**
      * @param medias the medias to set
      */
-    public void setMedias(List<String> medias) {
-        this.medias.set(FXCollections.observableArrayList(medias));
-    }
+//    public void setMedias(List<String> medias) {
+//        this.medias.set(FXCollections.observableArrayList(medias));
+//    }
 
     /**
      * @return the deleted

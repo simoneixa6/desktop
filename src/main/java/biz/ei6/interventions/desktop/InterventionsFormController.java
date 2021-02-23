@@ -118,8 +118,8 @@ public class InterventionsFormController implements Initializable {
         if (getEditedIntervention().getId() == null) {
 
             // Valeurs pas défault pour une nouvelle intervention
-            getEditedIntervention().setStatus("Ouverte");
-            getEditedIntervention().setPaymentType("Chèque");
+            statusBox.setValue("Ouverte");
+            paymenttypeBox.setValue("Chèque");
 
             registerBtn.setText("Enregistrer");
             deleteBtn.setDisable(true);
@@ -197,44 +197,12 @@ public class InterventionsFormController implements Initializable {
         inputNom.textProperty().bindBidirectional(getEditedIntervention().getTitleProperty());
         inputDescription.textProperty().bindBidirectional(getEditedIntervention().getDescriptionProperty());
         inputKm.textProperty().bindBidirectional(getEditedIntervention().getKmProperty());
+        inputDateFacturation.valueProperty().bindBidirectional(getEditedIntervention().getBillDateProperty());
+        inputNumeroFacture.textProperty().bindBidirectional(getEditedIntervention().getBillNumberProperty());
+        inputDateReglement.valueProperty().bindBidirectional(getEditedIntervention().getPaymentDateProperty());
+        statusBox.valueProperty().bindBidirectional(getEditedIntervention().getStatusProperty());
+        paymenttypeBox.valueProperty().bindBidirectional(getEditedIntervention().getPaymentTypeProperty());
 
-        var source = getEditedIntervention().getBillDateProperty();
-
-        var dtebinding = new ObjectBinding<LocalDate>() {
-            {
-                this.bind(source);
-            }
-
-            @Override
-            protected LocalDate computeValue() {
-                return LocalDate.of(source.getValue().getYear(), source.getValue().getMonth(), source.getValue().getDayOfMonth());
-            }
-        };
-
-        var inputBillDate = inputDateFacturation.valueProperty();
-
-        var inputdtbinding = new ObjectBinding<LocalDateTime>() {
-            {
-                this.bind(inputBillDate);
-            }
-
-            @Override
-            protected LocalDateTime computeValue() {
-                return LocalDateTime.of(inputBillDate.getValue(), LocalTime.of(0, 0));
-            }
-        };
-
-        inputDateFacturation.valueProperty().bind(dtebinding);
-        getEditedIntervention().getBillDateProperty().bind(inputdtbinding);
-        
-        inputNumeroFacture.textProperty()
-                .bindBidirectional(getEditedIntervention().getBillNumberProperty());
-        //inputDateReglement.valueProperty()
-        //        .bindBidirectional(getEditedIntervention().getPaymentDateProperty());
-        statusBox.valueProperty()
-                .bindBidirectional(getEditedIntervention().getStatusProperty());
-        paymenttypeBox.valueProperty()
-                .bindBidirectional(getEditedIntervention().getPaymentTypeProperty());
     }
 
     /**
