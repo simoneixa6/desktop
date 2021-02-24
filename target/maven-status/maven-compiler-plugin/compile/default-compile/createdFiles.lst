@@ -6,6 +6,7 @@ biz\ei6\interventions\desktop\MainController.class
 biz\ei6\interventions\desktop\InterventionsFormController.class
 biz\ei6\interventions\desktop\InterventionCellFactory.class
 module-info.class
+biz\ei6\interventions\desktop\lib\domain\PeriodDTO.class
 biz\ei6\interventions\desktop\framework\WSDataSource.class
 biz\ei6\interventions\desktop\lib\interactors\AddIntervention.class
 biz\ei6\interventions\desktop\lib\domain\Period.class
@@ -13,6 +14,7 @@ biz\ei6\interventions\desktop\lib\interactors\RemoveIntervention.class
 biz\ei6\interventions\desktop\ClientsPane.class
 biz\ei6\interventions\desktop\ClientsController.class
 biz\ei6\interventions\desktop\lib\data\InterventionsRepository.class
+biz\ei6\interventions\desktop\lib\domain\InterventionDTO.class
 biz\ei6\interventions\desktop\InterventionCell.class
 biz\ei6\interventions\desktop\InterventionsPane.class
 biz\ei6\interventions\desktop\InterventionsController.class

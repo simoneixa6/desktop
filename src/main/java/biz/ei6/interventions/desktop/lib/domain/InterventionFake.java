@@ -5,6 +5,7 @@
  */
 package biz.ei6.interventions.desktop.lib.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -36,8 +37,14 @@ public class InterventionFake {
     private StringProperty address = new SimpleStringProperty();
     private StringProperty km = new SimpleStringProperty();
     private StringProperty billNumber = new SimpleStringProperty();
-    private ObjectProperty<LocalDate> billDate = new SimpleObjectProperty();
+        
+    @JsonFormat
+        (shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
+    private ObjectProperty<LocalDateTime> billDate = new SimpleObjectProperty();
     private StringProperty paymentType = new SimpleStringProperty();
+    
+    @JsonFormat
+        (shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     private ObjectProperty<LocalDate> paymentDate = new SimpleObjectProperty();
     private StringProperty status = new SimpleStringProperty();
     //private ListProperty<String> medias = new SimpleListProperty();
@@ -206,13 +213,14 @@ public class InterventionFake {
     public String getBillDate() {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-        LocalDateTime dateTime = billDate.get().atStartOfDay();
-        String formattedBillDateTime = dateTime.format(formatter);
+        //LocalDateTime dateTime = billDate.get().atStartOfDay();
+    //    String formattedBillDateTime = dateTime.format(formatter);
 
-        return formattedBillDateTime;
+        //return formattedBillDateTime;
+        return "date";
     }
 
-    public ObjectProperty<LocalDate> getBillDateProperty() {
+    public ObjectProperty<LocalDateTime> getBillDateProperty() {
         return billDate;
     }
 
@@ -224,7 +232,7 @@ public class InterventionFake {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
         LocalDate parsedDate = LocalDate.parse(billDateString, formatter);
 
-        this.billDate.set(parsedDate);
+        //this.billDate.set(parsedDate);
     }
 
     /**

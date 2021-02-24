@@ -64,6 +64,11 @@ public class InterventionsController implements Initializable, DesktopListener {
             InterventionsForm interventionsForm = new InterventionsForm(interactors, new Intervention(), this);
             addInterventionFormToSplitPane(interventionsForm);
         });
+        
+        
+        updateInterventionsListView();
+        
+        
     }
 
     private void addInterventionFormToSplitPane(InterventionsForm interventionsForm) {

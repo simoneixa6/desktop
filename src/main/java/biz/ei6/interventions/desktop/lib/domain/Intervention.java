@@ -7,7 +7,6 @@ package biz.ei6.interventions.desktop.lib.domain;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,20 +27,22 @@ import javafx.collections.FXCollections;
  */
 public class Intervention {
 
-    private StringProperty Id = new SimpleStringProperty();
-    private StringProperty title = new SimpleStringProperty();
-    private StringProperty client_id = new SimpleStringProperty();
-    private StringProperty description = new SimpleStringProperty();
-    private ListProperty<Period> period = new SimpleListProperty();
-    private StringProperty address = new SimpleStringProperty();
-    private StringProperty km = new SimpleStringProperty();
-    private StringProperty billNumber = new SimpleStringProperty();
-    private ObjectProperty<LocalDate> billDate = new SimpleObjectProperty();
-    private StringProperty paymentType = new SimpleStringProperty();
-    private ObjectProperty<LocalDate> paymentDate = new SimpleObjectProperty();
-    private StringProperty status = new SimpleStringProperty();
-    private ListProperty<String> medias = new SimpleListProperty();
-    private BooleanProperty deleted = new SimpleBooleanProperty();
+    private final StringProperty _id = new SimpleStringProperty();
+    private final StringProperty title = new SimpleStringProperty();
+    private final StringProperty client_id = new SimpleStringProperty();
+    private final StringProperty description = new SimpleStringProperty();
+    private final ListProperty<Period> periods = new SimpleListProperty();
+    private final StringProperty address = new SimpleStringProperty();
+    private final StringProperty km = new SimpleStringProperty();
+    private final StringProperty billNumber = new SimpleStringProperty();
+    private final ObjectProperty<LocalDate> billDate = new SimpleObjectProperty();
+    private final StringProperty paymentType = new SimpleStringProperty();
+    private final ObjectProperty<LocalDate> paymentDate = new SimpleObjectProperty();
+    private final StringProperty status = new SimpleStringProperty();
+    private final ListProperty<String> medias = new SimpleListProperty();
+    private final BooleanProperty deleted = new SimpleBooleanProperty();
+    
+    
     {
 
     // Ajout d'une période par défault
@@ -51,7 +52,7 @@ public class Intervention {
 //    
 //    this.setPeriod(listperiod);
     
-    this.setPeriod(new ArrayList<Period>());
+    this.setPeriods(new ArrayList<Period>());
         
     // Ajout du tableau de médias vide par défault
     this.setMedias(new ArrayList<String>());
@@ -63,14 +64,14 @@ public class Intervention {
      * @return the Id
      */
     public String getId() {
-        return Id.get();
+        return _id.get();
     }
 
     /**
      * @param Id the Id to set
      */
     public void setId(String Id) {
-        this.Id.set(Id);
+        this._id.set(Id);
     }
 
     /**
@@ -130,19 +131,19 @@ public class Intervention {
     /**
      * @return the period
      */
-    public ListProperty<Period> getPeriodProperty() {
-        return period;
+    public ListProperty<Period> getPeriodsProperty() {
+        return periods;
     }
 
-    public List<Period> getPeriod() {
-        return period.get();
+    public List<Period> getPeriods() {
+        return periods.get();
     }
 
     /**
      * @param period the period to set
      */
-    public void setPeriod(List<Period> period) {
-        this.period.set(FXCollections.observableArrayList(period));
+    public void setPeriods(List<Period> period) {
+        this.periods.set(FXCollections.observableArrayList(period));
     }
 
     /**
