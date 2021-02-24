@@ -31,8 +31,8 @@ public class MemoryDataSource implements InterventionsDataSource {
     }
 
     @Override
-    public void remove(String id) {
-        interventions.removeIf(intervention -> intervention.getId() == id);
+    public void remove(Intervention objIntervention) {
+        interventions.removeIf(intervention -> (intervention.getId() == null ? objIntervention.getId() == null : intervention.getId().equals(objIntervention.getId())));
     }
 
     @Override

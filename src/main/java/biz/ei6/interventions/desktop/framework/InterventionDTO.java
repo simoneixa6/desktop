@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package biz.ei6.interventions.desktop.lib.domain;
+package biz.ei6.interventions.desktop.framework;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,26 +28,6 @@ public class InterventionDTO {
     String status;
     //ArrayList<String> medias;
     String deleted;
-
-    
-    public void setInterventionDTO(Intervention intervention) {
-        this.setId(intervention.getId());
-        this.setTitle(intervention.getTitle());
-        this.setClient_id(intervention.getClient_id());
-        this.setDescription(intervention.getDescription());
-
-       // this.setPeriods(new ArrayList<PeriodDTO>());
-
-        this.setAddress(intervention.getAddress());
-        this.setKm(intervention.getKm());
-        this.setBillNumber(intervention.getBillNumber());
-        this.setBillDate(intervention.getBillDate());
-        this.setPaymentType(intervention.getPaymentType());
-        this.setPaymentDate(intervention.getPaymentDate());
-        this.setStatus(intervention.getStatus());
-       // this.setMedias(new ArrayList<String>());
-        this.setDeleted(String.valueOf(intervention.getDeleted()));
-    }
 
     public String getId() {
         return _id;

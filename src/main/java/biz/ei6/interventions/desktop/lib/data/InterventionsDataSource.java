@@ -15,5 +15,5 @@ public interface InterventionsDataSource {
     void add(Intervention intervention);
     ArrayList<Intervention> readAll();
     void update( Intervention intervention );
-    void remove( String id ); 
+    void remove( Intervention intervention ); 
 }

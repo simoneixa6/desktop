@@ -49,6 +49,6 @@
                </children>
             </HBox>
          </children>
-      </AnchorPane>
+      </AnchorPane> 
    </items>
 </fx:root>

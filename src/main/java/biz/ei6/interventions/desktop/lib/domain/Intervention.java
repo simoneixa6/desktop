@@ -221,7 +221,7 @@ public class Intervention {
      */
     public void setBillDate(String billDateString) {
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
         LocalDate parsedDate = LocalDate.parse(billDateString, formatter);
 
         this.billDate.set(parsedDate);
@@ -265,7 +265,7 @@ public class Intervention {
      * @param paymentDate the paymentDate to set
      */
     public void setPaymentDate(String paymentDateString) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
         LocalDate parsedDate = LocalDate.parse(paymentDateString, formatter);
 
         this.paymentDate.set(parsedDate);

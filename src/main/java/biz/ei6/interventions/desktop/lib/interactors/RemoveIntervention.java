@@ -16,7 +16,7 @@ public class RemoveIntervention {
     
     public RemoveIntervention(InterventionsRepository interventionsRepository) { this.interventionRepository=interventionsRepository;}
     
-    public void invoke(String id) {
-        interventionRepository.removeIntervention(id);
+    public void invoke(Intervention intervention) {
+        interventionRepository.removeIntervention(intervention);
     }
 }

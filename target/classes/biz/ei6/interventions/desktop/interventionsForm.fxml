@@ -38,7 +38,7 @@
                                     <Insets bottom="5.0" left="5.0" right="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <TextField id="textInput" fx:id="inputNom" prefHeight="28.0" prefWidth="380.0" promptText="Insérer un nom d'intervention explicite">
+                              <TextField id="textInput" fx:id="NameInput" prefHeight="28.0" prefWidth="380.0" promptText="Insérer un nom d'intervention explicite">
                                  <VBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" />
                                  </VBox.margin>
@@ -108,7 +108,7 @@
                                           <Insets bottom="5.0" left="5.0" />
                                        </VBox.margin>
                                     </Label>
-                                    <TextArea id="textAreaInput" fx:id="inputDescription" prefHeight="240" prefWidth="380">
+                                    <TextArea id="textAreaInput" fx:id="DescriptionInput" prefHeight="240" prefWidth="380">
                                        <VBox.margin>
                                           <Insets left="5.0" />
                                        </VBox.margin>
@@ -214,7 +214,7 @@
                                     </Label>
                                     <HBox alignment="CENTER_LEFT" prefHeight="12.0" prefWidth="89.0">
                                        <children>
-                                          <TextField id="textInput" fx:id="inputKm" minHeight="28.0" prefHeight="28.0" prefWidth="48.0">
+                                          <TextField id="textInput" fx:id="KmInput" minHeight="28.0" prefHeight="28.0" prefWidth="48.0">
                                              <HBox.margin>
                                                 <Insets right="3.0" />
                                              </HBox.margin>
@@ -241,7 +241,7 @@
                                           <Insets bottom="5.0" />
                                        </VBox.margin>
                                     </Label>
-                                    <TextField id="textInput" fx:id="inputNumeroFacture" minHeight="28.0" prefHeight="28.0" />
+                                    <TextField id="textInput" fx:id="BillNumberInput" minHeight="28.0" prefHeight="28.0" />
                                  </children>
                                  <HBox.margin>
                                     <Insets left="5.0" right="20.0" />
@@ -254,7 +254,7 @@
                                           <Insets bottom="5.0" />
                                        </VBox.margin>
                                     </Label>
-                                    <DatePicker fx:id="inputDateFacturation" prefHeight="28.0" prefWidth="115.0" />
+                                    <DatePicker fx:id="BillDateInput" prefHeight="28.0" prefWidth="115.0" />
                                  </children>
                                  <HBox.margin>
                                     <Insets left="10.0" right="10.0" />
@@ -287,7 +287,7 @@
                                           <Insets bottom="5.0" />
                                        </VBox.margin>
                                     </Label>
-                                    <DatePicker fx:id="inputDateReglement" prefHeight="28.0" prefWidth="115.0" />
+                                    <DatePicker fx:id="PaymentDateInput" prefHeight="28.0" prefWidth="115.0" />
                                  </children>
                                  <HBox.margin>
                                     <Insets left="10.0" right="5.0" />

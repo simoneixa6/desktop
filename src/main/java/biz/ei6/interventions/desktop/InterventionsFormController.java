@@ -37,22 +37,22 @@ import javafx.scene.control.cell.TextFieldTableCell;
 public class InterventionsFormController implements Initializable {
 
     @FXML
-    TextField inputNom;
+    TextField NameInput;
 
     @FXML
-    TextArea inputDescription;
+    TextArea DescriptionInput;
 
     @FXML
-    TextField inputKm;
+    TextField KmInput;
 
     @FXML
-    DatePicker inputDateFacturation;
+    DatePicker BillDateInput;
 
     @FXML
-    TextField inputNumeroFacture;
+    TextField BillNumberInput;
 
     @FXML
-    DatePicker inputDateReglement;
+    DatePicker PaymentDateInput;
 
     @FXML
     TableView<Period> periodTableView;
@@ -160,9 +160,8 @@ public class InterventionsFormController implements Initializable {
          * Action sur le clic du bouton "Supprimer"
          */
         deleteBtn.setOnAction((ActionEvent actionEvent) -> {
-
             try {
-                interactors.removeIntervention.invoke(getEditedIntervention().getId());
+                interactors.removeIntervention.invoke(getEditedIntervention());
             } catch (Exception e) {
 
                 new Alert(Alert.AlertType.ERROR, "Erreur lors de la suppression de l'intervention : " + e.toString()).show();
@@ -194,15 +193,14 @@ public class InterventionsFormController implements Initializable {
     }
 
     private void bind() {
-        inputNom.textProperty().bindBidirectional(getEditedIntervention().getTitleProperty());
-        inputDescription.textProperty().bindBidirectional(getEditedIntervention().getDescriptionProperty());
-        inputKm.textProperty().bindBidirectional(getEditedIntervention().getKmProperty());
-        inputDateFacturation.valueProperty().bindBidirectional(getEditedIntervention().getBillDateProperty());
-        inputNumeroFacture.textProperty().bindBidirectional(getEditedIntervention().getBillNumberProperty());
-        inputDateReglement.valueProperty().bindBidirectional(getEditedIntervention().getPaymentDateProperty());
+        NameInput.textProperty().bindBidirectional(getEditedIntervention().getTitleProperty());
+        DescriptionInput.textProperty().bindBidirectional(getEditedIntervention().getDescriptionProperty());
+        KmInput.textProperty().bindBidirectional(getEditedIntervention().getKmProperty());
+        BillDateInput.valueProperty().bindBidirectional(getEditedIntervention().getBillDateProperty());
+        BillNumberInput.textProperty().bindBidirectional(getEditedIntervention().getBillNumberProperty());
+        PaymentDateInput.valueProperty().bindBidirectional(getEditedIntervention().getPaymentDateProperty());
         statusBox.valueProperty().bindBidirectional(getEditedIntervention().getStatusProperty());
         paymenttypeBox.valueProperty().bindBidirectional(getEditedIntervention().getPaymentTypeProperty());
-
     }
 
     /**

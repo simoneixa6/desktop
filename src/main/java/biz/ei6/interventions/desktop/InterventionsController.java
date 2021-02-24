@@ -45,15 +45,13 @@ public class InterventionsController implements Initializable, DesktopListener {
          */
         interventionsListView.setCellFactory(new InterventionCellFactory());
 
-        // Muse à jour de la liste des interventions au démarrage
-        //updateInterventionsListView();
         /*
          * Action lors de la selection d'une intervention dans la listview
          */
         interventionsListView.getSelectionModel().selectedItemProperty().addListener((observable, oldSelectedInterventino, newSelectedIntervention) -> {
             if (newSelectedIntervention != null) {
                 InterventionsForm interventionsForm = new InterventionsForm(interactors, newSelectedIntervention, this);
-                addInterventionFormToSplitPane(interventionsForm);
+                addInterventionsFormToSplitPane(interventionsForm);
             }
         });
 
@@ -62,16 +60,15 @@ public class InterventionsController implements Initializable, DesktopListener {
          */
         createBtn.setOnAction((ActionEvent actionEvent) -> {
             InterventionsForm interventionsForm = new InterventionsForm(interactors, new Intervention(), this);
-            addInterventionFormToSplitPane(interventionsForm);
+            addInterventionsFormToSplitPane(interventionsForm);
         });
         
-        
+        // Muse à jour de la liste des interventions au démarrage
         updateInterventionsListView();
-        
-        
+
     }
 
-    private void addInterventionFormToSplitPane(InterventionsForm interventionsForm) {
+    private void addInterventionsFormToSplitPane(InterventionsForm interventionsForm) {
 
         /*
          * Supprime la partie formulaire d'intervention si elle est déjà présente

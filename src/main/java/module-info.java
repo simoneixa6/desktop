@@ -8,4 +8,5 @@ module biz.ei6.interventions.desktop {
     opens biz.ei6.interventions.desktop to javafx.fxml;
     exports biz.ei6.interventions.desktop;
     exports biz.ei6.interventions.desktop.lib.domain;
+    exports biz.ei6.interventions.desktop.framework;
 }

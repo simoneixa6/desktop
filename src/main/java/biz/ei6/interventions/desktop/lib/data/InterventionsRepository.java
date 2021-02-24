@@ -28,7 +28,7 @@ public class InterventionsRepository {
         return interventionsDataSource.readAll();
     }
     
-    public void removeIntervention(String id) {
-        interventionsDataSource.remove(id);
+    public void removeIntervention(Intervention intervention) {
+        interventionsDataSource.remove(intervention);
     }
 }

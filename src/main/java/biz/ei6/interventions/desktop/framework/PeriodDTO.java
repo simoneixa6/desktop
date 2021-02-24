@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package biz.ei6.interventions.desktop.lib.domain;
+package biz.ei6.interventions.desktop.framework;
 
 /**
  *
