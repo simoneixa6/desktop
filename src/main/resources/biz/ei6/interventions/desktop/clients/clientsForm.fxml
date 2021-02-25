@@ -21,7 +21,7 @@
 
 <fx:root id="AnchorPane" fx:id="anchorPane" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
          <children>
-            <ScrollPane id="AnchorPane" fitToWidth="true" minHeight="0.0" minWidth="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <ScrollPane id="AnchorPane" fitToWidth="true" minHeight="0.0" minWidth="0.0" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <content>
                   <VBox>
                      <children>
@@ -123,7 +123,7 @@
                         </HBox>
                   <HBox layoutX="10.0" layoutY="214.0">
                      <children>
-                        <VBox prefHeight="50.0" prefWidth="180.0">
+                        <VBox minWidth="100.0" prefHeight="50.0" prefWidth="180.0">
                            <children>
                               <Label id="textinputlabel" text="Téléphone">
                                  <VBox.margin>
@@ -136,14 +136,14 @@
                               <Insets left="5.0" right="10.0" />
                            </HBox.margin>
                         </VBox>
-                        <VBox minWidth="250.0" prefHeight="50.0" prefWidth="350.0">
+                        <VBox maxWidth="350.0" minWidth="150.0" prefHeight="50.0" prefWidth="250.0">
                            <children>
                               <Label id="textinputlabel" text="Adresse e-mail">
                                  <VBox.margin>
                                     <Insets bottom="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <TextField id="textInput" fx:id="inputNumeroFacture21" minHeight="28.0" prefHeight="28.0" />
+                              <TextField id="textInput" fx:id="inputNumeroFacture21" minHeight="28.0" prefHeight="28.0" prefWidth="298.0" />
                            </children>
                            <HBox.margin>
                               <Insets right="10.0" />
@@ -167,7 +167,7 @@
                         <Insets bottom="10.0" />
                      </VBox.margin>
                   </HBox>
-                        <HBox>
+                        <HBox prefHeight="87.0" prefWidth="710.0">
                            <children>
                               <VBox prefHeight="60.0" prefWidth="311.0">
                                  <children>
@@ -204,9 +204,9 @@
                      <children>
                         <TableView fx:id="addressTableView" editable="true" prefHeight="100.0" prefWidth="631.0">
                            <columns>
-                              <TableColumn fx:id="addressCol" editable="true" maxWidth="500.0" minWidth="100.0" prefWidth="350.0" text="Adresse" />
+                              <TableColumn fx:id="addressCol" editable="true" maxWidth="450.0" minWidth="100.0" prefWidth="350.0" text="Adresse" />
                               <TableColumn fx:id="zipCol" editable="true" maxWidth="120.0" minWidth="100.0" prefWidth="120.0" text="Code Postal" />
-                              <TableColumn fx:id="cityCol" editable="true" maxWidth="300.0" minWidth="200.0" prefWidth="230.0" text="Ville" />
+                              <TableColumn fx:id="cityCol" editable="true" maxWidth="270.0" minWidth="180.0" prefWidth="230.0" text="Ville" />
                            </columns>
                            <VBox.margin>
                               <Insets bottom="5.0" left="5.0" />
@@ -236,9 +236,9 @@
                         <Insets bottom="20.0" left="5.0" />
                      </VBox.margin>
                   </Label>
-                  <ListView id="greylistview" prefHeight="179.0" prefWidth="717.0">
+                  <ListView id="greylistview" maxWidth="700.0" prefHeight="179.0" prefWidth="400.0">
                      <VBox.margin>
-                        <Insets bottom="60.0" right="10.0" />
+                        <Insets right="10.0" />
                      </VBox.margin>
                   </ListView>
                      </children>

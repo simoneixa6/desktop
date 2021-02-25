@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package biz.ei6.interventions.desktop;
+package biz.ei6.interventions.desktop.clients;
 
 import biz.ei6.interventions.desktop.App.Interactors;
+import biz.ei6.interventions.desktop.DesktopListener;
 import biz.ei6.interventions.desktop.lib.domain.Client;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;

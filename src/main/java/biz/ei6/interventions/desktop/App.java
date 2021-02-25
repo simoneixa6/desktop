@@ -39,6 +39,7 @@ public class App extends Application {
         fxmlLoader.setController(ctrl);
         Parent root = fxmlLoader.load();
         ctrl.setInteractors(interactors);
+        ctrl.setDefaultPane();
 
         scene = new Scene(root, 1200, 940);
         stage.setTitle("Gestion des interventions");
@@ -51,5 +52,4 @@ public class App extends Application {
     public static void main(String[] args) {
         launch();
     }
-
 }

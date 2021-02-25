@@ -38,5 +38,4 @@ public class InterventionsForm extends AnchorPane {
            new Alert(Alert.AlertType.ERROR, "Erreur lors de l'ajout de la partie formulaire d'une intervention : " + e.toString()).show();
         }
     }
-
 }

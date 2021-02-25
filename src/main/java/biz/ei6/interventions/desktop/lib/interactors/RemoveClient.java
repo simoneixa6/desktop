@@ -19,6 +19,6 @@ public class RemoveClient {
     public RemoveClient(ClientsRepository clientsRepository) { this.clientsRepository=clientsRepository;}
     
     public void invoke(Client client) {
-//        clientsRepository.removeClient(client);
+        clientsRepository.removeClient(client);
     }
 }

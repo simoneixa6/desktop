@@ -41,25 +41,22 @@ public class Intervention {
     private final StringProperty status = new SimpleStringProperty();
     private final ListProperty<String> medias = new SimpleListProperty();
     private final BooleanProperty deleted = new SimpleBooleanProperty();
-    
-    
+
     {
 
-    // Ajout d'une période par défault
+        // Ajout d'une période par défault
 //    Period period = new Period();
 //    period.setDate(LocalDate.now());
 //    List<Period> listperiod = List.of(period) ;
 //    
 //    this.setPeriod(listperiod);
-    
-    this.setPeriods(new ArrayList<Period>());
-        
-    // Ajout du tableau de médias vide par défault
-    this.setMedias(new ArrayList<String>());
-    
+        this.setPeriods(new ArrayList<Period>());
+
+        // Ajout du tableau de médias vide par défault
+        this.setMedias(new ArrayList<String>());
+
     }
-    
-    
+
     /*
      * @return the Id
      */
@@ -205,9 +202,15 @@ public class Intervention {
      */
     public String getBillDate() {
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-        LocalDateTime dateTime = billDate.get().atStartOfDay();
-        String formattedBillDateTime = dateTime.format(formatter);
+        String formattedBillDateTime;
+
+        if (billDate.getValue() != null) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+            LocalDateTime dateTime = billDate.get().atStartOfDay();
+            formattedBillDateTime = dateTime.format(formatter);
+        } else {
+            formattedBillDateTime = "";
+        }
 
         return formattedBillDateTime;
     }
@@ -221,10 +224,14 @@ public class Intervention {
      */
     public void setBillDate(String billDateString) {
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
-        LocalDate parsedDate = LocalDate.parse(billDateString, formatter);
+        if (billDateString != null) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
+            LocalDate parsedDate = LocalDate.parse(billDateString, formatter);
 
-        this.billDate.set(parsedDate);
+            this.billDate.set(parsedDate);
+        } else {
+            this.billDate.set(null);
+        }
     }
 
     /**
@@ -254,9 +261,16 @@ public class Intervention {
 
     public String getPaymentDate() {
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-        LocalDateTime dateTime = paymentDate.get().atStartOfDay();
-        String formattedPaymentDateTime = dateTime.format(formatter);
+        String formattedPaymentDateTime;
+        
+        if (paymentDate.getValue() != null) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+            LocalDateTime dateTime = paymentDate.get().atStartOfDay();
+            formattedPaymentDateTime = dateTime.format(formatter);
+        }
+        else {
+            formattedPaymentDateTime = "";
+        }
 
         return formattedPaymentDateTime;
     }
@@ -265,10 +279,15 @@ public class Intervention {
      * @param paymentDate the paymentDate to set
      */
     public void setPaymentDate(String paymentDateString) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
-        LocalDate parsedDate = LocalDate.parse(paymentDateString, formatter);
 
-        this.paymentDate.set(parsedDate);
+        if (paymentDateString != null) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
+            LocalDate parsedDate = LocalDate.parse(paymentDateString, formatter);
+
+            this.paymentDate.set(parsedDate);
+        } else {
+            this.paymentDate.set(null);
+        }
     }
 
     /**

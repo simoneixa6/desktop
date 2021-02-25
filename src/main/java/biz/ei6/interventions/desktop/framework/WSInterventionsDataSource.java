@@ -3,6 +3,7 @@ package biz.ei6.interventions.desktop.framework;
 import biz.ei6.interventions.desktop.lib.data.InterventionsDataSource;
 import biz.ei6.interventions.desktop.lib.domain.Intervention;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import java.util.ArrayList;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -50,8 +51,8 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
 
             String resultat = resp.toString();
 
-        } catch (JsonProcessingException | InterruptedException | ExecutionException e) {
-            new Alert(Alert.AlertType.ERROR, "Erreur lors du post de l'intervention au webservice : " + e.toString()).show();
+        } catch (Exception e) {
+            //           throw new InterventionPostException("Erreur lors du POST",e);
         }
     }
 
@@ -68,11 +69,17 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
                     .GET()
                     .build();
 
-            var response = httpClient.sendAsync(request, new JsonBodyHandler<InterventionDTO[]>(InterventionDTO[].class));
+            var response = httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString());
 
             var resp = response.get();
 
-            var interventionsDTO = resp.body().get();
+            var res = resp.body();
+
+            ObjectMapper om = new ObjectMapper();
+
+            om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+            var interventionsDTO = om.readValue(res, InterventionDTO[].class);
 
             for (var interventionDTO : interventionsDTO) {
 
@@ -162,14 +169,29 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
         interventionDTO.setDescription(intervention.getDescription());
         // interventionDTO.setPeriods(new ArrayList<PeriodDTO>());
         interventionDTO.setAddress(intervention.getAddress());
-        interventionDTO.setKm(intervention.getKm());
         interventionDTO.setBillNumber(intervention.getBillNumber());
-        interventionDTO.setBillDate(intervention.getBillDate());
         interventionDTO.setPaymentType(intervention.getPaymentType());
-        interventionDTO.setPaymentDate(intervention.getPaymentDate());
         interventionDTO.setStatus(intervention.getStatus());
         // interventionDTO.setMedias(new ArrayList<String>());
         interventionDTO.setDeleted(String.valueOf(intervention.getDeleted()));
+
+        if (intervention.getKm() != null) {
+            interventionDTO.setKm(Double.parseDouble(intervention.getKm()) + "");
+        } else {
+            // Pour que Fabien comprenne bien, interventionDTO.Km sera à null
+        }
+
+        if (!"".equals(intervention.getBillDate())) {
+            interventionDTO.setBillDate(intervention.getBillDate());
+        } else {
+            // Pour que Fabien comprenne bien, interventionDTO.Km sera à null
+        }
+
+        if (!"".equals(intervention.getPaymentDate())) {
+            interventionDTO.setPaymentDate(intervention.getPaymentDate());
+        } else {
+            // Pour que Fabien comprenne bien, interventionDTO.Km sera à null
+        }
     }
 
     private void setIntervention(Intervention intervention, InterventionDTO interventionDTO) {
@@ -179,13 +201,30 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
         intervention.setDescription(interventionDTO.getDescription());
         // intervention.setPeriods(new ArrayList<PeriodDTO>());
         intervention.setAddress(interventionDTO.getAddress());
-        intervention.setKm(interventionDTO.getKm());
         intervention.setBillNumber(interventionDTO.getBillNumber());
-        intervention.setBillDate(interventionDTO.getBillDate());
         intervention.setPaymentType(interventionDTO.getPaymentType());
-        intervention.setPaymentDate(interventionDTO.getPaymentDate());
         intervention.setStatus(interventionDTO.getStatus());
-        // intervention.setMedias(new ArrayList<String>());
         intervention.setDeleted(parseBoolean(interventionDTO.getDeleted()));
+
+        if ("0".equals(interventionDTO.getKm())) {
+            // Le serveur renvoie 0 si aucune valeur n'a été rentré lors de la création d'une intervention
+        } else {
+            intervention.setKm(interventionDTO.getKm());
+        }
+
+
+        if ("0001-01-01T00:00:00Z".equals(interventionDTO.getBillDate())) {
+            // Le serveur renvoie la date 0001-01-01T00:00:00Z si aucune valeur de date n'a été rentré lors de la création d'une intervention
+        } else {
+            intervention.setBillDate(interventionDTO.getBillDate());
+        }
+
+        if ("0001-01-01T00:00:00Z".equals(interventionDTO.getPaymentDate())) {
+            // Le serveur renvoie la date 0001-01-01T00:00:00Z si aucune valeur de date n'a été rentré lors de la création d'une intervention
+        } else {
+            intervention.setPaymentDate(interventionDTO.getPaymentDate());
+        }
+
+        // intervention.setMedias(new ArrayList<String>());
     }
 }

@@ -11,17 +11,17 @@ import biz.ei6.interventions.desktop.DesktopListener;
 import biz.ei6.interventions.desktop.lib.domain.Intervention;
 import biz.ei6.interventions.desktop.lib.domain.Period;
 import java.net.URL;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.Month;
 import java.util.ResourceBundle;
-import javafx.beans.binding.ObjectBinding;
+import java.util.function.UnaryOperator;
+import java.util.regex.Pattern;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
@@ -29,6 +29,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 
@@ -142,7 +143,11 @@ public class InterventionsFormController implements Initializable {
                     try {
                     interactors.addIntervention.invoke(getEditedIntervention());
                 } catch (Exception e) {
-                    new Alert(Alert.AlertType.ERROR, "Erreur lors de l'ajout de l'intervention :" + e.toString()).show();
+                    Alert alert = new Alert(AlertType.ERROR);
+                    alert.setTitle("Erreur");
+                    alert.setHeaderText("Erreur lors de l'ajout de l'intervention");
+                    alert.setContentText(e.toString() + " Caue" + e.getCause().toString());
+                    alert.show();
                 }
                 break;
                 case "Modifier":
@@ -173,19 +178,27 @@ public class InterventionsFormController implements Initializable {
         });
 
         /*
-        $ Mise en place de la table view des Périodes
+         * Text formatter sur le champ des kms pour accepter que des entiers ou double
+         */
+        Pattern pattern = Pattern.compile("\\d*|\\d+\\.+\\d*");
+        TextFormatter formatter = new TextFormatter((UnaryOperator<TextFormatter.Change>) change -> {
+            return pattern.matcher(change.getControlNewText()).matches() ? change : null;
+        });
+
+        KmInput.setTextFormatter(formatter);
+
+        /*
+         * Mise en place de la table view des Périodes
          */
         periodTableView.setEditable(true);
         dateCol.setCellValueFactory(new PropertyValueFactory<>("dateCol"));
         startCol.setCellValueFactory(new PropertyValueFactory<>("startCol"));
         endCol.setCellValueFactory(new PropertyValueFactory<>("endCol"));
         durationCol.setCellValueFactory(new PropertyValueFactory<>("durationCol"));
-
         dateCol.setCellFactory(TextFieldTableCell.<String>forTableColumn());
         startCol.setCellFactory(TextFieldTableCell.<String>forTableColumn());
         endCol.setCellFactory(TextFieldTableCell.<String>forTableColumn());
         durationCol.setCellFactory(TextFieldTableCell.<String>forTableColumn());
-
     }
 
     @FXML

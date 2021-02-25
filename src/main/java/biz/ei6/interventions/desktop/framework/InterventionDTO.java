@@ -5,6 +5,8 @@
  */
 package biz.ei6.interventions.desktop.framework;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +14,7 @@ import java.util.List;
  *
  * @author Eixa6
  */
+@JsonInclude(Include.NON_NULL)
 public class InterventionDTO {
 
     String _id;

@@ -21,9 +21,9 @@
                   <Insets right="10.0" />
                </padding>
             </Label>
-            <HBox alignment="CENTER_LEFT" layoutY="46.0" prefHeight="42.0" prefWidth="320.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="57.0">
+            <HBox alignment="CENTER_LEFT" layoutY="48.0" prefWidth="400.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">
                <children>
-                  <TextField id="textInput" alignment="TOP_LEFT" minWidth="40.0" prefHeight="28.0" prefWidth="250.0" promptText="Rechercher">
+                  <TextField id="textInput" minWidth="40.0" prefHeight="28.0" prefWidth="250.0" promptText="Rechercher">
                      <HBox.margin>
                         <Insets left="20.0" right="5.0" top="20.0" />
                      </HBox.margin>
