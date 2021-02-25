@@ -13,7 +13,7 @@ import biz.ei6.interventions.desktop.lib.domain.Intervention;
  * @author Eixa6
  */
 public class AddIntervention {
-    private InterventionsRepository interventionRepository;
+    private final InterventionsRepository interventionRepository;
     
     public AddIntervention(InterventionsRepository interventionsRepository) { this.interventionRepository=interventionsRepository;}
     

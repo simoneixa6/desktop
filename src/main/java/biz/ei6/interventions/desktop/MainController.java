@@ -5,6 +5,7 @@
  */
 package biz.ei6.interventions.desktop;
 
+import biz.ei6.interventions.desktop.interventions.InterventionsPane;
 import biz.ei6.interventions.desktop.App.Interactors;
 import java.net.URL;
 import java.util.ResourceBundle;

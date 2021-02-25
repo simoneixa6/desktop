@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package biz.ei6.interventions.desktop;
+package biz.ei6.interventions.desktop.interventions;
 
 import biz.ei6.interventions.desktop.lib.domain.Intervention;
 import java.io.IOException;

@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * @author Eixa6
  */
 public class GetInterventions {
-    private InterventionsRepository interventionRepository;
+    private final InterventionsRepository interventionRepository;
     
     public GetInterventions(InterventionsRepository interventionsRepository) { this.interventionRepository=interventionsRepository;}
     

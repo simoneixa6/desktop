@@ -1,5 +1,6 @@
-package biz.ei6.interventions.desktop;
+package biz.ei6.interventions.desktop.interventions;
 
+import biz.ei6.interventions.desktop.interventions.InterventionCell;
 import biz.ei6.interventions.desktop.lib.domain.Intervention;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;

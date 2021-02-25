@@ -20,13 +20,13 @@ import java.io.IOException;
  */
 public class App extends Application {
 
-    static class Interactors {
-        InterventionsDataSource interventionsDataSource = new WSInterventionsDataSource();//new MemoryDataSource();
-        InterventionsRepository interventionsRepository = new InterventionsRepository(interventionsDataSource);
-        AddIntervention addIntervention = new AddIntervention(interventionsRepository);
-        UpdateIntervention updateIntervention = new UpdateIntervention(interventionsRepository);
-        GetInterventions getInterventions = new GetInterventions(interventionsRepository);
-        RemoveIntervention removeIntervention = new RemoveIntervention(interventionsRepository);
+    static public class Interactors {
+        public InterventionsDataSource interventionsDataSource = new WSInterventionsDataSource();//new MemoryDataSource();
+        public InterventionsRepository interventionsRepository = new InterventionsRepository(interventionsDataSource);
+        public AddIntervention addIntervention = new AddIntervention(interventionsRepository);
+        public UpdateIntervention updateIntervention = new UpdateIntervention(interventionsRepository);
+        public GetInterventions getInterventions = new GetInterventions(interventionsRepository);
+        public RemoveIntervention removeIntervention = new RemoveIntervention(interventionsRepository);
     }
 
     private static Scene scene;

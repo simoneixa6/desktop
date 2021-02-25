@@ -1,6 +1,7 @@
-package biz.ei6.interventions.desktop;
+package biz.ei6.interventions.desktop.interventions;
 
 import biz.ei6.interventions.desktop.App.Interactors;
+import biz.ei6.interventions.desktop.DesktopListener;
 import biz.ei6.interventions.desktop.lib.domain.Intervention;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -93,6 +94,5 @@ public class InterventionsController implements Initializable, DesktopListener {
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, "Erreur lors de la récupération des interventions et la mise à jour de la liste : " + e.toString()).show();
         }
-
     }
 }
