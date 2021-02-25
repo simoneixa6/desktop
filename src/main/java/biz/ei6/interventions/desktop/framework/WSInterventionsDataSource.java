@@ -2,7 +2,6 @@ package biz.ei6.interventions.desktop.framework;
 
 import biz.ei6.interventions.desktop.lib.data.InterventionsDataSource;
 import biz.ei6.interventions.desktop.lib.domain.Intervention;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import java.util.ArrayList;
 import java.net.URI;
@@ -11,8 +10,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import static java.lang.Boolean.parseBoolean;
-import java.util.concurrent.ExecutionException;
-import javafx.scene.control.Alert;
+
 
 /*
  * @author Eixa6
@@ -27,7 +25,8 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
     }
 
     @Override
-    public void add(Intervention intervention) {
+    public void add(Intervention intervention) throws InterventionPostException {
+
         try {
 
             InterventionDTO interventionDTO = new InterventionDTO();
@@ -52,14 +51,14 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
             String resultat = resp.toString();
 
         } catch (Exception e) {
-            //           throw new InterventionPostException("Erreur lors du POST",e);
+            throw new InterventionPostException("Erreur lors du POST", e);
         }
     }
 
     @Override
-    public ArrayList<Intervention> readAll() {
+    public ArrayList<Intervention> readAll() throws InterventionGetException {
 
-        ArrayList<Intervention> interventions = new ArrayList<Intervention>();
+        ArrayList<Intervention> interventions = new ArrayList<>();
 
         try {
             // Création de la requête
@@ -92,14 +91,14 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
                 }
             }
         } catch (Exception e) {
-            new Alert(Alert.AlertType.ERROR, "Erreur lors du get des interventions au webservice : " + e.toString()).show();
+            throw new InterventionGetException("Erreur lors du Get", e);
         }
 
         return interventions;
     }
 
     @Override
-    public void update(Intervention intervention) {
+    public void update(Intervention intervention) throws InterventionPutException {
         try {
 
             InterventionDTO interventionDTO = new InterventionDTO();
@@ -123,17 +122,16 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
 
             String resultat = resp.toString();
 
-        } catch (JsonProcessingException | InterruptedException | ExecutionException e) {
-            new Alert(Alert.AlertType.ERROR, "Erreur lors de la mise à jour de l'intervention au webservice : " + e.toString()).show();
+        } catch (Exception e) {
+            throw new InterventionPutException("Erreur lors du PUT / Modification", e);
         }
 
     }
 
     @Override
-    public void remove(Intervention intervention) {
+    public void remove(Intervention intervention) throws InterventionPutException {
 
         try {
-
             InterventionDTO interventionDTO = new InterventionDTO();
 
             setInterventionDTO(interventionDTO, intervention);
@@ -157,8 +155,8 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
 
             String resultat = resp.toString();
 
-        } catch (JsonProcessingException | InterruptedException | ExecutionException e) {
-            new Alert(Alert.AlertType.ERROR, "Erreur lors de la suppression de l'intervention sur le webservice : " + e.toString()).show();
+        } catch (Exception e) {
+                       throw new InterventionPutException("Erreur lors du PUT / Suppression",e);
         }
     }
 
@@ -178,19 +176,19 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
         if (intervention.getKm() != null) {
             interventionDTO.setKm(Double.parseDouble(intervention.getKm()) + "");
         } else {
-            // Pour que Fabien comprenne bien, interventionDTO.Km sera à null
+            // interventionDTO.Km sera à null si aucune valeur choisi lors de la création
         }
 
         if (!"".equals(intervention.getBillDate())) {
             interventionDTO.setBillDate(intervention.getBillDate());
         } else {
-            // Pour que Fabien comprenne bien, interventionDTO.Km sera à null
+            // interventionDTO.BillDate sera à null si aucune valeur choisi lors de la création
         }
 
         if (!"".equals(intervention.getPaymentDate())) {
             interventionDTO.setPaymentDate(intervention.getPaymentDate());
         } else {
-            // Pour que Fabien comprenne bien, interventionDTO.Km sera à null
+            // interventionDTO.PaymentDate sera à null si aucune valeur choisi lors de la création
         }
     }
 
@@ -204,6 +202,7 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
         intervention.setBillNumber(interventionDTO.getBillNumber());
         intervention.setPaymentType(interventionDTO.getPaymentType());
         intervention.setStatus(interventionDTO.getStatus());
+        intervention.setMedias(new ArrayList<String>());
         intervention.setDeleted(parseBoolean(interventionDTO.getDeleted()));
 
         if ("0".equals(interventionDTO.getKm())) {
@@ -211,7 +210,6 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
         } else {
             intervention.setKm(interventionDTO.getKm());
         }
-
 
         if ("0001-01-01T00:00:00Z".equals(interventionDTO.getBillDate())) {
             // Le serveur renvoie la date 0001-01-01T00:00:00Z si aucune valeur de date n'a été rentré lors de la création d'une intervention
@@ -224,7 +222,5 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
         } else {
             intervention.setPaymentDate(interventionDTO.getPaymentDate());
         }
-
-        // intervention.setMedias(new ArrayList<String>());
     }
 }

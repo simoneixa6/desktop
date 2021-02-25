@@ -1,6 +1,5 @@
 package biz.ei6.interventions.desktop;
 
-import biz.ei6.interventions.desktop.framework.MemoryDataSource;
 import biz.ei6.interventions.desktop.framework.WSInterventionsDataSource;
 import biz.ei6.interventions.desktop.lib.data.InterventionsDataSource;
 import biz.ei6.interventions.desktop.lib.data.InterventionsRepository;

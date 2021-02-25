@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package biz.ei6.interventions.desktop.framework;
 
 import biz.ei6.interventions.desktop.lib.data.InterventionsDataSource;
@@ -39,7 +34,7 @@ public class MemoryDataSource implements InterventionsDataSource {
     public void update(Intervention intervention) {
 
         int i = 0;
-        int interventionIndex=0;
+        int interventionIndex = 0;
 
         for (Intervention item : interventions) {
             if (item.getId().equals(intervention.getId())) {
@@ -48,12 +43,12 @@ public class MemoryDataSource implements InterventionsDataSource {
             i++;
         }
 
-//        interventions.get(interventionIndex).setId(intervention.getId());
-//        interventions.get(interventionIndex).setTitle(intervention.getTitle());
-//        interventions.get(interventionIndex).setDescription(intervention.getDescription());
-//        interventions.get(interventionIndex).setBillDate(intervention.getBillDate());
-//        interventions.get(interventionIndex).setPaymentDate(intervention.getPaymentDate());
-//        interventions.get(interventionIndex).setStatus(intervention.getStatus());
+        interventions.get(interventionIndex).setId(intervention.getId());
+        interventions.get(interventionIndex).setTitle(intervention.getTitle());
+        interventions.get(interventionIndex).setDescription(intervention.getDescription());
+        interventions.get(interventionIndex).setBillDate(intervention.getBillDate());
+        interventions.get(interventionIndex).setPaymentDate(intervention.getPaymentDate());
+        interventions.get(interventionIndex).setStatus(intervention.getStatus());
     }
 
 }

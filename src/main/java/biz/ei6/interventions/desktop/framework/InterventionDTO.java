@@ -7,8 +7,6 @@ package biz.ei6.interventions.desktop.framework;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
