@@ -1,10 +1,17 @@
 package biz.ei6.interventions.desktop;
 
+import biz.ei6.interventions.desktop.lib.interactors.UpdateClient;
+import biz.ei6.interventions.desktop.framework.WSClientsDataSource;
 import biz.ei6.interventions.desktop.framework.WSInterventionsDataSource;
+import biz.ei6.interventions.desktop.lib.data.ClientsDataSource;
+import biz.ei6.interventions.desktop.lib.data.ClientsRepository;
 import biz.ei6.interventions.desktop.lib.data.InterventionsDataSource;
 import biz.ei6.interventions.desktop.lib.data.InterventionsRepository;
+import biz.ei6.interventions.desktop.lib.interactors.AddClient;
 import biz.ei6.interventions.desktop.lib.interactors.AddIntervention;
+import biz.ei6.interventions.desktop.lib.interactors.GetClients;
 import biz.ei6.interventions.desktop.lib.interactors.GetInterventions;
+import biz.ei6.interventions.desktop.lib.interactors.RemoveClient;
 import biz.ei6.interventions.desktop.lib.interactors.RemoveIntervention;
 import biz.ei6.interventions.desktop.lib.interactors.UpdateIntervention;
 import javafx.application.Application;
@@ -20,12 +27,20 @@ import java.io.IOException;
 public class App extends Application {
 
     static public class Interactors {
+
         public InterventionsDataSource interventionsDataSource = new WSInterventionsDataSource();//new MemoryDataSource();
         public InterventionsRepository interventionsRepository = new InterventionsRepository(interventionsDataSource);
         public AddIntervention addIntervention = new AddIntervention(interventionsRepository);
         public UpdateIntervention updateIntervention = new UpdateIntervention(interventionsRepository);
         public GetInterventions getInterventions = new GetInterventions(interventionsRepository);
         public RemoveIntervention removeIntervention = new RemoveIntervention(interventionsRepository);
+        
+        public ClientsDataSource clientsDataSource = new WSClientsDataSource();
+        public ClientsRepository clientsRepository = new ClientsRepository(clientsDataSource);
+        public AddClient addClient = new AddClient(clientsRepository);
+        public UpdateClient updateClient = new UpdateClient(clientsRepository);
+        public GetClients getClients = new GetClients(clientsRepository);
+        public RemoveClient removeClient = new RemoveClient(clientsRepository);
     }
 
     private static Scene scene;

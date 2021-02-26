@@ -5,25 +5,37 @@
  */
 package biz.ei6.interventions.desktop.lib.data;
 
+import biz.ei6.interventions.desktop.framework.ClientGetException;
+import biz.ei6.interventions.desktop.framework.ClientPostException;
+import biz.ei6.interventions.desktop.framework.ClientPutException;
 import biz.ei6.interventions.desktop.lib.domain.Client;
 import java.util.ArrayList;
 
-/**
- *
+/*
  * @author Eixa6
  */
 public class ClientsRepository {
 
-    public void addIntervention(Client client) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private final ClientsDataSource clientsDataSource;
+
+    public ClientsRepository(ClientsDataSource clientsDataSource) {
+        this.clientsDataSource = clientsDataSource;
     }
 
-    public ArrayList<Client> getClients() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void addClient(Client client) throws ClientPostException {
+        clientsDataSource.add(client);
     }
 
-    public void removeClient(Client client) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public ArrayList<Client> getClients() throws ClientGetException {
+        return clientsDataSource.readAll();
     }
- 
+
+    public void updateClient(Client client) throws ClientPutException {
+        clientsDataSource.update(client);
+    }
+
+    public void removeClient(Client client) throws ClientPutException {
+        clientsDataSource.remove(client);
+    }
+
 }

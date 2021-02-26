@@ -16,19 +16,19 @@
    <items>
       <AnchorPane id="AnchorPane" maxWidth="400.0">
          <children>
-            <Label id="title" alignment="TOP_LEFT" contentDisplay="TOP" text="Interventions" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="10.0">
+            <Label id="title" alignment="TOP_LEFT" contentDisplay="TOP" text="%intervention" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="10.0">
                <padding>
                   <Insets right="10.0" />
                </padding>
             </Label>
             <HBox alignment="CENTER_LEFT" layoutY="48.0" prefWidth="400.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">
                <children>
-                  <TextField id="textInput" minWidth="40.0" prefHeight="28.0" prefWidth="250.0" promptText="Rechercher">
+                  <TextField id="textInput" minWidth="40.0" prefHeight="28.0" prefWidth="250.0" promptText="%inserer.un.nom.d.intervention.explicite">
                      <HBox.margin>
                         <Insets left="20.0" right="5.0" top="20.0" />
                      </HBox.margin>
                   </TextField>
-                  <MenuButton id="combobox" mnemonicParsing="false" prefHeight="28.0" prefWidth="129.0" text="Tout les états">
+                  <MenuButton id="combobox" mnemonicParsing="false" prefHeight="28.0" prefWidth="129.0" text="%tous.les.etats">
                      <items>
                         <MenuItem id="reditem" mnemonicParsing="false" text="Ouverte" />
                         <MenuItem id="orangeitem" mnemonicParsing="false" text="Terminée" />
@@ -45,7 +45,7 @@
             <FlowPane prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
             <HBox alignment="CENTER" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <children>
-                  <Button id="bluebtn" fx:id="createBtn" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" text="Nouvelle Intervention" />
+                  <Button id="bluebtn" fx:id="createBtn" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" text="%nouvelle.intervention" />
                </children>
             </HBox>
          </children>

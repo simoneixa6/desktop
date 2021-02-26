@@ -1,5 +1,6 @@
 package biz.ei6.interventions.desktop.lib.interactors;
 
+import biz.ei6.interventions.desktop.framework.InterventionGetException;
 import biz.ei6.interventions.desktop.lib.data.InterventionsRepository;
 import biz.ei6.interventions.desktop.lib.domain.Intervention;
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ public class GetInterventions {
     
     public GetInterventions(InterventionsRepository interventionsRepository) { this.interventionRepository=interventionsRepository;}
     
-    public ArrayList<Intervention> invoke() {
+    public ArrayList<Intervention> invoke() throws InterventionGetException {
        return interventionRepository.getInterventions();
     }
 }

@@ -25,14 +25,14 @@
                <content>
                   <VBox>
                      <children>
-                        <Label id="title" text="Modifier le client">
+                        <Label id="title" text="%modifier.le.client">
                            <VBox.margin>
                               <Insets bottom="20.0" top="10.0" />
                            </VBox.margin>
                         </Label>
                   <HBox prefWidth="200.0">
                      <children>
-                        <RadioButton mnemonicParsing="false" selected="true" text="M.">
+                        <RadioButton mnemonicParsing="false" selected="true" text="%m.">
                            <toggleGroup>
                               <ToggleGroup fx:id="civility" />
                            </toggleGroup>
@@ -40,12 +40,12 @@
                               <Insets left="5.0" right="10.0" />
                            </HBox.margin>
                         </RadioButton>
-                        <RadioButton layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Mme." toggleGroup="$civility">
+                        <RadioButton layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="%mme." toggleGroup="$civility">
                            <HBox.margin>
                               <Insets left="10.0" right="20.0" />
                            </HBox.margin>
                         </RadioButton>
-                        <CheckBox mnemonicParsing="false" text="Client problématique">
+                        <CheckBox mnemonicParsing="false" text="%client.problematique">
                            <HBox.margin>
                               <Insets left="20.0" />
                            </HBox.margin>
@@ -59,7 +59,7 @@
                      <children>
                         <VBox prefHeight="73.0" prefWidth="380.0">
                            <children>
-                              <Label id="textinputlabel" text="Prénom">
+                              <Label id="textinputlabel" text="%prenom">
                                  <VBox.margin>
                                     <Insets bottom="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>
@@ -72,7 +72,7 @@
                         </VBox>
                         <VBox prefHeight="55.0" prefWidth="254.0">
                            <children>
-                              <Label id="textinputlabel" text="Nom *">
+                              <Label id="textinputlabel" text="%nom">
                                  <VBox.margin>
                                     <Insets bottom="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>
@@ -92,7 +92,7 @@
                            <children>
                               <VBox prefHeight="73.0" prefWidth="380.0">
                                  <children>
-                                    <Label id="textinputlabel" text="Entreprise">
+                                    <Label id="textinputlabel" text="%entreprise">
                                        <VBox.margin>
                                           <Insets bottom="5.0" right="5.0" top="5.0" />
                                        </VBox.margin>
@@ -105,7 +105,7 @@
                               </VBox>
                               <VBox prefHeight="55.0" prefWidth="255.0">
                                  <children>
-                                    <Label id="textinputlabel" text="Statut">
+                                    <Label id="textinputlabel" text="%statut">
                                        <VBox.margin>
                                           <Insets bottom="5.0" right="5.0" top="5.0" />
                                        </VBox.margin>
@@ -125,7 +125,7 @@
                      <children>
                         <VBox minWidth="100.0" prefHeight="50.0" prefWidth="180.0">
                            <children>
-                              <Label id="textinputlabel" text="Téléphone">
+                              <Label id="textinputlabel" text="%telephone">
                                  <VBox.margin>
                                     <Insets bottom="5.0" />
                                  </VBox.margin>
@@ -138,7 +138,7 @@
                         </VBox>
                         <VBox maxWidth="350.0" minWidth="150.0" prefHeight="50.0" prefWidth="250.0">
                            <children>
-                              <Label id="textinputlabel" text="Adresse e-mail">
+                              <Label id="textinputlabel" text="%adresse.mail">
                                  <VBox.margin>
                                     <Insets bottom="5.0" />
                                  </VBox.margin>
@@ -151,7 +151,7 @@
                         </VBox>
                         <VBox prefHeight="50.0" prefWidth="135.0">
                            <children>
-                              <Label id="textinputlabel" text="Date de première visite">
+                              <Label id="textinputlabel" text="%date.de.premiere.visite">
                                  <VBox.margin>
                                     <Insets bottom="5.0" />
                                  </VBox.margin>
@@ -171,7 +171,7 @@
                            <children>
                               <VBox prefHeight="60.0" prefWidth="311.0">
                                  <children>
-                                    <Label id="textinputlabel" text="Comment ?">
+                                    <Label id="textinputlabel" text="%comment">
                                        <VBox.margin>
                                           <Insets bottom="5.0" />
                                        </VBox.margin>
@@ -184,7 +184,7 @@
                               </VBox>
                         <VBox prefHeight="50.0" prefWidth="374.0">
                            <children>
-                              <Label id="textinputlabel" text="Pourquoi ?">
+                              <Label id="textinputlabel" text="%pourquoi">
                                  <VBox.margin>
                                     <Insets bottom="5.0" />
                                  </VBox.margin>
@@ -204,9 +204,9 @@
                      <children>
                         <TableView fx:id="addressTableView" editable="true" prefHeight="100.0" prefWidth="631.0">
                            <columns>
-                              <TableColumn fx:id="addressCol" editable="true" maxWidth="450.0" minWidth="100.0" prefWidth="350.0" text="Adresse" />
-                              <TableColumn fx:id="zipCol" editable="true" maxWidth="120.0" minWidth="100.0" prefWidth="120.0" text="Code Postal" />
-                              <TableColumn fx:id="cityCol" editable="true" maxWidth="270.0" minWidth="180.0" prefWidth="230.0" text="Ville" />
+                              <TableColumn fx:id="addressCol" editable="true" maxWidth="450.0" minWidth="100.0" prefWidth="350.0" text="%adresse" />
+                              <TableColumn fx:id="zipCol" editable="true" maxWidth="120.0" minWidth="100.0" prefWidth="120.0" text="%code.postal" />
+                              <TableColumn fx:id="cityCol" editable="true" maxWidth="270.0" minWidth="180.0" prefWidth="230.0" text="%ville" />
                            </columns>
                            <VBox.margin>
                               <Insets bottom="5.0" left="5.0" />
@@ -214,12 +214,12 @@
                         </TableView>
                         <HBox>
                            <children>
-                              <Label id="bluelabel" text="Ajouter">
+                              <Label id="bluelabel" text="%ajouter">
                                  <HBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </HBox.margin>
                               </Label>
-                              <Label id="bluelabel" text="Supprimer">
+                              <Label id="bluelabel" text="%supprimer">
                                  <HBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </HBox.margin>
@@ -231,7 +231,7 @@
                         <Insets bottom="20.0" right="10.0" />
                      </VBox.margin>
                   </VBox>
-                  <Label id="title" layoutX="10.0" layoutY="20.0" text="Interventions liées à ce client">
+                  <Label id="title" layoutX="10.0" layoutY="20.0" text="%interventions.liees.client">
                      <VBox.margin>
                         <Insets bottom="20.0" left="5.0" />
                      </VBox.margin>
@@ -250,12 +250,12 @@
             </ScrollPane>
             <FlowPane id="buttonflowpane" alignment="CENTER_LEFT" columnHalignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <children>
-                  <Button id="bluebtn" fx:id="registerBtn" mnemonicParsing="false" prefHeight="30.0" prefWidth="80.0" text="Enregistrer">
+                  <Button id="bluebtn" fx:id="registerBtn" mnemonicParsing="false" prefHeight="30.0" prefWidth="80.0" text="%enregistrer">
                      <FlowPane.margin>
                         <Insets bottom="10.0" left="25.0" right="5.0" top="10.0" />
                      </FlowPane.margin>
                   </Button>
-                  <Button id="redbtn" fx:id="deleteBtn" mnemonicParsing="false" prefHeight="30.0" prefWidth="80.0" text="Supprimer">
+                  <Button id="redbtn" fx:id="deleteBtn" mnemonicParsing="false" prefHeight="30.0" prefWidth="80.0" text="%supprimer">
                      <FlowPane.margin>
                         <Insets bottom="10.0" left="5.0" top="10.0" />
                      </FlowPane.margin>

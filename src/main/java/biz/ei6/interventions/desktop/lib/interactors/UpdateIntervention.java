@@ -1,5 +1,6 @@
 package biz.ei6.interventions.desktop.lib.interactors;
 
+import biz.ei6.interventions.desktop.framework.InterventionPutException;
 import biz.ei6.interventions.desktop.lib.data.InterventionsRepository;
 import biz.ei6.interventions.desktop.lib.domain.Intervention;
 
@@ -12,7 +13,7 @@ public class UpdateIntervention {
     
     public UpdateIntervention(InterventionsRepository interventionsRepository) { this.interventionRepository=interventionsRepository;}
     
-    public void invoke(Intervention intervention) {
+    public void invoke(Intervention intervention) throws InterventionPutException {
         interventionRepository.updateIntervention(intervention);
     }
 }

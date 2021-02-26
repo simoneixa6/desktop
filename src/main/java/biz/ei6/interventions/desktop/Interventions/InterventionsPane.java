@@ -7,6 +7,8 @@ package biz.ei6.interventions.desktop.interventions;
 
 import biz.ei6.interventions.desktop.App.Interactors;
 import java.io.IOException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.SplitPane;
 
@@ -18,8 +20,10 @@ public class InterventionsPane extends SplitPane {
 
     public InterventionsPane(Interactors interactors) {
 
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("interventionsPane.fxml"));
-
+        ResourceBundle interventionBundle = ResourceBundle.getBundle("interventions");
+        
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("interventionsPane.fxml"), interventionBundle);
+   
         InterventionsController ctrl = new InterventionsController();
 
         fxmlLoader.setController(ctrl);

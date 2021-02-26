@@ -2,14 +2,17 @@ package biz.ei6.interventions.desktop.interventions;
 
 import biz.ei6.interventions.desktop.App.Interactors;
 import biz.ei6.interventions.desktop.DesktopListener;
+import biz.ei6.interventions.desktop.framework.InterventionGetException;
 import biz.ei6.interventions.desktop.lib.domain.Intervention;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SplitPane;
@@ -27,6 +30,8 @@ public class InterventionsController implements Initializable, DesktopListener {
 
     Interactors interactors;
 
+    ResourceBundle resources;
+
     public void setInteractors(Interactors interactors) {
         this.interactors = interactors;
     }
@@ -41,6 +46,8 @@ public class InterventionsController implements Initializable, DesktopListener {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        this.resources = resources;
+
         /*
          * Mise en place de la cell factory de la listview des interventions
          */
@@ -49,9 +56,9 @@ public class InterventionsController implements Initializable, DesktopListener {
         /*
          * Action lors de la selection d'une intervention dans la listview
          */
-        interventionsListView.getSelectionModel().selectedItemProperty().addListener((observable, oldSelectedInterventino, newSelectedIntervention) -> {
+        interventionsListView.getSelectionModel().selectedItemProperty().addListener((observable, oldSelectedIntervention, newSelectedIntervention) -> {
             if (newSelectedIntervention != null) {
-                InterventionsForm interventionsForm = new InterventionsForm(interactors, newSelectedIntervention, this);
+                InterventionsForm interventionsForm = new InterventionsForm(interactors, newSelectedIntervention, this, resources);
                 addInterventionsFormToSplitPane(interventionsForm);
             }
         });
@@ -60,10 +67,10 @@ public class InterventionsController implements Initializable, DesktopListener {
          * Action sur le clic du bouton "Nouvelle Intervention"
          */
         createBtn.setOnAction((ActionEvent actionEvent) -> {
-            InterventionsForm interventionsForm = new InterventionsForm(interactors, new Intervention(), this);
+            InterventionsForm interventionsForm = new InterventionsForm(interactors, new Intervention(), this, resources);
             addInterventionsFormToSplitPane(interventionsForm);
         });
-        
+
         // Muse à jour de la liste des interventions au démarrage
         updateInterventionsListView();
 
@@ -74,25 +81,39 @@ public class InterventionsController implements Initializable, DesktopListener {
         /*
          * Supprime la partie formulaire d'intervention si elle est déjà présente
          */
-        try {
-            if (splitPane.getItems().size() > 1) {
-                splitPane.getItems().remove(1);
-                splitPane.getItems().add(1, interventionsForm);
-            } else {
-                splitPane.getItems().add(1, interventionsForm);
-            }
-        } catch (Exception e) {
-            new Alert(Alert.AlertType.ERROR, "Erreur lors de l'ajout du formulaire d'intervention : " + e.toString()).show();
+        if (splitPane.getItems().size() > 1) {
+            splitPane.getItems().remove(1);
+            splitPane.getItems().add(1, interventionsForm);
+        } 
+        // Sinon la partie formulaire est ajouté
+        else {
+            splitPane.getItems().add(1, interventionsForm);
         }
     }
 
     public void updateInterventionsListView() {
         try {
-            var data = interactors.getInterventions.invoke();
-            var dataobs = FXCollections.observableArrayList(data);
+            var dataobs = FXCollections.observableArrayList(getInteventions());
             interventionsListView.setItems(dataobs);
         } catch (Exception e) {
-            new Alert(Alert.AlertType.ERROR, "Erreur lors de la récupération des interventions et la mise à jour de la liste : " + e.toString()).show();
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle(resources.getString("exception.erreur"));
+            alert.setHeaderText(resources.getString("exception.miseAJourListeInterventions"));
+            alert.setContentText(e.toString() + "    " + e.getCause().toString());
+            alert.show();
         }
+    }
+
+    public ArrayList<Intervention> getInteventions() {
+        try {
+            return interactors.getInterventions.invoke();
+        } catch (InterventionGetException e) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle(resources.getString("exception.erreur"));
+            alert.setHeaderText(resources.getString("exception.recuperationIntervention"));
+            alert.setContentText(e.toString() + "    " + e.getCause().toString());
+            alert.show();
+        }
+        return null;
     }
 }

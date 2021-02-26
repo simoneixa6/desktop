@@ -4,19 +4,18 @@ import biz.ei6.interventions.desktop.framework.ClientPutException;
 import biz.ei6.interventions.desktop.lib.data.ClientsRepository;
 import biz.ei6.interventions.desktop.lib.domain.Client;
 
-/**
- *
+/*
  * @author Eixa6
  */
-public class RemoveClient {
+public class UpdateClient {
 
     private final ClientsRepository clientsRepository;
 
-    public RemoveClient(ClientsRepository clientsRepository) {
+    public UpdateClient(ClientsRepository clientsRepository) {
         this.clientsRepository = clientsRepository;
     }
 
     public void invoke(Client client) throws ClientPutException {
-        clientsRepository.removeClient(client);
+        clientsRepository.updateClient(client);
     }
 }

@@ -1,5 +1,6 @@
 package biz.ei6.interventions.desktop.lib.interactors;
 
+import biz.ei6.interventions.desktop.framework.ClientGetException;
 import biz.ei6.interventions.desktop.lib.data.ClientsRepository;
 import biz.ei6.interventions.desktop.lib.domain.Client;
 import biz.ei6.interventions.desktop.lib.domain.Intervention;
@@ -17,7 +18,7 @@ public class GetClients {
         this.clientsRepository = clientsRepository;
     }
 
-    public ArrayList<Client> invoke() {
+    public ArrayList<Client> invoke() throws ClientGetException {
         return clientsRepository.getClients();
     }
 }

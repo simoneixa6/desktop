@@ -1,13 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package biz.ei6.interventions.desktop.interventions;
 
 import biz.ei6.interventions.desktop.App;
 import biz.ei6.interventions.desktop.App.Interactors;
 import biz.ei6.interventions.desktop.DesktopListener;
+import biz.ei6.interventions.desktop.framework.InterventionPostException;
+import biz.ei6.interventions.desktop.framework.InterventionPutException;
 import biz.ei6.interventions.desktop.lib.domain.Intervention;
 import biz.ei6.interventions.desktop.lib.domain.Period;
 import java.net.URL;
@@ -15,8 +12,6 @@ import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -33,11 +28,10 @@ import javafx.scene.control.TextFormatter;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 
-/**
- *
+/*
  * @author Eixa6
  */
-public class InterventionsFormController implements Initializable {
+public final class InterventionsFormController implements Initializable {
 
     @FXML
     TextField NameInput;
@@ -88,12 +82,10 @@ public class InterventionsFormController implements Initializable {
 
     DesktopListener desktopListener;
 
-    Boolean isNewIntervention;
-
     /**
      * Intervention éditée par la partie droite de l'interface
      */
-    private SimpleObjectProperty<Intervention> editedIntervention = new SimpleObjectProperty<Intervention>();
+    private final SimpleObjectProperty<Intervention> editedIntervention = new SimpleObjectProperty<Intervention>();
 
     InterventionsFormController(Intervention intervention) {
         setEditedIntervention(intervention);
@@ -110,9 +102,9 @@ public class InterventionsFormController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        //TEST
-        statusBox.getItems().addAll("Ouverte", "Terminée", "Facturée", "Réglée");
-        paymenttypeBox.getItems().addAll("Chèque", "Carte Bancaire", "Espèce");
+        //Remplissage des choiceboxs
+        statusBox.getItems().addAll(resources.getString("status.ouverte"), resources.getString("status.terminee"), resources.getString("status.facturee"), resources.getString("status.reglee"));
+        paymenttypeBox.getItems().addAll(resources.getString("paiement.cheque"), resources.getString("paiement.cb"), resources.getString("paiement.espece"));
 
         // Binding à l'initialisation
         bind();
@@ -121,16 +113,13 @@ public class InterventionsFormController implements Initializable {
         if (getEditedIntervention().getId() == null) {
 
             // Valeurs pas défault pour une nouvelle intervention
-            statusBox.setValue("Ouverte");
-            paymenttypeBox.setValue("Chèque");
-
-            registerBtn.setText("Enregistrer");
+            statusBox.setValue(resources.getString("status.ouverte"));
+            paymenttypeBox.setValue(resources.getString("paiement.cheque"));
+            registerBtn.setText(resources.getString("enregistrer"));
             deleteBtn.setDisable(true);
         } else {
-
-            registerBtn.setText("Modifier");
+            registerBtn.setText(resources.getString("modifier"));
             deleteBtn.setDisable(false);
-
         }
 
         /*
@@ -138,25 +127,28 @@ public class InterventionsFormController implements Initializable {
          */
         registerBtn.setOnAction((ActionEvent actionEvent) -> {
 
-            switch (registerBtn.getText()) {
-                case "Enregistrer":
-                    try {
+            // Si l'intervention ne possède d'id, elle est nouvelle, on enregistre
+            if (getEditedIntervention().getId() == null) {
+                try {
                     interactors.addIntervention.invoke(getEditedIntervention());
-                } catch (Exception e) {
+                } catch (InterventionPostException e) {
                     Alert alert = new Alert(AlertType.ERROR);
-                    alert.setTitle("Erreur");
-                    alert.setHeaderText("Erreur lors de l'ajout de l'intervention");
-                    alert.setContentText(e.toString() + " Caue" + e.getCause().toString());
+                    alert.setTitle(resources.getString("exception.erreur"));
+                    alert.setHeaderText(resources.getString("exception.ajoutIntervention"));
+                    alert.setContentText(e.toString() + " Cause" + e.getCause().toString());
                     alert.show();
                 }
-                break;
-                case "Modifier":
-                    try {
+                // Si elle possède un ID, elle existe, donc on veut donc la modifier
+            } else {
+                try {
                     interactors.updateIntervention.invoke(getEditedIntervention());
-                } catch (Exception e) {
-                    new Alert(Alert.AlertType.ERROR, "Erreur lors de la modification de l'intervention :" + e.toString()).show();
+                } catch (InterventionPutException e) {
+                    Alert alert = new Alert(AlertType.ERROR);
+                    alert.setTitle(resources.getString("exception.erreur"));
+                    alert.setHeaderText(resources.getString("exception.modificationIntervention"));
+                    alert.setContentText(e.toString() + "    " + e.getCause().toString());
+                    alert.show();
                 }
-                break;
             }
 
             desktopListener.close();
@@ -169,11 +161,10 @@ public class InterventionsFormController implements Initializable {
         deleteBtn.setOnAction((ActionEvent actionEvent) -> {
             try {
                 interactors.removeIntervention.invoke(getEditedIntervention());
-            } catch (Exception e) {
+            } catch (InterventionPutException e) {
 
-                new Alert(Alert.AlertType.ERROR, "Erreur lors de la suppression de l'intervention : " + e.toString()).show();
+                new Alert(Alert.AlertType.ERROR, resources.getString("exception.suppressionIntervention") + e.toString()).show();
             }
-
             desktopListener.close();
         });
 
@@ -199,12 +190,6 @@ public class InterventionsFormController implements Initializable {
         startCol.setCellFactory(TextFieldTableCell.<String>forTableColumn());
         endCol.setCellFactory(TextFieldTableCell.<String>forTableColumn());
         durationCol.setCellFactory(TextFieldTableCell.<String>forTableColumn());
-    }
-
-    @FXML
-    private void addPeriodRow() {
-        Period period = new Period();
-        periodTableView.getItems().add(period);
     }
 
     private void bind() {

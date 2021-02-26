@@ -16,7 +16,7 @@ import javafx.beans.property.SimpleObjectProperty;
  *
  * @author Eixa6
  */
-public class ClientsFormController {
+public final class ClientsFormController {
 
     Interactors interactors;
 
@@ -25,7 +25,7 @@ public class ClientsFormController {
     /**
      * Intervention éditée par la partie droite de l'interface
      */
-    private SimpleObjectProperty<Client> editedClient = new SimpleObjectProperty<Client>();
+    private final SimpleObjectProperty<Client> editedClient = new SimpleObjectProperty<Client>();
 
     ClientsFormController(Client client) {
         setEditedClient(client);
@@ -40,15 +40,13 @@ public class ClientsFormController {
     }
 
     /**
-     * @return the editedIntervention
+     * @return the editedClient
      */
     public Client getEditedClient() {
         return editedClient.get();
     }
 
-    /**
-     * @param editedIntervention the editedIntervention to set
-     */
+
     public void setEditedClient(Client editedClient) {
         this.editedClient.set(editedClient);
     }
