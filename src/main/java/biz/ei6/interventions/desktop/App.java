@@ -1,8 +1,8 @@
 package biz.ei6.interventions.desktop;
 
 import biz.ei6.interventions.desktop.lib.interactors.UpdateClient;
-import biz.ei6.interventions.desktop.framework.WSClientsDataSource;
-import biz.ei6.interventions.desktop.framework.WSInterventionsDataSource;
+import biz.ei6.interventions.desktop.framework.clients.WSClientsDataSource;
+import biz.ei6.interventions.desktop.framework.interventions.WSInterventionsDataSource;
 import biz.ei6.interventions.desktop.lib.data.ClientsDataSource;
 import biz.ei6.interventions.desktop.lib.data.ClientsRepository;
 import biz.ei6.interventions.desktop.lib.data.InterventionsDataSource;

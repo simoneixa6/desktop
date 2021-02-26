@@ -1,4 +1,4 @@
-package biz.ei6.interventions.desktop.framework;
+package biz.ei6.interventions.desktop.framework.interventions;
 
 /**
  *

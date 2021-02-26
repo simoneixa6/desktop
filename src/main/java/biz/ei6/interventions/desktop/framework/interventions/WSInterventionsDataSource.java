@@ -1,5 +1,9 @@
-package biz.ei6.interventions.desktop.framework;
+package biz.ei6.interventions.desktop.framework.interventions;
 
+import biz.ei6.interventions.desktop.framework.interventions.InterventionPutException;
+import biz.ei6.interventions.desktop.framework.interventions.InterventionPostException;
+import biz.ei6.interventions.desktop.framework.interventions.InterventionGetException;
+import biz.ei6.interventions.desktop.framework.interventions.InterventionDTO;
 import biz.ei6.interventions.desktop.lib.data.InterventionsDataSource;
 import biz.ei6.interventions.desktop.lib.domain.Intervention;
 import com.fasterxml.jackson.databind.DeserializationFeature;

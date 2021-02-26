@@ -1,6 +1,6 @@
 package biz.ei6.interventions.desktop.lib.interactors;
 
-import biz.ei6.interventions.desktop.framework.ClientPutException;
+import biz.ei6.interventions.desktop.framework.clients.ClientPutException;
 import biz.ei6.interventions.desktop.lib.data.ClientsRepository;
 import biz.ei6.interventions.desktop.lib.domain.Client;
 

@@ -11,7 +11,8 @@ module biz.ei6.interventions.desktop {
     
     exports biz.ei6.interventions.desktop;
     exports biz.ei6.interventions.desktop.lib.domain;
-    exports biz.ei6.interventions.desktop.framework;
+    exports biz.ei6.interventions.desktop.framework.interventions;
+    exports biz.ei6.interventions.desktop.framework.clients;
     exports biz.ei6.interventions.desktop.interventions;
     exports biz.ei6.interventions.desktop.clients;
 }

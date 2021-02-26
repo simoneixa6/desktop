@@ -2,7 +2,7 @@ package biz.ei6.interventions.desktop.interventions;
 
 import biz.ei6.interventions.desktop.App.Interactors;
 import biz.ei6.interventions.desktop.DesktopListener;
-import biz.ei6.interventions.desktop.framework.InterventionGetException;
+import biz.ei6.interventions.desktop.framework.interventions.InterventionGetException;
 import biz.ei6.interventions.desktop.lib.domain.Intervention;
 import java.net.URL;
 import java.util.ArrayList;

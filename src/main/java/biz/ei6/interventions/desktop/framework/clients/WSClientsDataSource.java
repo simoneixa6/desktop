@@ -1,5 +1,8 @@
-package biz.ei6.interventions.desktop.framework;
+package biz.ei6.interventions.desktop.framework.clients;
 
+import biz.ei6.interventions.desktop.framework.clients.ClientPutException;
+import biz.ei6.interventions.desktop.framework.clients.ClientPostException;
+import biz.ei6.interventions.desktop.framework.clients.ClientGetException;
 import biz.ei6.interventions.desktop.lib.data.ClientsDataSource;
 import biz.ei6.interventions.desktop.lib.domain.Client;
 import java.util.ArrayList;
@@ -28,5 +31,4 @@ public class WSClientsDataSource implements ClientsDataSource {
     public void remove(Client client) throws ClientPutException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
 }

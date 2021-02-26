@@ -1,4 +1,4 @@
-package biz.ei6.interventions.desktop.framework;
+package biz.ei6.interventions.desktop.framework.interventions;
 
 import biz.ei6.interventions.desktop.lib.data.InterventionsDataSource;
 import biz.ei6.interventions.desktop.lib.domain.Intervention;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
  *
  * @author Eixa6
  */
-public class MemoryDataSource implements InterventionsDataSource {
+public class InterventionsMemoryDataSource implements InterventionsDataSource {
 
     ArrayList<Intervention> interventions = new ArrayList<>();
     int interventionId = 0;

@@ -3,7 +3,7 @@ package biz.ei6.interventions.desktop.clients;
 import biz.ei6.interventions.desktop.App;
 import biz.ei6.interventions.desktop.App.Interactors;
 import biz.ei6.interventions.desktop.DesktopListener;
-import biz.ei6.interventions.desktop.framework.ClientGetException;
+import biz.ei6.interventions.desktop.framework.clients.ClientGetException;
 import biz.ei6.interventions.desktop.lib.domain.Client;
 import java.net.URL;
 import java.util.ArrayList;

@@ -1,6 +1,6 @@
 package biz.ei6.interventions.desktop.lib.interactors;
 
-import biz.ei6.interventions.desktop.framework.ClientGetException;
+import biz.ei6.interventions.desktop.framework.clients.ClientGetException;
 import biz.ei6.interventions.desktop.lib.data.ClientsRepository;
 import biz.ei6.interventions.desktop.lib.domain.Client;
 import biz.ei6.interventions.desktop.lib.domain.Intervention;
