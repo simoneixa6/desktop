@@ -20,6 +20,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.util.ResourceBundle;
 
 /*
  * JavaFX App
@@ -27,7 +28,6 @@ import java.io.IOException;
 public class App extends Application {
 
     static public class Interactors {
-
         public InterventionsDataSource interventionsDataSource = new WSInterventionsDataSource();//new MemoryDataSource();
         public InterventionsRepository interventionsRepository = new InterventionsRepository(interventionsDataSource);
         public AddIntervention addIntervention = new AddIntervention(interventionsRepository);
@@ -48,7 +48,8 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         Interactors interactors = new Interactors();
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("main.fxml"));
+        ResourceBundle mainBundle = ResourceBundle.getBundle("main");
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("main.fxml"), mainBundle);
         MainController ctrl = new MainController();
         fxmlLoader.setController(ctrl);
         Parent root = fxmlLoader.load();
@@ -56,7 +57,7 @@ public class App extends Application {
         ctrl.setDefaultPane();
 
         scene = new Scene(root, 1200, 940);
-        stage.setTitle("Gestion des interventions");
+        stage.setTitle(mainBundle.getString("titreAppli"));
         stage.setScene(scene);
         stage.setMinHeight(300);
         stage.setMinWidth(750);

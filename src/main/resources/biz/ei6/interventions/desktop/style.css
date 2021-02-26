@@ -3,10 +3,6 @@
     Author     : Eixa6
 */
 
-
-
-
-
 .root {
 
     /* Color variables */
@@ -52,11 +48,26 @@
 #sidebarBtn{
     -fx-background-color: mainGrey;
     -fx-font-size : 14px;
+    -fx-border-color: mainGrey;
+    -fx-border-width: 0 0 0 1.5;
 }
 
 #sidebarBtn:hover{
     -fx-background-color: mainGreyHover;  
+    -fx-border-color: mainGreyHover;
 }
+
+#sidebarBtnSelected{
+    -fx-background-color: mainGrey;
+    -fx-font-size : 14px;
+    -fx-border-color: black;
+    -fx-border-width: 0 0 0 1.5;
+}
+
+#sidebarBtnSelected:hover{
+    -fx-background-color: mainGreyHover;
+}
+
 
 #menubarTitle{
     -fx-font-size : 16px;

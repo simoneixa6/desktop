@@ -45,6 +45,7 @@ public class MainController implements Initializable {
         // Intervention pane affiché par défault au démmarage
         interventionsPane = new InterventionsPane(interactors);
         mainBorderPane.setCenter(interventionsPane);
+        setSelectedButtonStyle(interventionsBtn);
     }
 
     @Override
@@ -57,6 +58,7 @@ public class MainController implements Initializable {
             if (mainBorderPane.getCenter() != interventionsPane) {
                 interventionsPane = new InterventionsPane(interactors);
                 mainBorderPane.setCenter(interventionsPane);
+                setSelectedButtonStyle(interventionsBtn);
             }
         });
 
@@ -67,7 +69,18 @@ public class MainController implements Initializable {
             if (mainBorderPane.getCenter() != clientsPane) {
                 clientsPane = new ClientsPane(interactors);
                 mainBorderPane.setCenter(clientsPane);
+                setSelectedButtonStyle(clientsBtn);
             }
         });
+    }
+    
+    public void setSelectedButtonStyle(Button button){
+        button.setId("sidebarBtnSelected");
+        
+        if(button!=interventionsBtn) interventionsBtn.setId("sidebarBtn");
+        if(button!=clientsBtn) clientsBtn.setId("sidebarBtn");
+        if(button!=usersBtn) usersBtn.setId("sidebarBtn");
+        if(button!=rolesBtn) rolesBtn.setId("sidebarBtn");
+        
     }
 }

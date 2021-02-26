@@ -9,7 +9,6 @@ import biz.ei6.interventions.desktop.App;
 import biz.ei6.interventions.desktop.App.Interactors;
 import biz.ei6.interventions.desktop.DesktopListener;
 import biz.ei6.interventions.desktop.lib.domain.Client;
-import biz.ei6.interventions.desktop.lib.domain.Intervention;
 import javafx.beans.property.SimpleObjectProperty;
 
 /**
@@ -46,7 +45,6 @@ public final class ClientsFormController {
         return editedClient.get();
     }
 
-
     public void setEditedClient(Client editedClient) {
         this.editedClient.set(editedClient);
     }
@@ -57,5 +55,4 @@ public final class ClientsFormController {
     public SimpleObjectProperty<Client> getEditedClientProperty() {
         return editedClient;
     }
-
 }
