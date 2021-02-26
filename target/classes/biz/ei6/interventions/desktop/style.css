@@ -9,14 +9,13 @@
     mainGrey: #F2F2F2;
     mainGreyHover: #EAEAEA;
 
-    -fx-background-color: #ffffff;
-    -fx-faint-focus-color: #ffffff;
+    -fx-background-color: white;
+    -fx-faint-focus-color: transparent;
     -fx-focus-color: transparent;
-
 }
 
 #AnchorPane {
-    -fx-background-color: #ffffff; 
+    -fx-background-color: white; 
     -fx-border-width: 0;
 }
 
@@ -30,7 +29,7 @@
 
 #splitpanestyle {
     -fx-box-border: transparent;
-    -fx-background-color: #ffffff;
+    -fx-background-color: white;
 }
 
 .split-pane-divider {
@@ -125,7 +124,7 @@
     -fx-background-color: transparent;
 }
 
-/*ComboBox Styling*/
+/*ComboBox and ChoiceBox Styling*/
 
 #combobox {
     -fx-background-color: mainGrey;
@@ -323,9 +322,8 @@
     -fx-graphic: url(assets/red.png);
 }
 
-
 #buttonflowpane {
-    -fx-background-color: #FFFFFF;
+    -fx-background-color: white;
 }
 
 /* Styling of the checkboxes */
@@ -342,7 +340,6 @@
 
 .check-box:selected > .box > .mark,
 .check-box:indeterminate  > .box > .mark {
-    /* modify mark color */
     -fx-background-color: black;
 }
 

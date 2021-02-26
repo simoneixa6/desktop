@@ -7,10 +7,12 @@ biz\ei6\interventions\desktop\MainController.class
 biz\ei6\interventions\desktop\interventions\InterventionsFormController.class
 biz\ei6\interventions\desktop\lib\interactors\RemoveIntervention.class
 biz\ei6\interventions\desktop\framework\interventions\WSInterventionsDataSource.class
+biz\ei6\interventions\desktop\interventions\SortBoxCell.class
 biz\ei6\interventions\desktop\interventions\InterventionsController.class
 biz\ei6\interventions\desktop\lib\interactors\UpdateClient.class
 biz\ei6\interventions\desktop\interventions\InterventionCellFactory.class
 biz\ei6\interventions\desktop\framework\interventions\InterventionPutException.class
+biz\ei6\interventions\desktop\interventions\SortBoxCellFactory.class
 biz\ei6\interventions\desktop\lib\data\ClientsDataSource.class
 biz\ei6\interventions\desktop\lib\data\InterventionsDataSource.class
 biz\ei6\interventions\desktop\lib\interactors\RemoveClient.class

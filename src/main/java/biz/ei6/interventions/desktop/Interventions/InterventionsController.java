@@ -14,8 +14,15 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.cell.ComboBoxListCell;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.paint.Color;
+import javafx.util.Callback;
 
 public class InterventionsController implements Initializable, DesktopListener {
 
@@ -24,6 +31,9 @@ public class InterventionsController implements Initializable, DesktopListener {
 
     @FXML
     ListView<Intervention> interventionsListView;
+
+    @FXML
+    ComboBox sortBox;
 
     @FXML
     Button createBtn;
@@ -47,6 +57,11 @@ public class InterventionsController implements Initializable, DesktopListener {
     public void initialize(URL location, ResourceBundle resources) {
 
         this.resources = resources;
+
+        // Remplissage de la choicebox de trie
+        sortBox.setCellFactory(new SortBoxCellFactory());
+        sortBox.getItems().addAll(resources.getString("tous.les.etats"), resources.getString("status.ouverte"), resources.getString("status.terminee"), resources.getString("status.facturee"), resources.getString("status.reglee"));
+        sortBox.setValue(resources.getString("tous.les.etats"));
 
         /*
          * Mise en place de la cell factory de la listview des interventions
@@ -84,8 +99,7 @@ public class InterventionsController implements Initializable, DesktopListener {
         if (splitPane.getItems().size() > 1) {
             splitPane.getItems().remove(1);
             splitPane.getItems().add(1, interventionsForm);
-        } 
-        // Sinon la partie formulaire est ajouté
+        } // Sinon la partie formulaire est ajouté
         else {
             splitPane.getItems().add(1, interventionsForm);
         }
