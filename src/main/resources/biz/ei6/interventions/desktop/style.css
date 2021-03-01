@@ -1,56 +1,72 @@
-/*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
-*/
 /* 
     Created on : 9 févr. 2021, 11:24:17
     Author     : Eixa6
 */
 
 .root {
-    -fx-background-color: #ffffff;
+
+    /* Color variables */
+    mainGrey: #F2F2F2;
+    mainGreyHover: #EAEAEA;
+
+    -fx-background-color: white;
+    -fx-faint-focus-color: transparent;
     -fx-focus-color: transparent;
-    -fx-faint-focus-color: #ffffff;
 }
 
 #AnchorPane {
-    -fx-background-color: #ffffff; 
+    -fx-background-color: white; 
     -fx-border-width: 0;
 }
 
 .scroll-pane > .viewport {
-   -fx-background-color: transparent;
+    -fx-background-color: transparent;
 }
 
 .scroll-pane {
-   -fx-background-color: white;
+    -fx-background-color: white;
 }
 
 #splitpanestyle {
     -fx-box-border: transparent;
+    -fx-background-color: white;
 }
 
 .split-pane-divider {
-   -fx-background-color: #F2F2F2;
-   -fx-padding: 0 1px 0 1px;  
+    -fx-background-color: mainGrey;
+    -fx-padding: 0 1px 0 1px;  
 }
 
 /*Left Side Menubar styling*/
 
 #sidebarmenu {
-    -fx-background-color: #F2F2F2;  
+    -fx-background-color: mainGrey;  
     -fx-border-width: 0;
 }
 
 #sidebarBtn{
-    -fx-background-color: #F2F2F2;
+    -fx-background-color: mainGrey;
     -fx-font-size : 14px;
+    -fx-border-color: mainGrey;
+    -fx-border-width: 0 0 0 1.5;
 }
 
 #sidebarBtn:hover{
-    -fx-background-color: #eaeaea;  
+    -fx-background-color: mainGreyHover;  
+    -fx-border-color: mainGreyHover;
 }
+
+#sidebarBtnSelected{
+    -fx-background-color: mainGrey;
+    -fx-font-size : 14px;
+    -fx-border-color: black;
+    -fx-border-width: 0 0 0 1.5;
+}
+
+#sidebarBtnSelected:hover{
+    -fx-background-color: mainGreyHover;
+}
+
 
 #menubarTitle{
     -fx-font-size : 16px;
@@ -79,7 +95,7 @@ and open the template in the editor.
 /*Styling of the text input*/
 
 #textInput {
-    -fx-background-color: #F2F2F2;
+    -fx-background-color: mainGrey;
     -fx-prompt-text-fill: gray;
     -fx-border-width: 0;
 }
@@ -87,15 +103,15 @@ and open the template in the editor.
 /*Styling of the text area*/
 
 #textAreaInput {
-    -fx-background-color: #F2F2F2;
+    -fx-background-color: mainGrey;
     -fx-border-width: 1;
     -fx-border-radius: 4;
     -fx-background-radius: 4;
-    -fx-border-color: #F2F2F2;
+    -fx-border-color: mainGrey;
 }
 
 #textAreaInput  .content {
-    -fx-background-color: #F2F2F2;
+    -fx-background-color: mainGrey;
 }
 
 #textAreaInput  .scroll-pane {
@@ -108,22 +124,23 @@ and open the template in the editor.
     -fx-background-color: transparent;
 }
 
-/*ComboBox Styling*/
+/*ComboBox and ChoiceBox Styling*/
 
 #combobox {
-   -fx-background-color: #F2F2F2;
-   -fx-border-width: 1;
+    -fx-background-color: mainGrey;
+    -fx-border-width: 1;
+    -fx-text-fill:black;
 }
 
 #combobox .list-view {
-    -fx-background-color: #F2F2F2;
+    -fx-background-color: mainGrey;
 }
 
 /*Styling of the buttons*/
 
 #bluebtn {
     -fx-background-color: #0079C2;  
-    -fx-text-fill: #ffffff;
+    -fx-text-fill: white;
     -fx-padding: 7px;
     -fx-font-weight: bold;  
 }
@@ -134,7 +151,7 @@ and open the template in the editor.
 
 #redbtn {
     -fx-background-color: #CD0000;    
-    -fx-text-fill: #ffffff;
+    -fx-text-fill: white;
     -fx-font-weight: bold;  
     -fx-padding: 7px;
 }
@@ -170,24 +187,24 @@ and open the template in the editor.
 /*Styling of the listviews*/
 
 #greylistview {
-    -fx-background-color: #F2F2F2;
+    -fx-background-color: mainGrey;
     -fx-border-width: 1;
     -fx-border-radius: 4;
     -fx-background-radius: 4;
-    -fx-border-color: #F2F2F2;
+    -fx-border-color: mainGrey;
     -fx-background-insets: 0; 
 }
 
 #greylistview .list-cell:hover {
-    -fx-background-color: #eaeaea;
+    -fx-background-color: mainGreyHover;
 }
 
 #greylistview .list-cell:selected {
-    -fx-background-color: #eaeaea;
+    -fx-background-color: mainGreyHover;
 }
 
 #greylistview .list-cell {
-    -fx-background-color: #F2F2F2;
+    -fx-background-color: mainGrey;
     -fx-text-fill: black;
     -fx-font-size : 13px;
 }
@@ -203,33 +220,33 @@ and open the template in the editor.
 }
 
 .table-view .placeholder {
-    -fx-border-color: #F2F2F2;
-    -fx-background-color:#f2f2f2;
+    -fx-border-color: mainGrey;
+    -fx-background-color:mainGrey;
 }
 
 .table-view .table-cell{
     -fx-text-fill: black;
-    -fx-border-color: #f2f2f2;
+    -fx-border-color: mainGrey;
 }
 
 .table-row-cell {
-    -fx-border-color: #f2f2f2;
+    -fx-border-color: mainGrey;
 }
 
 .table-row-cell:hover {
-    -fx-background-color: #eaeaea;
+    -fx-background-color: mainGreyHover;
 }
 
 .table-row-cell:filled:selected:focused {
-    -fx-border-color: #f2f2f2;
+    -fx-border-color: mainGrey;
     -fx-border-width: 0px;
 }
 
 .table-row-cell:odd{
-    -fx-background-color: #f2f2f2;
+    -fx-background-color: mainGrey;
 }
 .table-row-cell:even{
-    -fx-background-color: #f2f2f2;
+    -fx-background-color: mainGrey;
 }
 
 .table-view .column-header-background{
@@ -245,35 +262,35 @@ and open the template in the editor.
 /*Styling of the date pickers*/
 
 .date-picker {
-    -fx-background-color: #F2F2F2;
-    -fx-border-color: #F2F2F2;
+    -fx-background-color: mainGrey;
+    -fx-border-color: mainGrey;
 }
 
 .date-picker .arrow-button, .date-picker .date-picker-display-node {
-    -fx-background-color: #F2F2F2;
-    -fx-border-color: #F2F2F2;
+    -fx-background-color: mainGrey;
+    -fx-border-color: mainGrey;
     -fx-border-width: 1;
     -fx-border-radius: 4;
     -fx-background-radius: 4;
     -fx-background-insets: 0; 
-    -fx-focus-color: #F2F2F2;
-    -fx-faint-focus-color: #F2F2F2;
+    -fx-focus-color: mainGrey;
+    -fx-faint-focus-color: mainGrey;
 }
 
 /*Styling of the menubutton*/
 
 .menu-item {
-    -fx-background-color: #f2f2f2; 
+    -fx-background-color: mainGrey; 
 }
 
 .menu-bar > .container > .menu-button:hover,
 .menu-bar > .container > .menu-button:focused,
 .menu-bar > .container > .menu-button:showing {
-    -fx-background-color: #eaeaea;
+    -fx-background-color: mainGreyHover;
 }
-  
+
 .menu-item:focused, .menu-item:hovered {
-    -fx-background-color: #eaeaea; 
+    -fx-background-color: mainGreyHover; 
 }
 
 .menu-item:focused .label, .menu-item:hovered .label {
@@ -281,8 +298,8 @@ and open the template in the editor.
 }
 
 .context-menu {
-    -fx-background-color: #F2F2F2;
-    -fx-border-color: #F2F2F2;
+    -fx-background-color: mainGrey;
+    -fx-border-color: mainGrey;
     -fx-border-width: 1;
     -fx-border-radius: 4;
     -fx-background-radius: 4;
@@ -306,7 +323,38 @@ and open the template in the editor.
     -fx-graphic: url(assets/red.png);
 }
 
-
 #buttonflowpane {
-    -fx-background-color: #FFFFFF;
+    -fx-background-color: white;
+}
+
+/* Styling of the checkboxes */
+
+.check-box:selected > .box {
+    /* background color for selected checkbox */
+    -fx-background-color: mainGrey;
+}
+
+.check-box > .box {
+    /* background color of unselected checkbox */
+    -fx-background-color: mainGrey;
+}
+
+.check-box:selected > .box > .mark,
+.check-box:indeterminate  > .box > .mark {
+    -fx-background-color: black;
+}
+
+/* Styling of the radiobuttons */
+
+.radio-button .radio {
+    -fx-border-color: mainGreyHover;
+    -fx-bacground-color: mainGrey;
+    -fx-border-radius: 130px;
+    -fx-background-insets: 0 0 0 0;
+}
+
+.radio-button:selected .radio {
+    -fx-border-color: mainGreyHover;
+    -fx-bacground-color: mainGrey;
+    -fx-border-radius: 130px;
 }

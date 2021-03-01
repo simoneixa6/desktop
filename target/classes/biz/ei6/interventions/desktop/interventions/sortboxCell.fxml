@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+
+<fx:root type="javafx.scene.control.ListCell" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
+    <graphic>
+        <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="232.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+           <children>
+              <ImageView fx:id="status" fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
+                 <HBox.margin>
+                    <Insets right="10.0" />
+                 </HBox.margin>
+              </ImageView>
+              <Label fx:id="lblStatus" text="Status" />
+           </children>
+        </HBox>
+    </graphic>
+</fx:root>

@@ -7,6 +7,8 @@ package biz.ei6.interventions.desktop.lib.domain;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ListProperty;
@@ -21,37 +23,52 @@ import javafx.collections.FXCollections;
 /**
  *
  * @author Eixa6
- * 
+ *
  */
 public class Intervention {
-    private StringProperty Id = new SimpleStringProperty();
-    private StringProperty title= new SimpleStringProperty();
-    private StringProperty client_id= new SimpleStringProperty();
-    private StringProperty description= new SimpleStringProperty();
-    private ListProperty<Period> period= new SimpleListProperty();
-    private StringProperty address= new SimpleStringProperty();
-    private StringProperty km= new SimpleStringProperty();
-    private StringProperty billNumber= new SimpleStringProperty();
-    private ObjectProperty<LocalDateTime> billDate = new SimpleObjectProperty();
-    private StringProperty paymentType= new SimpleStringProperty();
-    private ObjectProperty<LocalDateTime> paymentDate= new SimpleObjectProperty();
-    private StringProperty status= new SimpleStringProperty();
-    private ListProperty<String> medias = new SimpleListProperty();
-    private BooleanProperty deleted= new SimpleBooleanProperty();
-   
+
+    private final StringProperty _id = new SimpleStringProperty();
+    private final StringProperty title = new SimpleStringProperty();
+    private final StringProperty client_id = new SimpleStringProperty();
+    private final StringProperty description = new SimpleStringProperty();
+    private final ListProperty<Period> periods = new SimpleListProperty();
+    private final StringProperty address = new SimpleStringProperty();
+    private final StringProperty km = new SimpleStringProperty();
+    private final StringProperty billNumber = new SimpleStringProperty();
+    private final ObjectProperty<LocalDate> billDate = new SimpleObjectProperty();
+    private final StringProperty paymentType = new SimpleStringProperty();
+    private final ObjectProperty<LocalDate> paymentDate = new SimpleObjectProperty();
+    private final StringProperty status = new SimpleStringProperty();
+    private final ListProperty<String> medias = new SimpleListProperty();
+    private final BooleanProperty deleted = new SimpleBooleanProperty();
+
+    {
+
+        // Ajout d'une période par défault
+//    Period period = new Period();
+//    period.setDate(LocalDate.now());
+//    List<Period> listperiod = List.of(period) ;
+//    
+//    this.setPeriod(listperiod);
+        this.setPeriods(new ArrayList<Period>());
+
+        // Ajout du tableau de médias vide par défault
+        this.setMedias(new ArrayList<String>());
+
+    }
 
     /*
      * @return the Id
      */
     public String getId() {
-        return Id.get();
+        return _id.get();
     }
 
     /**
      * @param Id the Id to set
      */
     public void setId(String Id) {
-        this.Id.set(Id);
+        this._id.set(Id);
     }
 
     /**
@@ -60,9 +77,11 @@ public class Intervention {
     public String getTitle() {
         return title.get();
     }
+
     public StringProperty getTitleProperty() {
         return title;
     }
+
     /**
      * @param title the title to set
      */
@@ -76,14 +95,16 @@ public class Intervention {
     public String getClient_id() {
         return client_id.get();
     }
+
     public StringProperty getClient_idProperty() {
         return client_id;
     }
+
     /**
      * @param client_id the client_id to set
      */
     public void setClient_id(String client_id) {
-        this.client_id .set(client_id);
+        this.client_id.set(client_id);
     }
 
     /**
@@ -92,30 +113,34 @@ public class Intervention {
     public StringProperty getDescriptionProperty() {
         return description;
     }
+
     public String getDescription() {
         return description.get();
     }
+
     /**
      * @param description the description to set
      */
     public void setDescription(String description) {
-        this.description .set( description);
+        this.description.set(description);
     }
 
     /**
      * @return the period
      */
-    public ListProperty<Period> getPeriodProperty() {
-        return period;
+    public ListProperty<Period> getPeriodsProperty() {
+        return periods;
     }
-    public List<Period> getPeriod() {
-        return period.get();
+
+    public List<Period> getPeriods() {
+        return periods.get();
     }
+
     /**
      * @param period the period to set
      */
-    public void setPeriod(List<Period> period) {
-        this.period.set(  FXCollections.observableArrayList(period));
+    public void setPeriods(List<Period> period) {
+        this.periods.set(FXCollections.observableArrayList(period));
     }
 
     /**
@@ -124,9 +149,11 @@ public class Intervention {
     public StringProperty getAddressProperty() {
         return address;
     }
+
     public String getAddress() {
         return address.get();
     }
+
     /**
      * @param address the address to set
      */
@@ -140,9 +167,11 @@ public class Intervention {
     public String getKm() {
         return km.get();
     }
+
     public StringProperty getKmProperty() {
         return km;
     }
+
     /**
      * @param km the km to set
      */
@@ -156,9 +185,11 @@ public class Intervention {
     public StringProperty getBillNumberProperty() {
         return billNumber;
     }
+
     public String getBillNumber() {
         return billNumber.get();
     }
+
     /**
      * @param billNumber the billNumber to set
      */
@@ -169,17 +200,38 @@ public class Intervention {
     /**
      * @return the billDate
      */
-    public LocalDateTime getBillDate() {
-        return billDate.get();
+    public String getBillDate() {
+
+        String formattedBillDateTime;
+
+        if (billDate.getValue() != null) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+            LocalDateTime dateTime = billDate.get().atStartOfDay();
+            formattedBillDateTime = dateTime.format(formatter);
+        } else {
+            formattedBillDateTime = "";
+        }
+
+        return formattedBillDateTime;
     }
-    public ObjectProperty<LocalDateTime> getBillDateProperty() {
+
+    public ObjectProperty<LocalDate> getBillDateProperty() {
         return billDate;
     }
+
     /**
      * @param billDate the billDate to set
      */
-    public void setBillDate(LocalDateTime billDate) {
-        this.billDate.set(billDate);
+    public void setBillDate(String billDateString) {
+
+        if (billDateString != null) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
+            LocalDate parsedDate = LocalDate.parse(billDateString, formatter);
+
+            this.billDate.set(parsedDate);
+        } else {
+            this.billDate.set(null);
+        }
     }
 
     /**
@@ -188,9 +240,11 @@ public class Intervention {
     public StringProperty getPaymentTypeProperty() {
         return paymentType;
     }
+
     public String getPaymentType() {
         return paymentType.get();
     }
+
     /**
      * @param paymentType the paymentType to set
      */
@@ -201,17 +255,39 @@ public class Intervention {
     /**
      * @return the paymentDate
      */
-    public ObjectProperty<LocalDateTime> getPaymentDateProperty() {
+    public ObjectProperty<LocalDate> getPaymentDateProperty() {
         return paymentDate;
     }
-    public LocalDateTime getPaymentDate() {
-        return paymentDate.get();
+
+    public String getPaymentDate() {
+
+        String formattedPaymentDateTime;
+        
+        if (paymentDate.getValue() != null) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+            LocalDateTime dateTime = paymentDate.get().atStartOfDay();
+            formattedPaymentDateTime = dateTime.format(formatter);
+        }
+        else {
+            formattedPaymentDateTime = "";
+        }
+
+        return formattedPaymentDateTime;
     }
+
     /**
      * @param paymentDate the paymentDate to set
      */
-    public void setPaymentDate(LocalDateTime paymentDate) {
-        this.paymentDate.set(paymentDate);
+    public void setPaymentDate(String paymentDateString) {
+
+        if (paymentDateString != null) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
+            LocalDate parsedDate = LocalDate.parse(paymentDateString, formatter);
+
+            this.paymentDate.set(parsedDate);
+        } else {
+            this.paymentDate.set(null);
+        }
     }
 
     /**
@@ -220,14 +296,16 @@ public class Intervention {
     public StringProperty getStatusProperty() {
         return status;
     }
+
     public String getStatus() {
         return status.get();
     }
+
     /**
      * @param status the status to set
      */
     public void setStatus(String status) {
-        this.status.set( status);
+        this.status.set(status);
     }
 
     /**
@@ -236,14 +314,16 @@ public class Intervention {
     public ListProperty<String> getMediasProperty() {
         return medias;
     }
+
     public List<String> getMedias() {
         return medias.get();
     }
+
     /**
      * @param medias the medias to set
      */
     public void setMedias(List<String> medias) {
-        this.medias.set( FXCollections.observableArrayList(medias));
+        this.medias.set(FXCollections.observableArrayList(medias));
     }
 
     /**
@@ -252,15 +332,16 @@ public class Intervention {
     public BooleanProperty getDeletedProperty() {
         return deleted;
     }
+
     public Boolean getDeleted() {
         return deleted.get();
     }
+
     /**
      * @param deleted the deleted to set
      */
     public void setDeleted(Boolean deleted) {
-        this.deleted.set( deleted);
+        this.deleted.set(deleted);
     }
-        
-        
+
 }

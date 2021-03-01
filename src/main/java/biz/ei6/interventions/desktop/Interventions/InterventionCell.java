@@ -1,17 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package biz.ei6.interventions.desktop;
+package biz.ei6.interventions.desktop.interventions;
 
 import biz.ei6.interventions.desktop.lib.domain.Intervention;
 import java.io.IOException;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
@@ -59,14 +51,12 @@ public class InterventionCell  extends ListCell<Intervention> {
                 
                 lblIntervention.setText(intervention.getTitle() + " - " + intervention.getKm());
                 
-                Image greenDot = new Image("file:///C:/Users/Eixa6/Documents/NetBeansProjects/desktop/src/main/resources/biz/ei6/interventions/desktop/assets/green.png");
-                Image orangeDot = new Image("file:///C:\\Users\\Eixa6\\Documents\\NetBeansProjects\\desktop\\src\\main\\resources\\biz\\ei6\\interventions\\desktop\\assets\\orange.png");
-                Image yellowDot = new Image("file:///C:\\Users\\Eixa6\\Documents\\NetBeansProjects\\desktop\\src\\main\\resources\\biz\\ei6\\interventions\\desktop\\assets\\yellow.png");
-                Image redDot = new Image("file:///C:\\Users\\Eixa6\\Documents\\NetBeansProjects\\desktop\\src\\main\\resources\\biz\\ei6\\interventions\\desktop\\assets\\red.png");
-
-        
-                try
-                {
+                Image redDot = new Image("file://"+getClass().getResource("red.png").getPath());
+                Image yellowDot = new Image("file://"+getClass().getResource("yellow.png").getPath());
+                Image orangeDot = new Image("file://"+getClass().getResource("orange.png").getPath());
+                Image greenDot = new Image("file://"+getClass().getResource("green.png").getPath());
+                
+                        
                     switch(intervention.getStatus()){
                         case "Ouverte":
                             status.setImage(redDot);  
@@ -81,21 +71,8 @@ public class InterventionCell  extends ListCell<Intervention> {
                             status.setImage(greenDot);
                             break;
                         default:
-                            status.setImage(redDot);
-                            break;
-                    }
-                } catch(Exception e)
-                {
-                    Alert alert = new Alert(AlertType.ERROR);
-                    alert.setTitle("Error Dialog");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Pas de status choisi : " + e);
-
-                    alert.show();
-                }
-                      
-
-                
+                            throw new RuntimeException("L'intervention ne possède pas de status, méthode updateItem dans la classe InterventionCell");
+                    }          
                 setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
             }
         }

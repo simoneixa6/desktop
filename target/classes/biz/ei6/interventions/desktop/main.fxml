@@ -9,14 +9,14 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="mainBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="biz.ei6.interventions.desktop.MainController">
+<BorderPane fx:id="mainBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
     <stylesheets>
         <URL value="@style.css" />
     </stylesheets>
     <left>
       <VBox id="sidebarmenu" prefHeight="876.0" prefWidth="164.0" BorderPane.alignment="CENTER">
          <children>
-            <Button id="sidebarBtn" fx:id="interventionsBtn" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="218.0" text="Interventions">
+            <Button id="sidebarBtn" fx:id="interventionsBtn" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="218.0" text="%interventions">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
@@ -31,7 +31,7 @@
                   <Insets bottom="5.0" left="15.0" top="5.0" />
                </padding>
             </Button>
-            <Button id="sidebarBtn" fx:id="clientsBtn" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="295.0" text="Clients">
+            <Button id="sidebarBtn" fx:id="clientsBtn" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="295.0" text="%clients">
                <graphic>
                   <ImageView fitHeight="23.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -42,11 +42,11 @@
                <padding>
                   <Insets bottom="5.0" left="15.0" top="5.0" />
                </padding></Button>
-            <Label id="menubarTitle" alignment="CENTER" prefHeight="33.0" prefWidth="114.0" text="Administration">
+            <Label id="menubarTitle" alignment="CENTER" prefHeight="33.0" prefWidth="114.0" text="%administration">
                <padding>
                   <Insets bottom="10.0" left="10.0" top="15.0" />
                </padding></Label>
-            <Button id="sidebarBtn" fx:id="usersBtn" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="27.0" prefWidth="288.0" text="Utilisateurs">
+            <Button id="sidebarBtn" fx:id="usersBtn" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="27.0" prefWidth="288.0" text="%utilisateurs">
                <graphic>
                   <ImageView fitHeight="19.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -58,7 +58,7 @@
                   <Insets bottom="5.0" left="15.0" top="5.0" />
                </padding>
             </Button>
-            <Button id="sidebarBtn" fx:id="rolesBtn" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="29.0" prefWidth="267.0" text="Rôles">
+            <Button id="sidebarBtn" fx:id="rolesBtn" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="29.0" prefWidth="267.0" text="%roles">
                <graphic>
                   <ImageView fitHeight="21.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                      <image>

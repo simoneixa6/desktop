@@ -2,10 +2,9 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.MenuButton?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -16,36 +15,30 @@
    <items>
       <AnchorPane id="AnchorPane" maxWidth="400.0">
          <children>
-            <Label id="title" alignment="TOP_LEFT" contentDisplay="TOP" text="Interventions" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="10.0">
+            <Label id="title" alignment="TOP_LEFT" contentDisplay="TOP" text="%intervention" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="10.0">
                <padding>
                   <Insets right="10.0" />
                </padding>
             </Label>
-            <HBox alignment="CENTER_LEFT" layoutY="46.0" prefHeight="42.0" prefWidth="320.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="57.0">
+            <HBox alignment="CENTER_LEFT" layoutY="48.0" prefWidth="400.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">
                <children>
-                  <TextField id="textInput" alignment="TOP_LEFT" minWidth="40.0" prefHeight="28.0" prefWidth="250.0" promptText="Rechercher">
+                  <TextField id="textInput" minWidth="40.0" prefHeight="28.0" prefWidth="250.0" promptText="%rechercher">
                      <HBox.margin>
                         <Insets left="20.0" right="5.0" top="20.0" />
                      </HBox.margin>
                   </TextField>
-                  <MenuButton id="combobox" mnemonicParsing="false" prefHeight="28.0" prefWidth="129.0" text="Tout les états">
-                     <items>
-                        <MenuItem id="reditem" mnemonicParsing="false" text="Ouverte" />
-                        <MenuItem id="orangeitem" mnemonicParsing="false" text="Terminée" />
-                        <MenuItem id="yellowitem" mnemonicParsing="false" text="Facturée" />
-                        <MenuItem id="greenitem" mnemonicParsing="false" text="Réglée" />
-                     </items>
+                  <ComboBox fx:id="sortBox" id="combobox" prefHeight="28.0" prefWidth="130.0">
                      <HBox.margin>
                         <Insets right="20.0" top="20.0" />
                      </HBox.margin>
-                  </MenuButton>
+                  </ComboBox>
                </children>
             </HBox>
             <ListView id="greylistview" fx:id="interventionsListView" layoutY="120.0" prefHeight="720.0" prefWidth="360.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="120.0" />
             <FlowPane prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
             <HBox alignment="CENTER" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <children>
-                  <Button id="bluebtn" fx:id="createBtn" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" text="Nouvelle Intervention" />
+                  <Button id="bluebtn" fx:id="createBtn" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" text="%nouvelle.intervention" />
                </children>
             </HBox>
          </children>

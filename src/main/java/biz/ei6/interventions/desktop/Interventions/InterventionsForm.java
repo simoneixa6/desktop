@@ -3,11 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package biz.ei6.interventions.desktop;
+package biz.ei6.interventions.desktop.interventions;
 
 import biz.ei6.interventions.desktop.App.Interactors;
+import biz.ei6.interventions.desktop.DesktopListener;
 import biz.ei6.interventions.desktop.lib.domain.Intervention;
 import java.io.IOException;
+import java.util.ResourceBundle;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
@@ -18,9 +20,9 @@ import javafx.scene.layout.AnchorPane;
  */
 public class InterventionsForm extends AnchorPane {
 
-    public InterventionsForm(Interactors interactors, Intervention intervention, DesktopListener desktopListener) {
+    public InterventionsForm(Interactors interactors, Intervention intervention, DesktopListener desktopListener, ResourceBundle resources) {
 
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("interventionsForm.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("interventionsForm.fxml"), resources);
 
         InterventionsFormController ctrl = new InterventionsFormController(intervention);
 
@@ -34,9 +36,8 @@ public class InterventionsForm extends AnchorPane {
 
         try {
             fxmlLoader.load();
-        } catch (Exception e) {
-           new Alert(Alert.AlertType.ERROR, "Erreur lors de l'ajout de la partie formulaire d'une intervention : " + e.toString()).show();
+        } catch (IOException e) {
+           new Alert(Alert.AlertType.ERROR, resources.getString("exception.ajoutFormulaireIntervention") + e.toString()).show();
         }
     }
-
 }

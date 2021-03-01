@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package biz.ei6.interventions.desktop;
+package biz.ei6.interventions.desktop.interventions;
 
 import biz.ei6.interventions.desktop.App.Interactors;
 import java.io.IOException;
+import java.util.ResourceBundle;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.SplitPane;
 
@@ -18,7 +19,9 @@ public class InterventionsPane extends SplitPane {
 
     public InterventionsPane(Interactors interactors) {
 
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("interventionsPane.fxml"));
+        ResourceBundle interventionBundle = ResourceBundle.getBundle("interventions");
+
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("interventionsPane.fxml"), interventionBundle);
 
         InterventionsController ctrl = new InterventionsController();
 
@@ -30,7 +33,6 @@ public class InterventionsPane extends SplitPane {
         try {
             fxmlLoader.load();
         } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 }
