@@ -16,7 +16,7 @@ public class ClientCell extends ListCell<Client> {
 
     @FXML
     Label lblName;
-    
+
     public ClientCell() {
         loadFXML();
     }
@@ -32,20 +32,18 @@ public class ClientCell extends ListCell<Client> {
         }
     }
 
-            @Override
-        protected void updateItem(Client client, boolean empty) {
-            super.updateItem(client, empty);
+    @Override
+    protected void updateItem(Client client, boolean empty) {
+        super.updateItem(client, empty);
 
-            if(empty) {
-                setText(null);
-                setContentDisplay(ContentDisplay.TEXT_ONLY);
-            }
-            else {
-                
-                lblName.setText(client.getName() + " " + client.getLastName());
-                
-                setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
-            }
+        if (empty) {
+            setText(null);
+            setContentDisplay(ContentDisplay.TEXT_ONLY);
+        } else {
+
+            lblName.setText(client.getName() + " " + client.getLastName());
+
+            setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         }
-    
+    }
 }
