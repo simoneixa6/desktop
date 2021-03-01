@@ -37,7 +37,7 @@ public class App extends Application {
         public GetInterventions getInterventions = new GetInterventions(interventionsRepository);
         public RemoveIntervention removeIntervention = new RemoveIntervention(interventionsRepository);
         
-        public ClientsDataSource clientsDataSource = new WSClientsDataSource();
+        public ClientsDataSource clientsDataSource = new WSClientsDataSource(resources);
         public ClientsRepository clientsRepository = new ClientsRepository(clientsDataSource);
         public AddClient addClient = new AddClient(clientsRepository);
         public UpdateClient updateClient = new UpdateClient(clientsRepository);

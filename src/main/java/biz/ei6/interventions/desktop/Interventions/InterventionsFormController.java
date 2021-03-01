@@ -111,7 +111,6 @@ public final class InterventionsFormController implements Initializable {
 
         // Si une intervention n'a pas d'id c'est que c'est une nouvelle intervention
         if (getEditedIntervention().getId() == null) {
-
             // Valeurs pas défault pour une nouvelle intervention
             statusBox.setValue(resources.getString("status.ouverte"));
             paymenttypeBox.setValue(resources.getString("paiement.cheque"));
@@ -127,7 +126,7 @@ public final class InterventionsFormController implements Initializable {
          */
         registerBtn.setOnAction((ActionEvent actionEvent) -> {
 
-            // Si l'intervention ne possède d'id, elle est nouvelle, on enregistre
+            // Si l'intervention ne possède pas d'id, elle est nouvelle, on enregistre
             if (getEditedIntervention().getId() == null) {
                 try {
                     interactors.addIntervention.invoke(getEditedIntervention());
@@ -135,7 +134,7 @@ public final class InterventionsFormController implements Initializable {
                     Alert alert = new Alert(AlertType.ERROR);
                     alert.setTitle(resources.getString("exception.erreur"));
                     alert.setHeaderText(resources.getString("exception.ajoutIntervention"));
-                    alert.setContentText(e.toString() + " Cause" + e.getCause().toString());
+                    alert.setContentText(e.toString());
                     alert.show();
                 }
                 // Si elle possède un ID, elle existe, donc on veut donc la modifier
@@ -146,7 +145,7 @@ public final class InterventionsFormController implements Initializable {
                     Alert alert = new Alert(AlertType.ERROR);
                     alert.setTitle(resources.getString("exception.erreur"));
                     alert.setHeaderText(resources.getString("exception.modificationIntervention"));
-                    alert.setContentText(e.toString() + "    " + e.getCause().toString());
+                    alert.setContentText(e.toString());
                     alert.show();
                 }
             }
@@ -193,6 +192,8 @@ public final class InterventionsFormController implements Initializable {
     }
 
     private void bind() {
+        //medias
+        //periods
         NameInput.textProperty().bindBidirectional(getEditedIntervention().getTitleProperty());
         DescriptionInput.textProperty().bindBidirectional(getEditedIntervention().getDescriptionProperty());
         KmInput.textProperty().bindBidirectional(getEditedIntervention().getKmProperty());

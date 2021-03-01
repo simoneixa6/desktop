@@ -94,7 +94,7 @@ public class Client {
         this.name.set(name);
     }
 
-    public StringProperty getLastnameProperty() {
+    public StringProperty getLastNameProperty() {
         return lastname;
     }
 

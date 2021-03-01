@@ -9,5 +9,4 @@ public class InterventionPostException extends Exception {
     public InterventionPostException(String erreur, Exception e) {
         super(erreur,e);
     }
-
 }

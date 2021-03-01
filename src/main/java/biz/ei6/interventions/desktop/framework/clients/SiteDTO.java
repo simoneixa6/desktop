@@ -1,9 +1,12 @@
 package biz.ei6.interventions.desktop.framework.clients;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 /**
  *
  * @author Eixa6
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class SiteDTO {
 
     String address;

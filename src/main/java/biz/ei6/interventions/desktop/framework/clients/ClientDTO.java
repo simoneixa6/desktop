@@ -1,14 +1,15 @@
 package biz.ei6.interventions.desktop.framework.clients;
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import java.util.List;
 
 /**
  *
  * @author Eixa6
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ClientDTO {
-
     String _id;
     String civility;
     String name;
@@ -48,11 +49,11 @@ public class ClientDTO {
         this.name = name;
     }
 
-    public String getLastname() {
+    public String getLastName() {
         return lastname;
     }
 
-    public void setLastname(String lastname) {
+    public void setLastName(String lastname) {
         this.lastname = lastname;
     }
 
