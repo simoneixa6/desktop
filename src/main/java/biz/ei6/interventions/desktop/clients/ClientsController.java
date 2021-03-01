@@ -55,7 +55,7 @@ class ClientsController implements Initializable, DesktopListener {
         /*
          * Mise en place de la cell factory de la listview des clients
          */
-        //clientsListView.setCellFactory(new ClientCellFactory());
+        clientsListView.setCellFactory(new ClientCellFactory());
 
         /*
          * Action lors de la selection d'un client dans la listview

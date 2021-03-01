@@ -1,8 +1,5 @@
 package biz.ei6.interventions.desktop.framework.clients;
 
-import biz.ei6.interventions.desktop.framework.clients.ClientPutException;
-import biz.ei6.interventions.desktop.framework.clients.ClientPostException;
-import biz.ei6.interventions.desktop.framework.clients.ClientGetException;
 import biz.ei6.interventions.desktop.lib.data.ClientsDataSource;
 import biz.ei6.interventions.desktop.lib.domain.Client;
 import java.util.ArrayList;

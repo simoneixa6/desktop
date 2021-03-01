@@ -2,6 +2,7 @@ biz\ei6\interventions\desktop\clients\ClientsController.class
 biz\ei6\interventions\desktop\framework\interventions\PeriodDTO.class
 biz\ei6\interventions\desktop\lib\interactors\AddClient.class
 biz\ei6\interventions\desktop\App.class
+biz\ei6\interventions\desktop\clients\ClientCellFactory.class
 biz\ei6\interventions\desktop\clients\ClientsForm.class
 biz\ei6\interventions\desktop\MainController.class
 biz\ei6\interventions\desktop\interventions\InterventionsFormController.class
@@ -33,6 +34,7 @@ biz\ei6\interventions\desktop\lib\domain\Period.class
 biz\ei6\interventions\desktop\lib\interactors\GetClients.class
 biz\ei6\interventions\desktop\clients\ClientsFormController.class
 biz\ei6\interventions\desktop\lib\data\InterventionsRepository.class
+biz\ei6\interventions\desktop\clients\ClientCell.class
 biz\ei6\interventions\desktop\framework\interventions\InterventionDTO.class
 biz\ei6\interventions\desktop\interventions\InterventionCell.class
 biz\ei6\interventions\desktop\lib\data\ClientsRepository.class

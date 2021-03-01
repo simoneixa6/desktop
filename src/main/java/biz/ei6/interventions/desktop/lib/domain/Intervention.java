@@ -50,10 +50,10 @@ public class Intervention {
 //    List<Period> listperiod = List.of(period) ;
 //    
 //    this.setPeriod(listperiod);
-        this.setPeriods(new ArrayList<Period>());
+        this.setPeriods(new ArrayList<>());
 
         // Ajout du tableau de médias vide par défault
-        this.setMedias(new ArrayList<String>());
+        this.setMedias(new ArrayList<>());
 
     }
 
