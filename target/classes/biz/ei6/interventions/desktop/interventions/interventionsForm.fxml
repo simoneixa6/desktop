@@ -100,7 +100,7 @@
                            <children>
                               <VBox prefWidth="388.0">
                                  <children>
-                                    <Label id="textinputlabel" text="description.de.l.intervention">
+                                    <Label id="textinputlabel" text="%description.de.l.intervention">
                                        <VBox.margin>
                                           <Insets bottom="5.0" left="5.0" />
                                        </VBox.margin>

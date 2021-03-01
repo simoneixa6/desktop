@@ -27,8 +27,10 @@ import java.util.ResourceBundle;
  */
 public class App extends Application {
 
-    static public class Interactors {
-        public InterventionsDataSource interventionsDataSource = new WSInterventionsDataSource();//new MemoryDataSource();
+    static public class Interactors{
+        
+        ResourceBundle resources = ResourceBundle.getBundle("main");
+        public InterventionsDataSource interventionsDataSource = new WSInterventionsDataSource(resources);//new MemoryDataSource();
         public InterventionsRepository interventionsRepository = new InterventionsRepository(interventionsDataSource);
         public AddIntervention addIntervention = new AddIntervention(interventionsRepository);
         public UpdateIntervention updateIntervention = new UpdateIntervention(interventionsRepository);
@@ -47,8 +49,8 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        Interactors interactors = new Interactors();
         ResourceBundle mainBundle = ResourceBundle.getBundle("main");
+        Interactors interactors = new Interactors();
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("main.fxml"), mainBundle);
         MainController ctrl = new MainController();
         fxmlLoader.setController(ctrl);

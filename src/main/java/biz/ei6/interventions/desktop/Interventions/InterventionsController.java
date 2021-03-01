@@ -15,14 +15,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SplitPane;
-import javafx.scene.control.cell.ComboBoxListCell;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.paint.Color;
-import javafx.util.Callback;
 
 public class InterventionsController implements Initializable, DesktopListener {
 
@@ -82,6 +76,7 @@ public class InterventionsController implements Initializable, DesktopListener {
          * Action sur le clic du bouton "Nouvelle Intervention"
          */
         createBtn.setOnAction((ActionEvent actionEvent) -> {
+            interventionsListView.getSelectionModel().clearSelection();
             InterventionsForm interventionsForm = new InterventionsForm(interactors, new Intervention(), this, resources);
             addInterventionsFormToSplitPane(interventionsForm);
         });
@@ -106,16 +101,8 @@ public class InterventionsController implements Initializable, DesktopListener {
     }
 
     public void updateInterventionsListView() {
-        try {
             var dataobs = FXCollections.observableArrayList(getInteventions());
             interventionsListView.setItems(dataobs);
-        } catch (Exception e) {
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle(resources.getString("exception.erreur"));
-            alert.setHeaderText(resources.getString("exception.miseAJourListeInterventions"));
-            alert.setContentText(e.toString() + "    " + e.getCause().toString());
-            alert.show();
-        }
     }
 
     public ArrayList<Intervention> getInteventions() {
@@ -124,10 +111,11 @@ public class InterventionsController implements Initializable, DesktopListener {
         } catch (InterventionGetException e) {
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle(resources.getString("exception.erreur"));
-            alert.setHeaderText(resources.getString("exception.recuperationIntervention"));
-            alert.setContentText(e.toString() + "    " + e.getCause().toString());
+            alert.setHeaderText(resources.getString("exception.recuperationInterventions"));
+            alert.setContentText(e.toString());
             alert.show();
         }
-        return null;
+        // Si erreur lors de la récupération, on renvoie une liste d'interventions vide
+        return new ArrayList<>();
     }
 }

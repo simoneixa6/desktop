@@ -1,11 +1,8 @@
 package biz.ei6.interventions.desktop.framework.interventions;
 
-import biz.ei6.interventions.desktop.framework.interventions.InterventionPutException;
-import biz.ei6.interventions.desktop.framework.interventions.InterventionPostException;
-import biz.ei6.interventions.desktop.framework.interventions.InterventionGetException;
-import biz.ei6.interventions.desktop.framework.interventions.InterventionDTO;
 import biz.ei6.interventions.desktop.lib.data.InterventionsDataSource;
 import biz.ei6.interventions.desktop.lib.domain.Intervention;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import java.util.ArrayList;
 import java.net.URI;
@@ -14,6 +11,8 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import static java.lang.Boolean.parseBoolean;
+import java.util.ResourceBundle;
+import java.util.concurrent.ExecutionException;
 
 
 /*
@@ -22,45 +21,48 @@ import static java.lang.Boolean.parseBoolean;
 public class WSInterventionsDataSource implements InterventionsDataSource {
 
     static HttpClient httpClient;
+    ResourceBundle resources;
 
     static {
         // Création du client HTTP
         httpClient = HttpClient.newHttpClient();
     }
 
+    public WSInterventionsDataSource(ResourceBundle resources) {
+        this.resources = resources;
+    }
+
     @Override
     public void add(Intervention intervention) throws InterventionPostException {
 
+        String serverResp = null;
+
         try {
 
-            InterventionDTO interventionDTO = new InterventionDTO();
-
-            setInterventionDTO(interventionDTO, intervention);
-
-            ObjectMapper om = new ObjectMapper();
-
-            var data = om.writeValueAsString(interventionDTO);
+            String json = jsonCreation(intervention);
 
             // Création de la requête
             var request = HttpRequest.newBuilder(
                     URI.create("https://simon.biz/interventionswr"))
                     .header("Content-Type", "application/json")
-                    .POST(HttpRequest.BodyPublishers.ofString(data))
+                    .POST(HttpRequest.BodyPublishers.ofString(json))
                     .build();
 
             var response = httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString());
 
             var resp = response.get();
 
-            String resultat = resp.toString();
+            serverResp = resp.toString();
 
-        } catch (Exception e) {
-            throw new InterventionPostException("Erreur lors du POST", e);
+        } catch (JsonProcessingException | InterruptedException | ExecutionException e) {
+            throw new InterventionPostException(resources.getString("exception.reponseServeur") + serverResp + resources.getString("exception.exception") + e, e);
         }
     }
 
     @Override
     public ArrayList<Intervention> readAll() throws InterventionGetException {
+
+        String serverResp = null;
 
         ArrayList<Intervention> interventions = new ArrayList<>();
 
@@ -78,14 +80,16 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
 
             var res = resp.body();
 
-            ObjectMapper om = new ObjectMapper();
+            serverResp = resp.toString();
 
+            ObjectMapper om = new ObjectMapper();
             om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
             var interventionsDTO = om.readValue(res, InterventionDTO[].class);
 
+            // Ajout des interventions reçues dans l'ArrayList<Intervention>
             for (var interventionDTO : interventionsDTO) {
-
+                // Si l'intervention n'est pas supprimé "deleted==true", on l'ajoute 
                 if (parseBoolean(interventionDTO.getDeleted()) == false) {
                     Intervention intervention = new Intervention();
 
@@ -94,74 +98,74 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
                     interventions.add(intervention);
                 }
             }
-        } catch (Exception e) {
-            throw new InterventionGetException("Erreur lors du Get", e);
+        } catch (JsonProcessingException | InterruptedException | ExecutionException e) {
+            throw new InterventionGetException(resources.getString("exception.reponseServeur") + serverResp + resources.getString("exception.exception") + e, e);
         }
-
         return interventions;
     }
 
     @Override
     public void update(Intervention intervention) throws InterventionPutException {
+
+        String serverResp = null;
+
         try {
 
-            InterventionDTO interventionDTO = new InterventionDTO();
-
-            setInterventionDTO(interventionDTO, intervention);
-
-            ObjectMapper om = new ObjectMapper();
-
-            var data = om.writeValueAsString(interventionDTO);
+            String json = jsonCreation(intervention);
 
             // Création de la requête
             var request = HttpRequest.newBuilder(
-                    URI.create("https://simon.biz/interventionswr/" + interventionDTO.getId()))
+                    URI.create("https://simon.biz/interventionswr/" + intervention.getId()))
                     .header("Content-Type", "application/json")
-                    .PUT(HttpRequest.BodyPublishers.ofString(data))
+                    .PUT(HttpRequest.BodyPublishers.ofString(json))
                     .build();
 
             var response = httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString());
 
             var resp = response.get();
 
-            String resultat = resp.toString();
+            serverResp = resp.toString();
 
-        } catch (Exception e) {
-            throw new InterventionPutException("Erreur lors du PUT / Modification", e);
+        } catch (JsonProcessingException | InterruptedException | ExecutionException e) {
+            throw new InterventionPutException(resources.getString("exception.reponseServeur") + serverResp + resources.getString("exception.exception") + e, e);
         }
-
     }
 
     @Override
     public void remove(Intervention intervention) throws InterventionPutException {
 
+        String serverResp = null;
+
         try {
-            InterventionDTO interventionDTO = new InterventionDTO();
 
-            setInterventionDTO(interventionDTO, intervention);
+            intervention.setDeleted(true);
 
-            interventionDTO.setDeleted("true");
-
-            ObjectMapper om = new ObjectMapper();
-
-            var data = om.writeValueAsString(interventionDTO);
+            String json = jsonCreation(intervention);
 
             // Création de la requête
             var request = HttpRequest.newBuilder(
-                    URI.create("https://simon.biz/interventionswr/" + interventionDTO.getId()))
+                    URI.create("https://simon.biz/interventionswr/" + intervention.getId()))
                     .header("Content-Type", "application/json")
-                    .PUT(HttpRequest.BodyPublishers.ofString(data))
+                    .PUT(HttpRequest.BodyPublishers.ofString(json))
                     .build();
 
             var response = httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString());
 
             var resp = response.get();
 
-            String resultat = resp.toString();
+            serverResp = resp.toString();
 
-        } catch (Exception e) {
-                       throw new InterventionPutException("Erreur lors du PUT / Suppression",e);
+        } catch (JsonProcessingException | InterruptedException | ExecutionException e) {
+            throw new InterventionPutException(resources.getString("exception.reponseServeur") + serverResp + resources.getString("exception.exception") + e, e);
         }
+    }
+
+    private String jsonCreation(Intervention intervention) throws JsonProcessingException {
+        InterventionDTO interventionDTO = new InterventionDTO();
+        setInterventionDTO(interventionDTO, intervention);
+        ObjectMapper om = new ObjectMapper();
+        var json = om.writeValueAsString(interventionDTO);
+        return json;
     }
 
     private void setInterventionDTO(InterventionDTO interventionDTO, Intervention intervention) {
