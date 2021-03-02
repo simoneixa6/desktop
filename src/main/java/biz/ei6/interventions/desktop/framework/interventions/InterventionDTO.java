@@ -1,13 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package biz.ei6.interventions.desktop.framework.interventions;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,7 +16,7 @@ public class InterventionDTO {
     String client_id;
     String user_id;
     String description;
-    //ArrayList<PeriodDTO> periods;
+    List<PeriodDTO> periods;
     String address;
     String km;
     String billNumber;
@@ -73,13 +67,14 @@ public class InterventionDTO {
         this.description = description;
     }
 
-//    public List<PeriodDTO> getPeriods() {
-//        return periods;
-//    }
-//
-//    public void setPeriods(ArrayList<PeriodDTO> periods) {
-//        this.periods = periods;
-//    }
+    public List<PeriodDTO> getPeriods() {
+        return periods;
+    }
+
+    public void setPeriods(List<PeriodDTO> periods) {
+        this.periods = periods;
+    }
+    
     public String getAddress() {
         return address;
     }

@@ -26,6 +26,7 @@ import javafx.collections.FXCollections;
  *
  */
 public class Intervention {
+
     private final StringProperty _id = new SimpleStringProperty();
     private final StringProperty title = new SimpleStringProperty();
     private final StringProperty user_id = new SimpleStringProperty();
@@ -45,18 +46,14 @@ public class Intervention {
     {
 
         // Ajout d'une période par défault
-//    Period period = new Period();
-//    period.setDate(LocalDate.now());
-//    List<Period> listperiod = List.of(period) ;
-//    
-//    this.setPeriod(listperiod);
-        this.setPeriods(new ArrayList<>());
+        Period period = new Period();
+        period.setDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")));
+        List<Period> periodlist = List.of(period);
+        this.setPeriods(periodlist);
 
         // Ajout du tableau de médias vide par défault
-        ArrayList<String> medias = new ArrayList<>();
-        //medias.add("test.png");
-        //medias.add("test2.png");
-        this.setMedias(medias);
+        ArrayList<String> mediaslist = new ArrayList<>();
+        this.setMedias(mediaslist);
     }
 
     /*
@@ -157,10 +154,10 @@ public class Intervention {
     }
 
     /**
-     * @param period the period to set
+     * @param periods the period to set
      */
-    public void setPeriods(List<Period> period) {
-        this.periods.set(FXCollections.observableArrayList(period));
+    public void setPeriods(List<Period> periods) {
+        this.periods.set(FXCollections.observableArrayList(periods));
     }
 
     /**
@@ -342,9 +339,8 @@ public class Intervention {
      * @param medias the medias to set
      */
     public void setMedias(List<String> medias) {
-        if(medias!=null)
-        {
-        this.medias.set(FXCollections.observableArrayList(medias));            
+        if (medias != null) {
+            this.medias.set(FXCollections.observableArrayList(medias));
         }
     }
 
