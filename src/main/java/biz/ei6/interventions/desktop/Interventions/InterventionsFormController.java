@@ -162,11 +162,11 @@ public final class InterventionsFormController implements Initializable {
          * Text formatter sur le champ des kms pour accepter que des entiers ou double
          */
         Pattern pattern = Pattern.compile("\\d*|\\d+\\.+\\d*");
-        TextFormatter formatter = new TextFormatter((UnaryOperator<TextFormatter.Change>) change -> {
+        TextFormatter onlyIntDoubleFormatter = new TextFormatter((UnaryOperator<TextFormatter.Change>) change -> {
             return pattern.matcher(change.getControlNewText()).matches() ? change : null;
         });
 
-        KmInput.setTextFormatter(formatter);
+        KmInput.setTextFormatter(onlyIntDoubleFormatter);
 
         /*
          * Mise en place de la table view des Périodes

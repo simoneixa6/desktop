@@ -13,6 +13,8 @@ import biz.ei6.interventions.desktop.framework.clients.ClientPutException;
 import biz.ei6.interventions.desktop.lib.domain.Client;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.function.UnaryOperator;
+import java.util.regex.Pattern;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -24,6 +26,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 
 /**
  *
@@ -34,10 +37,10 @@ public final class ClientsFormController implements Initializable {
     Interactors interactors;
 
     DesktopListener desktopListener;
-    
+
     @FXML
     ChoiceBox civilityBox;
-    
+
     @FXML
     CheckBox problematicInput;
 
@@ -94,8 +97,9 @@ public final class ClientsFormController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        // Remplissage des choiceboxs
         companyStatusBox.getItems().addAll("SARL/EURL", "SAS/SASU", "SCI");
-        civilityBox.getItems().addAll(resources.getString("m."),resources.getString("mme."));
+        civilityBox.getItems().addAll(resources.getString("m."), resources.getString("mme."));
 
         //Binding à l'initialisation
         bind();
@@ -120,14 +124,14 @@ public final class ClientsFormController implements Initializable {
                 try {
                     interactors.addClient.invoke(getEditedClient());
                 } catch (ClientPostException e) {
-                    showAlert(resources,"exception.ajoutClient",e);
+                    showAlert(resources, "exception.ajoutClient", e);
                 }
                 // Si il possède un ID, il existe, donc on veut donc le modifier
             } else {
                 try {
                     interactors.updateClient.invoke(getEditedClient());
                 } catch (ClientPutException e) {
-                    showAlert(resources,"exception.modificationClient",e);
+                    showAlert(resources, "exception.modificationClient", e);
                 }
             }
             desktopListener.close();
@@ -144,17 +148,22 @@ public final class ClientsFormController implements Initializable {
             }
             desktopListener.close();
         });
+
+        /**
+         * Text formatter sur le champ du numéro de téléphone pour accepter que des entiers
+         */
+        Pattern pattern = Pattern.compile("\\d*");
+        TextFormatter onlyNumbersformatter = new TextFormatter((UnaryOperator<TextFormatter.Change>) change -> {
+            return pattern.matcher(change.getControlNewText()).matches() ? change : null;
+        });
+
+        phoneInput.setTextFormatter(onlyNumbersformatter);
+
     }
 
     private void bind() {
 
-        //civility
-
-       
-        
         civilityBox.valueProperty().bindBidirectional(getEditedClient().getCivilityProperty());
-        
-        
         problematicInput.selectedProperty().bindBidirectional(getEditedClient().getProblematicProperty());
         //addresses
         nameInput.textProperty().bindBidirectional(getEditedClient().getNameProperty());
@@ -175,7 +184,7 @@ public final class ClientsFormController implements Initializable {
         alert.setContentText(e.toString());
         alert.show();
     }
- 
+
     /**
      * @return the editedClient
      */
