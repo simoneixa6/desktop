@@ -2,6 +2,7 @@ package biz.ei6.interventions.desktop.framework.clients;
 
 import biz.ei6.interventions.desktop.lib.data.ClientsDataSource;
 import biz.ei6.interventions.desktop.lib.domain.Client;
+import biz.ei6.interventions.desktop.lib.domain.Site;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -162,6 +163,18 @@ public class WSClientsDataSource implements ClientsDataSource {
         return json;
     }
 
+    private void setSiteDTO(SiteDTO siteDTO, Site site) {
+        siteDTO.setAddress(site.getAddress());
+        siteDTO.setZipCode(site.getZipCode());
+        siteDTO.setCity(site.getCity());
+    }
+
+    private void setSite(Site site, SiteDTO siteDTO) {
+        site.setAddress(siteDTO.getAddress());
+        site.setZipCode(siteDTO.getZipCode());
+        site.setCity(siteDTO.getCity());
+    }
+
     private void setClientDTO(ClientDTO clientDTO, Client client) {
         clientDTO.setId(client.getId());
         clientDTO.setCivility(client.getCivility());
@@ -176,6 +189,15 @@ public class WSClientsDataSource implements ClientsDataSource {
         clientDTO.setWhy(client.getWhy());
         clientDTO.setProblematic(String.valueOf(client.getProblematic()));
         clientDTO.setDeleted(String.valueOf(client.getDeleted()));
+
+        ArrayList<SiteDTO> sitesDTO = new ArrayList<>();
+
+        for (Site site : client.getAdresses()) {
+            SiteDTO siteDTO = new SiteDTO();
+            setSiteDTO(siteDTO, site);
+            sitesDTO.add(siteDTO);
+        }
+        clientDTO.setAddresses(sitesDTO);
 
         if (!"".equals(client.getFirstVisitDate())) {
             clientDTO.setFirstVisitDate(client.getFirstVisitDate());
@@ -193,12 +215,23 @@ public class WSClientsDataSource implements ClientsDataSource {
         client.setCompanyStatus(clientDTO.getCompanyStatus());
         client.setPhone(clientDTO.getPhone());
         client.setMail(clientDTO.getMail());
-        //client.setAddresses(clientDTO.getAdresses());
         client.setHow(clientDTO.getHow());
         client.setWhy(clientDTO.getWhy());
         client.setProblematic(parseBoolean(clientDTO.getProblematic()));
         client.setDeleted(parseBoolean(clientDTO.getDeleted()));
 
+        if (clientDTO.getAddresses() != null) {
+            ArrayList<Site> sites = new ArrayList<>();
+
+            for (SiteDTO siteDTO : clientDTO.getAddresses()) {
+                Site site = new Site();
+                setSite(site, siteDTO);
+                sites.add(site);
+            }
+
+            client.setAdresses(sites);
+        }
+        
         if ("0001-01-01T00:00:00Z".equals(clientDTO.getFirstVisitDate())) {
             // Le serveur renvoie la date 0001-01-01T00:00:00Z si aucune valeur de date n'a été rentré lors de la création du client
         } else {
