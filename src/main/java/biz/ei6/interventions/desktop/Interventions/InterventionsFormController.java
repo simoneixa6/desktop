@@ -130,23 +130,15 @@ public final class InterventionsFormController implements Initializable {
             if (getEditedIntervention().getId() == null) {
                 try {
                     interactors.addIntervention.invoke(getEditedIntervention());
-                } catch (InterventionPostException e) {
-                    Alert alert = new Alert(AlertType.ERROR);
-                    alert.setTitle(resources.getString("exception.erreur"));
-                    alert.setHeaderText(resources.getString("exception.ajoutIntervention"));
-                    alert.setContentText(e.toString());
-                    alert.show();
+                } catch (InterventionPostException e) {                    
+                    showAlert(resources,"exception.ajoutIntervention",e);
                 }
-                // Si elle possède un ID, elle existe, donc on veut donc la modifier
+                // Si elle possède un ID, elle existe, on veut donc la modifier
             } else {
                 try {
                     interactors.updateIntervention.invoke(getEditedIntervention());
                 } catch (InterventionPutException e) {
-                    Alert alert = new Alert(AlertType.ERROR);
-                    alert.setTitle(resources.getString("exception.erreur"));
-                    alert.setHeaderText(resources.getString("exception.modificationIntervention"));
-                    alert.setContentText(e.toString());
-                    alert.show();
+                    showAlert(resources, "exception.modificationIntervention", e);
                 }
             }
 
@@ -161,8 +153,7 @@ public final class InterventionsFormController implements Initializable {
             try {
                 interactors.removeIntervention.invoke(getEditedIntervention());
             } catch (InterventionPutException e) {
-
-                new Alert(Alert.AlertType.ERROR, resources.getString("exception.suppressionIntervention") + e.toString()).show();
+                showAlert(resources, "exception.suppressionIntervention", e);
             }
             desktopListener.close();
         });
@@ -202,6 +193,14 @@ public final class InterventionsFormController implements Initializable {
         PaymentDateInput.valueProperty().bindBidirectional(getEditedIntervention().getPaymentDateProperty());
         statusBox.valueProperty().bindBidirectional(getEditedIntervention().getStatusProperty());
         paymenttypeBox.valueProperty().bindBidirectional(getEditedIntervention().getPaymentTypeProperty());
+    }
+
+    private void showAlert(ResourceBundle resources, String exceptionProperty, Exception e) {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle(resources.getString("exception.erreur"));
+        alert.setHeaderText(resources.getString(exceptionProperty));
+        alert.setContentText(e.toString());
+        alert.show();
     }
 
     /**

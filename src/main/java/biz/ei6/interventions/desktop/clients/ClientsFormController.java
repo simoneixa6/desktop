@@ -119,27 +119,17 @@ public final class ClientsFormController implements Initializable {
                 try {
                     interactors.addClient.invoke(getEditedClient());
                 } catch (ClientPostException e) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle(resources.getString("exception.erreur"));
-                    alert.setHeaderText(resources.getString("exception.ajoutClient"));
-                    alert.setContentText(e.toString());
-                    alert.show();
+                    showAlert(resources,"exception.ajoutClient",e);
                 }
                 // Si il possède un ID, il existe, donc on veut donc le modifier
             } else {
                 try {
                     interactors.updateClient.invoke(getEditedClient());
                 } catch (ClientPutException e) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle(resources.getString("exception.erreur"));
-                    alert.setHeaderText(resources.getString("exception.modificationClient"));
-                    alert.setContentText(e.toString());
-                    alert.show();
+                    showAlert(resources,"exception.modificationClient",e);
                 }
             }
-
             desktopListener.close();
-
         });
 
         /*
@@ -149,8 +139,7 @@ public final class ClientsFormController implements Initializable {
             try {
                 interactors.removeClient.invoke(getEditedClient());
             } catch (ClientPutException e) {
-
-                new Alert(Alert.AlertType.ERROR, resources.getString("exception.suppressionClient") + e.toString()).show();
+                showAlert(resources, "exception.suppressionClient", e);
             }
             desktopListener.close();
         });
@@ -170,6 +159,14 @@ public final class ClientsFormController implements Initializable {
         firstVisitDateInput.valueProperty().bindBidirectional(getEditedClient().getFirstVisitDateProperty());
         howInput.textProperty().bindBidirectional(getEditedClient().getHowProperty());
         whyInput.textProperty().bindBidirectional(getEditedClient().getWhyProperty());
+    }
+
+    private void showAlert(ResourceBundle resources, String exceptionProperty, Exception e) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(resources.getString("exception.erreur"));
+        alert.setHeaderText(resources.getString(exceptionProperty));
+        alert.setContentText(e.toString());
+        alert.show();
     }
 
     /**
