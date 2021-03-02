@@ -12,6 +12,7 @@ import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -20,6 +21,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -38,6 +40,12 @@ public final class InterventionsFormController implements Initializable {
 
     @FXML
     TextArea descriptionInput;
+
+    @FXML
+    ChoiceBox userBox;
+
+    @FXML
+    ListView<String> mediasListView;
 
     @FXML
     TextField kmInput;
@@ -102,6 +110,9 @@ public final class InterventionsFormController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        // TEMPORAIRE
+        userBox.getItems().addAll("Slad", "Fabien");
+
         //Remplissage des choiceboxs
         statusBox.getItems().addAll(resources.getString("status.ouverte"), resources.getString("status.terminee"), resources.getString("status.facturee"), resources.getString("status.reglee"));
         paymenttypeBox.getItems().addAll(resources.getString("paiement.cheque"), resources.getString("paiement.cb"), resources.getString("paiement.espece"));
@@ -116,6 +127,10 @@ public final class InterventionsFormController implements Initializable {
             paymenttypeBox.setValue(resources.getString("paiement.cheque"));
             registerBtn.setText(resources.getString("enregistrer"));
             deleteBtn.setDisable(true);
+
+            //TEMPORAIRE
+            userBox.setValue("Slad");
+
         } else {
             registerBtn.setText(resources.getString("modifier"));
             deleteBtn.setDisable(false);
@@ -130,8 +145,8 @@ public final class InterventionsFormController implements Initializable {
             if (getEditedIntervention().getId() == null) {
                 try {
                     interactors.addIntervention.invoke(getEditedIntervention());
-                } catch (InterventionPostException e) {                    
-                    showAlert(resources,"exception.ajoutIntervention",e);
+                } catch (InterventionPostException e) {
+                    showAlert(resources, "exception.ajoutIntervention", e);
                 }
                 // Si elle possède un ID, elle existe, on veut donc la modifier
             } else {
@@ -184,8 +199,10 @@ public final class InterventionsFormController implements Initializable {
 
     private void bind() {
         //medias
+        mediasListView.itemsProperty().bindBidirectional(getEditedIntervention().getMediasProperty());
         //periods
         nameInput.textProperty().bindBidirectional(getEditedIntervention().getTitleProperty());
+        userBox.valueProperty().bindBidirectional(getEditedIntervention().getUser_idProperty());
         descriptionInput.textProperty().bindBidirectional(getEditedIntervention().getDescriptionProperty());
         kmInput.textProperty().bindBidirectional(getEditedIntervention().getKmProperty());
         billDateInput.valueProperty().bindBidirectional(getEditedIntervention().getBillDateProperty());

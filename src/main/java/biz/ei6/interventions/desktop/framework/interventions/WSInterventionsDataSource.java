@@ -168,13 +168,14 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
         interventionDTO.setId(intervention.getId());
         interventionDTO.setTitle(intervention.getTitle());
         interventionDTO.setClient_id(intervention.getClient_id());
+        interventionDTO.setUser_id(intervention.getUser_id());
         interventionDTO.setDescription(intervention.getDescription());
         // interventionDTO.setPeriods(new ArrayList<PeriodDTO>());
         interventionDTO.setAddress(intervention.getAddress());
         interventionDTO.setBillNumber(intervention.getBillNumber());
         interventionDTO.setPaymentType(intervention.getPaymentType());
         interventionDTO.setStatus(intervention.getStatus());
-        // interventionDTO.setMedias(new ArrayList<String>());
+        interventionDTO.setMedias(intervention.getMedias());
         interventionDTO.setDeleted(String.valueOf(intervention.getDeleted()));
 
         if (intervention.getKm() != null) {
@@ -200,13 +201,14 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
         intervention.setId(interventionDTO.getId());
         intervention.setTitle(interventionDTO.getTitle());
         intervention.setClient_id(interventionDTO.getClient_id());
+        intervention.setUser_id(interventionDTO.getUser_id());
         intervention.setDescription(interventionDTO.getDescription());
         // intervention.setPeriods(new ArrayList<PeriodDTO>());
         intervention.setAddress(interventionDTO.getAddress());
         intervention.setBillNumber(interventionDTO.getBillNumber());
         intervention.setPaymentType(interventionDTO.getPaymentType());
         intervention.setStatus(interventionDTO.getStatus());
-        intervention.setMedias(new ArrayList<String>());
+        intervention.setMedias(interventionDTO.getMedias());
         intervention.setDeleted(parseBoolean(interventionDTO.getDeleted()));
 
         if ("0".equals(interventionDTO.getKm())) {

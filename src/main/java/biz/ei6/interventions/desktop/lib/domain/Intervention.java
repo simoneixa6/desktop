@@ -26,9 +26,9 @@ import javafx.collections.FXCollections;
  *
  */
 public class Intervention {
-
     private final StringProperty _id = new SimpleStringProperty();
     private final StringProperty title = new SimpleStringProperty();
+    private final StringProperty user_id = new SimpleStringProperty();
     private final StringProperty client_id = new SimpleStringProperty();
     private final StringProperty description = new SimpleStringProperty();
     private final ListProperty<Period> periods = new SimpleListProperty();
@@ -53,8 +53,10 @@ public class Intervention {
         this.setPeriods(new ArrayList<>());
 
         // Ajout du tableau de médias vide par défault
-        this.setMedias(new ArrayList<>());
-
+        ArrayList<String> medias = new ArrayList<>();
+        //medias.add("test.png");
+        //medias.add("test2.png");
+        this.setMedias(medias);
     }
 
     /*
@@ -105,6 +107,24 @@ public class Intervention {
      */
     public void setClient_id(String client_id) {
         this.client_id.set(client_id);
+    }
+
+    /**
+     * @return the user_id
+     */
+    public String getUser_id() {
+        return user_id.get();
+    }
+
+    public StringProperty getUser_idProperty() {
+        return user_id;
+    }
+
+    /**
+     * @param user_id the client_id to set
+     */
+    public void setUser_id(String user_id) {
+        this.user_id.set(user_id);
     }
 
     /**
@@ -222,11 +242,11 @@ public class Intervention {
     /**
      * @param billDate the billDate to set
      */
-    public void setBillDate(String billDateString) {
+    public void setBillDate(String billDate) {
 
-        if (billDateString != null) {
+        if (billDate != null) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
-            LocalDate parsedDate = LocalDate.parse(billDateString, formatter);
+            LocalDate parsedDate = LocalDate.parse(billDate, formatter);
 
             this.billDate.set(parsedDate);
         } else {
@@ -262,13 +282,12 @@ public class Intervention {
     public String getPaymentDate() {
 
         String formattedPaymentDateTime;
-        
+
         if (paymentDate.getValue() != null) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
             LocalDateTime dateTime = paymentDate.get().atStartOfDay();
             formattedPaymentDateTime = dateTime.format(formatter);
-        }
-        else {
+        } else {
             formattedPaymentDateTime = "";
         }
 
@@ -278,11 +297,11 @@ public class Intervention {
     /**
      * @param paymentDate the paymentDate to set
      */
-    public void setPaymentDate(String paymentDateString) {
+    public void setPaymentDate(String paymentDate) {
 
-        if (paymentDateString != null) {
+        if (paymentDate != null) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
-            LocalDate parsedDate = LocalDate.parse(paymentDateString, formatter);
+            LocalDate parsedDate = LocalDate.parse(paymentDate, formatter);
 
             this.paymentDate.set(parsedDate);
         } else {
@@ -323,7 +342,10 @@ public class Intervention {
      * @param medias the medias to set
      */
     public void setMedias(List<String> medias) {
-        this.medias.set(FXCollections.observableArrayList(medias));
+        if(medias!=null)
+        {
+        this.medias.set(FXCollections.observableArrayList(medias));            
+        }
     }
 
     /**

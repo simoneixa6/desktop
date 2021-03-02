@@ -23,8 +23,7 @@ public class Period {
     private String user_id;
     
     public String getDate() { 
-        
-        
+              
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
         LocalDateTime dateTime = date.atStartOfDay();
         String formattedDate = dateTime.format(formatter);
@@ -46,7 +45,4 @@ public class Period {
     
     public String getUserId() { return this.user_id;}
     public void setUserId( String user_id ) { this.user_id=user_id; }
-    
-    public void period(){
-    }
 }

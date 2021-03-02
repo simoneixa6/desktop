@@ -7,6 +7,8 @@ package biz.ei6.interventions.desktop.framework.interventions;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -18,6 +20,7 @@ public class InterventionDTO {
     String _id;
     String title;
     String client_id;
+    String user_id;
     String description;
     //ArrayList<PeriodDTO> periods;
     String address;
@@ -27,7 +30,7 @@ public class InterventionDTO {
     String paymentType;
     String paymentDate;
     String status;
-    //ArrayList<String> medias;
+    List<String> medias;
     String deleted;
 
     public String getId() {
@@ -54,6 +57,14 @@ public class InterventionDTO {
         this.client_id = client_id;
     }
 
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -69,7 +80,6 @@ public class InterventionDTO {
 //    public void setPeriods(ArrayList<PeriodDTO> periods) {
 //        this.periods = periods;
 //    }
-
     public String getAddress() {
         return address;
     }
@@ -126,14 +136,14 @@ public class InterventionDTO {
         this.status = status;
     }
 
-//    public List<String> getMedias() {
-//        return medias;
-//    }
-//
-//    public void setMedias(ArrayList<String> medias) {
-//        this.medias = medias;
-//    }
+    public List<String> getMedias() {
+        return medias;
+    }
 
+    public void setMedias(List<String> medias) {
+        this.medias = medias;
+    }
+    
     public String getDeleted() {
         return deleted;
     }
