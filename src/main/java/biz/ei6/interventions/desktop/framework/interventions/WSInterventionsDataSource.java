@@ -20,16 +20,12 @@ import java.util.concurrent.ExecutionException;
  */
 public class WSInterventionsDataSource implements InterventionsDataSource {
 
-    static HttpClient httpClient;
+    HttpClient httpClient;
     ResourceBundle resources;
 
-    static {
-        // Création du client HTTP
-        httpClient = HttpClient.newHttpClient();
-    }
-
-    public WSInterventionsDataSource(ResourceBundle resources) {
+    public WSInterventionsDataSource(ResourceBundle resources, HttpClient httpClient) {
         this.resources = resources;
+        this.httpClient = httpClient;
     }
 
     @Override

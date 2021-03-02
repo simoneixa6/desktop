@@ -20,6 +20,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.net.http.HttpClient;
 import java.util.ResourceBundle;
 
 /*
@@ -27,17 +28,20 @@ import java.util.ResourceBundle;
  */
 public class App extends Application {
 
-    static public class Interactors{
-        
+    static public class Interactors {
+
+        // Client HTTP utilisé dans toutes l'application
+        static HttpClient httpClient = HttpClient.newHttpClient();
         ResourceBundle resources = ResourceBundle.getBundle("main");
-        public InterventionsDataSource interventionsDataSource = new WSInterventionsDataSource(resources);//new MemoryDataSource();
+
+        public InterventionsDataSource interventionsDataSource = new WSInterventionsDataSource(resources, httpClient);//new MemoryDataSource();
         public InterventionsRepository interventionsRepository = new InterventionsRepository(interventionsDataSource);
         public AddIntervention addIntervention = new AddIntervention(interventionsRepository);
         public UpdateIntervention updateIntervention = new UpdateIntervention(interventionsRepository);
         public GetInterventions getInterventions = new GetInterventions(interventionsRepository);
         public RemoveIntervention removeIntervention = new RemoveIntervention(interventionsRepository);
-        
-        public ClientsDataSource clientsDataSource = new WSClientsDataSource(resources);
+
+        public ClientsDataSource clientsDataSource = new WSClientsDataSource(resources, httpClient);
         public ClientsRepository clientsRepository = new ClientsRepository(clientsDataSource);
         public AddClient addClient = new AddClient(clientsRepository);
         public UpdateClient updateClient = new UpdateClient(clientsRepository);
