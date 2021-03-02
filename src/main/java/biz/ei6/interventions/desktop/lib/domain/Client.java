@@ -298,7 +298,7 @@ public class Client {
      * @return the deleted boolean
      */
     public Boolean getDeleted() {
-        return problematic.get();
+        return deleted.get();
     }
 
     /**

@@ -71,6 +71,7 @@ class ClientsController implements Initializable, DesktopListener {
          * Action sur le clic du bouton "Nouveau client"
          */
         createBtn.setOnAction((ActionEvent actionEvent) -> {
+            clientsListView.getSelectionModel().clearSelection();
             ClientsForm clientsForm = new ClientsForm(interactors, new Client(), this, resources);
             addClientsFormToSplitPane(clientsForm);
         });

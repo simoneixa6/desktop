@@ -37,7 +37,6 @@ public class WSClientsDataSource implements ClientsDataSource {
         String serverResp = null;
 
         try {
-
             String json = jsonCreation(client);
 
             // Création de la requête

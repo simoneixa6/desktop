@@ -24,7 +24,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
 
 /**
  *
@@ -35,10 +34,10 @@ public final class ClientsFormController implements Initializable {
     Interactors interactors;
 
     DesktopListener desktopListener;
-
+    
     @FXML
-    ToggleGroup civilityInput;
-
+    ChoiceBox civilityBox;
+    
     @FXML
     CheckBox problematicInput;
 
@@ -96,12 +95,14 @@ public final class ClientsFormController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         companyStatusBox.getItems().addAll("SARL/EURL", "SAS/SASU", "SCI");
+        civilityBox.getItems().addAll(resources.getString("m."),resources.getString("mme."));
 
         //Binding à l'initialisation
         bind();
 
         // Si un client n'a pas d'id c'est que c'est un nouveau client
         if (getEditedClient().getId() == null) {
+            civilityBox.setValue(resources.getString("m."));
             registerBtn.setText(resources.getString("enregistrer"));
             deleteBtn.setDisable(true);
         } else {
@@ -148,7 +149,13 @@ public final class ClientsFormController implements Initializable {
     private void bind() {
 
         //civility
-        //problematicInput
+
+       
+        
+        civilityBox.valueProperty().bindBidirectional(getEditedClient().getCivilityProperty());
+        
+        
+        problematicInput.selectedProperty().bindBidirectional(getEditedClient().getProblematicProperty());
         //addresses
         nameInput.textProperty().bindBidirectional(getEditedClient().getNameProperty());
         lastnameInput.textProperty().bindBidirectional(getEditedClient().getLastnameProperty());
