@@ -171,7 +171,7 @@ public class WSClientsDataSource implements ClientsDataSource {
         clientDTO.setId(client.getId());
         clientDTO.setCivility(client.getCivility());
         clientDTO.setName(client.getName());
-        clientDTO.setLastName(client.getLastName());
+        clientDTO.setLastname(client.getLastname());
         clientDTO.setCompany(client.getCompany());
         clientDTO.setCompanyStatus(client.getCompanyStatus());
         clientDTO.setPhone(client.getPhone());
@@ -193,7 +193,7 @@ public class WSClientsDataSource implements ClientsDataSource {
         client.setId(clientDTO.getId());
         client.setCivility(clientDTO.getCivility());
         client.setName(clientDTO.getName());
-        client.setLastName(clientDTO.getLastName());
+        client.setLastname(clientDTO.getLastname());
         client.setCompany(clientDTO.getCompany());
         client.setCompanyStatus(clientDTO.getCompanyStatus());
         client.setPhone(clientDTO.getPhone());

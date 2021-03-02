@@ -109,6 +109,6 @@ class ClientsController implements Initializable, DesktopListener {
             alert.setContentText(e.toString());
             alert.show();
         }
-        return new ArrayList<Client>();
+        return new ArrayList<>();
     }
 }

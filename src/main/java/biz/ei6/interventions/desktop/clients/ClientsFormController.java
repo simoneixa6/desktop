@@ -151,7 +151,7 @@ public final class ClientsFormController implements Initializable {
         //problematicInput
         //addresses
         nameInput.textProperty().bindBidirectional(getEditedClient().getNameProperty());
-        lastnameInput.textProperty().bindBidirectional(getEditedClient().getLastNameProperty());
+        lastnameInput.textProperty().bindBidirectional(getEditedClient().getLastnameProperty());
         companyInput.textProperty().bindBidirectional(getEditedClient().getCompanyProperty());
         companyStatusBox.valueProperty().bindBidirectional(getEditedClient().getCompanyStatusProperty());
         phoneInput.textProperty().bindBidirectional(getEditedClient().getPhoneProperty());
@@ -168,7 +168,7 @@ public final class ClientsFormController implements Initializable {
         alert.setContentText(e.toString());
         alert.show();
     }
-
+ 
     /**
      * @return the editedClient
      */

@@ -41,7 +41,7 @@ public class ClientCell extends ListCell<Client> {
             setContentDisplay(ContentDisplay.TEXT_ONLY);
         } else {
 
-            lblName.setText(client.getName() + " " + client.getLastName());
+            lblName.setText(client.getName() + " " + client.getLastname());
 
             setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         }

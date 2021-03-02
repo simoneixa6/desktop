@@ -94,21 +94,21 @@ public class Client {
         this.name.set(name);
     }
 
-    public StringProperty getLastNameProperty() {
+    public StringProperty getLastnameProperty() {
         return lastname;
     }
 
     /**
      * @return the lastname of the client
      */
-    public String getLastName() {
+    public String getLastname() {
         return lastname.get();
     }
 
     /**
      * @param lastname the civility to set
      */
-    public void setLastName(String lastname) {
+    public void setLastname(String lastname) {
         this.lastname.set(lastname);
     }
 
