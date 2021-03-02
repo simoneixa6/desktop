@@ -9,6 +9,7 @@ import biz.ei6.interventions.desktop.App.Interactors;
 import java.io.IOException;
 import java.util.ResourceBundle;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.control.SplitPane;
 
 /**
@@ -19,9 +20,9 @@ public class InterventionsPane extends SplitPane {
 
     public InterventionsPane(Interactors interactors) {
 
-        ResourceBundle interventionBundle = ResourceBundle.getBundle("interventions");
+        ResourceBundle interventionsBundle = ResourceBundle.getBundle("interventions");
 
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("interventionsPane.fxml"), interventionBundle);
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("interventionsPane.fxml"), interventionsBundle);
 
         InterventionsController ctrl = new InterventionsController();
 
@@ -33,6 +34,11 @@ public class InterventionsPane extends SplitPane {
         try {
             fxmlLoader.load();
         } catch (IOException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle(interventionsBundle.getString("exception.erreur"));
+            alert.setHeaderText(interventionsBundle.getString("exception.erreurChargementInterventionsPane"));
+            alert.setContentText(e.toString());
+            alert.show();
         }
     }
 }

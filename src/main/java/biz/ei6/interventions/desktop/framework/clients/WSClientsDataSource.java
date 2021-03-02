@@ -192,13 +192,15 @@ public class WSClientsDataSource implements ClientsDataSource {
 
         ArrayList<SiteDTO> sitesDTO = new ArrayList<>();
 
-        for (Site site : client.getAdresses()) {
-            SiteDTO siteDTO = new SiteDTO();
-            setSiteDTO(siteDTO, site);
-            sitesDTO.add(siteDTO);
+        if (clientDTO.getAddresses() != null) {
+            for (Site site : client.getAdresses()) {
+                SiteDTO siteDTO = new SiteDTO();
+                setSiteDTO(siteDTO, site);
+                sitesDTO.add(siteDTO);
+            }
+            clientDTO.setAddresses(sitesDTO);
         }
-        clientDTO.setAddresses(sitesDTO);
-
+        
         if (!"".equals(client.getFirstVisitDate())) {
             clientDTO.setFirstVisitDate(client.getFirstVisitDate());
         } else {
@@ -231,7 +233,7 @@ public class WSClientsDataSource implements ClientsDataSource {
 
             client.setAdresses(sites);
         }
-        
+
         if ("0001-01-01T00:00:00Z".equals(clientDTO.getFirstVisitDate())) {
             // Le serveur renvoie la date 0001-01-01T00:00:00Z si aucune valeur de date n'a été rentré lors de la création du client
         } else {
