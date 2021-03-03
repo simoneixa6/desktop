@@ -22,6 +22,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
@@ -132,25 +133,25 @@ public final class ClientsFormController implements Initializable {
             deleteBtn.setDisable(false);
         }
 
-        /*
+        /**
          * Action sur le clic du bouton "Enregistrer" / "Modifier"
          */
         registerBtn.setOnAction((ActionEvent actionEvent) -> {
-
+            // Si tous les champs obligatoires sont remplies
             if (validate(resources) == true) {
                 // Si le client ne possède pas d'id, il est nouveau, on enregistre
                 if (getEditedClient().getId() == null) {
                     try {
                         interactors.addClient.invoke(getEditedClient());
                     } catch (ClientPostException e) {
-                        showAlert(resources, "exception.ajoutClient", e);
+                        showAlert(resources, AlertType.ERROR, "exception.erreur","exception.ajoutClient", e.toString());
                     }
                     // Si il possède un ID, il existe, donc on veut donc le modifier
                 } else {
                     try {
                         interactors.updateClient.invoke(getEditedClient());
                     } catch (ClientPutException e) {
-                        showAlert(resources, "exception.modificationClient", e);
+                        showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.modificationClient", e.toString());
                     }
                 }
                 desktopListener.close();
@@ -164,7 +165,7 @@ public final class ClientsFormController implements Initializable {
             try {
                 interactors.removeClient.invoke(getEditedClient());
             } catch (ClientPutException e) {
-                showAlert(resources, "exception.suppressionClient", e);
+                showAlert(resources, AlertType.ERROR, "exception.erreur","exception.suppressionClient", e.toString());
             }
             desktopListener.close();
         });
@@ -212,9 +213,9 @@ public final class ClientsFormController implements Initializable {
         // Renvoie les sites séléctionnés
         selectedSites = siteTableView.getSelectionModel().getSelectedItems();
 
-        for (Site site : selectedSites) {
+        selectedSites.forEach(site -> {
             sites.remove(site);
-        }
+        });
     }
 
     public void ChangeAddressCellEvent(CellEditEvent edittedCell) {
@@ -232,34 +233,40 @@ public final class ClientsFormController implements Initializable {
         selectedSite.setCity(edittedCell.getNewValue().toString());
     }
 
+    /**
+     * Methode permettant de valider si les champs obligatoires sont bien
+     * remplies
+     *
+     * @param resources
+     * @return
+     */
     public boolean validate(ResourceBundle resources) {
 
         StringBuilder errors = new StringBuilder();
 
-        // Confirm mandatory fields are filled out
-        if (nameInput.getText()==null || "".equals(nameInput.getText()) ) {
+        // Vérifie que les champs obligatoires soient bien remplies
+        if (nameInput.getText() == null || "".equals(nameInput.getText())) {
             errors.append(resources.getString("warning.nom"));
         }
-        if (phoneInput.getText()== null || "".equals(phoneInput.getText())) {
+        if (phoneInput.getText() == null || "".equals(phoneInput.getText())) {
             errors.append(resources.getString("warning.telephone"));
         }
 
-        // If any missing information is found, show the error messages and return false
+        // Si une information est manquante, montre un message d'erreur et renvoie false
         if (errors.length() > 0) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle(resources.getString("warning.attention"));
-            alert.setHeaderText(resources.getString("warning.champsObligatoires"));
-            alert.setContentText(errors.toString());
-
-            alert.showAndWait();
+            showAlert(resources, AlertType.WARNING, "warning.attention", "warning.champsObligatoires", errors.toString());
             return false;
         }
 
-        // No errors
+        // Pas d'erreur
         return true;
 
     }
 
+    /**
+     * Mérhode permettant de bind les champs du formulaire et les attributs de
+     * notre objet Client
+     */
     private void bind() {
         siteTableView.itemsProperty().bindBidirectional(getEditedClient().getAddressesProperty());
         civilityBox.valueProperty().bindBidirectional(getEditedClient().getCivilityProperty());
@@ -275,12 +282,21 @@ public final class ClientsFormController implements Initializable {
         whyInput.textProperty().bindBidirectional(getEditedClient().getWhyProperty());
     }
 
-    private void showAlert(ResourceBundle resources, String exceptionProperty, Exception e) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(resources.getString("exception.erreur"));
+    /**
+     * Méthode permettant de faire apparaitres une alerte
+     *
+     * @param resources
+     * @param alertType
+     * @param titleProperty
+     * @param exceptionProperty
+     * @param contentText
+     */
+    private void showAlert(ResourceBundle resources, Alert.AlertType alertType, String titleProperty, String exceptionProperty, String contentText) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(resources.getString(titleProperty));
         alert.setHeaderText(resources.getString(exceptionProperty));
-        alert.setContentText(e.toString());
-        alert.show();
+        alert.setContentText(contentText);
+        alert.showAndWait();
     }
 
     /**

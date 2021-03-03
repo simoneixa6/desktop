@@ -15,6 +15,7 @@ import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -36,37 +37,53 @@ import javafx.scene.control.cell.PropertyValueFactory;
  */
 public final class InterventionsFormController implements Initializable {
 
-    @FXML TextField nameInput;
+    @FXML
+    TextField nameInput;
 
-    @FXML TextArea descriptionInput;
+    @FXML
+    TextArea descriptionInput;
 
-    @FXML ChoiceBox userBox;
+    @FXML
+    ChoiceBox userBox;
 
-    @FXML ListView<String> mediasListView;
+    @FXML
+    ListView<String> mediasListView;
 
-    @FXML TextField kmInput;
+    @FXML
+    TextField kmInput;
 
-    @FXML DatePicker billDateInput;
+    @FXML
+    DatePicker billDateInput;
 
-    @FXML TextField billNumberInput;
+    @FXML
+    TextField billNumberInput;
 
-    @FXML DatePicker paymentDateInput;
+    @FXML
+    DatePicker paymentDateInput;
 
-    @FXML ChoiceBox<String> statusBox;
+    @FXML
+    ChoiceBox<String> statusBox;
 
-    @FXML ChoiceBox<String> paymenttypeBox;
+    @FXML
+    ChoiceBox<String> paymenttypeBox;
 
-    @FXML Button deleteBtn;
+    @FXML
+    Button deleteBtn;
 
-    @FXML Button registerBtn;
-    
+    @FXML
+    Button registerBtn;
+
     // TableView des périodes
-    @FXML TableView<Period> periodTableView;
-    @FXML TableColumn<Period, LocalDate> dateCol;
-    @FXML TableColumn<Period, LocalTime> startCol;
-    @FXML TableColumn<Period, LocalTime> endCol;
-    @FXML TableColumn<String, String> durationCol;
-    
+    @FXML
+    TableView<Period> periodTableView;
+    @FXML
+    TableColumn<Period, LocalDate> dateCol;
+    @FXML
+    TableColumn<Period, LocalTime> startCol;
+    @FXML
+    TableColumn<Period, LocalTime> endCol;
+    @FXML
+    TableColumn<String, String> durationCol;
 
     Interactors interactors;
 
@@ -122,25 +139,25 @@ public final class InterventionsFormController implements Initializable {
          * Action sur le clic du bouton "Enregistrer" / "Modifier"
          */
         registerBtn.setOnAction((ActionEvent actionEvent) -> {
-
-            // Si l'intervention ne possède pas d'id, elle est nouvelle, on enregistre
-            if (getEditedIntervention().getId() == null) {
-                try {
-                    interactors.addIntervention.invoke(getEditedIntervention());
-                } catch (InterventionPostException e) {
-                    showAlert(resources, "exception.ajoutIntervention", e);
+            // Si tous les champs obligatoires sont remplies
+            if (validate(resources) == true) {
+                // Si l'intervention ne possède pas d'id, elle est nouvelle, on enregistre
+                if (getEditedIntervention().getId() == null) {
+                    try {
+                        interactors.addIntervention.invoke(getEditedIntervention());
+                    } catch (InterventionPostException e) {
+                        showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.ajoutIntervention", e.toString());
+                    }
+                    // Si elle possède un ID, elle existe, on veut donc la modifier
+                } else {
+                    try {
+                        interactors.updateIntervention.invoke(getEditedIntervention());
+                    } catch (InterventionPutException e) {
+                        showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.modificationIntervention", e.toString());
+                    }
                 }
-                // Si elle possède un ID, elle existe, on veut donc la modifier
-            } else {
-                try {
-                    interactors.updateIntervention.invoke(getEditedIntervention());
-                } catch (InterventionPutException e) {
-                    showAlert(resources, "exception.modificationIntervention", e);
-                }
+                desktopListener.close();
             }
-
-            desktopListener.close();
-
         });
 
         /*
@@ -150,7 +167,7 @@ public final class InterventionsFormController implements Initializable {
             try {
                 interactors.removeIntervention.invoke(getEditedIntervention());
             } catch (InterventionPutException e) {
-                showAlert(resources, "exception.suppressionIntervention", e);
+                showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.suppressionIntervention", e.toString());
             }
             desktopListener.close();
         });
@@ -171,21 +188,27 @@ public final class InterventionsFormController implements Initializable {
         dateCol.setCellValueFactory(new PropertyValueFactory<Period, LocalDate>("date"));
         startCol.setCellValueFactory(new PropertyValueFactory<Period, LocalTime>("start"));
         endCol.setCellValueFactory(new PropertyValueFactory<Period, LocalTime>("end"));
-        
-        periodTableView.setEditable(true); 
+
+        periodTableView.setEditable(true);
         //dateCol.setCellFactory(TextFieldTableCell.forTableColumn());
-        
+
     }
 
+    /**
+     * Event appellé lors de la modification d'une cell date
+     *
+     * @param edittedCell
+     */
     public void changeDateCellEvent(CellEditEvent edittedCell) {
         Period selectedPeriod = periodTableView.getSelectionModel().getSelectedItem();
         selectedPeriod.setDate(edittedCell.getNewValue().toString());
     }
-    
+
+    /**
+     * Mérhode permettant de bind les champs du formulaire et les attributs de notre objet Intervention
+     */
     private void bind() {
-        
         periodTableView.itemsProperty().bindBidirectional(getEditedIntervention().getPeriodsProperty());
-        
         mediasListView.itemsProperty().bindBidirectional(getEditedIntervention().getMediasProperty());
         nameInput.textProperty().bindBidirectional(getEditedIntervention().getTitleProperty());
         userBox.valueProperty().bindBidirectional(getEditedIntervention().getUser_idProperty());
@@ -198,12 +221,45 @@ public final class InterventionsFormController implements Initializable {
         paymenttypeBox.valueProperty().bindBidirectional(getEditedIntervention().getPaymentTypeProperty());
     }
 
-    private void showAlert(ResourceBundle resources, String exceptionProperty, Exception e) {
-        Alert alert = new Alert(AlertType.ERROR);
-        alert.setTitle(resources.getString("exception.erreur"));
+    /**
+     * Methode permettant de valider si les champs obligatoires sont bien remplies
+     * @param resources
+     * @return 
+     */
+    public boolean validate(ResourceBundle resources) {
+
+        StringBuilder errors = new StringBuilder();
+
+        // Vérifie que les champs obligatoires soient bien remplies
+        if (nameInput.getText() == null || "".equals(nameInput.getText())) {
+            errors.append(resources.getString("warning.nom"));
+        }
+
+        // Si une information est manquante, montre un message d'erreur et renvoie false
+        if (errors.length() > 0) {
+            showAlert(resources, AlertType.WARNING, "warning.attention", "warning.champsObligatoires", errors.toString());
+            return false;
+        }
+
+        // Pas d'erreur, tous les champs sont remplies correctement
+        return true;
+
+    }
+
+    /**
+     * Méthode permettant de faire apparaitres une alerte 
+     * @param resources
+     * @param alertType
+     * @param titleProperty
+     * @param exceptionProperty
+     * @param contentText 
+     */
+    private void showAlert(ResourceBundle resources, AlertType alertType, String titleProperty, String exceptionProperty, String contentText) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(resources.getString(titleProperty));
         alert.setHeaderText(resources.getString(exceptionProperty));
-        alert.setContentText(e.toString());
-        alert.show();
+        alert.setContentText(contentText);
+        alert.showAndWait();
     }
 
     /**
