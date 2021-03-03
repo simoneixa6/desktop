@@ -61,16 +61,8 @@
                                     </ComboBox>
                                     <HBox alignment="CENTER_LEFT" prefHeight="12.0" prefWidth="380.0">
                                        <children>
-                                          <Label id="bluelabel" text="%creer.le.client">
-                                             <HBox.margin>
-                                                <Insets bottom="5.0" right="5.0" top="5.0" />
-                                             </HBox.margin>
-                                          </Label>
-                                          <Label id="bluelabel" text="%modifier.le.client">
-                                             <HBox.margin>
-                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                             </HBox.margin>
-                                          </Label>
+                                    <Button id="tableViewButton" mnemonicParsing="false" text="%creer.le.client" />
+                                    <Button id="tableViewButton" mnemonicParsing="false" text="%modifier.le.client" />
                                        </children>
                                     </HBox>
                                  </children>
@@ -124,21 +116,13 @@
                                     </Label>
                                     <ListView id="greylistview" fx:id="mediasListView" minWidth="20.0" prefHeight="204.0" prefWidth="256.0">
                                        <VBox.margin>
-                                          <Insets bottom="5.0" />
+                                          <Insets />
                                        </VBox.margin>
                                     </ListView>
                                     <HBox>
                                        <children>
-                                          <Label id="bluelabel" text="%ajouter">
-                                             <HBox.margin>
-                                                <Insets bottom="5.0" right="5.0" top="5.0" />
-                                             </HBox.margin>
-                                          </Label>
-                                          <Label id="bluelabel" text="%supprimer">
-                                             <HBox.margin>
-                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                             </HBox.margin>
-                                          </Label>
+                                    <Button id="tableViewButton" mnemonicParsing="false" text="%ajouter" />
+                                    <Button id="tableViewButton" mnemonicParsing="false" text="%supprimer" />
                                        </children>
                                     </HBox>
                                  </children>
@@ -163,21 +147,13 @@
                                           <TableColumn fx:id="durationCol" editable="true" prefWidth="59.0" text="%duree" />
                                        </columns>
                                        <VBox.margin>
-                                          <Insets bottom="5.0" left="5.0" />
+                                          <Insets left="5.0" />
                                        </VBox.margin>
                                     </TableView>
                                     <HBox>
                                        <children>
-                                          <Label id="bluelabel" text="%ajouter">
-                                             <HBox.margin>
-                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                             </HBox.margin>
-                                          </Label>
-                                          <Label id="bluelabel" text="%supprimer">
-                                             <HBox.margin>
-                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                             </HBox.margin>
-                                          </Label>
+                                    <Button id="tableViewButton" mnemonicParsing="false" text="%ajouter" />
+                                    <Button id="tableViewButton" mnemonicParsing="false" text="%supprimer" />
                                        </children>
                                     </HBox>
                                  </children>

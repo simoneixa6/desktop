@@ -83,15 +83,6 @@
     -fx-font-weight: bold;   
 }
 
-#bluelabel {
-    -fx-text-fill: #0066cc;
-    -fx-font-size : 11px;
-}
-
-#bluelabel:hover {
-    -fx-text-fill: #fc3300;   
-}
-
 /*Styling of the text input*/
 
 #textInput {
@@ -219,6 +210,10 @@
     -fx-border-color: #ffffff;
 }
 
+.table-column {
+  -fx-alignment: CENTER;
+}
+
 .table-view .placeholder {
     -fx-border-color: mainGrey;
     -fx-background-color:mainGrey;
@@ -257,6 +252,17 @@
 
 .table-view .column-header {
     -fx-background-color: white;
+}
+
+
+#tableViewButton {
+    -fx-background-color: transparent;
+    -fx-text-fill: #0066cc;
+    -fx-font-size : 11px;
+}
+
+#tableViewButton:hover {
+    -fx-text-fill: #fc3300;  
 }
 
 /*Styling of the date pickers*/

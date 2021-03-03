@@ -95,6 +95,10 @@ public final class ClientsFormController implements Initializable {
     TableColumn<Site, String> zipCodeCol;
     @FXML
     TableColumn<Site, String> cityCol;
+    @FXML
+    Button addAddressBtn;
+    @FXML
+    Button deleteAddressBtn;
 
     /**
      * Intervention éditée par la partie droite de l'interface
@@ -144,7 +148,7 @@ public final class ClientsFormController implements Initializable {
                     try {
                         interactors.addClient.invoke(getEditedClient());
                     } catch (ClientPostException e) {
-                        showAlert(resources, AlertType.ERROR, "exception.erreur","exception.ajoutClient", e.toString());
+                        showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.ajoutClient", e.toString());
                     }
                     // Si il possède un ID, il existe, donc on veut donc le modifier
                 } else {
@@ -165,9 +169,35 @@ public final class ClientsFormController implements Initializable {
             try {
                 interactors.removeClient.invoke(getEditedClient());
             } catch (ClientPutException e) {
-                showAlert(resources, AlertType.ERROR, "exception.erreur","exception.suppressionClient", e.toString());
+                showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.suppressionClient", e.toString());
             }
             desktopListener.close();
+        });
+
+        /*
+         * Action sur le clic du bouton "Ajouter" pour la tableview des adresses
+         */
+        addAddressBtn.setOnAction((ActionEvent actionEvent) -> {
+            Site site = new Site();
+            site.setAddress("");
+            site.setZipCode("");
+            site.setCity("");
+            siteTableView.getItems().add(site);
+        });
+
+        /*
+         * Action sur le clic du bouton "Supprimer" pour la tableview des adresses
+         */
+        deleteAddressBtn.setOnAction((ActionEvent actionEvent) -> {
+            ObservableList<Site> selectedSites, sites;
+            sites = siteTableView.getItems();
+
+            // Renvoie les sites séléctionnés
+            selectedSites = siteTableView.getSelectionModel().getSelectedItems();
+
+            selectedSites.forEach(site -> {
+                sites.remove(site);
+            });
         });
 
         /**
@@ -195,27 +225,6 @@ public final class ClientsFormController implements Initializable {
         addressCol.setCellFactory(TextFieldTableCell.forTableColumn());
         zipCodeCol.setCellFactory(TextFieldTableCell.forTableColumn());
         cityCol.setCellFactory(TextFieldTableCell.forTableColumn());
-
-    }
-
-    public void addSiteRow() {
-        Site site = new Site();
-        site.setAddress("");
-        site.setZipCode("");
-        site.setCity("");
-        siteTableView.getItems().add(site);
-    }
-
-    public void deleteSiteRow() {
-        ObservableList<Site> selectedSites, sites;
-        sites = siteTableView.getItems();
-
-        // Renvoie les sites séléctionnés
-        selectedSites = siteTableView.getSelectionModel().getSelectedItems();
-
-        selectedSites.forEach(site -> {
-            sites.remove(site);
-        });
     }
 
     public void ChangeAddressCellEvent(CellEditEvent edittedCell) {

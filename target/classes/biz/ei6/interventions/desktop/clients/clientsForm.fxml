@@ -217,16 +217,8 @@
                               </TableView>
                               <HBox prefHeight="0.0" prefWidth="580.0">
                                  <children>
-                                    <Label id="bluelabel" onMouseClicked="#addSiteRow" text="%ajouter">
-                                       <HBox.margin>
-                                          <Insets />
-                                       </HBox.margin>
-                                    </Label>
-                                    <Label id="bluelabel" onMouseClicked="#deleteSiteRow" text="%supprimer">
-                                       <HBox.margin>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" />
-                                       </HBox.margin>
-                                    </Label>
+                                    <Button id="tableViewButton" mnemonicParsing="false" text="%ajouter" />
+                                    <Button id="tableViewButton" mnemonicParsing="false" text="%supprimer" />
                                  </children>
                               </HBox>
                            </children>
