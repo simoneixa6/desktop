@@ -15,7 +15,6 @@ import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -84,6 +83,18 @@ public final class InterventionsFormController implements Initializable {
     TableColumn<Period, LocalTime> endCol;
     @FXML
     TableColumn<String, String> durationCol;
+    @FXML
+    Button addPeriodBtn;
+    @FXML
+    Button deletePeriodBtn;
+    @FXML
+    Button addMediaBtn;
+    @FXML
+    Button deleteMediaBtn;
+    @FXML
+    Button createClientBtn;
+    @FXML
+    Button editClientBtn;
 
     Interactors interactors;
 
@@ -205,7 +216,8 @@ public final class InterventionsFormController implements Initializable {
     }
 
     /**
-     * Mérhode permettant de bind les champs du formulaire et les attributs de notre objet Intervention
+     * Mérhode permettant de bind les champs du formulaire et les attributs de
+     * notre objet Intervention
      */
     private void bind() {
         periodTableView.itemsProperty().bindBidirectional(getEditedIntervention().getPeriodsProperty());
@@ -222,9 +234,11 @@ public final class InterventionsFormController implements Initializable {
     }
 
     /**
-     * Methode permettant de valider si les champs obligatoires sont bien remplies
+     * Methode permettant de valider si les champs obligatoires sont bien
+     * remplies
+     *
      * @param resources
-     * @return 
+     * @return
      */
     public boolean validate(ResourceBundle resources) {
 
@@ -247,12 +261,13 @@ public final class InterventionsFormController implements Initializable {
     }
 
     /**
-     * Méthode permettant de faire apparaitres une alerte 
+     * Méthode permettant de faire apparaitres une alerte
+     *
      * @param resources
      * @param alertType
      * @param titleProperty
      * @param exceptionProperty
-     * @param contentText 
+     * @param contentText
      */
     private void showAlert(ResourceBundle resources, AlertType alertType, String titleProperty, String exceptionProperty, String contentText) {
         Alert alert = new Alert(alertType);

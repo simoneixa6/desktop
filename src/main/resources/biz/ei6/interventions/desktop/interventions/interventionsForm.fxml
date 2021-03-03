@@ -61,8 +61,8 @@
                                     </ComboBox>
                                     <HBox alignment="CENTER_LEFT" prefHeight="12.0" prefWidth="380.0">
                                        <children>
-                                    <Button id="tableViewButton" mnemonicParsing="false" text="%creer.le.client" />
-                                    <Button id="tableViewButton" mnemonicParsing="false" text="%modifier.le.client" />
+                                    <Button id="tableViewButton" fx:id="createClientBtn" mnemonicParsing="false" text="%creer.le.client" />
+                                    <Button id="tableViewButton" fx:id="editClientBtn" mnemonicParsing="false" text="%modifier.le.client" />
                                        </children>
                                     </HBox>
                                  </children>
@@ -121,8 +121,8 @@
                                     </ListView>
                                     <HBox>
                                        <children>
-                                    <Button id="tableViewButton" mnemonicParsing="false" text="%ajouter" />
-                                    <Button id="tableViewButton" mnemonicParsing="false" text="%supprimer" />
+                                    <Button id="tableViewButton" fx:id="addMediaBtn" mnemonicParsing="false" text="%ajouter" />
+                                    <Button id="tableViewButton" fx:id="deleteMediaBtn" mnemonicParsing="false" text="%supprimer" />
                                        </children>
                                     </HBox>
                                  </children>
@@ -152,8 +152,8 @@
                                     </TableView>
                                     <HBox>
                                        <children>
-                                    <Button id="tableViewButton" mnemonicParsing="false" text="%ajouter" />
-                                    <Button id="tableViewButton" mnemonicParsing="false" text="%supprimer" />
+                                    <Button id="tableViewButton" fx:id="addPeriodBtn" mnemonicParsing="false" text="%ajouter" />
+                                    <Button id="tableViewButton" fx:id="deletePeriodBtn" mnemonicParsing="false" text="%supprimer" />
                                        </children>
                                     </HBox>
                                  </children>
