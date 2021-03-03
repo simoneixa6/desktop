@@ -17,8 +17,6 @@ public class PeriodDTO {
     String date;
     String start;
     String end;
-    //String duration;
-    String user_id;
     
     public String getDate() {
         return date;
@@ -42,21 +40,5 @@ public class PeriodDTO {
 
     public void setEnd(String end) {
         this.end = end;
-    }
-
-//    public String getDuration() {
-//        return duration;
-//    }
-//
-//    public void setDuration(String duration) {
-//        this.duration = duration;
-//    }
-
-    public String getUser_id() {
-        return user_id;
-    }
-
-    public void setUser_id(String user_id) {
-        this.user_id = user_id;
     }
 }

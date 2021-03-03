@@ -1,16 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package biz.ei6.interventions.desktop.lib.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 
 /**
  *
@@ -19,9 +15,13 @@ import java.time.format.DateTimeFormatter;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Period {
 
-    private LocalDate date;
-    private LocalTime start;
-    private LocalTime end;
+    private final ObjectProperty<LocalDate> date = new SimpleObjectProperty();
+    private final ObjectProperty<LocalTime> start = new SimpleObjectProperty();
+    private final ObjectProperty<LocalTime> end = new SimpleObjectProperty();
+
+    public ObjectProperty<LocalDate> getDateProperty() {
+        return date;
+    }
 
     public String getDate() {
 
@@ -29,7 +29,7 @@ public class Period {
 
         if (date != null) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-            LocalDateTime dateTime = date.atStartOfDay();
+            LocalDateTime dateTime = date.get().atStartOfDay();
             formattedDate = dateTime.format(formatter);
         } else {
             formattedDate = "";
@@ -42,10 +42,14 @@ public class Period {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
             LocalDate parsedDate = LocalDate.parse(date, formatter);
 
-            this.date = parsedDate;
+            this.date.set(parsedDate);
         } else {
-            this.date = null;
+            this.date.set(null);
         }
+    }
+
+    public ObjectProperty<LocalTime> getStartProperty() {
+        return start;
     }
 
     public String getStart() {
@@ -53,7 +57,7 @@ public class Period {
 
         if (start != null) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-            LocalDateTime dateTime = start.atDate(date);
+            LocalDateTime dateTime = start.get().atDate(date.get());
             formattedStart = dateTime.format(formatter);
         } else {
             formattedStart = null;
@@ -66,10 +70,14 @@ public class Period {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
             LocalTime parsedStart = LocalTime.parse(start, formatter);
 
-            this.start = parsedStart;
+            this.start.set(parsedStart);
         } else {
-            this.start = null;
+            this.start.set(null);
         }
+    }
+
+    public ObjectProperty<LocalTime> getEndProperty() {
+        return end;
     }
 
     public String getEnd() {
@@ -77,7 +85,7 @@ public class Period {
 
         if (end != null) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-            LocalDateTime dateTime = end.atDate(date);
+            LocalDateTime dateTime = end.get().atDate(date.get());
             formattedEnd = dateTime.format(formatter);
         } else {
             formattedEnd = null;
@@ -90,9 +98,9 @@ public class Period {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
             LocalTime parsedEnd = LocalTime.parse(end, formatter);
 
-            this.start = parsedEnd;
+            this.start.set(parsedEnd);
         } else {
-            this.start = null;
+            this.start.set(null);
         }
     }
 }

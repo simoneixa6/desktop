@@ -8,11 +8,12 @@ import biz.ei6.interventions.desktop.framework.interventions.InterventionPutExce
 import biz.ei6.interventions.desktop.lib.domain.Intervention;
 import biz.ei6.interventions.desktop.lib.domain.Period;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -23,6 +24,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -35,56 +37,37 @@ import javafx.scene.control.cell.TextFieldTableCell;
  */
 public final class InterventionsFormController implements Initializable {
 
-    @FXML
-    TextField nameInput;
+    @FXML TextField nameInput;
 
-    @FXML
-    TextArea descriptionInput;
+    @FXML TextArea descriptionInput;
 
-    @FXML
-    ChoiceBox userBox;
+    @FXML ChoiceBox userBox;
 
-    @FXML
-    ListView<String> mediasListView;
+    @FXML ListView<String> mediasListView;
 
-    @FXML
-    TextField kmInput;
+    @FXML TextField kmInput;
 
-    @FXML
-    DatePicker billDateInput;
+    @FXML DatePicker billDateInput;
 
-    @FXML
-    TextField billNumberInput;
+    @FXML TextField billNumberInput;
 
-    @FXML
-    DatePicker paymentDateInput;
+    @FXML DatePicker paymentDateInput;
 
-    @FXML
-    TableView<Period> periodTableView;
+    @FXML ChoiceBox<String> statusBox;
 
-    @FXML
-    TableColumn<String, String> dateCol;
+    @FXML ChoiceBox<String> paymenttypeBox;
 
-    @FXML
-    TableColumn<String, String> startCol;
+    @FXML Button deleteBtn;
 
-    @FXML
-    TableColumn<String, String> endCol;
-
-    @FXML
-    TableColumn<String, String> durationCol;
-
-    @FXML
-    ChoiceBox<String> statusBox;
-
-    @FXML
-    ChoiceBox<String> paymenttypeBox;
-
-    @FXML
-    Button deleteBtn;
-
-    @FXML
-    Button registerBtn;
+    @FXML Button registerBtn;
+    
+    // TableView des périodes
+    @FXML TableView<Period> periodTableView;
+    @FXML TableColumn<Period, LocalDate> dateCol;
+    @FXML TableColumn<Period, LocalTime> startCol;
+    @FXML TableColumn<Period, LocalTime> endCol;
+    @FXML TableColumn<String, String> durationCol;
+    
 
     Interactors interactors;
 
@@ -186,21 +169,25 @@ public final class InterventionsFormController implements Initializable {
         /*
          * Mise en place de la table view des Périodes
          */
-        periodTableView.setEditable(true);
-        dateCol.setCellValueFactory(new PropertyValueFactory<>("dateCol"));
-        startCol.setCellValueFactory(new PropertyValueFactory<>("startCol"));
-        endCol.setCellValueFactory(new PropertyValueFactory<>("endCol"));
-        durationCol.setCellValueFactory(new PropertyValueFactory<>("durationCol"));
-        dateCol.setCellFactory(TextFieldTableCell.<String>forTableColumn());
-        startCol.setCellFactory(TextFieldTableCell.<String>forTableColumn());
-        endCol.setCellFactory(TextFieldTableCell.<String>forTableColumn());
-        durationCol.setCellFactory(TextFieldTableCell.<String>forTableColumn());
+        dateCol.setCellValueFactory(new PropertyValueFactory<Period, LocalDate>("date"));
+        startCol.setCellValueFactory(new PropertyValueFactory<Period, LocalTime>("start"));
+        endCol.setCellValueFactory(new PropertyValueFactory<Period, LocalTime>("end"));
+        
+        periodTableView.setEditable(true); 
+        //dateCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        
     }
 
+    public void changeDateCellEvent(CellEditEvent edittedCell) {
+        Period selectedPeriod = periodTableView.getSelectionModel().getSelectedItem();
+        selectedPeriod.setDate(edittedCell.getNewValue().toString());
+    }
+    
     private void bind() {
-        //medias
+        
+        periodTableView.itemsProperty().bindBidirectional(getEditedIntervention().getPeriodsProperty());
+        
         mediasListView.itemsProperty().bindBidirectional(getEditedIntervention().getMediasProperty());
-        //periods
         nameInput.textProperty().bindBidirectional(getEditedIntervention().getTitleProperty());
         userBox.valueProperty().bindBidirectional(getEditedIntervention().getUser_idProperty());
         descriptionInput.textProperty().bindBidirectional(getEditedIntervention().getDescriptionProperty());
