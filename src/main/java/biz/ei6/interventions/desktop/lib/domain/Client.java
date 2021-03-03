@@ -8,6 +8,7 @@ package biz.ei6.interventions.desktop.lib.domain;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ListProperty;
@@ -39,6 +40,13 @@ public class Client {
     private final StringProperty why = new SimpleStringProperty();
     private final BooleanProperty problematic = new SimpleBooleanProperty();
     private final BooleanProperty deleted = new SimpleBooleanProperty();
+
+    {
+        // Ajout du tableau d'adresses vide par défault
+        ArrayList<Site> sitesList = new ArrayList<>();
+        this.setAddresses(sitesList);
+
+    }
 
     public StringProperty getIdProperty() {
         return _id;
@@ -195,7 +203,7 @@ public class Client {
     /**
      * @param site the addresses to set
      */
-    public void setAdresses(List<Site> site) {
+    public void setAddresses(List<Site> site) {
         this.addresses.set(FXCollections.observableArrayList(site));
     }
 
@@ -307,5 +315,5 @@ public class Client {
     public void setDeleted(Boolean deleted) {
         this.deleted.set(deleted);
     }
-    
+
 }

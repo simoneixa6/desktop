@@ -230,7 +230,7 @@ public class WSClientsDataSource implements ClientsDataSource {
                 sites.add(site);
             }
 
-            client.setAdresses(sites);
+            client.setAddresses(sites);
         }
 
         if ("0001-01-01T00:00:00Z".equals(clientDTO.getFirstVisitDate())) {

@@ -200,8 +200,7 @@ public final class ClientsFormController implements Initializable {
         site.setAddress("");
         site.setZipCode("");
         site.setCity("");
-        siteTableView.getItems().add(site);
-
+        siteTableView.getItems().add(site);        
     }
 
     public void deleteSiteRow() {
