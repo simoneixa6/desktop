@@ -7,13 +7,17 @@ import biz.ei6.interventions.desktop.framework.interventions.InterventionPostExc
 import biz.ei6.interventions.desktop.framework.interventions.InterventionPutException;
 import biz.ei6.interventions.desktop.lib.domain.Intervention;
 import biz.ei6.interventions.desktop.lib.domain.Period;
+import biz.ei6.interventions.desktop.lib.domain.Site;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -182,6 +186,32 @@ public final class InterventionsFormController implements Initializable {
             }
             desktopListener.close();
         });
+        
+        /**
+         * Action sur le clic du bouton "Ajouter" pour la tableview des périodes
+         */
+        addPeriodBtn.setOnAction((ActionEvent actionEvent) -> {
+            Period period = new Period();
+            period.setDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")));
+            periodTableView.getItems().add(period);
+        });
+        
+        
+        
+        /**
+         * Action sur le clic du bouton "Supprimer" pour la tableview des périodes
+         */
+        deletePeriodBtn.setOnAction((ActionEvent actionEvent) -> {
+            ObservableList<Period> selectedPeriods, periods;
+            periods = periodTableView.getItems();
+
+            // Renvoie les sites séléctionnés
+            selectedPeriods = periodTableView.getSelectionModel().getSelectedItems();
+
+            selectedPeriods.forEach(period -> {
+                periods.remove(period);
+            });
+        });
 
         /*
          * Text formatter sur le champ des kms pour accepter que des entiers ou double
@@ -247,6 +277,11 @@ public final class InterventionsFormController implements Initializable {
         // Vérifie que les champs obligatoires soient bien remplies
         if (nameInput.getText() == null || "".equals(nameInput.getText())) {
             errors.append(resources.getString("warning.nom"));
+        }
+        
+        if (periodTableView.getItems().size() <= 1)
+        {
+            errors.append(resources.getString("warning.periode"));
         }
 
         // Si une information est manquante, montre un message d'erreur et renvoie false

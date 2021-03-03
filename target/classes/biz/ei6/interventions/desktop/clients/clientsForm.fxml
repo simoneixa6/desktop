@@ -217,8 +217,8 @@
                               </TableView>
                               <HBox prefHeight="0.0" prefWidth="580.0">
                                  <children>
-                                    <Button id="tableViewButton" mnemonicParsing="false" text="%ajouter" />
-                                    <Button id="tableViewButton" mnemonicParsing="false" text="%supprimer" />
+                                    <Button id="tableViewButton" fx:id="addAddressBtn" mnemonicParsing="false" text="%ajouter" />
+                                    <Button id="tableViewButton" fx:id="deleteAddressBtn" mnemonicParsing="false" text="%supprimer" />
                                  </children>
                               </HBox>
                            </children>
