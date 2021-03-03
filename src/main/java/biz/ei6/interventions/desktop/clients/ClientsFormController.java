@@ -137,22 +137,24 @@ public final class ClientsFormController implements Initializable {
          */
         registerBtn.setOnAction((ActionEvent actionEvent) -> {
 
-            // Si le client ne possède pas d'id, il est nouveau, on enregistre
-            if (getEditedClient().getId() == null) {
-                try {
-                    interactors.addClient.invoke(getEditedClient());
-                } catch (ClientPostException e) {
-                    showAlert(resources, "exception.ajoutClient", e);
+            if (validate(resources) == true) {
+                // Si le client ne possède pas d'id, il est nouveau, on enregistre
+                if (getEditedClient().getId() == null) {
+                    try {
+                        interactors.addClient.invoke(getEditedClient());
+                    } catch (ClientPostException e) {
+                        showAlert(resources, "exception.ajoutClient", e);
+                    }
+                    // Si il possède un ID, il existe, donc on veut donc le modifier
+                } else {
+                    try {
+                        interactors.updateClient.invoke(getEditedClient());
+                    } catch (ClientPutException e) {
+                        showAlert(resources, "exception.modificationClient", e);
+                    }
                 }
-                // Si il possède un ID, il existe, donc on veut donc le modifier
-            } else {
-                try {
-                    interactors.updateClient.invoke(getEditedClient());
-                } catch (ClientPutException e) {
-                    showAlert(resources, "exception.modificationClient", e);
-                }
+                desktopListener.close();
             }
-            desktopListener.close();
         });
 
         /*
@@ -200,7 +202,7 @@ public final class ClientsFormController implements Initializable {
         site.setAddress("");
         site.setZipCode("");
         site.setCity("");
-        siteTableView.getItems().add(site);        
+        siteTableView.getItems().add(site);
     }
 
     public void deleteSiteRow() {
@@ -228,6 +230,34 @@ public final class ClientsFormController implements Initializable {
     public void ChangeCityCellEvent(CellEditEvent edittedCell) {
         Site selectedSite = siteTableView.getSelectionModel().getSelectedItem();
         selectedSite.setCity(edittedCell.getNewValue().toString());
+    }
+
+    public boolean validate(ResourceBundle resources) {
+
+        StringBuilder errors = new StringBuilder();
+
+        // Confirm mandatory fields are filled out
+        if (nameInput.getText()==null || "".equals(nameInput.getText()) ) {
+            errors.append(resources.getString("warning.nom"));
+        }
+        if (phoneInput.getText()== null || "".equals(phoneInput.getText())) {
+            errors.append(resources.getString("warning.telephone"));
+        }
+
+        // If any missing information is found, show the error messages and return false
+        if (errors.length() > 0) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle(resources.getString("warning.attention"));
+            alert.setHeaderText(resources.getString("warning.champsObligatoires"));
+            alert.setContentText(errors.toString());
+
+            alert.showAndWait();
+            return false;
+        }
+
+        // No errors
+        return true;
+
     }
 
     private void bind() {

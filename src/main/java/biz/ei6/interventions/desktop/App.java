@@ -62,7 +62,7 @@ public class App extends Application {
         ctrl.setInteractors(interactors);
         ctrl.setDefaultPane();
 
-        scene = new Scene(root, 1200, 940);
+        scene = new Scene(root, 1220, 940);
         stage.setTitle(mainBundle.getString("titreAppli"));
         stage.setScene(scene);
         stage.setMinHeight(300);
