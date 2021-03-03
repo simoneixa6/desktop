@@ -43,9 +43,9 @@ public class MainController implements Initializable {
 
     public void setDefaultPane() {
         // Intervention pane affiché par défault au démmarage
-        clientsPane = new ClientsPane(interactors);
-        mainBorderPane.setCenter(clientsPane);
-        setSelectedButtonStyle(clientsBtn);
+        interventionsPane = new InterventionsPane(interactors);
+        mainBorderPane.setCenter(interventionsPane);
+        setSelectedButtonStyle(interventionsBtn);
     }
 
     @Override

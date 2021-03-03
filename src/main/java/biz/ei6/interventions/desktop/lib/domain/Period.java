@@ -22,8 +22,6 @@ public class Period {
     private LocalDate date;
     private LocalTime start;
     private LocalTime end;
-    private Duration duration;
-    private String user_id;
 
     public String getDate() {
 
@@ -96,21 +94,5 @@ public class Period {
         } else {
             this.start = null;
         }
-    }
-
-    public Duration getDuration() {
-        return this.duration;
-    }
-
-    public void setDuration(Duration duration) {
-        this.duration = duration;
-    }
-
-    public String getUserId() {
-        return this.user_id;
-    }
-
-    public void setUserId(String user_id) {
-        this.user_id = user_id;
     }
 }
