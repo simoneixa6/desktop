@@ -184,7 +184,6 @@ public class WSClientsDataSource implements ClientsDataSource {
         clientDTO.setCompanyStatus(client.getCompanyStatus());
         clientDTO.setPhone(client.getPhone());
         clientDTO.setMail(client.getMail());
-        //clientDTO.setAddresses(client.getAdresses());
         clientDTO.setHow(client.getHow());
         clientDTO.setWhy(client.getWhy());
         clientDTO.setProblematic(String.valueOf(client.getProblematic()));
@@ -192,8 +191,8 @@ public class WSClientsDataSource implements ClientsDataSource {
 
         ArrayList<SiteDTO> sitesDTO = new ArrayList<>();
 
-        if (clientDTO.getAddresses() != null) {
-            for (Site site : client.getAdresses()) {
+        if (client.getAddresses() != null) {
+            for (Site site : client.getAddresses()) {
                 SiteDTO siteDTO = new SiteDTO();
                 setSiteDTO(siteDTO, site);
                 sitesDTO.add(siteDTO);

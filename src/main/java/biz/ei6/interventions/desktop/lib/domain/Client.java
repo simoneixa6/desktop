@@ -188,7 +188,7 @@ public class Client {
         return addresses;
     }
 
-    public List<Site> getAdresses() {
+    public List<Site> getAddresses() {
         return addresses.get();
     }
 

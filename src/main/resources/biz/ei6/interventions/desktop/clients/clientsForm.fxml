@@ -201,15 +201,15 @@
                               <Insets bottom="10.0" />
                            </VBox.margin>
                         </HBox>
-                  <HBox prefHeight="130.0" prefWidth="710.0">
+                  <HBox>
                      <children>
-                        <VBox prefHeight="130.0" prefWidth="580.0">
+                        <VBox prefHeight="141.0" prefWidth="622.0">
                            <children>
-                              <TableView fx:id="addressTableView" editable="true">
+                              <TableView fx:id="siteTableView">
                                  <columns>
-                                    <TableColumn fx:id="addressCol" editable="true" maxWidth="450.0" minWidth="100.0" prefWidth="295.0" text="%adresse" />
-                                    <TableColumn fx:id="zipCol" editable="true" maxWidth="200.0" minWidth="100.0" prefWidth="150.0" text="%code.postal" />
-                                    <TableColumn fx:id="cityCol" editable="true" maxWidth="134.0" minWidth="55.0" prefWidth="134.0" text="%ville" />
+                                    <TableColumn fx:id="addressCol" maxWidth="450.0" minWidth="100.0" onEditCommit="#ChangeAddressCellEvent" prefWidth="295.0" text="%adresse" />
+                                    <TableColumn fx:id="zipCodeCol" maxWidth="200.0" minWidth="100.0" onEditCommit="#ChangeZipCodeCellEvent" prefWidth="150.0" text="%code.postal" />
+                                    <TableColumn fx:id="cityCol" maxWidth="171.0" minWidth="55.0" onEditCommit="#ChangeCityCellEvent" prefWidth="171.0" text="%ville" />
                                  </columns>
                                  <VBox.margin>
                                     <Insets bottom="5.0" right="5.0" />
@@ -217,12 +217,12 @@
                               </TableView>
                               <HBox prefHeight="0.0" prefWidth="580.0">
                                  <children>
-                                    <Label id="bluelabel" text="%ajouter">
+                                    <Label id="bluelabel" onMouseClicked="#addSiteRow" text="%ajouter">
                                        <HBox.margin>
                                           <Insets />
                                        </HBox.margin>
                                     </Label>
-                                    <Label id="bluelabel" text="%supprimer">
+                                    <Label id="bluelabel" onMouseClicked="#deleteSiteRow" text="%supprimer">
                                        <HBox.margin>
                                           <Insets bottom="5.0" left="5.0" right="5.0" />
                                        </HBox.margin>
