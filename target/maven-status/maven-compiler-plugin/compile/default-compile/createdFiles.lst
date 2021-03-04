@@ -30,6 +30,7 @@ biz\ei6\interventions\desktop\lib\interactors\GetInterventions.class
 biz\ei6\interventions\desktop\clients\ClientsPane.class
 biz\ei6\interventions\desktop\DesktopListener.class
 biz\ei6\interventions\desktop\lib\interactors\UpdateIntervention.class
+biz\ei6\interventions\desktop\interventions\InterventionsFormController$1.class
 module-info.class
 biz\ei6\interventions\desktop\framework\clients\ClientPutException.class
 biz\ei6\interventions\desktop\framework\interventions\InterventionGetException.class

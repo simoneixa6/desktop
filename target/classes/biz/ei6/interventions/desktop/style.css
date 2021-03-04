@@ -245,7 +245,7 @@
     -fx-background-color: mainGrey;
 }
 .table-row-cell:even{
-    -fx-background-color: mainGreyHover;
+    -fx-background-color: mainGrey;
 }
 
 .table-view .column-header-background{

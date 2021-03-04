@@ -3,11 +3,13 @@ package biz.ei6.interventions.desktop.interventions;
 import biz.ei6.interventions.desktop.App;
 import biz.ei6.interventions.desktop.App.Interactors;
 import biz.ei6.interventions.desktop.DesktopListener;
+import biz.ei6.interventions.desktop.framework.clients.ClientGetException;
 import biz.ei6.interventions.desktop.framework.interventions.InterventionPostException;
 import biz.ei6.interventions.desktop.framework.interventions.InterventionPutException;
+import biz.ei6.interventions.desktop.lib.domain.Site;
 import biz.ei6.interventions.desktop.lib.domain.Intervention;
 import biz.ei6.interventions.desktop.lib.domain.Period;
-import biz.ei6.interventions.desktop.lib.domain.Site;
+import biz.ei6.interventions.desktop.lib.domain.Client;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -17,7 +19,7 @@ import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -26,9 +28,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
@@ -36,6 +39,10 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.paint.Color;
+import javafx.util.Callback;
 
 /*
  * @author Eixa6
@@ -65,6 +72,12 @@ public final class InterventionsFormController implements Initializable {
 
     @FXML
     DatePicker paymentDateInput;
+
+    @FXML
+    ComboBox<Client> clientBox;
+
+    @FXML
+    ComboBox<Site> addressBox;
 
     @FXML
     ChoiceBox<String> statusBox;
@@ -106,7 +119,6 @@ public final class InterventionsFormController implements Initializable {
 
     DesktopListener desktopListener;
 
-    
     /**
      * Intervention éditée par la partie droite de l'interface
      */
@@ -133,6 +145,46 @@ public final class InterventionsFormController implements Initializable {
         //Remplissage des choiceboxs
         statusBox.getItems().addAll(resources.getString("status.ouverte"), resources.getString("status.terminee"), resources.getString("status.facturee"), resources.getString("status.reglee"));
         paymenttypeBox.getItems().addAll(resources.getString("paiement.cheque"), resources.getString("paiement.cb"), resources.getString("paiement.espece"));
+
+        /**
+         * Création de la cell factory pour la combobox des clients
+         */
+        Callback<ListView<Client>, ListCell<Client>> clientCellFactory = (ListView<Client> l) -> new ListCell<Client>() {
+            @Override
+            protected void updateItem(Client client, boolean empty) {
+                super.updateItem(client, empty);
+
+                // Ajout du style pour une cell
+                Background mainGreyBackground = new Background(new BackgroundFill(Color.web("F2F2F2"), null, null));
+                Background hoverGreyBackground = new Background(new BackgroundFill(Color.web("EAEAEA"), null, null));
+                setBackground(mainGreyBackground);
+                setTextFill(Color.BLACK);
+                setOnMouseEntered(event -> {
+                    setBackground(hoverGreyBackground);
+                });
+                setOnMouseExited(event -> {
+                    setBackground(mainGreyBackground);
+                });
+
+                if (client == null || empty) {
+                    setGraphic(null);
+                } else {
+                    setText(client.getName() + " " + client.getLastname());
+                }
+            }
+        };
+
+        // Mise en place de la cellFactory sur la combobox des clients
+        clientBox.setCellFactory(clientCellFactory);
+        clientBox.setButtonCell(clientCellFactory.call(null));
+
+        // Remplissage de la combobox des clients
+        try {
+            var clients = FXCollections.observableArrayList(interactors.getClients.invoke());
+            clientBox.setItems(clients);
+        } catch (ClientGetException e) {
+            showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.recuperationClients", e.toString());
+        }
 
         // Binding à l'initialisation
         bind();
@@ -284,6 +336,7 @@ public final class InterventionsFormController implements Initializable {
         paymentDateInput.valueProperty().bindBidirectional(getEditedIntervention().getPaymentDateProperty());
         statusBox.valueProperty().bindBidirectional(getEditedIntervention().getStatusProperty());
         paymenttypeBox.valueProperty().bindBidirectional(getEditedIntervention().getPaymentTypeProperty());
+        //clientBox.valueProperty().getValue().getId();
     }
 
     /**
