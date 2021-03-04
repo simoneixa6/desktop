@@ -36,7 +36,9 @@ public class DateEditableCell extends TableCell<Period, LocalDate> {
     @Override
     public void cancelEdit() {
         super.cancelEdit();
-        setText(getItem().format(Dateformatter));
+        if(getItem()!=null){
+            setText(getItem().format(Dateformatter));     
+        }
         setGraphic(null);
     }
 

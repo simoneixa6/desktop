@@ -37,8 +37,9 @@ public class TimeEditableCell extends TableCell<Period, LocalTime> {
     @Override
     public void cancelEdit() {
         super.cancelEdit();
-
-        setText(getItem().format(Timeformatter));
+        if(getItem() != null){
+            setText(getItem().format(Timeformatter));
+        }
         setGraphic(null);
     }
 

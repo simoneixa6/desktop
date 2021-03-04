@@ -224,16 +224,20 @@
     -fx-border-color: mainGrey;
 }
 
-.table-row-cell {
-    -fx-border-color: mainGrey;
+.table-view:row-selection .table-row-cell:filled:hover {
+    -fx-background-color: mainGreyHover;
 }
 
-.table-row-cell:hover {
+.table-row-cell:filled:focused:selected {
+    -fx-background-color: mainGrey;
+}
+
+.table-view:focused .table-row-cell:filled:focused:selected {
     -fx-background-color: mainGreyHover;
 }
 
 .table-row-cell:filled:selected:focused {
-    -fx-border-color: mainGrey;
+    -fx-border-color: mainGreyHover;
     -fx-border-width: 0px;
 }
 
@@ -241,7 +245,7 @@
     -fx-background-color: mainGrey;
 }
 .table-row-cell:even{
-    -fx-background-color: mainGrey;
+    -fx-background-color: mainGreyHover;
 }
 
 .table-view .column-header-background{
@@ -254,8 +258,8 @@
     -fx-background-color: white;
 }
 
-.table-view-selection .column-header-background .filler {
-    -fx-region-background: white;
+.table-view .column-header-background .filler {
+    -fx-background-color: white;
 }
 
 
