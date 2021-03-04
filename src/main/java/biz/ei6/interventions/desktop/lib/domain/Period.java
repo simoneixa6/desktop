@@ -40,7 +40,7 @@ public class Period {
     public LocalDate getDate() {
         return date.get();
     }
-    
+
     public void setDate(LocalDate date) {
         this.date.set(date);
     }
@@ -77,7 +77,11 @@ public class Period {
         return start.get();
     }
 
-    public void setStart(String start) {
+    public void setStart(LocalTime start) {
+        this.start.set(start);
+    }
+
+    public void setStartString(String start) {
         if (start != null) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
             LocalTime parsedStart = LocalTime.parse(start, formatter);
@@ -109,7 +113,11 @@ public class Period {
         return end.get();
     }
 
-    public void setEnd(String end) {
+    public void setEnd(LocalTime end) {
+        this.end.set(end);
+    }
+
+    public void setEndString(String end) {
         if (end != null) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
             LocalTime parsedEnd = LocalTime.parse(end, formatter);

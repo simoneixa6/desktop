@@ -192,13 +192,13 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
         if ("0001-01-01T00:00:00Z".equals(periodDTO.getStart())) {
             // Le serveur renvoie la date 0001-01-01T00:00:00Z si aucune valeur de début n'a été rentré lors de la création d'une intervention
         } else {
-            period.setStart(periodDTO.getStart());
+            period.setStartString(periodDTO.getStart());
         }
 
         if ("0001-01-01T00:00:00Z".equals(periodDTO.getStart())) {
             // Le serveur renvoie la date 0001-01-01T00:00:00Z si aucune valeur de début n'a été rentré lors de la création d'une intervention
         } else {
-            period.setEnd(periodDTO.getEnd());
+            period.setEndString(periodDTO.getEnd());
         }
 
     }

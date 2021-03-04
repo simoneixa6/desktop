@@ -254,6 +254,10 @@
     -fx-background-color: white;
 }
 
+.table-view-selection .column-header-background .filler {
+    -fx-region-background: white;
+}
+
 
 #tableViewButton {
     -fx-background-color: transparent;
