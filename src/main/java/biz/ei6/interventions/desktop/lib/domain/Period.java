@@ -23,7 +23,7 @@ public class Period {
         return date;
     }
 
-    public String getDate() {
+    public String getDateString() {
 
         String formattedDate;
 
@@ -37,7 +37,15 @@ public class Period {
         return formattedDate;
     }
 
-    public void setDate(String date) {
+    public LocalDate getDate() {
+        return date.get();
+    }
+    
+    public void setDate(LocalDate date) {
+        this.date.set(date);
+    }
+
+    public void setDateString(String date) {
         if (date != null) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
             LocalDate parsedDate = LocalDate.parse(date, formatter);
@@ -52,7 +60,7 @@ public class Period {
         return start;
     }
 
-    public String getStart() {
+    public String getStartString() {
         String formattedStart;
 
         if (start != null) {
@@ -63,6 +71,10 @@ public class Period {
             formattedStart = null;
         }
         return formattedStart;
+    }
+
+    public LocalTime getStart() {
+        return start.get();
     }
 
     public void setStart(String start) {
@@ -80,7 +92,7 @@ public class Period {
         return end;
     }
 
-    public String getEnd() {
+    public String getEndString() {
         String formattedEnd;
 
         if (end != null) {
@@ -93,14 +105,18 @@ public class Period {
         return formattedEnd;
     }
 
+    public LocalTime getEnd() {
+        return end.get();
+    }
+
     public void setEnd(String end) {
         if (end != null) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
             LocalTime parsedEnd = LocalTime.parse(end, formatter);
 
-            this.start.set(parsedEnd);
+            this.end.set(parsedEnd);
         } else {
-            this.start.set(null);
+            this.end.set(null);
         }
     }
 }

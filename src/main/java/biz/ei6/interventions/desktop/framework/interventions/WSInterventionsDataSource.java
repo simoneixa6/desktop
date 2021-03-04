@@ -168,10 +168,17 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
 
     private void setPeriodDTO(PeriodDTO periodDTO, Period period) {
 
-        periodDTO.setDate(period.getDate());
-        periodDTO.setStart(period.getStart());
-        periodDTO.setEnd(period.getEnd());
+        if (period.getDate() != null) {
+            periodDTO.setDate(period.getDateString());
+        }
 
+        if (period.getStart() != null) {
+            periodDTO.setStart(period.getStartString());
+        }
+
+        if (period.getEnd() != null) {
+            periodDTO.setEnd(period.getEndString());
+        }
     }
 
     private void setPeriod(Period period, PeriodDTO periodDTO) {
@@ -179,7 +186,7 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
         if ("0001-01-01T00:00:00Z".equals(periodDTO.getDate())) {
             // Le serveur renvoie la date 0001-01-01T00:00:00Z si aucune valeur de date n'a été rentré lors de la création d'une intervention
         } else {
-            period.setDate(periodDTO.getDate());
+            period.setDateString(periodDTO.getDate());
         }
 
         if ("0001-01-01T00:00:00Z".equals(periodDTO.getStart())) {
@@ -219,7 +226,7 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
             }
             interventionDTO.setPeriods(periodsDTO);
         }
-        
+
         if (intervention.getKm() != null) {
             interventionDTO.setKm(Double.parseDouble(intervention.getKm()) + "");
         } else {

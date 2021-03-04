@@ -17,6 +17,7 @@ import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -27,6 +28,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
@@ -34,6 +36,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 
 /*
  * @author Eixa6
@@ -186,20 +189,19 @@ public final class InterventionsFormController implements Initializable {
             }
             desktopListener.close();
         });
-        
+
         /**
          * Action sur le clic du bouton "Ajouter" pour la tableview des périodes
          */
         addPeriodBtn.setOnAction((ActionEvent actionEvent) -> {
             Period period = new Period();
-            period.setDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")));
+            period.setDateString(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")));
             periodTableView.getItems().add(period);
         });
-        
-        
-        
+
         /**
-         * Action sur le clic du bouton "Supprimer" pour la tableview des périodes
+         * Action sur le clic du bouton "Supprimer" pour la tableview des
+         * périodes
          */
         deletePeriodBtn.setOnAction((ActionEvent actionEvent) -> {
             ObservableList<Period> selectedPeriods, periods;
@@ -231,7 +233,90 @@ public final class InterventionsFormController implements Initializable {
         endCol.setCellValueFactory(new PropertyValueFactory<Period, LocalTime>("end"));
 
         periodTableView.setEditable(true);
-        //dateCol.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        DateTimeFormatter Dateformatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        dateCol.setCellFactory(column -> new TableCell<Period, LocalDate>() {
+
+            private TextField textField;
+
+            @Override
+            public void startEdit() {
+                if (!isEmpty()) {
+                    super.startEdit();
+                    createTextField();
+                    setText(null);
+                    setGraphic(textField);
+                    textField.selectAll();
+                }
+            }
+
+            @Override
+            public void cancelEdit() {
+                super.cancelEdit();
+
+                setText(getItem().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+                setGraphic(null);
+            }
+
+            @Override
+            protected void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+                if (empty || date == null) {
+                    setText("");
+                } else {
+                    setText(Dateformatter.format(date));
+                }
+            }
+
+            private void createTextField() {
+                textField = new TextField(getString());
+                textField.setMinWidth(this.getWidth() - this.getGraphicTextGap() * 2);
+                textField.focusedProperty().addListener(
+                        (ObservableValue<? extends Boolean> arg0,
+                                Boolean arg1, Boolean arg2) -> {
+                            if (!arg2) {
+                                // Essaye de parser la valeur en LocalDate, si exception alors la valeur ne correspond pas au bon format, on annule l'édition
+                                try {
+                                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                                    LocalDate parsedDate = LocalDate.parse(textField.getText(), formatter);
+                                    commitEdit(parsedDate);
+                                    setGraphic(null);
+                                } catch (Exception e) {
+                                    cancelEdit();
+                                }
+                            }
+                        });
+            }
+
+            private String getString() {
+                return getItem() == null ? "" : getItem().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            }
+        });
+
+        DateTimeFormatter Timeformatter = DateTimeFormatter.ofPattern("HH:mm");
+        startCol.setCellFactory(column -> new TableCell<Period, LocalTime>() {
+            @Override
+            protected void updateItem(LocalTime time, boolean empty) {
+                super.updateItem(time, empty);
+                if (empty || time == null) {
+                    setText("");
+                } else {
+                    setText(Timeformatter.format(time));
+                }
+            }
+        });
+
+        endCol.setCellFactory(column -> new TableCell<Period, LocalTime>() {
+            @Override
+            protected void updateItem(LocalTime time, boolean empty) {
+                super.updateItem(time, empty);
+                if (empty || time == null) {
+                    setText("");
+                } else {
+                    setText(Timeformatter.format(time));
+                }
+            }
+        });
 
     }
 
@@ -242,7 +327,7 @@ public final class InterventionsFormController implements Initializable {
      */
     public void changeDateCellEvent(CellEditEvent edittedCell) {
         Period selectedPeriod = periodTableView.getSelectionModel().getSelectedItem();
-        selectedPeriod.setDate(edittedCell.getNewValue().toString());
+        selectedPeriod.setDate((LocalDate) edittedCell.getNewValue());
     }
 
     /**
@@ -278,9 +363,8 @@ public final class InterventionsFormController implements Initializable {
         if (nameInput.getText() == null || "".equals(nameInput.getText())) {
             errors.append(resources.getString("warning.nom"));
         }
-        
-        if (periodTableView.getItems().size() <= 1)
-        {
+
+        if (periodTableView.getItems().size() < 1) {
             errors.append(resources.getString("warning.periode"));
         }
 
