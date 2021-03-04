@@ -14,6 +14,7 @@ biz\ei6\interventions\desktop\interventions\SortBoxCell.class
 biz\ei6\interventions\desktop\interventions\InterventionsController.class
 biz\ei6\interventions\desktop\lib\interactors\UpdateClient.class
 biz\ei6\interventions\desktop\interventions\InterventionCellFactory.class
+biz\ei6\interventions\desktop\clients\StringEditableCell.class
 biz\ei6\interventions\desktop\framework\interventions\InterventionPutException.class
 biz\ei6\interventions\desktop\interventions\SortBoxCellFactory.class
 biz\ei6\interventions\desktop\lib\data\ClientsDataSource.class
@@ -34,6 +35,7 @@ biz\ei6\interventions\desktop\framework\clients\ClientPutException.class
 biz\ei6\interventions\desktop\framework\interventions\InterventionGetException.class
 biz\ei6\interventions\desktop\lib\interactors\AddIntervention.class
 biz\ei6\interventions\desktop\lib\domain\Period.class
+biz\ei6\interventions\desktop\clients\NumberEditableCell.class
 biz\ei6\interventions\desktop\lib\interactors\GetClients.class
 biz\ei6\interventions\desktop\clients\ClientsFormController.class
 biz\ei6\interventions\desktop\lib\data\InterventionsRepository.class

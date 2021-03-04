@@ -8,6 +8,7 @@ C:\Users\Eixa6\Desktop\Stage Simon\Projet\Front End\desktop\src\main\java\biz\ei
 C:\Users\Eixa6\Desktop\Stage Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\lib\data\ClientsRepository.java
 C:\Users\Eixa6\Desktop\Stage Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\interventions\InterventionsController.java
 C:\Users\Eixa6\Desktop\Stage Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\framework\interventions\InterventionPostException.java
+C:\Users\Eixa6\Desktop\Stage Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\clients\StringEditableCell.java
 C:\Users\Eixa6\Desktop\Stage Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\clients\ClientCell.java
 C:\Users\Eixa6\Desktop\Stage Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\lib\data\ClientsDataSource.java
 C:\Users\Eixa6\Desktop\Stage Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\framework\interventions\InterventionGetException.java
@@ -21,6 +22,7 @@ C:\Users\Eixa6\Desktop\Stage Simon\Projet\Front End\desktop\src\main\java\biz\ei
 C:\Users\Eixa6\Desktop\Stage Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\clients\ClientsPane.java
 C:\Users\Eixa6\Desktop\Stage Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\MainController.java
 C:\Users\Eixa6\Desktop\Stage Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\lib\interactors\AddClient.java
+C:\Users\Eixa6\Desktop\Stage Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\clients\NumberEditableCell.java
 C:\Users\Eixa6\Desktop\Stage Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\lib\interactors\UpdateIntervention.java
 C:\Users\Eixa6\Desktop\Stage Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\interventions\InterventionsFormController.java
 C:\Users\Eixa6\Desktop\Stage Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\lib\domain\Site.java

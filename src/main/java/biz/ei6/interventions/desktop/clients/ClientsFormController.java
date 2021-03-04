@@ -222,24 +222,25 @@ public final class ClientsFormController implements Initializable {
         siteTableView.setEditable(true);
         siteTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
-        addressCol.setCellFactory(TextFieldTableCell.forTableColumn());
-        zipCodeCol.setCellFactory(TextFieldTableCell.forTableColumn());
-        cityCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        addressCol.setCellFactory(column -> new StringEditableCell(column));
+        cityCol.setCellFactory(column -> new StringEditableCell(column));        
+        zipCodeCol.setCellFactory(column -> new NumberEditableCell(column));
+    }
+    
+    
+    public void ChangeAddressCellEvent(CellEditEvent editedCell) {
+        Site selectedSite = siteTableView.getSelectionModel().getSelectedItem();
+        selectedSite.setAddress(editedCell.getNewValue().toString());
     }
 
-    public void ChangeAddressCellEvent(CellEditEvent edittedCell) {
+    public void ChangeZipCodeCellEvent(CellEditEvent editedCell) {
         Site selectedSite = siteTableView.getSelectionModel().getSelectedItem();
-        selectedSite.setAddress(edittedCell.getNewValue().toString());
+        selectedSite.setZipCode(editedCell.getNewValue().toString());
     }
 
-    public void ChangeZipCodeCellEvent(CellEditEvent edittedCell) {
+    public void ChangeCityCellEvent(CellEditEvent editedCell) {
         Site selectedSite = siteTableView.getSelectionModel().getSelectedItem();
-        selectedSite.setZipCode(edittedCell.getNewValue().toString());
-    }
-
-    public void ChangeCityCellEvent(CellEditEvent edittedCell) {
-        Site selectedSite = siteTableView.getSelectionModel().getSelectedItem();
-        selectedSite.setCity(edittedCell.getNewValue().toString());
+        selectedSite.setCity(editedCell.getNewValue().toString());
     }
 
     /**
