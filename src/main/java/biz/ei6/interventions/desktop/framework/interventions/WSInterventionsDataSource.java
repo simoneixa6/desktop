@@ -2,6 +2,7 @@ package biz.ei6.interventions.desktop.framework.interventions;
 
 import biz.ei6.interventions.desktop.lib.data.InterventionsDataSource;
 import biz.ei6.interventions.desktop.lib.domain.Intervention;
+import biz.ei6.interventions.desktop.lib.domain.Period;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import static java.lang.Boolean.parseBoolean;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutionException;
 
@@ -20,16 +22,12 @@ import java.util.concurrent.ExecutionException;
  */
 public class WSInterventionsDataSource implements InterventionsDataSource {
 
-    static HttpClient httpClient;
+    HttpClient httpClient;
     ResourceBundle resources;
 
-    static {
-        // Création du client HTTP
-        httpClient = HttpClient.newHttpClient();
-    }
-
-    public WSInterventionsDataSource(ResourceBundle resources) {
+    public WSInterventionsDataSource(ResourceBundle resources, HttpClient httpClient) {
         this.resources = resources;
+        this.httpClient = httpClient;
     }
 
     @Override
@@ -168,18 +166,66 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
         return json;
     }
 
+    private void setPeriodDTO(PeriodDTO periodDTO, Period period) {
+
+        if (period.getDate() != null) {
+            periodDTO.setDate(period.getDateString());
+        }
+
+        if (period.getStart() != null) {
+            periodDTO.setStart(period.getStartString());
+        }
+
+        if (period.getEnd() != null) {
+            periodDTO.setEnd(period.getEndString());
+        }
+    }
+
+    private void setPeriod(Period period, PeriodDTO periodDTO) {
+
+        if ("0001-01-01T00:00:00Z".equals(periodDTO.getDate())) {
+            // Le serveur renvoie la date 0001-01-01T00:00:00Z si aucune valeur de date n'a été rentré lors de la création d'une intervention
+        } else {
+            period.setDateString(periodDTO.getDate());
+        }
+
+        if ("0001-01-01T00:00:00Z".equals(periodDTO.getStart())) {
+            // Le serveur renvoie la date 0001-01-01T00:00:00Z si aucune valeur de début n'a été rentré lors de la création d'une intervention
+        } else {
+            period.setStartString(periodDTO.getStart());
+        }
+
+        if ("0001-01-01T00:00:00Z".equals(periodDTO.getStart())) {
+            // Le serveur renvoie la date 0001-01-01T00:00:00Z si aucune valeur de début n'a été rentré lors de la création d'une intervention
+        } else {
+            period.setEndString(periodDTO.getEnd());
+        }
+
+    }
+
     private void setInterventionDTO(InterventionDTO interventionDTO, Intervention intervention) {
         interventionDTO.setId(intervention.getId());
         interventionDTO.setTitle(intervention.getTitle());
         interventionDTO.setClient_id(intervention.getClient_id());
+        interventionDTO.setUser_id(intervention.getUser_id());
         interventionDTO.setDescription(intervention.getDescription());
-        // interventionDTO.setPeriods(new ArrayList<PeriodDTO>());
         interventionDTO.setAddress(intervention.getAddress());
         interventionDTO.setBillNumber(intervention.getBillNumber());
         interventionDTO.setPaymentType(intervention.getPaymentType());
         interventionDTO.setStatus(intervention.getStatus());
-        // interventionDTO.setMedias(new ArrayList<String>());
+        interventionDTO.setMedias(intervention.getMedias());
         interventionDTO.setDeleted(String.valueOf(intervention.getDeleted()));
+
+        if (intervention.getPeriods() != null) {
+            List<PeriodDTO> periodsDTO = new ArrayList<>();
+
+            for (Period period : intervention.getPeriods()) {
+                PeriodDTO periodDTO = new PeriodDTO();
+                setPeriodDTO(periodDTO, period);
+                periodsDTO.add(periodDTO);
+            }
+            interventionDTO.setPeriods(periodsDTO);
+        }
 
         if (intervention.getKm() != null) {
             interventionDTO.setKm(Double.parseDouble(intervention.getKm()) + "");
@@ -204,14 +250,25 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
         intervention.setId(interventionDTO.getId());
         intervention.setTitle(interventionDTO.getTitle());
         intervention.setClient_id(interventionDTO.getClient_id());
+        intervention.setUser_id(interventionDTO.getUser_id());
         intervention.setDescription(interventionDTO.getDescription());
-        // intervention.setPeriods(new ArrayList<PeriodDTO>());
         intervention.setAddress(interventionDTO.getAddress());
         intervention.setBillNumber(interventionDTO.getBillNumber());
         intervention.setPaymentType(interventionDTO.getPaymentType());
         intervention.setStatus(interventionDTO.getStatus());
-        intervention.setMedias(new ArrayList<String>());
+        intervention.setMedias(interventionDTO.getMedias());
         intervention.setDeleted(parseBoolean(interventionDTO.getDeleted()));
+
+        List<Period> periods = new ArrayList<>();
+
+        if (interventionDTO.getPeriods() != null) {
+            for (PeriodDTO periodDTO : interventionDTO.getPeriods()) {
+                Period period = new Period();
+                setPeriod(period, periodDTO);
+                periods.add(period);
+            }
+        }
+        intervention.setPeriods(periods);
 
         if ("0".equals(interventionDTO.getKm())) {
             // Le serveur renvoie 0 si aucune valeur n'a été rentré lors de la création d'une intervention

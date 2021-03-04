@@ -83,15 +83,6 @@
     -fx-font-weight: bold;   
 }
 
-#bluelabel {
-    -fx-text-fill: #0066cc;
-    -fx-font-size : 11px;
-}
-
-#bluelabel:hover {
-    -fx-text-fill: #fc3300;   
-}
-
 /*Styling of the text input*/
 
 #textInput {
@@ -219,6 +210,10 @@
     -fx-border-color: #ffffff;
 }
 
+.table-column {
+  -fx-alignment: CENTER;
+}
+
 .table-view .placeholder {
     -fx-border-color: mainGrey;
     -fx-background-color:mainGrey;
@@ -229,16 +224,20 @@
     -fx-border-color: mainGrey;
 }
 
-.table-row-cell {
-    -fx-border-color: mainGrey;
+.table-view:row-selection .table-row-cell:filled:hover {
+    -fx-background-color: mainGreyHover;
 }
 
-.table-row-cell:hover {
+.table-row-cell:filled:focused:selected {
+    -fx-background-color: mainGrey;
+}
+
+.table-view:focused .table-row-cell:filled:focused:selected {
     -fx-background-color: mainGreyHover;
 }
 
 .table-row-cell:filled:selected:focused {
-    -fx-border-color: mainGrey;
+    -fx-border-color: mainGreyHover;
     -fx-border-width: 0px;
 }
 
@@ -246,7 +245,7 @@
     -fx-background-color: mainGrey;
 }
 .table-row-cell:even{
-    -fx-background-color: mainGrey;
+    -fx-background-color: mainGreyHover;
 }
 
 .table-view .column-header-background{
@@ -257,6 +256,21 @@
 
 .table-view .column-header {
     -fx-background-color: white;
+}
+
+.table-view .column-header-background .filler {
+    -fx-background-color: white;
+}
+
+
+#tableViewButton {
+    -fx-background-color: transparent;
+    -fx-text-fill: #0066cc;
+    -fx-font-size : 11px;
+}
+
+#tableViewButton:hover {
+    -fx-text-fill: #fc3300;  
 }
 
 /*Styling of the date pickers*/

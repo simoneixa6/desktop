@@ -29,6 +29,7 @@ public class Intervention {
 
     private final StringProperty _id = new SimpleStringProperty();
     private final StringProperty title = new SimpleStringProperty();
+    private final StringProperty user_id = new SimpleStringProperty();
     private final StringProperty client_id = new SimpleStringProperty();
     private final StringProperty description = new SimpleStringProperty();
     private final ListProperty<Period> periods = new SimpleListProperty();
@@ -45,16 +46,16 @@ public class Intervention {
     {
 
         // Ajout d'une période par défault
-//    Period period = new Period();
-//    period.setDate(LocalDate.now());
-//    List<Period> listperiod = List.of(period) ;
-//    
-//    this.setPeriod(listperiod);
-        this.setPeriods(new ArrayList<Period>());
+        Period period = new Period();
+        period.setDateString(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")));
+        period.setStartString(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")));
+        period.setEndString(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")));
+        List<Period> periodlist = List.of(period);
+        this.setPeriods(periodlist);
 
         // Ajout du tableau de médias vide par défault
-        this.setMedias(new ArrayList<String>());
-
+        ArrayList<String> mediaslist = new ArrayList<>();
+        this.setMedias(mediaslist);
     }
 
     /*
@@ -108,6 +109,24 @@ public class Intervention {
     }
 
     /**
+     * @return the user_id
+     */
+    public String getUser_id() {
+        return user_id.get();
+    }
+
+    public StringProperty getUser_idProperty() {
+        return user_id;
+    }
+
+    /**
+     * @param user_id the client_id to set
+     */
+    public void setUser_id(String user_id) {
+        this.user_id.set(user_id);
+    }
+
+    /**
      * @return the description
      */
     public StringProperty getDescriptionProperty() {
@@ -137,10 +156,10 @@ public class Intervention {
     }
 
     /**
-     * @param period the period to set
+     * @param periods the period to set
      */
-    public void setPeriods(List<Period> period) {
-        this.periods.set(FXCollections.observableArrayList(period));
+    public void setPeriods(List<Period> periods) {
+        this.periods.set(FXCollections.observableArrayList(periods));
     }
 
     /**
@@ -222,11 +241,11 @@ public class Intervention {
     /**
      * @param billDate the billDate to set
      */
-    public void setBillDate(String billDateString) {
+    public void setBillDate(String billDate) {
 
-        if (billDateString != null) {
+        if (billDate != null) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
-            LocalDate parsedDate = LocalDate.parse(billDateString, formatter);
+            LocalDate parsedDate = LocalDate.parse(billDate, formatter);
 
             this.billDate.set(parsedDate);
         } else {
@@ -262,13 +281,12 @@ public class Intervention {
     public String getPaymentDate() {
 
         String formattedPaymentDateTime;
-        
+
         if (paymentDate.getValue() != null) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
             LocalDateTime dateTime = paymentDate.get().atStartOfDay();
             formattedPaymentDateTime = dateTime.format(formatter);
-        }
-        else {
+        } else {
             formattedPaymentDateTime = "";
         }
 
@@ -278,11 +296,11 @@ public class Intervention {
     /**
      * @param paymentDate the paymentDate to set
      */
-    public void setPaymentDate(String paymentDateString) {
+    public void setPaymentDate(String paymentDate) {
 
-        if (paymentDateString != null) {
+        if (paymentDate != null) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
-            LocalDate parsedDate = LocalDate.parse(paymentDateString, formatter);
+            LocalDate parsedDate = LocalDate.parse(paymentDate, formatter);
 
             this.paymentDate.set(parsedDate);
         } else {
@@ -323,7 +341,9 @@ public class Intervention {
      * @param medias the medias to set
      */
     public void setMedias(List<String> medias) {
-        this.medias.set(FXCollections.observableArrayList(medias));
+        if (medias != null) {
+            this.medias.set(FXCollections.observableArrayList(medias));
+        }
     }
 
     /**

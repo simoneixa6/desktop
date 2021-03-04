@@ -55,7 +55,7 @@ class ClientsController implements Initializable, DesktopListener {
         /*
          * Mise en place de la cell factory de la listview des clients
          */
-        //clientsListView.setCellFactory(new ClientCellFactory());
+        clientsListView.setCellFactory(new ClientCellFactory());
 
         /*
          * Action lors de la selection d'un client dans la listview
@@ -71,10 +71,14 @@ class ClientsController implements Initializable, DesktopListener {
          * Action sur le clic du bouton "Nouveau client"
          */
         createBtn.setOnAction((ActionEvent actionEvent) -> {
+            clientsListView.getSelectionModel().clearSelection();
             ClientsForm clientsForm = new ClientsForm(interactors, new Client(), this, resources);
             addClientsFormToSplitPane(clientsForm);
         });
 
+        // Muse à jour de la liste des clients au démarrage
+        updateClientsListView();
+        
     }
 
     private void addClientsFormToSplitPane(ClientsForm clientsForm) {
@@ -92,12 +96,8 @@ class ClientsController implements Initializable, DesktopListener {
     }
 
     public void updateClientsListView() {
-        try {
             var dataobs = FXCollections.observableArrayList(getClients());
             clientsListView.setItems(dataobs);
-        } catch (Exception e) {
-            new Alert(Alert.AlertType.ERROR, "Erreur lors de la mise à jour de la liste des clients : " + e.toString()).show();
-        }
     }
 
     public ArrayList<Client> getClients() {
@@ -107,9 +107,9 @@ class ClientsController implements Initializable, DesktopListener {
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Erreur");
             alert.setHeaderText("Erreur lors de la récupération des clients (GET) :");
-            alert.setContentText(e.toString() + "Cause" + e.getCause().toString());
+            alert.setContentText(e.toString());
             alert.show();
         }
-        return null;
+        return new ArrayList<>();
     }
 }

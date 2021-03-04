@@ -7,11 +7,18 @@ import biz.ei6.interventions.desktop.framework.interventions.InterventionPostExc
 import biz.ei6.interventions.desktop.framework.interventions.InterventionPutException;
 import biz.ei6.interventions.desktop.lib.domain.Intervention;
 import biz.ei6.interventions.desktop.lib.domain.Period;
+import biz.ei6.interventions.desktop.lib.domain.Site;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -20,13 +27,15 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 
 /*
  * @author Eixa6
@@ -34,37 +43,28 @@ import javafx.scene.control.cell.TextFieldTableCell;
 public final class InterventionsFormController implements Initializable {
 
     @FXML
-    TextField NameInput;
+    TextField nameInput;
 
     @FXML
-    TextArea DescriptionInput;
+    TextArea descriptionInput;
 
     @FXML
-    TextField KmInput;
+    ChoiceBox userBox;
 
     @FXML
-    DatePicker BillDateInput;
+    ListView<String> mediasListView;
 
     @FXML
-    TextField BillNumberInput;
+    TextField kmInput;
 
     @FXML
-    DatePicker PaymentDateInput;
+    DatePicker billDateInput;
 
     @FXML
-    TableView<Period> periodTableView;
+    TextField billNumberInput;
 
     @FXML
-    TableColumn<String, String> dateCol;
-
-    @FXML
-    TableColumn<String, String> startCol;
-
-    @FXML
-    TableColumn<String, String> endCol;
-
-    @FXML
-    TableColumn<String, String> durationCol;
+    DatePicker paymentDateInput;
 
     @FXML
     ChoiceBox<String> statusBox;
@@ -78,10 +78,35 @@ public final class InterventionsFormController implements Initializable {
     @FXML
     Button registerBtn;
 
+    // TableView des périodes
+    @FXML
+    TableView<Period> periodTableView;
+    @FXML
+    TableColumn<Period, LocalDate> dateCol;
+    @FXML
+    TableColumn<Period, LocalTime> startCol;
+    @FXML
+    TableColumn<Period, LocalTime> endCol;
+    @FXML
+    TableColumn<String, String> durationCol;
+    @FXML
+    Button addPeriodBtn;
+    @FXML
+    Button deletePeriodBtn;
+    @FXML
+    Button addMediaBtn;
+    @FXML
+    Button deleteMediaBtn;
+    @FXML
+    Button createClientBtn;
+    @FXML
+    Button editClientBtn;
+
     Interactors interactors;
 
     DesktopListener desktopListener;
 
+    
     /**
      * Intervention éditée par la partie droite de l'interface
      */
@@ -102,6 +127,9 @@ public final class InterventionsFormController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        // TEMPORAIRE
+        userBox.getItems().addAll("Slad", "Fabien");
+
         //Remplissage des choiceboxs
         statusBox.getItems().addAll(resources.getString("status.ouverte"), resources.getString("status.terminee"), resources.getString("status.facturee"), resources.getString("status.reglee"));
         paymenttypeBox.getItems().addAll(resources.getString("paiement.cheque"), resources.getString("paiement.cb"), resources.getString("paiement.espece"));
@@ -109,98 +137,201 @@ public final class InterventionsFormController implements Initializable {
         // Binding à l'initialisation
         bind();
 
-        // Si une intervention n'a pas d'id c'est que c'est une nouvelle intervention
+        // Si une intervention n'a pas d'id, c'est que c'est une nouvelle intervention
         if (getEditedIntervention().getId() == null) {
-
             // Valeurs pas défault pour une nouvelle intervention
             statusBox.setValue(resources.getString("status.ouverte"));
             paymenttypeBox.setValue(resources.getString("paiement.cheque"));
             registerBtn.setText(resources.getString("enregistrer"));
             deleteBtn.setDisable(true);
+
+            //TEMPORAIRE
+            userBox.setValue("Slad");
+
         } else {
             registerBtn.setText(resources.getString("modifier"));
             deleteBtn.setDisable(false);
         }
 
-        /*
+        /**
          * Action sur le clic du bouton "Enregistrer" / "Modifier"
          */
         registerBtn.setOnAction((ActionEvent actionEvent) -> {
-
-            // Si l'intervention ne possède d'id, elle est nouvelle, on enregistre
-            if (getEditedIntervention().getId() == null) {
-                try {
-                    interactors.addIntervention.invoke(getEditedIntervention());
-                } catch (InterventionPostException e) {
-                    Alert alert = new Alert(AlertType.ERROR);
-                    alert.setTitle(resources.getString("exception.erreur"));
-                    alert.setHeaderText(resources.getString("exception.ajoutIntervention"));
-                    alert.setContentText(e.toString() + " Cause" + e.getCause().toString());
-                    alert.show();
+            // Si tous les champs obligatoires sont remplies
+            if (validate(resources) == true) {
+                // Si l'intervention ne possède pas d'id, elle est nouvelle, on enregistre
+                if (getEditedIntervention().getId() == null) {
+                    try {
+                        interactors.addIntervention.invoke(getEditedIntervention());
+                    } catch (InterventionPostException e) {
+                        showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.ajoutIntervention", e.toString());
+                    }
+                    // Si elle possède un ID, elle existe, on veut donc la modifier
+                } else {
+                    try {
+                        interactors.updateIntervention.invoke(getEditedIntervention());
+                    } catch (InterventionPutException e) {
+                        showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.modificationIntervention", e.toString());
+                    }
                 }
-                // Si elle possède un ID, elle existe, donc on veut donc la modifier
-            } else {
-                try {
-                    interactors.updateIntervention.invoke(getEditedIntervention());
-                } catch (InterventionPutException e) {
-                    Alert alert = new Alert(AlertType.ERROR);
-                    alert.setTitle(resources.getString("exception.erreur"));
-                    alert.setHeaderText(resources.getString("exception.modificationIntervention"));
-                    alert.setContentText(e.toString() + "    " + e.getCause().toString());
-                    alert.show();
-                }
+                desktopListener.close();
             }
-
-            desktopListener.close();
-
         });
 
-        /*
+        /**
          * Action sur le clic du bouton "Supprimer"
          */
         deleteBtn.setOnAction((ActionEvent actionEvent) -> {
             try {
                 interactors.removeIntervention.invoke(getEditedIntervention());
             } catch (InterventionPutException e) {
-
-                new Alert(Alert.AlertType.ERROR, resources.getString("exception.suppressionIntervention") + e.toString()).show();
+                showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.suppressionIntervention", e.toString());
             }
             desktopListener.close();
+        });
+
+        /**
+         * Action sur le clic du bouton "Ajouter" pour la tableview des périodes
+         */
+        addPeriodBtn.setOnAction((ActionEvent actionEvent) -> {
+            Period period = new Period();
+            period.setDateString(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")));
+            periodTableView.getItems().add(period);
+        });
+
+        /**
+         * Action sur le clic du bouton "Supprimer" pour la tableview des
+         * périodes
+         */
+        deletePeriodBtn.setOnAction((ActionEvent actionEvent) -> {
+            ObservableList<Period> selectedPeriods, periods;
+            periods = periodTableView.getItems();
+
+            // Renvoie les sites séléctionnés
+            selectedPeriods = periodTableView.getSelectionModel().getSelectedItems();
+
+            selectedPeriods.forEach(period -> {
+                periods.remove(period);
+            });
         });
 
         /*
          * Text formatter sur le champ des kms pour accepter que des entiers ou double
          */
         Pattern pattern = Pattern.compile("\\d*|\\d+\\.+\\d*");
-        TextFormatter formatter = new TextFormatter((UnaryOperator<TextFormatter.Change>) change -> {
+        TextFormatter onlyIntDoubleFormatter = new TextFormatter((UnaryOperator<TextFormatter.Change>) change -> {
             return pattern.matcher(change.getControlNewText()).matches() ? change : null;
         });
 
-        KmInput.setTextFormatter(formatter);
+        kmInput.setTextFormatter(onlyIntDoubleFormatter);
 
         /*
          * Mise en place de la table view des Périodes
          */
+        dateCol.setCellValueFactory(new PropertyValueFactory<Period, LocalDate>("date"));
+        startCol.setCellValueFactory(new PropertyValueFactory<Period, LocalTime>("start"));
+        endCol.setCellValueFactory(new PropertyValueFactory<Period, LocalTime>("end"));
+
         periodTableView.setEditable(true);
-        dateCol.setCellValueFactory(new PropertyValueFactory<>("dateCol"));
-        startCol.setCellValueFactory(new PropertyValueFactory<>("startCol"));
-        endCol.setCellValueFactory(new PropertyValueFactory<>("endCol"));
-        durationCol.setCellValueFactory(new PropertyValueFactory<>("durationCol"));
-        dateCol.setCellFactory(TextFieldTableCell.<String>forTableColumn());
-        startCol.setCellFactory(TextFieldTableCell.<String>forTableColumn());
-        endCol.setCellFactory(TextFieldTableCell.<String>forTableColumn());
-        durationCol.setCellFactory(TextFieldTableCell.<String>forTableColumn());
+        dateCol.setCellFactory(column -> new DateEditableCell(column));
+        startCol.setCellFactory(column -> new TimeEditableCell(column));
+        endCol.setCellFactory(column -> new TimeEditableCell(column));
     }
 
+    /**
+     * Event appellé lors de la modification d'une cell date
+     *
+     * @param editedCell
+     */
+    public void changeDateCellEvent(CellEditEvent editedCell) {
+        Period selectedPeriod = periodTableView.getSelectionModel().getSelectedItem();
+        selectedPeriod.setDate((LocalDate) editedCell.getNewValue());
+    }
+
+    /**
+     * Event appellé lors de la modification d'une cell heure de début
+     *
+     * @param editedCell
+     */
+    public void changeStartCellEvent(CellEditEvent editedCell) {
+        Period selectedPeriod = periodTableView.getSelectionModel().getSelectedItem();
+        selectedPeriod.setStart((LocalTime) editedCell.getNewValue());
+    }
+
+    /**
+     * Event appellé lors de la modification d'une cell Heure de gin
+     *
+     * @param editedCell
+     */
+    public void changeEndCellEvent(CellEditEvent editedCell) {
+        Period selectedPeriod = periodTableView.getSelectionModel().getSelectedItem();
+        selectedPeriod.setEnd((LocalTime) editedCell.getNewValue());
+    }
+
+    /**
+     * Mérhode permettant de bind les champs du formulaire et les attributs de
+     * notre objet Intervention
+     */
     private void bind() {
-        NameInput.textProperty().bindBidirectional(getEditedIntervention().getTitleProperty());
-        DescriptionInput.textProperty().bindBidirectional(getEditedIntervention().getDescriptionProperty());
-        KmInput.textProperty().bindBidirectional(getEditedIntervention().getKmProperty());
-        BillDateInput.valueProperty().bindBidirectional(getEditedIntervention().getBillDateProperty());
-        BillNumberInput.textProperty().bindBidirectional(getEditedIntervention().getBillNumberProperty());
-        PaymentDateInput.valueProperty().bindBidirectional(getEditedIntervention().getPaymentDateProperty());
+        periodTableView.itemsProperty().bindBidirectional(getEditedIntervention().getPeriodsProperty());
+        mediasListView.itemsProperty().bindBidirectional(getEditedIntervention().getMediasProperty());
+        nameInput.textProperty().bindBidirectional(getEditedIntervention().getTitleProperty());
+        userBox.valueProperty().bindBidirectional(getEditedIntervention().getUser_idProperty());
+        descriptionInput.textProperty().bindBidirectional(getEditedIntervention().getDescriptionProperty());
+        kmInput.textProperty().bindBidirectional(getEditedIntervention().getKmProperty());
+        billDateInput.valueProperty().bindBidirectional(getEditedIntervention().getBillDateProperty());
+        billNumberInput.textProperty().bindBidirectional(getEditedIntervention().getBillNumberProperty());
+        paymentDateInput.valueProperty().bindBidirectional(getEditedIntervention().getPaymentDateProperty());
         statusBox.valueProperty().bindBidirectional(getEditedIntervention().getStatusProperty());
         paymenttypeBox.valueProperty().bindBidirectional(getEditedIntervention().getPaymentTypeProperty());
+    }
+
+    /**
+     * Methode permettant de valider si les champs obligatoires sont bien
+     * remplies
+     *
+     * @param resources
+     * @return
+     */
+    public boolean validate(ResourceBundle resources) {
+
+        StringBuilder errors = new StringBuilder();
+
+        // Vérifie que les champs obligatoires soient bien remplies
+        if (nameInput.getText() == null || "".equals(nameInput.getText())) {
+            errors.append(resources.getString("warning.nom"));
+        }
+
+        if (periodTableView.getItems().size() < 1) {
+            errors.append(resources.getString("warning.periode"));
+        }
+
+        // Si une information est manquante, montre un message d'erreur et renvoie false
+        if (errors.length() > 0) {
+            showAlert(resources, AlertType.WARNING, "warning.attention", "warning.champsObligatoires", errors.toString());
+            return false;
+        }
+
+        // Pas d'erreur, tous les champs sont remplies correctement
+        return true;
+
+    }
+
+    /**
+     * Méthode permettant de faire apparaitres une alerte
+     *
+     * @param resources
+     * @param alertType
+     * @param titleProperty
+     * @param exceptionProperty
+     * @param contentText
+     */
+    private void showAlert(ResourceBundle resources, AlertType alertType, String titleProperty, String exceptionProperty, String contentText) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(resources.getString(titleProperty));
+        alert.setHeaderText(resources.getString(exceptionProperty));
+        alert.setContentText(contentText);
+        alert.showAndWait();
     }
 
     /**

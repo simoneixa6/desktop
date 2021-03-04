@@ -73,14 +73,21 @@ public class MainController implements Initializable {
             }
         });
     }
-    
-    
-    public void setSelectedButtonStyle(Button button){
+
+    public void setSelectedButtonStyle(Button button) {
         button.setId("sidebarBtnSelected");
-        
-        if(button!=interventionsBtn) interventionsBtn.setId("sidebarBtn");
-        if(button!=clientsBtn) clientsBtn.setId("sidebarBtn");
-        if(button!=usersBtn) usersBtn.setId("sidebarBtn");
-        if(button!=rolesBtn) rolesBtn.setId("sidebarBtn");        
+
+        if (button != interventionsBtn) {
+            interventionsBtn.setId("sidebarBtn");
+        }
+        if (button != clientsBtn) {
+            clientsBtn.setId("sidebarBtn");
+        }
+        if (button != usersBtn) {
+            usersBtn.setId("sidebarBtn");
+        }
+        if (button != rolesBtn) {
+            rolesBtn.setId("sidebarBtn");
+        }
     }
 }

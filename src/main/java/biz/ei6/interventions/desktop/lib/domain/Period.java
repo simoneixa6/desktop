@@ -1,52 +1,130 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package biz.ei6.interventions.desktop.lib.domain;
 
-import java.time.Duration;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 
 /**
  *
  * @author Eixa6
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Period {
-    private LocalDate date;
-    private LocalTime start;
-    private LocalTime end;
-    private Duration duration;
-    private String user_id;
-    
-    public String getDate() { 
-        
-        
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-        LocalDateTime dateTime = date.atStartOfDay();
-        String formattedDate = dateTime.format(formatter);
-        
-        return formattedDate;
-    
+
+    private final ObjectProperty<LocalDate> date = new SimpleObjectProperty();
+    private final ObjectProperty<LocalTime> start = new SimpleObjectProperty();
+    private final ObjectProperty<LocalTime> end = new SimpleObjectProperty();
+
+    public ObjectProperty<LocalDate> getDateProperty() {
+        return date;
     }
-    
-    public void setDate( LocalDate date ) { this.date=date; }
-   
-    public LocalTime getStart() { return this.start;}
-    public void setStart( LocalTime start ) { this.start=start; }
-    
-    public LocalTime getEnd() { return this.end;}
-    public void setEnd( LocalTime end ) { this.end=end; }
-   
-    public Duration getDuration() { return this.duration;}
-    public void setDuration( Duration duration ) { this.duration=duration; }
-    
-    public String getUserId() { return this.user_id;}
-    public void setUserId( String user_id ) { this.user_id=user_id; }
-    
-    public void period(){
+
+    public String getDateString() {
+
+        String formattedDate;
+
+        if (date != null) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+            LocalDateTime dateTime = date.get().atStartOfDay();
+            formattedDate = dateTime.format(formatter);
+        } else {
+            formattedDate = "";
+        }
+        return formattedDate;
+    }
+
+    public LocalDate getDate() {
+        return date.get();
+    }
+
+    public void setDate(LocalDate date) {
+        this.date.set(date);
+    }
+
+    public void setDateString(String date) {
+        if (date != null) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
+            LocalDate parsedDate = LocalDate.parse(date, formatter);
+
+            this.date.set(parsedDate);
+        } else {
+            this.date.set(null);
+        }
+    }
+
+    public ObjectProperty<LocalTime> getStartProperty() {
+        return start;
+    }
+
+    public String getStartString() {
+        String formattedStart;
+
+        if (start != null) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+            LocalDateTime dateTime = start.get().atDate(date.get());
+            formattedStart = dateTime.format(formatter);
+        } else {
+            formattedStart = null;
+        }
+        return formattedStart;
+    }
+
+    public LocalTime getStart() {
+        return start.get();
+    }
+
+    public void setStart(LocalTime start) {
+        this.start.set(start);
+    }
+
+    public void setStartString(String start) {
+        if (start != null) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
+            LocalTime parsedStart = LocalTime.parse(start, formatter);
+
+            this.start.set(parsedStart);
+        } else {
+            this.start.set(null);
+        }
+    }
+
+    public ObjectProperty<LocalTime> getEndProperty() {
+        return end;
+    }
+
+    public String getEndString() {
+        String formattedEnd;
+
+        if (end != null) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+            LocalDateTime dateTime = end.get().atDate(date.get());
+            formattedEnd = dateTime.format(formatter);
+        } else {
+            formattedEnd = null;
+        }
+        return formattedEnd;
+    }
+
+    public LocalTime getEnd() {
+        return end.get();
+    }
+
+    public void setEnd(LocalTime end) {
+        this.end.set(end);
+    }
+
+    public void setEndString(String end) {
+        if (end != null) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
+            LocalTime parsedEnd = LocalTime.parse(end, formatter);
+
+            this.end.set(parsedEnd);
+        } else {
+            this.end.set(null);
+        }
     }
 }
