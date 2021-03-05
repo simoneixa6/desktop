@@ -65,6 +65,13 @@ public class Intervention {
         return _id.get();
     }
 
+    /*
+     * @return the Id
+     */
+    public StringProperty getIdProperty() {
+        return _id;
+    }
+
     /**
      * @param Id the Id to set
      */

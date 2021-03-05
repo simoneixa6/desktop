@@ -26,6 +26,7 @@ public class StringEditableCell extends TableCell<Site, String> {
             createTextField();
             setText(null);
             setGraphic(textField);
+            textField.requestFocus();
             textField.selectAll();
         }
     }
@@ -33,7 +34,6 @@ public class StringEditableCell extends TableCell<Site, String> {
     @Override
     public void cancelEdit() {
         super.cancelEdit();
-
         setText((String) getItem());
         setGraphic(null);
     }

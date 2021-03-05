@@ -19,6 +19,10 @@ import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -43,6 +47,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.paint.Color;
 import javafx.util.Callback;
+import javafx.util.StringConverter;
 
 /*
  * @author Eixa6
@@ -124,6 +129,12 @@ public final class InterventionsFormController implements Initializable {
      */
     private final SimpleObjectProperty<Intervention> editedIntervention = new SimpleObjectProperty<Intervention>();
 
+    private final SimpleObjectProperty<Client> selectedClient = new SimpleObjectProperty<Client>();
+    StringProperty address = new SimpleStringProperty();
+    StringProperty zipCode = new SimpleStringProperty();
+    StringProperty city = new SimpleStringProperty();
+    StringProperty selectedAddress = new SimpleStringProperty();
+
     InterventionsFormController(Intervention intervention) {
         setEditedIntervention(intervention);
     }
@@ -138,6 +149,25 @@ public final class InterventionsFormController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        /**
+         * On récupère le client lié à l'intervention si il y en a un, et on le
+         * place en tant que selectedClient
+         */
+        try {
+            if (getEditedIntervention().getClient_id() != null) {
+                setSelectedClient(interactors.getClient.invoke(getEditedIntervention().getClient_id()));
+            }
+            if (getSelectedClient() == null) {
+                setSelectedClient(new Client());
+            } else {
+                var obsSites = FXCollections.observableArrayList(getSelectedClient().getAddresses());
+                addressBox.setItems(obsSites);
+            }
+
+        } catch (ClientGetException e) {
+            showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.recuperationClients", e.toString());
+        }
 
         // TEMPORAIRE
         userBox.getItems().addAll("Slad", "Fabien");
@@ -169,14 +199,33 @@ public final class InterventionsFormController implements Initializable {
                 if (client == null || empty) {
                     setGraphic(null);
                 } else {
-                    setText(client.getName() + " " + client.getLastname());
+                    if (client.getName() == null || client.getName() == "") {
+                        setText(client.getLastname());
+                    } else {
+                        setText(client.getName() + " " + client.getLastname());
+                    }
                 }
             }
         };
 
         // Mise en place de la cellFactory sur la combobox des clients
         clientBox.setCellFactory(clientCellFactory);
-        clientBox.setButtonCell(clientCellFactory.call(null));
+
+        clientBox.setConverter(new StringConverter<Client>() {
+            @Override
+            public String toString(Client client) {
+                if (client.getName() == null || client.getName() == "") {
+                    return client.getLastname();
+                } else {
+                    return client.getName() + " " + client.getLastname();
+                }
+            }
+
+            @Override
+            public Client fromString(String arg0) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
 
         // Remplissage de la combobox des clients
         try {
@@ -186,8 +235,50 @@ public final class InterventionsFormController implements Initializable {
             showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.recuperationClients", e.toString());
         }
 
+        /**
+         * Création de la cell factory pour la combobox des clients
+         */
+        Callback<ListView<Site>, ListCell<Site>> siteCellFactory = (ListView<Site> l) -> new ListCell<Site>() {
+            @Override
+            protected void updateItem(Site site, boolean empty) {
+                super.updateItem(site, empty);
+
+                // Ajout du style pour une cell
+                Background mainGreyBackground = new Background(new BackgroundFill(Color.web("F2F2F2"), null, null));
+                Background hoverGreyBackground = new Background(new BackgroundFill(Color.web("EAEAEA"), null, null));
+                setBackground(mainGreyBackground);
+                setTextFill(Color.BLACK);
+                setOnMouseEntered(event -> {
+                    setBackground(hoverGreyBackground);
+                });
+                setOnMouseExited(event -> {
+                    setBackground(mainGreyBackground);
+                });
+
+                if (site == null || empty) {
+                    setGraphic(null);
+                } else {
+                    setText(site.getAddress() + " " + site.getZipCode() + " " + site.getCity());
+                }
+            }
+        };
+
+        // Mise en place de la cellFactory sur la combobox des adresses
+        addressBox.setCellFactory(siteCellFactory);
+        addressBox.setButtonCell(siteCellFactory.call(null));
+
         // Binding à l'initialisation
         bind();
+
+        // LISTENER Temporaire pour les clients
+        clientBox.valueProperty().addListener(new ChangeListener<Client>() {
+            @Override
+            public void changed(ObservableValue ov, Client oldClient, Client newClient) {
+                getEditedIntervention().setClient_id(newClient.getId());
+                var obsSites = FXCollections.observableArrayList(newClient.getAddresses());
+                addressBox.setItems(obsSites);
+            }
+        });
 
         // Si une intervention n'a pas d'id, c'est que c'est une nouvelle intervention
         if (getEditedIntervention().getId() == null) {
@@ -209,6 +300,11 @@ public final class InterventionsFormController implements Initializable {
          * Action sur le clic du bouton "Enregistrer" / "Modifier"
          */
         registerBtn.setOnAction((ActionEvent actionEvent) -> {
+
+            if (addressBox.getSelectionModel().getSelectedItem() != null) {
+                getEditedIntervention().setAddress(addressBox.getSelectionModel().getSelectedItem().getAddress() + " " + addressBox.getSelectionModel().getSelectedItem().getZipCode() + " " + addressBox.getSelectionModel().getSelectedItem().getCity());
+            }
+
             // Si tous les champs obligatoires sont remplies
             if (validate(resources) == true) {
                 // Si l'intervention ne possède pas d'id, elle est nouvelle, on enregistre
@@ -336,7 +432,11 @@ public final class InterventionsFormController implements Initializable {
         paymentDateInput.valueProperty().bindBidirectional(getEditedIntervention().getPaymentDateProperty());
         statusBox.valueProperty().bindBidirectional(getEditedIntervention().getStatusProperty());
         paymenttypeBox.valueProperty().bindBidirectional(getEditedIntervention().getPaymentTypeProperty());
-        //clientBox.valueProperty().getValue().getId();
+
+        // Fonctionne
+        clientBox.valueProperty().bindBidirectional(getSelectedClientProperty());
+
+        //addressBox.itemsProperty().bind(getSelectedClient().getAddressesProperty());
     }
 
     /**
@@ -357,6 +457,10 @@ public final class InterventionsFormController implements Initializable {
 
         if (periodTableView.getItems().size() < 1) {
             errors.append(resources.getString("warning.periode"));
+        }
+
+        if (clientBox.getSelectionModel().getSelectedItem().getId() == null) {
+            errors.append(resources.getString("warning.choisirClient"));
         }
 
         // Si une information est manquante, montre un message d'erreur et renvoie false
@@ -408,4 +512,24 @@ public final class InterventionsFormController implements Initializable {
         return editedIntervention;
     }
 
+    /**
+     * @return the selectedClient
+     */
+    public Client getSelectedClient() {
+        return selectedClient.get();
+    }
+
+    /**
+     * @param client the client to set
+     */
+    public void setSelectedClient(Client client) {
+        this.selectedClient.set(client);
+    }
+
+    /**
+     * @return the selectedClient
+     */
+    public SimpleObjectProperty<Client> getSelectedClientProperty() {
+        return selectedClient;
+    }
 }

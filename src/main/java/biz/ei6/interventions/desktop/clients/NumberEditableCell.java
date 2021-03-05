@@ -26,6 +26,7 @@ public class NumberEditableCell extends TableCell<Site, String> {
             createTextField();
             setText(null);
             setGraphic(textField);
+            textField.requestFocus();
             textField.selectAll();
         }
     }

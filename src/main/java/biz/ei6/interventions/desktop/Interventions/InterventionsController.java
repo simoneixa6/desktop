@@ -60,7 +60,7 @@ public class InterventionsController implements Initializable, DesktopListener {
         /*
          * Mise en place de la cell factory de la listview des interventions
          */
-        interventionsListView.setCellFactory(new InterventionCellFactory());
+        interventionsListView.setCellFactory(new InterventionCellFactory(interactors));
 
         /*
          * Action lors de la selection d'une intervention dans la listview

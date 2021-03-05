@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
+import javafx.scene.paint.Color;
 
 /**
  *
@@ -41,7 +42,11 @@ public class ClientCell extends ListCell<Client> {
             setContentDisplay(ContentDisplay.TEXT_ONLY);
         } else {
 
-            lblName.setText(client.getName() + " " + client.getLastname());
+            if (client.getName() == "" || client.getName() == null) {
+                lblName.setText(client.getLastname());
+            } else {
+                lblName.setText(client.getName() + " " + client.getLastname());
+            }
 
             setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         }

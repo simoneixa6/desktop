@@ -255,7 +255,7 @@ public final class ClientsFormController implements Initializable {
         StringBuilder errors = new StringBuilder();
 
         // Vérifie que les champs obligatoires soient bien remplies
-        if (nameInput.getText() == null || "".equals(nameInput.getText())) {
+        if (lastnameInput.getText() == null || "".equals(lastnameInput.getText())) {
             errors.append(resources.getString("warning.nom"));
         }
         if (phoneInput.getText() == null || "".equals(phoneInput.getText())) {

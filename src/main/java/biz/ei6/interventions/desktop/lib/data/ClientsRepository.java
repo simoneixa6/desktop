@@ -30,6 +30,10 @@ public class ClientsRepository {
         return clientsDataSource.readAll();
     }
 
+    public Client getClient(String client_id) throws ClientGetException {
+        return clientsDataSource.readOne(client_id);
+    }
+
     public void updateClient(Client client) throws ClientPutException {
         clientsDataSource.update(client);
     }

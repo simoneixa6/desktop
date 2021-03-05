@@ -45,7 +45,6 @@ public class Client {
         // Ajout du tableau d'adresses vide par défault
         ArrayList<Site> sitesList = new ArrayList<>();
         this.setAddresses(sitesList);
-
     }
 
     public StringProperty getIdProperty() {

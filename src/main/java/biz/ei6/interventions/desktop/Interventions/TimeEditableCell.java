@@ -30,6 +30,7 @@ public class TimeEditableCell extends TableCell<Period, LocalTime> {
             createTextField();
             setText(null);
             setGraphic(textField);
+            textField.requestFocus();
             textField.selectAll();
         }
     }
