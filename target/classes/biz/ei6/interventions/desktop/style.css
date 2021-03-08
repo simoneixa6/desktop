@@ -270,7 +270,7 @@
 }
 
 #tableViewButton:hover {
-    -fx-text-fill: #fc3300;  
+    -fx-text-fill: #CD0000;  
 }
 
 /*Styling of the date pickers*/

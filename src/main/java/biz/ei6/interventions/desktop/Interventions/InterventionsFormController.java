@@ -53,46 +53,46 @@ import javafx.util.StringConverter;
  * @author Eixa6
  */
 public final class InterventionsFormController implements Initializable {
-
+    
     @FXML
     TextField nameInput;
-
+    
     @FXML
     TextArea descriptionInput;
-
+    
     @FXML
     ChoiceBox userBox;
-
+    
     @FXML
     ListView<String> mediasListView;
-
+    
     @FXML
     TextField kmInput;
-
+    
     @FXML
     DatePicker billDateInput;
-
+    
     @FXML
     TextField billNumberInput;
-
+    
     @FXML
     DatePicker paymentDateInput;
-
+    
     @FXML
     ComboBox<Client> clientBox;
-
+    
     @FXML
     ComboBox<Site> addressBox;
-
+    
     @FXML
     ChoiceBox<String> statusBox;
-
+    
     @FXML
     ChoiceBox<String> paymenttypeBox;
-
+    
     @FXML
     Button deleteBtn;
-
+    
     @FXML
     Button registerBtn;
 
@@ -119,34 +119,34 @@ public final class InterventionsFormController implements Initializable {
     Button createClientBtn;
     @FXML
     Button editClientBtn;
-
+    
     Interactors interactors;
-
+    
     DesktopListener desktopListener;
 
     /**
      * Intervention éditée par la partie droite de l'interface
      */
     private final SimpleObjectProperty<Intervention> editedIntervention = new SimpleObjectProperty<Intervention>();
-
+    
     private final SimpleObjectProperty<Client> selectedClient = new SimpleObjectProperty<Client>();
     StringProperty address = new SimpleStringProperty();
     StringProperty zipCode = new SimpleStringProperty();
     StringProperty city = new SimpleStringProperty();
     StringProperty selectedAddress = new SimpleStringProperty();
-
+    
     InterventionsFormController(Intervention intervention) {
         setEditedIntervention(intervention);
     }
-
+    
     public void setInteractors(App.Interactors interactors) {
         this.interactors = interactors;
     }
-
+    
     public void setDesktopListener(DesktopListener desktopListener) {
         this.desktopListener = desktopListener;
     }
-
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -154,19 +154,10 @@ public final class InterventionsFormController implements Initializable {
          * On récupère le client lié à l'intervention si il y en a un, et on le
          * place en tant que selectedClient
          */
-        try {
-            if (getEditedIntervention().getClient_id() != null) {
-                setSelectedClient(interactors.getClient.invoke(getEditedIntervention().getClient_id()));
-            }
-            if (getSelectedClient() == null) {
-                setSelectedClient(new Client());
-            } else {
-                var obsSites = FXCollections.observableArrayList(getSelectedClient().getAddresses());
-                addressBox.setItems(obsSites);
-            }
-
-        } catch (ClientGetException e) {
-            showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.recuperationClients", e.toString());
+        if (getEditedIntervention().getClient() != null) {
+            setSelectedClient(getEditedIntervention().getClient());
+        } else {
+            setSelectedClient(new Client());
         }
 
         // TEMPORAIRE
@@ -195,7 +186,7 @@ public final class InterventionsFormController implements Initializable {
                 setOnMouseExited(event -> {
                     setBackground(mainGreyBackground);
                 });
-
+                
                 if (client == null || empty) {
                     setGraphic(null);
                 } else {
@@ -210,20 +201,24 @@ public final class InterventionsFormController implements Initializable {
 
         // Mise en place de la cellFactory sur la combobox des clients
         clientBox.setCellFactory(clientCellFactory);
-
+        
         clientBox.setConverter(new StringConverter<Client>() {
             @Override
             public String toString(Client client) {
-                if (client.getName() == null || client.getName() == "") {
-                    return client.getLastname();
+                if (client != null) {
+                    if (client.getName() == null || client.getName() == "") {
+                        return client.getLastname();
+                    } else {
+                        return client.getName() + " " + client.getLastname();
+                    }
                 } else {
-                    return client.getName() + " " + client.getLastname();
+                    return resources.getString("exception.aucunClient");
                 }
             }
-
+            
             @Override
             public Client fromString(String arg0) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                throw new UnsupportedOperationException("Not supported yet.");
             }
         });
 
@@ -236,7 +231,7 @@ public final class InterventionsFormController implements Initializable {
         }
 
         /**
-         * Création de la cell factory pour la combobox des clients
+         * Création de la cell factory pour la combobox des adresses
          */
         Callback<ListView<Site>, ListCell<Site>> siteCellFactory = (ListView<Site> l) -> new ListCell<Site>() {
             @Override
@@ -254,7 +249,7 @@ public final class InterventionsFormController implements Initializable {
                 setOnMouseExited(event -> {
                     setBackground(mainGreyBackground);
                 });
-
+                
                 if (site == null || empty) {
                     setGraphic(null);
                 } else {
@@ -262,6 +257,22 @@ public final class InterventionsFormController implements Initializable {
                 }
             }
         };
+        
+        addressBox.setConverter(new StringConverter<Site>() {
+            @Override
+            public String toString(Site site) {
+                if (site != null) {
+                    return site.getAddress() + " " + site.getZipCode() + " " + site.getCity();
+                } else {
+                    return "";
+                }
+            }
+            
+            @Override
+            public Site fromString(String arg0) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+        });
 
         // Mise en place de la cellFactory sur la combobox des adresses
         addressBox.setCellFactory(siteCellFactory);
@@ -274,9 +285,8 @@ public final class InterventionsFormController implements Initializable {
         clientBox.valueProperty().addListener(new ChangeListener<Client>() {
             @Override
             public void changed(ObservableValue ov, Client oldClient, Client newClient) {
-                getEditedIntervention().setClient_id(newClient.getId());
-                var obsSites = FXCollections.observableArrayList(newClient.getAddresses());
-                addressBox.setItems(obsSites);
+                getEditedIntervention().setClient(newClient);
+                addressBox.itemsProperty().bind(getSelectedClient().getAddressesProperty());
             }
         });
 
@@ -290,7 +300,7 @@ public final class InterventionsFormController implements Initializable {
 
             //TEMPORAIRE
             userBox.setValue("Slad");
-
+            
         } else {
             registerBtn.setText(resources.getString("modifier"));
             deleteBtn.setDisable(false);
@@ -300,10 +310,6 @@ public final class InterventionsFormController implements Initializable {
          * Action sur le clic du bouton "Enregistrer" / "Modifier"
          */
         registerBtn.setOnAction((ActionEvent actionEvent) -> {
-
-            if (addressBox.getSelectionModel().getSelectedItem() != null) {
-                getEditedIntervention().setAddress(addressBox.getSelectionModel().getSelectedItem().getAddress() + " " + addressBox.getSelectionModel().getSelectedItem().getZipCode() + " " + addressBox.getSelectionModel().getSelectedItem().getCity());
-            }
 
             // Si tous les champs obligatoires sont remplies
             if (validate(resources) == true) {
@@ -352,15 +358,14 @@ public final class InterventionsFormController implements Initializable {
          * périodes
          */
         deletePeriodBtn.setOnAction((ActionEvent actionEvent) -> {
-            ObservableList<Period> selectedPeriods, periods;
+            ObservableList<Period> periods;
             periods = periodTableView.getItems();
 
-            // Renvoie les sites séléctionnés
-            selectedPeriods = periodTableView.getSelectionModel().getSelectedItems();
-
-            selectedPeriods.forEach(period -> {
-                periods.remove(period);
-            });
+            // Renvoie le site selectionné
+            Period selectedPeriod = periodTableView.getSelectionModel().getSelectedItem();
+            
+            periods.remove(selectedPeriod);
+            
         });
 
         /*
@@ -370,7 +375,7 @@ public final class InterventionsFormController implements Initializable {
         TextFormatter onlyIntDoubleFormatter = new TextFormatter((UnaryOperator<TextFormatter.Change>) change -> {
             return pattern.matcher(change.getControlNewText()).matches() ? change : null;
         });
-
+        
         kmInput.setTextFormatter(onlyIntDoubleFormatter);
 
         /*
@@ -379,7 +384,7 @@ public final class InterventionsFormController implements Initializable {
         dateCol.setCellValueFactory(new PropertyValueFactory<Period, LocalDate>("date"));
         startCol.setCellValueFactory(new PropertyValueFactory<Period, LocalTime>("start"));
         endCol.setCellValueFactory(new PropertyValueFactory<Period, LocalTime>("end"));
-
+        
         periodTableView.setEditable(true);
         dateCol.setCellFactory(column -> new DateEditableCell(column));
         startCol.setCellFactory(column -> new TimeEditableCell(column));
@@ -432,11 +437,10 @@ public final class InterventionsFormController implements Initializable {
         paymentDateInput.valueProperty().bindBidirectional(getEditedIntervention().getPaymentDateProperty());
         statusBox.valueProperty().bindBidirectional(getEditedIntervention().getStatusProperty());
         paymenttypeBox.valueProperty().bindBidirectional(getEditedIntervention().getPaymentTypeProperty());
-
-        // Fonctionne
         clientBox.valueProperty().bindBidirectional(getSelectedClientProperty());
-
-        //addressBox.itemsProperty().bind(getSelectedClient().getAddressesProperty());
+        addressBox.valueProperty().bindBidirectional(getEditedIntervention().getAddressProperty());
+        
+        addressBox.itemsProperty().bind(getSelectedClient().getAddressesProperty());
     }
 
     /**
@@ -447,18 +451,18 @@ public final class InterventionsFormController implements Initializable {
      * @return
      */
     public boolean validate(ResourceBundle resources) {
-
+        
         StringBuilder errors = new StringBuilder();
 
         // Vérifie que les champs obligatoires soient bien remplies
         if (nameInput.getText() == null || "".equals(nameInput.getText())) {
             errors.append(resources.getString("warning.nom"));
         }
-
+        
         if (periodTableView.getItems().size() < 1) {
             errors.append(resources.getString("warning.periode"));
         }
-
+        
         if (clientBox.getSelectionModel().getSelectedItem().getId() == null) {
             errors.append(resources.getString("warning.choisirClient"));
         }
@@ -471,7 +475,7 @@ public final class InterventionsFormController implements Initializable {
 
         // Pas d'erreur, tous les champs sont remplies correctement
         return true;
-
+        
     }
 
     /**

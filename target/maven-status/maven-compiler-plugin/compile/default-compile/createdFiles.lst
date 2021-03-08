@@ -46,6 +46,7 @@ biz\ei6\interventions\desktop\lib\data\InterventionsRepository.class
 biz\ei6\interventions\desktop\lib\domain\Site.class
 biz\ei6\interventions\desktop\clients\ClientCell.class
 biz\ei6\interventions\desktop\framework\interventions\InterventionDTO.class
+biz\ei6\interventions\desktop\interventions\InterventionsFormController$5.class
 biz\ei6\interventions\desktop\interventions\InterventionCell.class
 biz\ei6\interventions\desktop\lib\data\ClientsRepository.class
 biz\ei6\interventions\desktop\framework\clients\ClientPostException.class

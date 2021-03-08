@@ -51,12 +51,12 @@
                                  <children>
                                     <Label id="textinputlabel" text="%client">
                                        <VBox.margin>
-                                          <Insets bottom="5.0" right="5.0" top="5.0" />
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                        </VBox.margin>
                                     </Label>
                                     <ComboBox id="combobox" fx:id="clientBox" minHeight="28.0" prefHeight="28.0" prefWidth="380.0">
                                        <VBox.margin>
-                                          <Insets />
+                                          <Insets left="5.0" />
                                        </VBox.margin>
                                     </ComboBox>
                                     <HBox alignment="CENTER_LEFT" prefHeight="12.0" prefWidth="380.0">
@@ -67,7 +67,7 @@
                                     </HBox>
                                  </children>
                                  <HBox.margin>
-                                    <Insets left="5.0" right="20.0" />
+                                    <Insets right="20.0" />
                                  </HBox.margin>
                               </VBox>
                               <VBox prefHeight="100.0" prefWidth="221.0">

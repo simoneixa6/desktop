@@ -27,7 +27,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
@@ -35,7 +34,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 
 /**
  *
@@ -189,15 +187,13 @@ public final class ClientsFormController implements Initializable {
          * Action sur le clic du bouton "Supprimer" pour la tableview des adresses
          */
         deleteAddressBtn.setOnAction((ActionEvent actionEvent) -> {
-            ObservableList<Site> selectedSites, sites;
+            ObservableList<Site> sites;
             sites = siteTableView.getItems();
 
             // Renvoie les sites séléctionnés
-            selectedSites = siteTableView.getSelectionModel().getSelectedItems();
+            Site selectedSite = siteTableView.getSelectionModel().getSelectedItem();
 
-            selectedSites.forEach(site -> {
-                sites.remove(site);
-            });
+            sites.remove(selectedSite);
         });
 
         /**
@@ -220,8 +216,6 @@ public final class ClientsFormController implements Initializable {
 
         //Allow the table to be editable
         siteTableView.setEditable(true);
-        siteTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-
         addressCol.setCellFactory(column -> new StringEditableCell(column));
         cityCol.setCellFactory(column -> new StringEditableCell(column));        
         zipCodeCol.setCellFactory(column -> new NumberEditableCell(column));

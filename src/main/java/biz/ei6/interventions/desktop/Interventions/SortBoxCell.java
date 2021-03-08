@@ -29,7 +29,7 @@ public class SortBoxCell extends ListCell<String> {
 
     private void loadFXML() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("sortBoxCell.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("sortboxCell.fxml"));
             loader.setController(this);
             loader.setRoot(this);
             loader.load();

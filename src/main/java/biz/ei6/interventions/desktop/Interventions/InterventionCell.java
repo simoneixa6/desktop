@@ -1,8 +1,6 @@
 package biz.ei6.interventions.desktop.interventions;
 
 import biz.ei6.interventions.desktop.App;
-import biz.ei6.interventions.desktop.framework.clients.ClientGetException;
-import biz.ei6.interventions.desktop.lib.domain.Client;
 import biz.ei6.interventions.desktop.lib.domain.Intervention;
 import java.io.IOException;
 import javafx.fxml.FXML;
@@ -12,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+
 
 /**
  *
@@ -57,24 +56,18 @@ public class InterventionCell  extends ListCell<Intervention> {
             }
             else {
                 
-                // TEMPORAIRE
-                Client client;
-                String clientName = "";
-              
-                try {
-                    client = interactors.getClient.invoke(intervention.getClient_id());
-                      if(client.getName()=="" || client.getName()==null ){
-                          clientName = client.getLastname();
-                      } else {
-                        clientName = client.getName() + " " +client.getLastname();
-                      }
-                    
-                } catch (ClientGetException ex) {
-                    
-                }
-              
-                lblIntervention.setText(intervention.getTitle() + " - " + clientName);
+                String client;
                 
+                if ( intervention.getClient().getName() == null ){
+                    client= intervention.getClient().getLastname();
+                } 
+                else 
+                {
+                    client = intervention.getClient().getName() + " " + intervention.getClient().getLastname();
+                }
+                
+                lblIntervention.setText(intervention.getTitle() + " - " + client);
+         
                 Image redDot = new Image("file://"+getClass().getResource("red.png").getPath());
                 Image yellowDot = new Image("file://"+getClass().getResource("yellow.png").getPath());
                 Image orangeDot = new Image("file://"+getClass().getResource("orange.png").getPath());

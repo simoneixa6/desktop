@@ -5,19 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cb16491f-e059-41c1-ba70-d21ac07f5d41" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/desktop.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/desktop.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/biz/ei6/interventions/desktop/Interventions/InterventionsPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/biz/ei6/interventions/desktop/Interventions/InterventionsPane.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/biz/ei6/interventions/desktop/lib/interactors/AddIntervention.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/biz/ei6/interventions/desktop/lib/interactors/AddIntervention.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/biz/ei6/interventions/desktop/lib/interactors/GetInterventions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/biz/ei6/interventions/desktop/lib/interactors/GetInterventions.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/biz/ei6/interventions/desktop/lib/interactors/RemoveIntervention.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/biz/ei6/interventions/desktop/lib/interactors/RemoveIntervention.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/biz/ei6/interventions/desktop/lib/interactors/UpdateIntervention.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/biz/ei6/interventions/desktop/lib/interactors/UpdateIntervention.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/biz/ei6/interventions/desktop/interventions/interventionsForm.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/biz/ei6/interventions/desktop/interventions/interventionsForm.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/biz/ei6/interventions/desktop/interventions/interventionsPane.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/biz/ei6/interventions/desktop/interventions/interventionsPane.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/biz/ei6/interventions/desktop/interventions/interventionsForm.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/biz/ei6/interventions/desktop/interventions/interventionsForm.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/biz/ei6/interventions/desktop/interventions/interventionsPane.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/biz/ei6/interventions/desktop/interventions/interventionsPane.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,6 +28,9 @@
     </option>
   </component>
   <component name="ProjectId" id="1oYq1py8ziwlfeaGOB8b5uzrTnY" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -103,55 +99,5 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="2360" y="114" key="#Project_Structure" timestamp="1613496874780">
-      <screen x="1920" y="0" width="1920" height="1080" />
-    </state>
-    <state x="2360" y="114" key="#Project_Structure/0.0.1920.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1613496874780" />
-    <state x="2334" y="195" width="1092" height="714" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1613496802620">
-      <screen x="1920" y="0" width="1920" height="1080" />
-    </state>
-    <state x="2334" y="195" width="1092" height="714" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1613496802620" />
-    <state x="717" y="314" key="FileChooserDialogImpl" timestamp="1613486970361">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="717" y="314" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1613486970361" />
-    <state width="1877" height="364" key="GridCell.Tab.0.bottom" timestamp="1613496907786">
-      <screen x="1920" y="0" width="1920" height="1080" />
-    </state>
-    <state width="1860" height="273" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1613496384107" />
-    <state width="1877" height="364" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1613496907786" />
-    <state width="1877" height="364" key="GridCell.Tab.0.center" timestamp="1613496907786">
-      <screen x="1920" y="0" width="1920" height="1080" />
-    </state>
-    <state width="1860" height="273" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1613496384107" />
-    <state width="1877" height="364" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1613496907786" />
-    <state width="1877" height="364" key="GridCell.Tab.0.left" timestamp="1613496907786">
-      <screen x="1920" y="0" width="1920" height="1080" />
-    </state>
-    <state width="1860" height="273" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1613496384107" />
-    <state width="1877" height="364" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1613496907786" />
-    <state width="1877" height="364" key="GridCell.Tab.0.right" timestamp="1613496907786">
-      <screen x="1920" y="0" width="1920" height="1080" />
-    </state>
-    <state width="1860" height="273" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1613496384107" />
-    <state width="1877" height="364" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1613496907786" />
-    <state width="1877" height="364" key="GridCell.Tab.1.bottom" timestamp="1613496907786">
-      <screen x="1920" y="0" width="1920" height="1080" />
-    </state>
-    <state width="1877" height="364" key="GridCell.Tab.1.bottom/0.0.1920.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1613496907786" />
-    <state width="1877" height="364" key="GridCell.Tab.1.center" timestamp="1613496907786">
-      <screen x="1920" y="0" width="1920" height="1080" />
-    </state>
-    <state width="1877" height="364" key="GridCell.Tab.1.center/0.0.1920.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1613496907786" />
-    <state width="1877" height="364" key="GridCell.Tab.1.left" timestamp="1613496907786">
-      <screen x="1920" y="0" width="1920" height="1080" />
-    </state>
-    <state width="1877" height="364" key="GridCell.Tab.1.left/0.0.1920.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1613496907786" />
-    <state width="1877" height="364" key="GridCell.Tab.1.right" timestamp="1613496907786">
-      <screen x="1920" y="0" width="1920" height="1080" />
-    </state>
-    <state width="1877" height="364" key="GridCell.Tab.1.right/0.0.1920.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1613496907786" />
   </component>
 </project>
