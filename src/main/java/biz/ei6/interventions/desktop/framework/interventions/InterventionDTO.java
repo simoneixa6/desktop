@@ -21,6 +21,8 @@ public class InterventionDTO {
     List<PeriodDTO> periods;
     SiteDTO address;
     String km;
+    String goKm;
+    String backKm;
     String billNumber;
     String billDate;
     String paymentType;
@@ -148,4 +150,22 @@ public class InterventionDTO {
     public void setDeleted(String deleted) {
         this.deleted = deleted;
     }
+
+    public String getGoKm() {
+        return goKm;
+    }
+
+    public void setGoKm(String goKm) {
+        this.goKm = goKm;
+    }
+
+    public String getBackKm() {
+        return backKm;
+    }
+
+    public void setBackKm(String backKm) {
+        this.backKm = backKm;
+    }
+    
+    
 }

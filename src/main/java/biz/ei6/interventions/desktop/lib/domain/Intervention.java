@@ -35,6 +35,8 @@ public class Intervention {
     private final ListProperty<Period> periods = new SimpleListProperty();
     private final ObjectProperty<Site> address = new SimpleObjectProperty();
     private final StringProperty km = new SimpleStringProperty();
+    private final StringProperty goKm = new SimpleStringProperty();
+    private final StringProperty backKm = new SimpleStringProperty();
     private final StringProperty billNumber = new SimpleStringProperty();
     private final ObjectProperty<LocalDate> billDate = new SimpleObjectProperty();
     private final StringProperty paymentType = new SimpleStringProperty();
@@ -43,7 +45,6 @@ public class Intervention {
     private final ListProperty<String> medias = new SimpleListProperty();
     private final BooleanProperty deleted = new SimpleBooleanProperty();
 
-    
     {
         // Ajout d'une période et d'une heure de début par défault
         Period period = new Period();
@@ -202,6 +203,42 @@ public class Intervention {
      */
     public void setKm(String km) {
         this.km.set(km);
+    }
+
+    /**
+     * @return the km
+     */
+    public String getGoKm() {
+        return goKm.get();
+    }
+
+    public StringProperty getGoKmProperty() {
+        return goKm;
+    }
+
+    /**
+     * @param goKm the km to set
+     */
+    public void setGoKm(String goKm) {
+        this.goKm.set(goKm);
+    }
+
+    /**
+     * @return the backKm
+     */
+    public String getBackKm() {
+        return backKm.get();
+    }
+
+    public StringProperty getBackKmProperty() {
+        return backKm;
+    }
+
+    /**
+     * @param backKm the km to set
+     */
+    public void setBackKm(String backKm) {
+        this.backKm.set(backKm);
     }
 
     /**

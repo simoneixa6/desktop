@@ -324,6 +324,18 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
             // interventionDTO.Km sera à null si aucune valeur choisi lors de la création
         }
 
+        if (intervention.getGoKm() != null) {
+            interventionDTO.setGoKm(Double.parseDouble(intervention.getGoKm()) + "");
+        } else {
+            // interventionDTO.Km sera à null si aucune valeur choisi lors de la création
+        }
+
+        if (intervention.getBackKm() != null) {
+            interventionDTO.setBackKm(Double.parseDouble(intervention.getBackKm()) + "");
+        } else {
+            // interventionDTO.Km sera à null si aucune valeur choisi lors de la création
+        }
+
         if (!"".equals(intervention.getBillDate())) {
             interventionDTO.setBillDate(intervention.getBillDate());
         } else {
@@ -375,6 +387,18 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
             // Le serveur renvoie 0 si aucune valeur n'a été rentré lors de la création d'une intervention
         } else {
             intervention.setKm(interventionDTO.getKm());
+        }
+
+        if ("0".equals(interventionDTO.getGoKm())) {
+            // Le serveur renvoie 0 si aucune valeur n'a été rentré lors de la création d'une intervention
+        } else {
+            intervention.setGoKm(interventionDTO.getGoKm());
+        }
+
+        if ("0".equals(interventionDTO.getBackKm())) {
+            // Le serveur renvoie 0 si aucune valeur n'a été rentré lors de la création d'une intervention
+        } else {
+            intervention.setBackKm(interventionDTO.getBackKm());
         }
 
         if ("0001-01-01T00:00:00Z".equals(interventionDTO.getBillDate())) {

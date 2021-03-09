@@ -68,6 +68,12 @@ public final class InterventionsFormController implements Initializable {
     TextField kmInput;
 
     @FXML
+    TextField goKmInput;
+
+    @FXML
+    TextField backKmInput;
+
+    @FXML
     DatePicker billDateInput;
 
     @FXML
@@ -318,15 +324,59 @@ public final class InterventionsFormController implements Initializable {
         });
 
         /*
-         * Text formatter sur le champ des kms pour accepter que des entiers ou double
+         * Text formatter sur les champ des kms pour accepter que des entiers ou double
          */
         Pattern pattern = Pattern.compile("\\d*|\\d+\\.+\\d*");
         TextFormatter onlyIntDoubleFormatter = new TextFormatter((UnaryOperator<TextFormatter.Change>) change -> {
             return pattern.matcher(change.getControlNewText()).matches() ? change : null;
         });
+        TextFormatter onlyIntDoubleFormatter1 = new TextFormatter((UnaryOperator<TextFormatter.Change>) change -> {
+            return pattern.matcher(change.getControlNewText()).matches() ? change : null;
+        });
+        TextFormatter onlyIntDoubleFormatter2 = new TextFormatter((UnaryOperator<TextFormatter.Change>) change -> {
+            return pattern.matcher(change.getControlNewText()).matches() ? change : null;
+        });
 
         kmInput.setTextFormatter(onlyIntDoubleFormatter);
+        goKmInput.setTextFormatter(onlyIntDoubleFormatter1);
+        backKmInput.setTextFormatter(onlyIntDoubleFormatter2);
 
+        goKmInput.textProperty().addListener((observable, oldVal, newVal) -> {
+            double a;
+            double b;
+
+            if (newVal != null) {
+                a = Double.parseDouble(newVal);
+            } else {
+                a = 0;
+            }
+
+            if (backKmInput.getText() == null) {
+                b = 0;
+            } else {
+                b = Double.parseDouble(backKmInput.getText());
+            }
+            kmInput.setText(String.valueOf(a + b));
+        });
+        
+        backKmInput.textProperty().addListener((observable, oldVal, newVal) -> {
+            double a;
+            double b;
+
+            if (newVal != null) {
+                a = Double.parseDouble(newVal);
+            } else {
+                a = 0;
+            }
+
+            if (backKmInput.getText() == null) {
+                b = 0;
+            } else {
+                b = Double.parseDouble(goKmInput.getText());
+            }
+            kmInput.setText(String.valueOf(a + b));
+        });
+        
         /*
          * Mise en place de la table view des Périodes
          */
@@ -403,6 +453,8 @@ public final class InterventionsFormController implements Initializable {
         userBox.valueProperty().bindBidirectional(getEditedIntervention().getUser_idProperty());
         descriptionInput.textProperty().bindBidirectional(getEditedIntervention().getDescriptionProperty());
         kmInput.textProperty().bindBidirectional(getEditedIntervention().getKmProperty());
+        goKmInput.textProperty().bindBidirectional(getEditedIntervention().getGoKmProperty());
+        backKmInput.textProperty().bindBidirectional(getEditedIntervention().getBackKmProperty());
         billDateInput.valueProperty().bindBidirectional(getEditedIntervention().getBillDateProperty());
         billNumberInput.textProperty().bindBidirectional(getEditedIntervention().getBillNumberProperty());
         paymentDateInput.valueProperty().bindBidirectional(getEditedIntervention().getPaymentDateProperty());
@@ -410,7 +462,6 @@ public final class InterventionsFormController implements Initializable {
         paymenttypeBox.valueProperty().bindBidirectional(getEditedIntervention().getPaymentTypeProperty());
         clientBox.valueProperty().bindBidirectional(getSelectedClientProperty());
         addressBox.valueProperty().bindBidirectional(getEditedIntervention().getAddressProperty());
-
         addressBox.itemsProperty().bind(getSelectedClient().getAddressesProperty());
     }
 
