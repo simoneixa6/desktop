@@ -1,6 +1,7 @@
 package biz.ei6.interventions.desktop.interventions;
 
 import java.io.IOException;
+import java.io.InputStream;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ContentDisplay;
@@ -62,10 +63,15 @@ public class SortBoxCell extends ListCell<String> {
             // Affectation de la valeur
             lblStatus.setText(string);
 
-            Image redDot = new Image("file://" + getClass().getResource("red.png").getPath());
-            Image yellowDot = new Image("file://" + getClass().getResource("yellow.png").getPath());
-            Image orangeDot = new Image("file://" + getClass().getResource("orange.png").getPath());
-            Image greenDot = new Image("file://" + getClass().getResource("green.png").getPath());
+            InputStream redImageStream = getClass().getResourceAsStream("red.png");
+            InputStream yellowImageStream = getClass().getResourceAsStream("yellow.png");
+            InputStream orangeImageStream = getClass().getResourceAsStream("orange.png");
+            InputStream greenImageStream = getClass().getResourceAsStream("green.png");
+
+            Image redDot = new Image(redImageStream);
+            Image yellowDot = new Image(yellowImageStream);
+            Image orangeDot = new Image(orangeImageStream);
+            Image greenDot = new Image(greenImageStream);
 
             // Affectation de la couleur de pastille pour le type de status
             switch (string) {

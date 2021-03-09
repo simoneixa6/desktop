@@ -1,14 +1,12 @@
 package biz.ei6.interventions.desktop.clients;
 
 import biz.ei6.interventions.desktop.lib.domain.Client;
-import static com.fasterxml.jackson.databind.jsonFormatVisitors.JsonValueFormat.COLOR;
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
-import javafx.scene.paint.Color;
 
 /**
  *
@@ -47,7 +45,7 @@ public class ClientCell extends ListCell<Client> {
             if (client.getProblematic()) {
                 lblName.setStyle("-fx-text-fill: #CD0000;");
             } else {
-                lblName.setStyle("-fx-text-fill: blacks;");
+                lblName.setStyle("-fx-text-fill: black;");
             }
 
             StringBuilder clientString = new StringBuilder();
