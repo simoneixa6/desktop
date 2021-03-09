@@ -14,5 +14,7 @@ public class ClientCellFactory implements Callback<ListView<Client>, ListCell<Cl
     @Override
     public ListCell<Client> call(ListView<Client> arg0) {
         return new ClientCell();
-    } 
+    }
 }
+
+

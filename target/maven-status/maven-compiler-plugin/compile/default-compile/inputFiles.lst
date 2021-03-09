@@ -17,6 +17,7 @@ C:\Users\Eixa6\Desktop\Stage Simon\Projet\Front End\desktop\src\main\java\biz\ei
 C:\Users\Eixa6\Desktop\Stage Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\lib\interactors\GetClient.java
 C:\Users\Eixa6\Desktop\Stage Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\framework\clients\SiteDTO.java
 C:\Users\Eixa6\Desktop\Stage Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\framework\clients\WSClientsDataSource.java
+C:\Users\Eixa6\Desktop\Stage Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\interventions\ClientCellFactory.java
 C:\Users\Eixa6\Desktop\Stage Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\framework\clients\ClientDTO.java
 C:\Users\Eixa6\Desktop\Stage Simon\Projet\Front End\desktop\src\main\java\module-info.java
 C:\Users\Eixa6\Desktop\Stage Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\lib\data\InterventionsRepository.java
@@ -39,6 +40,7 @@ C:\Users\Eixa6\Desktop\Stage Simon\Projet\Front End\desktop\src\main\java\biz\ei
 C:\Users\Eixa6\Desktop\Stage Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\lib\interactors\AddIntervention.java
 C:\Users\Eixa6\Desktop\Stage Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\DesktopListener.java
 C:\Users\Eixa6\Desktop\Stage Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\interventions\InterventionCell.java
+C:\Users\Eixa6\Desktop\Stage Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\interventions\SiteCellFactory.java
 C:\Users\Eixa6\Desktop\Stage Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\interventions\TimeEditableCell.java
 C:\Users\Eixa6\Desktop\Stage Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\interventions\InterventionsForm.java
 C:\Users\Eixa6\Desktop\Stage Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\interventions\InterventionsPane.java

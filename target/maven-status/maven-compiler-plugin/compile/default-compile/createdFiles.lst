@@ -9,6 +9,7 @@ biz\ei6\interventions\desktop\MainController.class
 biz\ei6\interventions\desktop\interventions\InterventionsFormController.class
 biz\ei6\interventions\desktop\framework\clients\ClientDTO.class
 biz\ei6\interventions\desktop\framework\clients\SiteDTO.class
+biz\ei6\interventions\desktop\interventions\ClientCellFactory$ClientCell.class
 biz\ei6\interventions\desktop\interventions\InterventionsFormController$3.class
 biz\ei6\interventions\desktop\lib\interactors\RemoveIntervention.class
 biz\ei6\interventions\desktop\framework\interventions\WSInterventionsDataSource.class
@@ -18,7 +19,9 @@ biz\ei6\interventions\desktop\lib\interactors\UpdateClient.class
 biz\ei6\interventions\desktop\interventions\InterventionCellFactory.class
 biz\ei6\interventions\desktop\clients\StringEditableCell.class
 biz\ei6\interventions\desktop\framework\interventions\InterventionPutException.class
+biz\ei6\interventions\desktop\interventions\SiteCellFactory$SiteCell.class
 biz\ei6\interventions\desktop\interventions\SortBoxCellFactory.class
+biz\ei6\interventions\desktop\interventions\ClientCellFactory.class
 biz\ei6\interventions\desktop\lib\data\ClientsDataSource.class
 biz\ei6\interventions\desktop\lib\data\InterventionsDataSource.class
 biz\ei6\interventions\desktop\lib\interactors\RemoveClient.class
@@ -29,10 +32,10 @@ biz\ei6\interventions\desktop\interventions\DateEditableCell.class
 biz\ei6\interventions\desktop\interventions\InterventionsForm.class
 biz\ei6\interventions\desktop\framework\interventions\InterventionPostException.class
 biz\ei6\interventions\desktop\lib\interactors\GetInterventions.class
-biz\ei6\interventions\desktop\interventions\InterventionsFormController$4.class
 biz\ei6\interventions\desktop\clients\ClientsPane.class
 biz\ei6\interventions\desktop\DesktopListener.class
 biz\ei6\interventions\desktop\lib\interactors\UpdateIntervention.class
+biz\ei6\interventions\desktop\interventions\SiteCellFactory.class
 biz\ei6\interventions\desktop\interventions\InterventionsFormController$1.class
 module-info.class
 biz\ei6\interventions\desktop\framework\clients\ClientPutException.class
@@ -46,7 +49,6 @@ biz\ei6\interventions\desktop\lib\data\InterventionsRepository.class
 biz\ei6\interventions\desktop\lib\domain\Site.class
 biz\ei6\interventions\desktop\clients\ClientCell.class
 biz\ei6\interventions\desktop\framework\interventions\InterventionDTO.class
-biz\ei6\interventions\desktop\interventions\InterventionsFormController$5.class
 biz\ei6\interventions\desktop\interventions\InterventionCell.class
 biz\ei6\interventions\desktop\lib\data\ClientsRepository.class
 biz\ei6\interventions\desktop\framework\clients\ClientPostException.class

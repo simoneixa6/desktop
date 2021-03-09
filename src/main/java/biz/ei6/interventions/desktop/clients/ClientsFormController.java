@@ -200,7 +200,7 @@ public final class ClientsFormController implements Initializable {
          * Text formatter sur le champ du numéro de téléphone pour accepter que
          * des entiers
          */
-        Pattern pattern = Pattern.compile("\\d*");
+        Pattern pattern = Pattern.compile("^[\\d ]*$");
         TextFormatter onlyNumbersformatter = new TextFormatter((UnaryOperator<TextFormatter.Change>) change -> {
             return pattern.matcher(change.getControlNewText()).matches() ? change : null;
         });
