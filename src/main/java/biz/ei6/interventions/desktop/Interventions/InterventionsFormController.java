@@ -11,13 +11,16 @@ import biz.ei6.interventions.desktop.lib.domain.Intervention;
 import biz.ei6.interventions.desktop.lib.domain.Period;
 import biz.ei6.interventions.desktop.lib.domain.Client;
 import java.net.URL;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -101,7 +104,7 @@ public final class InterventionsFormController implements Initializable {
     @FXML
     TableColumn<Period, LocalTime> endCol;
     @FXML
-    TableColumn<String, String> durationCol;
+    TableColumn<Period, String> durationCol;
     @FXML
     Button addPeriodBtn;
     @FXML
@@ -168,11 +171,20 @@ public final class InterventionsFormController implements Initializable {
             @Override
             public String toString(Client client) {
                 if (client != null) {
-                    if (client.getName() == null) {
-                        return client.getLastname();
-                    } else {
-                        return client.getName() + " " + client.getLastname();
+                    StringBuilder clientString = new StringBuilder();
+                    // Si il a un prénom
+                    if (client.getName() != null) {
+                        clientString.append(client.getName()).append(" ");
                     }
+                    // Si il a un nom
+                    if (client.getLastname() != null) {
+                        clientString.append(client.getLastname());
+                    }
+                    // Si il a une entreprise
+                    if (client.getCompany() != null) {
+                        clientString.append(" (").append(client.getCompany()).append(")");
+                    }
+                    return clientString.toString();
                 } else {
                     return resources.getString("exception.aucunClient");
                 }
@@ -198,7 +210,7 @@ public final class InterventionsFormController implements Initializable {
             @Override
             public String toString(Site site) {
                 if (site != null) {
-                    return site.getAddress() + " " + site.getZipCode() + " " + site.getCity();
+                    return site.getAddress() + ", " + site.getZipCode() + " " + site.getCity();
                 } else {
                     return "";
                 }
@@ -322,10 +334,32 @@ public final class InterventionsFormController implements Initializable {
         startCol.setCellValueFactory(new PropertyValueFactory<Period, LocalTime>("start"));
         endCol.setCellValueFactory(new PropertyValueFactory<Period, LocalTime>("end"));
 
+        // Cell value factory permettant de calculer la duréé entre l'heure de début et l'heure de fin
+        durationCol.setCellValueFactory(cellData -> {
+            Period period = cellData.getValue();
+            return Bindings.createStringBinding(
+                    () -> {
+                        try {
+                            LocalTime start = period.getStart();
+                            LocalTime end = period.getEnd();
+                            int time = (int) start.until(end, ChronoUnit.MINUTES) + 1;
+                            int hours = time / 60;
+                            int minutes = time % 60;
+                            return hours + ":" + minutes;
+                        } catch (Exception e) {
+                            return "";
+                        }
+                    },
+                    period.getStartProperty(),
+                    period.getEndProperty()
+            );
+        });
+
         periodTableView.setEditable(true);
         dateCol.setCellFactory(column -> new DateEditableCell(column));
         startCol.setCellFactory(column -> new TimeEditableCell(column));
         endCol.setCellFactory(column -> new TimeEditableCell(column));
+        ;
     }
 
     /**

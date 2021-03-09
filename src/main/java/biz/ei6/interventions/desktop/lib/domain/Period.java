@@ -7,6 +7,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 
 /**
  *
@@ -18,6 +19,7 @@ public class Period {
     private final ObjectProperty<LocalDate> date = new SimpleObjectProperty();
     private final ObjectProperty<LocalTime> start = new SimpleObjectProperty();
     private final ObjectProperty<LocalTime> end = new SimpleObjectProperty();
+    private final SimpleStringProperty duration = new SimpleStringProperty();
 
     public ObjectProperty<LocalDate> getDateProperty() {
         return date;
@@ -126,5 +128,17 @@ public class Period {
         } else {
             this.end.set(null);
         }
+    }
+
+    public SimpleStringProperty getDurationProperty() {
+        return duration;
+    }
+
+    public String getDuration() {
+        return duration.get();
+    }
+
+    public void getDuration(String duration) {
+        this.duration.set(duration);
     }
 }

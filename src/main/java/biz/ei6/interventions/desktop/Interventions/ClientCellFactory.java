@@ -14,9 +14,6 @@ import javafx.util.Callback;
  */
 public class ClientCellFactory implements Callback<ListView<Client>, ListCell<Client>> {
 
-    public ClientCellFactory() {
-    }
-
     @Override
     public ListCell<Client> call(ListView<Client> arg0) {
         return new ClientCell();
@@ -43,11 +40,25 @@ public class ClientCellFactory implements Callback<ListView<Client>, ListCell<Cl
             if (client == null || empty) {
                 setGraphic(null);
             } else {
-                if (client.getName() == null || client.getName() == "") {
-                    setText(client.getLastname());
-                } else {
-                    setText(client.getName() + " " + client.getLastname());
+
+                StringBuilder clientString = new StringBuilder();
+
+                // Si il a un prénom
+                if (client.getName() != null) {
+                    clientString.append(client.getName()).append(" ");
                 }
+
+                // Si il a un nom
+                if (client.getLastname() != null) {
+                    clientString.append(client.getLastname());
+                }
+
+                // Si il a une entreprise
+                if (client.getCompany() != null) {
+                    clientString.append(" (").append(client.getCompany()).append(")");
+                }
+
+                setText(clientString.toString());
             }
         }
     }

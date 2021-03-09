@@ -67,6 +67,7 @@ public class InterventionsController implements Initializable, DesktopListener {
          */
         interventionsListView.getSelectionModel().selectedItemProperty().addListener((observable, oldSelectedIntervention, newSelectedIntervention) -> {
             if (newSelectedIntervention != null) {
+                updateInterventionsListView();
                 InterventionsForm interventionsForm = new InterventionsForm(interactors, newSelectedIntervention, this, resources);
                 addInterventionsFormToSplitPane(interventionsForm);
             }

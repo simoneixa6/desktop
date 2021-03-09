@@ -33,7 +33,7 @@ class ClientsController implements Initializable, DesktopListener {
     Button createBtn;
 
     Interactors interactors;
-    
+
     ResourceBundle resources;
 
     public void setInteractors(App.Interactors interactors) {
@@ -62,11 +62,12 @@ class ClientsController implements Initializable, DesktopListener {
          */
         clientsListView.getSelectionModel().selectedItemProperty().addListener((observable, oldSelectedClient, newSelectedClient) -> {
             if (newSelectedClient != null) {
+                updateClientsListView();
                 ClientsForm interventionsForm = new ClientsForm(interactors, newSelectedClient, this, resources);
                 addClientsFormToSplitPane(interventionsForm);
             }
         });
-        
+
         /*
          * Action sur le clic du bouton "Nouveau client"
          */
@@ -78,7 +79,7 @@ class ClientsController implements Initializable, DesktopListener {
 
         // Muse à jour de la liste des clients au démarrage
         updateClientsListView();
-        
+
     }
 
     private void addClientsFormToSplitPane(ClientsForm clientsForm) {
@@ -96,8 +97,8 @@ class ClientsController implements Initializable, DesktopListener {
     }
 
     public void updateClientsListView() {
-            var dataobs = FXCollections.observableArrayList(getClients());
-            clientsListView.setItems(dataobs);
+        var dataobs = FXCollections.observableArrayList(getClients());
+        clientsListView.setItems(dataobs);
     }
 
     public ArrayList<Client> getClients() {

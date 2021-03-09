@@ -14,9 +14,6 @@ import javafx.util.Callback;
  */
 public class SiteCellFactory implements Callback<ListView<Site>, ListCell<Site>> {
 
-    public SiteCellFactory() {
-    }
-
     @Override
     public ListCell<Site> call(ListView<Site> arg0) {
         return new SiteCell();
@@ -43,7 +40,7 @@ public class SiteCellFactory implements Callback<ListView<Site>, ListCell<Site>>
             if (site == null || empty) {
                 setGraphic(null);
             } else {
-                setText(site.getAddress() + " " + site.getZipCode() + " " + site.getCity());
+                setText(site.getAddress() + ", " + site.getZipCode() + " " + site.getCity());
             }
         }
     }

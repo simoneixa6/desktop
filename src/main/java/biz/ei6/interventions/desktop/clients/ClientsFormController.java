@@ -10,9 +10,13 @@ import biz.ei6.interventions.desktop.App.Interactors;
 import biz.ei6.interventions.desktop.DesktopListener;
 import biz.ei6.interventions.desktop.framework.clients.ClientPostException;
 import biz.ei6.interventions.desktop.framework.clients.ClientPutException;
+import biz.ei6.interventions.desktop.framework.interventions.InterventionGetException;
+import biz.ei6.interventions.desktop.framework.interventions.InterventionPutException;
 import biz.ei6.interventions.desktop.lib.domain.Client;
+import biz.ei6.interventions.desktop.lib.domain.Intervention;
 import biz.ei6.interventions.desktop.lib.domain.Site;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
@@ -155,6 +159,27 @@ public final class ClientsFormController implements Initializable {
                     } catch (ClientPutException e) {
                         showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.modificationClient", e.toString());
                     }
+
+                    ArrayList<Intervention> interventions = new ArrayList<Intervention>();
+
+                    // Récupération des interventions pour les mettres à jour si besoin
+                    try {
+                        interventions = interactors.getInterventions.invoke();
+                    } catch (InterventionGetException e) {
+                        showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.recuperationInterventions", e.toString());
+                    }
+
+                    // Mise à jour des interventions possédant ce client avec les nouvelles informations du client
+                    try {
+                        for (var intervention : interventions) {
+                            if (getEditedClient().getId().equals(intervention.getClient().getId())) {
+                                intervention.setClient(getEditedClient());
+                                interactors.updateIntervention.invoke(intervention);
+                            }
+                        }
+                    } catch (InterventionPutException e) {
+                        showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.modificationIntervention", e.toString());
+                    }
                 }
                 desktopListener.close();
             }
@@ -217,11 +242,10 @@ public final class ClientsFormController implements Initializable {
         //Allow the table to be editable
         siteTableView.setEditable(true);
         addressCol.setCellFactory(column -> new StringEditableCell(column));
-        cityCol.setCellFactory(column -> new StringEditableCell(column));        
+        cityCol.setCellFactory(column -> new StringEditableCell(column));
         zipCodeCol.setCellFactory(column -> new NumberEditableCell(column));
     }
-    
-    
+
     public void ChangeAddressCellEvent(CellEditEvent editedCell) {
         Site selectedSite = siteTableView.getSelectionModel().getSelectedItem();
         selectedSite.setAddress(editedCell.getNewValue().toString());
