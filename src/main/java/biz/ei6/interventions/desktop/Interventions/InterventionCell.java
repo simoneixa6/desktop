@@ -56,17 +56,27 @@ public class InterventionCell  extends ListCell<Intervention> {
             }
             else {
                 
-                String client;
+                StringBuilder interventionString = new StringBuilder();
                 
-                if ( intervention.getClient().getName() == null ){
-                    client= intervention.getClient().getLastname();
+                
+                 if ( intervention.getTitle() != null ){
+                    interventionString.append(intervention.getTitle() + " - ");
+                 }
+                
+                 if ( intervention.getClient().getName() != null ){
+                    interventionString.append(intervention.getClient().getName() + " ");
+                 }
+                
+                if ( intervention.getClient().getLastname() != null ){
+                    interventionString.append(intervention.getClient().getLastname() + " ");
                 } 
-                else 
+                
+                if( intervention.getClient().getCompany() != null )
                 {
-                    client = intervention.getClient().getName() + " " + intervention.getClient().getLastname();
+                    interventionString.append( "(" + intervention.getClient().getCompany() + ")");
                 }
                 
-                lblIntervention.setText(intervention.getTitle() + " - " + client);
+                lblIntervention.setText(interventionString.toString());
          
                 Image redDot = new Image("file://"+getClass().getResource("red.png").getPath());
                 Image yellowDot = new Image("file://"+getClass().getResource("yellow.png").getPath());

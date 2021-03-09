@@ -10,7 +10,7 @@ import java.util.List;
  *
  * @author Eixa6
  */
-@JsonInclude(Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class InterventionDTO {
 
     String _id;

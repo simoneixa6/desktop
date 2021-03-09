@@ -8,7 +8,7 @@ import java.util.List;
  *
  * @author Eixa6
  */
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class ClientDTO {
     String _id;
     String civility;

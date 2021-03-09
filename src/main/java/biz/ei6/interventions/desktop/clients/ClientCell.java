@@ -1,6 +1,7 @@
 package biz.ei6.interventions.desktop.clients;
 
 import biz.ei6.interventions.desktop.lib.domain.Client;
+import static com.fasterxml.jackson.databind.jsonFormatVisitors.JsonValueFormat.COLOR;
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -42,12 +43,31 @@ public class ClientCell extends ListCell<Client> {
             setContentDisplay(ContentDisplay.TEXT_ONLY);
         } else {
 
-            if (client.getName() == "" || client.getName() == null) {
-                lblName.setText(client.getLastname());
+            // Affiche le nom du client en rouge si il est problématique
+            if (client.getProblematic()) {
+                lblName.setStyle("-fx-text-fill: #CD0000;");
             } else {
-                lblName.setText(client.getName() + " " + client.getLastname());
+                lblName.setStyle("-fx-text-fill: blacks;");
             }
 
+            StringBuilder clientString = new StringBuilder();
+
+            // Si il a prénom
+            if (client.getName() != null) {
+                clientString.append(client.getName() + " ");
+            }
+
+            // Si il a nom
+            if (client.getLastname() != null) {
+                clientString.append(client.getLastname());
+            }
+
+            // Si il a une entreprise
+            if (client.getCompany() != null) {
+                clientString.append( " - " + client.getCompany());
+            }
+
+            lblName.setText(clientString.toString());
             setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         }
     }
