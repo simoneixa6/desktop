@@ -41,8 +41,31 @@ public class ClientCell extends ListCell<Client> {
             setContentDisplay(ContentDisplay.TEXT_ONLY);
         } else {
 
-            lblName.setText(client.getName() + " " + client.getLastname());
+            // Affiche le nom du client en rouge si il est problématique
+            if (client.getProblematic()) {
+                lblName.setStyle("-fx-text-fill: #CD0000;");
+            } else {
+                lblName.setStyle("-fx-text-fill: black;");
+            }
 
+            StringBuilder clientString = new StringBuilder();
+
+            // Si il a prénom
+            if (client.getName() != null) {
+                clientString.append(client.getName() + " ");
+            }
+
+            // Si il a nom
+            if (client.getLastname() != null) {
+                clientString.append(client.getLastname());
+            }
+
+            // Si il a une entreprise
+            if (client.getCompany() != null) {
+                clientString.append( " - " + client.getCompany());
+            }
+
+            lblName.setText(clientString.toString());
             setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         }
     }

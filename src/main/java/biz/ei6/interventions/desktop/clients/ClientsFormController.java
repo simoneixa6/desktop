@@ -10,9 +10,13 @@ import biz.ei6.interventions.desktop.App.Interactors;
 import biz.ei6.interventions.desktop.DesktopListener;
 import biz.ei6.interventions.desktop.framework.clients.ClientPostException;
 import biz.ei6.interventions.desktop.framework.clients.ClientPutException;
+import biz.ei6.interventions.desktop.framework.interventions.InterventionGetException;
+import biz.ei6.interventions.desktop.framework.interventions.InterventionPutException;
 import biz.ei6.interventions.desktop.lib.domain.Client;
+import biz.ei6.interventions.desktop.lib.domain.Intervention;
 import biz.ei6.interventions.desktop.lib.domain.Site;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
@@ -27,7 +31,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
@@ -35,7 +38,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 
 /**
  *
@@ -157,6 +159,27 @@ public final class ClientsFormController implements Initializable {
                     } catch (ClientPutException e) {
                         showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.modificationClient", e.toString());
                     }
+
+                    ArrayList<Intervention> interventions = new ArrayList<Intervention>();
+
+                    // Récupération des interventions pour les mettres à jour si besoin
+                    try {
+                        interventions = interactors.getInterventions.invoke();
+                    } catch (InterventionGetException e) {
+                        showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.recuperationInterventions", e.toString());
+                    }
+
+                    // Mise à jour des interventions possédant ce client avec les nouvelles informations du client
+                    try {
+                        for (var intervention : interventions) {
+                            if (getEditedClient().getId().equals(intervention.getClient().getId())) {
+                                intervention.setClient(getEditedClient());
+                                interactors.updateIntervention.invoke(intervention);
+                            }
+                        }
+                    } catch (InterventionPutException e) {
+                        showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.modificationIntervention", e.toString());
+                    }
                 }
                 desktopListener.close();
             }
@@ -189,22 +212,20 @@ public final class ClientsFormController implements Initializable {
          * Action sur le clic du bouton "Supprimer" pour la tableview des adresses
          */
         deleteAddressBtn.setOnAction((ActionEvent actionEvent) -> {
-            ObservableList<Site> selectedSites, sites;
+            ObservableList<Site> sites;
             sites = siteTableView.getItems();
 
             // Renvoie les sites séléctionnés
-            selectedSites = siteTableView.getSelectionModel().getSelectedItems();
+            Site selectedSite = siteTableView.getSelectionModel().getSelectedItem();
 
-            selectedSites.forEach(site -> {
-                sites.remove(site);
-            });
+            sites.remove(selectedSite);
         });
 
         /**
          * Text formatter sur le champ du numéro de téléphone pour accepter que
          * des entiers
          */
-        Pattern pattern = Pattern.compile("\\d*");
+        Pattern pattern = Pattern.compile("^[\\d ]*$");
         TextFormatter onlyNumbersformatter = new TextFormatter((UnaryOperator<TextFormatter.Change>) change -> {
             return pattern.matcher(change.getControlNewText()).matches() ? change : null;
         });
@@ -220,14 +241,11 @@ public final class ClientsFormController implements Initializable {
 
         //Allow the table to be editable
         siteTableView.setEditable(true);
-        siteTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-
         addressCol.setCellFactory(column -> new StringEditableCell(column));
-        cityCol.setCellFactory(column -> new StringEditableCell(column));        
+        cityCol.setCellFactory(column -> new StringEditableCell(column));
         zipCodeCol.setCellFactory(column -> new NumberEditableCell(column));
     }
-    
-    
+
     public void ChangeAddressCellEvent(CellEditEvent editedCell) {
         Site selectedSite = siteTableView.getSelectionModel().getSelectedItem();
         selectedSite.setAddress(editedCell.getNewValue().toString());
@@ -255,7 +273,7 @@ public final class ClientsFormController implements Initializable {
         StringBuilder errors = new StringBuilder();
 
         // Vérifie que les champs obligatoires soient bien remplies
-        if (nameInput.getText() == null || "".equals(nameInput.getText())) {
+        if (lastnameInput.getText() == null || "".equals(lastnameInput.getText())) {
             errors.append(resources.getString("warning.nom"));
         }
         if (phoneInput.getText() == null || "".equals(phoneInput.getText())) {

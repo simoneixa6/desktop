@@ -9,6 +9,7 @@ import biz.ei6.interventions.desktop.lib.data.InterventionsDataSource;
 import biz.ei6.interventions.desktop.lib.data.InterventionsRepository;
 import biz.ei6.interventions.desktop.lib.interactors.AddClient;
 import biz.ei6.interventions.desktop.lib.interactors.AddIntervention;
+import biz.ei6.interventions.desktop.lib.interactors.GetClient;
 import biz.ei6.interventions.desktop.lib.interactors.GetClients;
 import biz.ei6.interventions.desktop.lib.interactors.GetInterventions;
 import biz.ei6.interventions.desktop.lib.interactors.RemoveClient;
@@ -46,6 +47,7 @@ public class App extends Application {
         public AddClient addClient = new AddClient(clientsRepository);
         public UpdateClient updateClient = new UpdateClient(clientsRepository);
         public GetClients getClients = new GetClients(clientsRepository);
+        public GetClient getClient = new GetClient(clientsRepository);
         public RemoveClient removeClient = new RemoveClient(clientsRepository);
     }
 

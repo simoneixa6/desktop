@@ -30,11 +30,13 @@ public class Intervention {
     private final StringProperty _id = new SimpleStringProperty();
     private final StringProperty title = new SimpleStringProperty();
     private final StringProperty user_id = new SimpleStringProperty();
-    private final StringProperty client_id = new SimpleStringProperty();
+    private final ObjectProperty<Client> client = new SimpleObjectProperty();
     private final StringProperty description = new SimpleStringProperty();
     private final ListProperty<Period> periods = new SimpleListProperty();
-    private final StringProperty address = new SimpleStringProperty();
+    private final ObjectProperty<Site> address = new SimpleObjectProperty();
     private final StringProperty km = new SimpleStringProperty();
+    private final StringProperty goKm = new SimpleStringProperty();
+    private final StringProperty backKm = new SimpleStringProperty();
     private final StringProperty billNumber = new SimpleStringProperty();
     private final ObjectProperty<LocalDate> billDate = new SimpleObjectProperty();
     private final StringProperty paymentType = new SimpleStringProperty();
@@ -44,12 +46,10 @@ public class Intervention {
     private final BooleanProperty deleted = new SimpleBooleanProperty();
 
     {
-
-        // Ajout d'une période par défault
+        // Ajout d'une période et d'une heure de début par défault
         Period period = new Period();
         period.setDateString(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")));
         period.setStartString(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")));
-        period.setEndString(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")));
         List<Period> periodlist = List.of(period);
         this.setPeriods(periodlist);
 
@@ -63,6 +63,13 @@ public class Intervention {
      */
     public String getId() {
         return _id.get();
+    }
+
+    /*
+     * @return the Id
+     */
+    public StringProperty getIdProperty() {
+        return _id;
     }
 
     /**
@@ -93,19 +100,19 @@ public class Intervention {
     /**
      * @return the client_id
      */
-    public String getClient_id() {
-        return client_id.get();
+    public Client getClient() {
+        return client.get();
     }
 
-    public StringProperty getClient_idProperty() {
-        return client_id;
+    public ObjectProperty<Client> getClientProperty() {
+        return client;
     }
 
     /**
-     * @param client_id the client_id to set
+     * @param client the client to set
      */
-    public void setClient_id(String client_id) {
-        this.client_id.set(client_id);
+    public void setClient(Client client) {
+        this.client.set(client);
     }
 
     /**
@@ -165,18 +172,18 @@ public class Intervention {
     /**
      * @return the address
      */
-    public StringProperty getAddressProperty() {
+    public ObjectProperty<Site> getAddressProperty() {
         return address;
     }
 
-    public String getAddress() {
+    public Site getAddress() {
         return address.get();
     }
 
     /**
      * @param address the address to set
      */
-    public void setAddress(String address) {
+    public void setAddress(Site address) {
         this.address.set(address);
     }
 
@@ -196,6 +203,42 @@ public class Intervention {
      */
     public void setKm(String km) {
         this.km.set(km);
+    }
+
+    /**
+     * @return the km
+     */
+    public String getGoKm() {
+        return goKm.get();
+    }
+
+    public StringProperty getGoKmProperty() {
+        return goKm;
+    }
+
+    /**
+     * @param goKm the km to set
+     */
+    public void setGoKm(String goKm) {
+        this.goKm.set(goKm);
+    }
+
+    /**
+     * @return the backKm
+     */
+    public String getBackKm() {
+        return backKm.get();
+    }
+
+    public StringProperty getBackKmProperty() {
+        return backKm;
+    }
+
+    /**
+     * @param backKm the km to set
+     */
+    public void setBackKm(String backKm) {
+        this.backKm.set(backKm);
     }
 
     /**

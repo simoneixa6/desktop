@@ -1,8 +1,12 @@
 package biz.ei6.interventions.desktop.framework.interventions;
 
+import biz.ei6.interventions.desktop.framework.clients.ClientDTO;
+import biz.ei6.interventions.desktop.framework.clients.SiteDTO;
 import biz.ei6.interventions.desktop.lib.data.InterventionsDataSource;
+import biz.ei6.interventions.desktop.lib.domain.Client;
 import biz.ei6.interventions.desktop.lib.domain.Intervention;
 import biz.ei6.interventions.desktop.lib.domain.Period;
+import biz.ei6.interventions.desktop.lib.domain.Site;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import java.util.ArrayList;
@@ -166,6 +170,83 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
         return json;
     }
 
+    private void setSiteDTO(SiteDTO siteDTO, Site site) {
+        siteDTO.setAddress(site.getAddress());
+        siteDTO.setZipCode(site.getZipCode());
+        siteDTO.setCity(site.getCity());
+    }
+
+    private void setSite(Site site, SiteDTO siteDTO) {
+        site.setAddress(siteDTO.getAddress());
+        site.setZipCode(siteDTO.getZipCode());
+        site.setCity(siteDTO.getCity());
+    }
+
+    private void setClientDTO(ClientDTO clientDTO, Client client) {
+        clientDTO.setId(client.getId());
+        clientDTO.setCivility(client.getCivility());
+        clientDTO.setName(client.getName());
+        clientDTO.setLastname(client.getLastname());
+        clientDTO.setCompany(client.getCompany());
+        clientDTO.setCompanyStatus(client.getCompanyStatus());
+        clientDTO.setPhone(client.getPhone());
+        clientDTO.setMail(client.getMail());
+        clientDTO.setHow(client.getHow());
+        clientDTO.setWhy(client.getWhy());
+        clientDTO.setProblematic(String.valueOf(client.getProblematic()));
+        clientDTO.setDeleted(String.valueOf(client.getDeleted()));
+
+        ArrayList<SiteDTO> sitesDTO = new ArrayList<>();
+
+        if (client.getAddresses() != null) {
+            for (Site site : client.getAddresses()) {
+                SiteDTO siteDTO = new SiteDTO();
+                setSiteDTO(siteDTO, site);
+                sitesDTO.add(siteDTO);
+            }
+            clientDTO.setAddresses(sitesDTO);
+        }
+
+        if (!"".equals(client.getFirstVisitDate())) {
+            clientDTO.setFirstVisitDate(client.getFirstVisitDate());
+        } else {
+            // clientDTO.FirstVisitDate sera à null si aucune valeur choisi lors de la création
+        }
+    }
+
+    private void setClient(Client client, ClientDTO clientDTO) {
+        client.setId(clientDTO.getId());
+        client.setCivility(clientDTO.getCivility());
+        client.setName(clientDTO.getName());
+        client.setLastname(clientDTO.getLastname());
+        client.setCompany(clientDTO.getCompany());
+        client.setCompanyStatus(clientDTO.getCompanyStatus());
+        client.setPhone(clientDTO.getPhone());
+        client.setMail(clientDTO.getMail());
+        client.setHow(clientDTO.getHow());
+        client.setWhy(clientDTO.getWhy());
+        client.setProblematic(parseBoolean(clientDTO.getProblematic()));
+        client.setDeleted(parseBoolean(clientDTO.getDeleted()));
+
+        if (clientDTO.getAddresses() != null) {
+            ArrayList<Site> sites = new ArrayList<>();
+
+            for (biz.ei6.interventions.desktop.framework.clients.SiteDTO siteDTO : clientDTO.getAddresses()) {
+                Site site = new Site();
+                setSite(site, siteDTO);
+                sites.add(site);
+            }
+
+            client.setAddresses(sites);
+        }
+
+        if ("0001-01-01T00:00:00Z".equals(clientDTO.getFirstVisitDate())) {
+            // Le serveur renvoie la date 0001-01-01T00:00:00Z si aucune valeur de date n'a été rentré lors de la création du client
+        } else {
+            client.setFirstVisitDate(clientDTO.getFirstVisitDate());
+        }
+    }
+
     private void setPeriodDTO(PeriodDTO periodDTO, Period period) {
 
         if (period.getDate() != null) {
@@ -195,7 +276,7 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
             period.setStartString(periodDTO.getStart());
         }
 
-        if ("0001-01-01T00:00:00Z".equals(periodDTO.getStart())) {
+        if ("0001-01-01T00:00:00Z".equals(periodDTO.getEnd())) {
             // Le serveur renvoie la date 0001-01-01T00:00:00Z si aucune valeur de début n'a été rentré lors de la création d'une intervention
         } else {
             period.setEndString(periodDTO.getEnd());
@@ -206,15 +287,25 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
     private void setInterventionDTO(InterventionDTO interventionDTO, Intervention intervention) {
         interventionDTO.setId(intervention.getId());
         interventionDTO.setTitle(intervention.getTitle());
-        interventionDTO.setClient_id(intervention.getClient_id());
         interventionDTO.setUser_id(intervention.getUser_id());
         interventionDTO.setDescription(intervention.getDescription());
-        interventionDTO.setAddress(intervention.getAddress());
         interventionDTO.setBillNumber(intervention.getBillNumber());
         interventionDTO.setPaymentType(intervention.getPaymentType());
         interventionDTO.setStatus(intervention.getStatus());
         interventionDTO.setMedias(intervention.getMedias());
         interventionDTO.setDeleted(String.valueOf(intervention.getDeleted()));
+
+        if (intervention.getClient() != null) {
+            ClientDTO clientDTO = new ClientDTO();
+            setClientDTO(clientDTO, intervention.getClient());
+            interventionDTO.setClient(clientDTO);
+        }
+
+        if (intervention.getAddress() != null) {
+            SiteDTO siteDTO = new SiteDTO();
+            setSiteDTO(siteDTO, intervention.getAddress());
+            interventionDTO.setAddress(siteDTO);
+        }
 
         if (intervention.getPeriods() != null) {
             List<PeriodDTO> periodsDTO = new ArrayList<>();
@@ -229,6 +320,18 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
 
         if (intervention.getKm() != null) {
             interventionDTO.setKm(Double.parseDouble(intervention.getKm()) + "");
+        } else {
+            // interventionDTO.Km sera à null si aucune valeur choisi lors de la création
+        }
+
+        if (intervention.getGoKm() != null) {
+            interventionDTO.setGoKm(Double.parseDouble(intervention.getGoKm()) + "");
+        } else {
+            // interventionDTO.Km sera à null si aucune valeur choisi lors de la création
+        }
+
+        if (intervention.getBackKm() != null) {
+            interventionDTO.setBackKm(Double.parseDouble(intervention.getBackKm()) + "");
         } else {
             // interventionDTO.Km sera à null si aucune valeur choisi lors de la création
         }
@@ -249,15 +352,25 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
     private void setIntervention(Intervention intervention, InterventionDTO interventionDTO) {
         intervention.setId(interventionDTO.getId());
         intervention.setTitle(interventionDTO.getTitle());
-        intervention.setClient_id(interventionDTO.getClient_id());
         intervention.setUser_id(interventionDTO.getUser_id());
         intervention.setDescription(interventionDTO.getDescription());
-        intervention.setAddress(interventionDTO.getAddress());
         intervention.setBillNumber(interventionDTO.getBillNumber());
         intervention.setPaymentType(interventionDTO.getPaymentType());
         intervention.setStatus(interventionDTO.getStatus());
         intervention.setMedias(interventionDTO.getMedias());
         intervention.setDeleted(parseBoolean(interventionDTO.getDeleted()));
+
+        if (interventionDTO.getClient() != null) {
+            Client client = new Client();
+            setClient(client, interventionDTO.getClient());
+            intervention.setClient(client);
+        }
+
+        if (interventionDTO.getAddress() != null) {
+            Site site = new Site();
+            setSite(site, interventionDTO.getAddress());
+            intervention.setAddress(site);
+        }
 
         List<Period> periods = new ArrayList<>();
 
@@ -274,6 +387,18 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
             // Le serveur renvoie 0 si aucune valeur n'a été rentré lors de la création d'une intervention
         } else {
             intervention.setKm(interventionDTO.getKm());
+        }
+
+        if ("0".equals(interventionDTO.getGoKm())) {
+            // Le serveur renvoie 0 si aucune valeur n'a été rentré lors de la création d'une intervention
+        } else {
+            intervention.setGoKm(interventionDTO.getGoKm());
+        }
+
+        if ("0".equals(interventionDTO.getBackKm())) {
+            // Le serveur renvoie 0 si aucune valeur n'a été rentré lors de la création d'une intervention
+        } else {
+            intervention.setBackKm(interventionDTO.getBackKm());
         }
 
         if ("0001-01-01T00:00:00Z".equals(interventionDTO.getBillDate())) {

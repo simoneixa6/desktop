@@ -29,6 +29,7 @@ public class DateEditableCell extends TableCell<Period, LocalDate> {
             createTextField();
             setText(null);
             setGraphic(textField);
+            textField.requestFocus();
             textField.selectAll();
         }
     }

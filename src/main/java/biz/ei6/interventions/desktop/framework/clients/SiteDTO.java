@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  *
  * @author Eixa6
  */
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class SiteDTO {
 
     String address;

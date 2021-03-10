@@ -1,5 +1,7 @@
 package biz.ei6.interventions.desktop.framework.interventions;
 
+import biz.ei6.interventions.desktop.framework.clients.ClientDTO;
+import biz.ei6.interventions.desktop.framework.clients.SiteDTO;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.util.List;
@@ -8,17 +10,19 @@ import java.util.List;
  *
  * @author Eixa6
  */
-@JsonInclude(Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class InterventionDTO {
 
     String _id;
     String title;
-    String client_id;
+    ClientDTO client;
     String user_id;
     String description;
     List<PeriodDTO> periods;
-    String address;
+    SiteDTO address;
     String km;
+    String goKm;
+    String backKm;
     String billNumber;
     String billDate;
     String paymentType;
@@ -43,12 +47,12 @@ public class InterventionDTO {
         this.title = title;
     }
 
-    public String getClient_id() {
-        return client_id;
+    public ClientDTO getClient() {
+        return client;
     }
 
-    public void setClient_id(String client_id) {
-        this.client_id = client_id;
+    public void setClient(ClientDTO client) {
+        this.client = client;
     }
 
     public String getUser_id() {
@@ -75,11 +79,11 @@ public class InterventionDTO {
         this.periods = periods;
     }
     
-    public String getAddress() {
+    public SiteDTO getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
+    public void setAddress(SiteDTO address) {
         this.address = address;
     }
 
@@ -146,4 +150,22 @@ public class InterventionDTO {
     public void setDeleted(String deleted) {
         this.deleted = deleted;
     }
+
+    public String getGoKm() {
+        return goKm;
+    }
+
+    public void setGoKm(String goKm) {
+        this.goKm = goKm;
+    }
+
+    public String getBackKm() {
+        return backKm;
+    }
+
+    public void setBackKm(String backKm) {
+        this.backKm = backKm;
+    }
+    
+    
 }

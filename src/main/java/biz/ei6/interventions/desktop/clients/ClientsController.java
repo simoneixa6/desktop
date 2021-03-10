@@ -8,6 +8,7 @@ import biz.ei6.interventions.desktop.lib.domain.Client;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -33,7 +34,7 @@ class ClientsController implements Initializable, DesktopListener {
     Button createBtn;
 
     Interactors interactors;
-    
+
     ResourceBundle resources;
 
     public void setInteractors(App.Interactors interactors) {
@@ -64,9 +65,17 @@ class ClientsController implements Initializable, DesktopListener {
             if (newSelectedClient != null) {
                 ClientsForm interventionsForm = new ClientsForm(interactors, newSelectedClient, this, resources);
                 addClientsFormToSplitPane(interventionsForm);
+
+                // Permet de mettre à jour l'ui depuis le thread principale ( si l'ui est mise à jour dans le thread secondaire, une exception est levée )
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateClientsListView();
+                    }
+                });
             }
         });
-        
+
         /*
          * Action sur le clic du bouton "Nouveau client"
          */
@@ -78,7 +87,7 @@ class ClientsController implements Initializable, DesktopListener {
 
         // Muse à jour de la liste des clients au démarrage
         updateClientsListView();
-        
+
     }
 
     private void addClientsFormToSplitPane(ClientsForm clientsForm) {
@@ -96,8 +105,8 @@ class ClientsController implements Initializable, DesktopListener {
     }
 
     public void updateClientsListView() {
-            var dataobs = FXCollections.observableArrayList(getClients());
-            clientsListView.setItems(dataobs);
+        var dataobs = FXCollections.observableArrayList(getClients());
+        clientsListView.setItems(dataobs);
     }
 
     public ArrayList<Client> getClients() {

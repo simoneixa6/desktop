@@ -7,6 +7,7 @@ import biz.ei6.interventions.desktop.lib.domain.Intervention;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -60,7 +61,7 @@ public class InterventionsController implements Initializable, DesktopListener {
         /*
          * Mise en place de la cell factory de la listview des interventions
          */
-        interventionsListView.setCellFactory(new InterventionCellFactory());
+        interventionsListView.setCellFactory(new InterventionCellFactory(interactors));
 
         /*
          * Action lors de la selection d'une intervention dans la listview
@@ -69,6 +70,14 @@ public class InterventionsController implements Initializable, DesktopListener {
             if (newSelectedIntervention != null) {
                 InterventionsForm interventionsForm = new InterventionsForm(interactors, newSelectedIntervention, this, resources);
                 addInterventionsFormToSplitPane(interventionsForm);
+
+                // Permet de mettre à jour l'ui depuis le thread principale ( si l'ui est mise à jour dans le thread secondaire, une exception est levée )
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateInterventionsListView();
+                    }
+                });
             }
         });
 
@@ -101,8 +110,8 @@ public class InterventionsController implements Initializable, DesktopListener {
     }
 
     public void updateInterventionsListView() {
-            var dataobs = FXCollections.observableArrayList(getInteventions());
-            interventionsListView.setItems(dataobs);
+        var dataobs = FXCollections.observableArrayList(getInteventions());
+        interventionsListView.setItems(dataobs);
     }
 
     public ArrayList<Intervention> getInteventions() {

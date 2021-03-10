@@ -100,6 +100,38 @@ public class WSClientsDataSource implements ClientsDataSource {
     }
 
     @Override
+    public Client readOne(String client_id) throws ClientGetException {
+        String serverResp = null;
+        Client client = new Client();
+        try {
+            // Création de la requête
+            var request = HttpRequest.newBuilder(
+                    URI.create("https://simon.biz/clients/" + client_id))
+                    .header("Accept", "application/json")
+                    .GET()
+                    .build();
+
+            var response = httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString());
+
+            var resp = response.get();
+
+            var res = resp.body();
+
+            serverResp = resp.toString();
+
+            ObjectMapper om = new ObjectMapper();
+            om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+            var clientDTO = om.readValue(res, ClientDTO.class);
+            setClient(client, clientDTO);
+
+        } catch (JsonProcessingException | InterruptedException | ExecutionException e) {
+            throw new ClientGetException(resources.getString("exception.reponseServeur") + serverResp + resources.getString("exception.exception") + e, e);
+        }
+        return client;
+    }
+
+    @Override
     public void update(Client client) throws ClientPutException {
 
         String serverResp = null;
@@ -199,7 +231,7 @@ public class WSClientsDataSource implements ClientsDataSource {
             }
             clientDTO.setAddresses(sitesDTO);
         }
-        
+
         if (!"".equals(client.getFirstVisitDate())) {
             clientDTO.setFirstVisitDate(client.getFirstVisitDate());
         } else {
@@ -239,4 +271,5 @@ public class WSClientsDataSource implements ClientsDataSource {
             client.setFirstVisitDate(clientDTO.getFirstVisitDate());
         }
     }
+
 }
