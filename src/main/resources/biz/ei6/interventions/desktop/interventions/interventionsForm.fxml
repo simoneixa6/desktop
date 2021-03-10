@@ -23,7 +23,7 @@
                <content>
                   <VBox>
                      <children>
-                        <Label id="title" text="%modifier.l.intervention">
+                        <Label id="title" fx:id="titleLbl" text="%modifier.l.intervention">
                            <VBox.margin>
                               <Insets bottom="20.0" top="10.0" />
                            </VBox.margin>
@@ -61,7 +61,7 @@
                                     </ComboBox>
                                     <HBox alignment="CENTER_LEFT" prefHeight="12.0" prefWidth="380.0">
                                        <children>
-                                    <Button id="tableViewButton" fx:id="createClientBtn" mnemonicParsing="false" text="%creer.le.client" />
+                                    <Button id="tableViewButton" fx:id="createClientBtn" mnemonicParsing="false" text="%creer.un.client" />
                                     <Button id="tableViewButton" fx:id="updateClientBtn" mnemonicParsing="false" text="%modifier.le.client" />
                                        </children>
                                     </HBox>

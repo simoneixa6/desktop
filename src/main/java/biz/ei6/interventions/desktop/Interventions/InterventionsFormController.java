@@ -11,6 +11,7 @@ import biz.ei6.interventions.desktop.lib.domain.Site;
 import biz.ei6.interventions.desktop.lib.domain.Intervention;
 import biz.ei6.interventions.desktop.lib.domain.Period;
 import biz.ei6.interventions.desktop.lib.domain.Client;
+import java.io.InputStream;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -49,13 +50,18 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.StringConverter;
 
 /*
  * @author Eixa6
  */
 public final class InterventionsFormController implements Initializable, DesktopListener {
+
+    @FXML
+    Label titleLbl;
 
     @FXML
     TextField nameInput;
@@ -128,8 +134,7 @@ public final class InterventionsFormController implements Initializable, Desktop
     Button createClientBtn;
     @FXML
     Button updateClientBtn;
-    
-    
+
     Label linkedInterventionsLbl;
     ListView<Intervention> linkedInterventionsListView;
 
@@ -224,13 +229,16 @@ public final class InterventionsFormController implements Initializable, Desktop
             showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.recuperationClients", e.toString());
         }
 
+        // Image utilisé pour les icônes des fenêtres "Créer un client" et "Modifier un client"
+        InputStream whiteIcon = getClass().getResourceAsStream("white.png");
+
         /**
          * Action sur le clic du bouton "Créer un client"
          */
         createClientBtn.setOnAction((ActionEvent event) -> {
             ClientsForm clientsForm = new ClientsForm(interactors, new Client(), InterventionsFormController.this, resources);
             clientStage = new Stage();
-            clientStage.setTitle("Créer un client");
+            clientStage.getIcons().add(new Image(whiteIcon));
             clientStage.setScene(new Scene(clientsForm, 650, 450));
             clientStage.show();
         });
@@ -243,7 +251,7 @@ public final class InterventionsFormController implements Initializable, Desktop
             if (clientBox.getValue().getId() != null) {
                 ClientsForm clientsForm = new ClientsForm(interactors, getSelectedClient(), InterventionsFormController.this, resources);
                 clientStage = new Stage();
-                clientStage.setTitle("Modifier le client");
+                clientStage.getIcons().add(new Image(whiteIcon));
                 clientStage.setScene(new Scene(clientsForm, 650, 450));
                 clientStage.show();
             }
@@ -290,6 +298,7 @@ public final class InterventionsFormController implements Initializable, Desktop
             paymenttypeBox.setValue(resources.getString("paiement.cheque"));
             registerBtn.setText(resources.getString("enregistrer"));
             deleteBtn.setDisable(true);
+            titleLbl.setText(resources.getString("creer.une.intervention"));
 
             //TEMPORAIRE
             userBox.setValue("Slad");

@@ -5,12 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cb16491f-e059-41c1-ba70-d21ac07f5d41" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/desktop.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/desktop.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/biz/ei6/interventions/desktop/Interventions/InterventionsPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/biz/ei6/interventions/desktop/Interventions/InterventionsPane.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/biz/ei6/interventions/desktop/clients/ClientsPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/biz/ei6/interventions/desktop/clients/ClientsPane.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/clients.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/interventions.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/main.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/main.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/clients.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/interventions.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/main.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,13 +22,6 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="MavenImportPreferences">
-    <option name="generalSettings">
-      <MavenGeneralSettings>
-        <option name="mavenHome" value="C:\Program Files\JetBrains\IntelliJ IDEA 2020.2\plugins\maven\lib\maven3" />
-      </MavenGeneralSettings>
-    </option>
   </component>
   <component name="ProjectId" id="1oYq1py8ziwlfeaGOB8b5uzrTnY" />
   <component name="ProjectLevelVcsManager">
@@ -66,17 +62,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Application.App" />
@@ -94,6 +79,7 @@
       <workItem from="1613473660882" duration="2838000" />
       <workItem from="1613496428023" duration="480000" />
       <workItem from="1614332189662" duration="266000" />
+      <workItem from="1615385367184" duration="80000" />
     </task>
     <servers />
   </component>

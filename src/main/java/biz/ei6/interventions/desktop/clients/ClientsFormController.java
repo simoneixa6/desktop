@@ -52,6 +52,9 @@ public final class ClientsFormController implements Initializable {
     DesktopListener desktopListener;
 
     @FXML
+    Label titleLbl;
+    
+    @FXML
     ChoiceBox civilityBox;
 
     @FXML
@@ -141,6 +144,7 @@ public final class ClientsFormController implements Initializable {
             civilityBox.setValue(resources.getString("m."));
             registerBtn.setText(resources.getString("enregistrer"));
             deleteBtn.setDisable(true);
+            titleLbl.setText(resources.getString("creer.un.client"));
         } else {
             registerBtn.setText(resources.getString("modifier"));
             deleteBtn.setDisable(false);

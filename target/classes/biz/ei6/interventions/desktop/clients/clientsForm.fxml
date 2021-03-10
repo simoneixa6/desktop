@@ -23,7 +23,7 @@
                <content>
                   <VBox>
                      <children>
-                        <Label id="title" text="%modifier.le.client">
+                        <Label id="title" fx:id="titleLbl" text="%modifier.le.client">
                            <VBox.margin>
                               <Insets bottom="20.0" top="10.0" />
                            </VBox.margin>
