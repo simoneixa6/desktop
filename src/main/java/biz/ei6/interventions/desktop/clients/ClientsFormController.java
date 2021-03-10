@@ -237,17 +237,6 @@ public final class ClientsFormController implements Initializable {
             sites.remove(selectedSite);
         });
 
-        /**
-         * Text formatter sur le champ du numéro de téléphone pour accepter que
-         * des entiers
-         */
-        Pattern pattern = Pattern.compile("^[\\d ]*$");
-        TextFormatter onlyNumbersformatter = new TextFormatter((UnaryOperator<TextFormatter.Change>) change -> {
-            return pattern.matcher(change.getControlNewText()).matches() ? change : null;
-        });
-
-        phoneInput.setTextFormatter(onlyNumbersformatter);
-
         /*
          * Mise en place de la table view des adresses
          */
@@ -255,7 +244,7 @@ public final class ClientsFormController implements Initializable {
         zipCodeCol.setCellValueFactory(new PropertyValueFactory<Site, String>("zipCode"));
         cityCol.setCellValueFactory(new PropertyValueFactory<Site, String>("city"));
 
-        //Allow the table to be editable
+        // Autoriser l'édition de la tableview des adresses, ajout des cellfactorys
         siteTableView.setEditable(true);
         addressCol.setCellFactory(column -> new StringEditableCell(column));
         cityCol.setCellFactory(column -> new StringEditableCell(column));
