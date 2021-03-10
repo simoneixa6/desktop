@@ -3,6 +3,7 @@ package biz.ei6.interventions.desktop.interventions;
 import biz.ei6.interventions.desktop.App;
 import biz.ei6.interventions.desktop.App.Interactors;
 import biz.ei6.interventions.desktop.DesktopListener;
+import biz.ei6.interventions.desktop.clients.ClientsForm;
 import biz.ei6.interventions.desktop.framework.clients.ClientGetException;
 import biz.ei6.interventions.desktop.framework.interventions.InterventionPostException;
 import biz.ei6.interventions.desktop.framework.interventions.InterventionPutException;
@@ -11,7 +12,6 @@ import biz.ei6.interventions.desktop.lib.domain.Intervention;
 import biz.ei6.interventions.desktop.lib.domain.Period;
 import biz.ei6.interventions.desktop.lib.domain.Client;
 import java.net.URL;
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -31,13 +31,17 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
@@ -45,12 +49,13 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
 /*
  * @author Eixa6
  */
-public final class InterventionsFormController implements Initializable {
+public final class InterventionsFormController implements Initializable, DesktopListener {
 
     @FXML
     TextField nameInput;
@@ -122,7 +127,11 @@ public final class InterventionsFormController implements Initializable {
     @FXML
     Button createClientBtn;
     @FXML
-    Button editClientBtn;
+    Button updateClientBtn;
+    
+    
+    Label linkedInterventionsLbl;
+    ListView<Intervention> linkedInterventionsListView;
 
     Interactors interactors;
 
@@ -139,6 +148,10 @@ public final class InterventionsFormController implements Initializable {
     StringProperty city = new SimpleStringProperty();
     StringProperty selectedAddress = new SimpleStringProperty();
 
+    Stage clientStage;
+
+    ResourceBundle resources;
+
     InterventionsFormController(Intervention intervention) {
         setEditedIntervention(intervention);
     }
@@ -153,6 +166,8 @@ public final class InterventionsFormController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        this.resources = resources;
 
         /**
          * On récupère le client lié à l'intervention si il y en a un, et on le
@@ -202,13 +217,37 @@ public final class InterventionsFormController implements Initializable {
             }
         });
 
-        // Remplissage de la combobox des clients
         try {
-            var clients = FXCollections.observableArrayList(interactors.getClients.invoke());
-            clientBox.setItems(clients);
+            // Remplissage de la combobox des clients
+            updateClientsComboBox();
         } catch (ClientGetException e) {
             showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.recuperationClients", e.toString());
         }
+
+        /**
+         * Action sur le clic du bouton "Créer un client"
+         */
+        createClientBtn.setOnAction((ActionEvent event) -> {
+            ClientsForm clientsForm = new ClientsForm(interactors, new Client(), InterventionsFormController.this, resources);
+            clientStage = new Stage();
+            clientStage.setTitle("Créer un client");
+            clientStage.setScene(new Scene(clientsForm, 650, 450));
+            clientStage.show();
+        });
+
+        /**
+         * Action sur le clic du bouton "Modificer le client"
+         */
+        updateClientBtn.setOnAction((ActionEvent event) -> {
+            // Si un client est selectionné
+            if (clientBox.getValue().getId() != null) {
+                ClientsForm clientsForm = new ClientsForm(interactors, getSelectedClient(), InterventionsFormController.this, resources);
+                clientStage = new Stage();
+                clientStage.setTitle("Modifier le client");
+                clientStage.setScene(new Scene(clientsForm, 650, 450));
+                clientStage.show();
+            }
+        });
 
         // Mise en place de la cellFactory sur la combobox des adresses
         addressBox.setCellFactory(new SiteCellFactory());
@@ -358,7 +397,7 @@ public final class InterventionsFormController implements Initializable {
             }
             kmInput.setText(String.valueOf(a + b));
         });
-        
+
         backKmInput.textProperty().addListener((observable, oldVal, newVal) -> {
             double a;
             double b;
@@ -376,7 +415,7 @@ public final class InterventionsFormController implements Initializable {
             }
             kmInput.setText(String.valueOf(a + b));
         });
-        
+
         /*
          * Mise en place de la table view des Périodes
          */
@@ -409,7 +448,15 @@ public final class InterventionsFormController implements Initializable {
         dateCol.setCellFactory(column -> new DateEditableCell(column));
         startCol.setCellFactory(column -> new TimeEditableCell(column));
         endCol.setCellFactory(column -> new TimeEditableCell(column));
-        ;
+
+    }
+
+    /**
+     * Mise à jour de la combobox des clients
+     */
+    private void updateClientsComboBox() throws ClientGetException {
+        var clients = FXCollections.observableArrayList(interactors.getClients.invoke());
+        clientBox.setItems(clients);
     }
 
     /**
@@ -557,5 +604,20 @@ public final class InterventionsFormController implements Initializable {
      */
     public SimpleObjectProperty<Client> getSelectedClientProperty() {
         return selectedClient;
+    }
+
+    @Override
+    public void close() {
+        clientStage.close();
+    }
+
+    @Override
+    public void returnClient(Client client) {
+        try {
+            updateClientsComboBox();
+        } catch (ClientGetException e) {
+            showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.recuperationClients", e.toString());
+        }
+        setSelectedClient(client);
     }
 }

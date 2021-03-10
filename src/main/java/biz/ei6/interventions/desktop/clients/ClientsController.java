@@ -63,8 +63,8 @@ class ClientsController implements Initializable, DesktopListener {
          */
         clientsListView.getSelectionModel().selectedItemProperty().addListener((observable, oldSelectedClient, newSelectedClient) -> {
             if (newSelectedClient != null) {
-                ClientsForm interventionsForm = new ClientsForm(interactors, newSelectedClient, this, resources);
-                addClientsFormToSplitPane(interventionsForm);
+                ClientsForm clientsForm = new ClientsForm(interactors, newSelectedClient, this, resources);
+                addClientsFormToSplitPane(clientsForm);
 
                 // Permet de mettre à jour l'ui depuis le thread principale ( si l'ui est mise à jour dans le thread secondaire, une exception est levée )
                 Platform.runLater(new Runnable() {
@@ -120,5 +120,9 @@ class ClientsController implements Initializable, DesktopListener {
             alert.show();
         }
         return new ArrayList<>();
+    }
+
+    @Override
+    public void returnClient(Client client) {
     }
 }

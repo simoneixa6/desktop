@@ -62,7 +62,7 @@
                                     <HBox alignment="CENTER_LEFT" prefHeight="12.0" prefWidth="380.0">
                                        <children>
                                     <Button id="tableViewButton" fx:id="createClientBtn" mnemonicParsing="false" text="%creer.le.client" />
-                                    <Button id="tableViewButton" fx:id="editClientBtn" mnemonicParsing="false" text="%modifier.le.client" />
+                                    <Button id="tableViewButton" fx:id="updateClientBtn" mnemonicParsing="false" text="%modifier.le.client" />
                                        </children>
                                     </HBox>
                                  </children>

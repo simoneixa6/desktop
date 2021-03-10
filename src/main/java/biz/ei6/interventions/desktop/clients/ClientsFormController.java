@@ -31,6 +31,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
@@ -101,6 +103,11 @@ public final class ClientsFormController implements Initializable {
     Button addAddressBtn;
     @FXML
     Button deleteAddressBtn;
+
+    @FXML
+    Label linkedInterventionsLbl;
+    @FXML
+    ListView<Intervention> linkedInterventionsListView;
 
     /**
      * Intervention éditée par la partie droite de l'interface
@@ -181,6 +188,9 @@ public final class ClientsFormController implements Initializable {
                         showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.modificationIntervention", e.toString());
                     }
                 }
+                // Renvoie le client ( utilisé lors de la création d'un client depuis le formulaire d'intervention )
+                desktopListener.returnClient(getEditedClient());
+                // Ferme la fenêtre et met à jour la liste des clients
                 desktopListener.close();
             }
         });
@@ -194,6 +204,8 @@ public final class ClientsFormController implements Initializable {
             } catch (ClientPutException e) {
                 showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.suppressionClient", e.toString());
             }
+            // Renvoie un nouveau client ( afin de deselectionné l'ancien client dans le formulaire d'intervention )
+            desktopListener.returnClient(new Client());
             desktopListener.close();
         });
 
