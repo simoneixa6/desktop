@@ -8,6 +8,7 @@ import biz.ei6.interventions.desktop.lib.domain.Client;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -62,9 +63,16 @@ class ClientsController implements Initializable, DesktopListener {
          */
         clientsListView.getSelectionModel().selectedItemProperty().addListener((observable, oldSelectedClient, newSelectedClient) -> {
             if (newSelectedClient != null) {
-                updateClientsListView();
                 ClientsForm interventionsForm = new ClientsForm(interactors, newSelectedClient, this, resources);
                 addClientsFormToSplitPane(interventionsForm);
+
+                // Permet de mettre à jour l'ui depuis le thread principale ( si l'ui est mise à jour dans le thread secondaire, une exception est levée )
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateClientsListView();
+                    }
+                });
             }
         });
 
