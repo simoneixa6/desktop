@@ -443,7 +443,24 @@ public final class InterventionsFormController implements Initializable, Desktop
                             int time = (int) start.until(end, ChronoUnit.MINUTES) + 1;
                             int hours = time / 60;
                             int minutes = time % 60;
-                            return hours + ":" + minutes;
+
+                            StringBuilder hour = new StringBuilder();
+
+                            // Si le résultat est plus petit que 10, on ajoute un 0 devant pour respecter le format 00:00
+                            if (hours < 10) {
+                                hour.append("0").append(hours).append(":");
+                            } else {
+                                hour.append(hour).append(":");
+                            }
+
+                            // Si le résultat est plus petit que 10, on ajoute un 0 devant pour respecter le format 00:00
+                            if (minutes < 10) {
+                                hour.append("0").append(minutes);
+                            } else {
+                                hour.append(minutes);
+                            }
+                            
+                            return hour.toString();
                         } catch (Exception e) {
                             return "";
                         }
