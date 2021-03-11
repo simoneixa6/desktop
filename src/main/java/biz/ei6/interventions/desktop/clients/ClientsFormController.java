@@ -18,8 +18,6 @@ import biz.ei6.interventions.desktop.lib.domain.Site;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.function.UnaryOperator;
-import java.util.regex.Pattern;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -38,7 +36,6 @@ import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
@@ -156,7 +153,7 @@ public final class ClientsFormController implements Initializable {
         registerBtn.setOnAction((ActionEvent actionEvent) -> {
             // Si tous les champs obligatoires sont remplies
             if (validate(resources) == true) {
-                // Si le client ne possède pas d'id, il est nouveau, on enregistre
+                // Si le client ne possède pas d'id, il est nouveau, on le crée
                 if (getEditedClient().getId() == null) {
                     try {
                         interactors.addClient.invoke(getEditedClient());
@@ -192,6 +189,7 @@ public final class ClientsFormController implements Initializable {
                         showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.modificationIntervention", e.toString());
                     }
                 }
+                
                 // Renvoie le client ( utilisé lors de la création d'un client depuis le formulaire d'intervention )
                 desktopListener.returnClient(getEditedClient());
                 // Ferme la fenêtre et met à jour la liste des clients
