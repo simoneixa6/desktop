@@ -21,7 +21,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
-import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -206,7 +205,11 @@ public final class InterventionsFormController implements Initializable, Desktop
                     }
                     // Si il a une entreprise
                     if (client.getCompany() != null) {
-                        clientString.append(" (").append(client.getCompany()).append(")");
+                        if (client.getName() != null || client.getLastname() != null) {
+                            clientString.append("(" + client.getCompany() + ")");
+                        } else {
+                            clientString.append(client.getCompany());
+                        }
                     }
                     return clientString.toString();
                 } else {
@@ -551,7 +554,7 @@ public final class InterventionsFormController implements Initializable, Desktop
 
         // Vérifie que les champs obligatoires soient bien remplies
         if (nameInput.getText() == null || "".equals(nameInput.getText())) {
-            errors.append(resources.getString("warning.nom"));
+            errors.append(resources.getString("warning.titreIntervention"));
         }
 
         if (periodTableView.getItems().size() < 1) {

@@ -62,7 +62,11 @@ public class ClientCell extends ListCell<Client> {
 
             // Si il a une entreprise
             if (client.getCompany() != null) {
-                clientString.append( " - " + client.getCompany());
+                if (client.getName() != null || client.getLastname() != null) {
+                    clientString.append(" - " + client.getCompany());
+                } else {
+                    clientString.append(client.getCompany());
+                }
             }
 
             lblName.setText(clientString.toString());

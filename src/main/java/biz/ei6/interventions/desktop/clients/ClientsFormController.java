@@ -290,10 +290,18 @@ public final class ClientsFormController implements Initializable {
 
         StringBuilder errors = new StringBuilder();
 
-        // Vérifie que les champs obligatoires soient bien remplies
+        // Vérifie qu'au moins un nom de client ou un nom d'entreprise a été renseigné
         if (lastnameInput.getText() == null || "".equals(lastnameInput.getText())) {
-            errors.append(resources.getString("warning.nom"));
+            if (companyInput.getText() == null || "".equals(companyInput.getText())) {
+                errors.append(resources.getString("warning.nomClient"));
+            }
         }
+        if (companyInput.getText() == null || "".equals(companyInput.getText())) {
+            if (lastnameInput.getText() == null || "".equals(lastnameInput.getText())) {
+                errors.append(resources.getString("warning.nomEntreprise"));
+            }
+        }
+
         if (phoneInput.getText() == null || "".equals(phoneInput.getText())) {
             errors.append(resources.getString("warning.telephone"));
         }
@@ -303,10 +311,8 @@ public final class ClientsFormController implements Initializable {
             showAlert(resources, AlertType.WARNING, "warning.attention", "warning.champsObligatoires", errors.toString());
             return false;
         }
-
         // Pas d'erreur
         return true;
-
     }
 
     /**

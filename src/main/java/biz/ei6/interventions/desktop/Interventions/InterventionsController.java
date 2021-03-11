@@ -9,7 +9,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -37,6 +40,8 @@ public class InterventionsController implements Initializable, DesktopListener {
     Interactors interactors;
 
     ResourceBundle resources;
+
+    String sortType;
 
     public void setInteractors(Interactors interactors) {
         this.interactors = interactors;
@@ -111,8 +116,11 @@ public class InterventionsController implements Initializable, DesktopListener {
     }
 
     public void updateInterventionsListView() {
-        var dataobs = FXCollections.observableArrayList(getInteventions());
-        interventionsListView.setItems(dataobs);
+        var interventions = FXCollections.observableArrayList(getInteventions());
+
+        interventions.removeIf(intervention -> intervention.getStatus() == sortType);
+
+        interventionsListView.setItems(interventions);
     }
 
     public ArrayList<Intervention> getInteventions() {
