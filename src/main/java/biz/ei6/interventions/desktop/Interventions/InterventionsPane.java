@@ -20,9 +20,9 @@ public class InterventionsPane extends SplitPane {
 
     public InterventionsPane(Interactors interactors) {
 
-        ResourceBundle interventionsBundle = ResourceBundle.getBundle("interventions");
+        ResourceBundle resources = ResourceBundle.getBundle("main");
 
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("interventionsPane.fxml"), interventionsBundle);
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("interventionsPane.fxml"), resources);
 
         InterventionsController ctrl = new InterventionsController();
 
@@ -35,8 +35,8 @@ public class InterventionsPane extends SplitPane {
             fxmlLoader.load();
         } catch (IOException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle(interventionsBundle.getString("exception.erreur"));
-            alert.setHeaderText(interventionsBundle.getString("exception.erreurChargementInterventionsPane"));
+            alert.setTitle(resources.getString("exception.erreur"));
+            alert.setHeaderText(resources.getString("exception.erreurChargementInterventionsPane"));
             alert.setContentText(e.toString());
             alert.show();
         }

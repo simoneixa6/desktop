@@ -19,7 +19,7 @@ import javafx.scene.layout.AnchorPane;
  *
  * @author Eixa6
  */
-class ClientsForm extends AnchorPane {
+public class ClientsForm extends AnchorPane {
 
     public ClientsForm(Interactors interactors, Client client, DesktopListener desktopListener, ResourceBundle resources) {
         

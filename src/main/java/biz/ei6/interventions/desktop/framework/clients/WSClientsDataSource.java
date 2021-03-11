@@ -29,9 +29,10 @@ public class WSClientsDataSource implements ClientsDataSource {
     }
 
     @Override
-    public void add(Client client) throws ClientPostException {
+    public Client add(Client client) throws ClientPostException {
 
         String serverResp = null;
+        Client addedClient= new Client();
 
         try {
             String json = jsonCreation(client);
@@ -47,11 +48,22 @@ public class WSClientsDataSource implements ClientsDataSource {
 
             var resp = response.get();
 
+            var res = resp.body();
+            
             serverResp = resp.toString();
+            
+            ObjectMapper om = new ObjectMapper();
+            om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+            var clientDTO = om.readValue(res, ClientDTO.class);
+            
+            setClient(addedClient, clientDTO);
 
         } catch (JsonProcessingException | InterruptedException | ExecutionException e) {
             throw new ClientPostException(resources.getString("exception.reponseServeur") + serverResp + resources.getString("exception.exception") + e, e);
         }
+        
+        return addedClient;
     }
 
     @Override
@@ -264,9 +276,11 @@ public class WSClientsDataSource implements ClientsDataSource {
 
             client.setAddresses(sites);
         }
-
-        if ("0001-01-01T00:00:00Z".equals(clientDTO.getFirstVisitDate())) {
+             
+        if ("0001-01-01T00:00:00Z".equals(clientDTO.getFirstVisitDate()) || "0001-01-01T00:00:00".equals(clientDTO.getFirstVisitDate()) ) {
             // Le serveur renvoie la date 0001-01-01T00:00:00Z si aucune valeur de date n'a été rentré lors de la création du client
+            // Le test avec la valeur 0001-01-01T00:00:00 a été ajouté car lors du post d'un client, la valeur renvoyé par le serveur
+            // pour le client n'est plus 0001-01-01T00:00:00Z mais 0001-01-01T00:00:00, pour toutes les requetes suivantes, il renvoie bien avec un z 
         } else {
             client.setFirstVisitDate(clientDTO.getFirstVisitDate());
         }

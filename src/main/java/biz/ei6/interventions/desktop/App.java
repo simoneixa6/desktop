@@ -21,8 +21,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.http.HttpClient;
 import java.util.ResourceBundle;
+import javafx.scene.image.Image;
 
 /*
  * JavaFX App
@@ -67,6 +69,8 @@ public class App extends Application {
         scene = new Scene(root, 1220, 940);
         stage.setTitle(mainBundle.getString("titreAppli"));
         stage.setScene(scene);
+        InputStream logo = getClass().getResourceAsStream("logo.png");
+        stage.getIcons().add(new Image(logo));
         stage.setMinHeight(300);
         stage.setMinWidth(750);
         stage.show();

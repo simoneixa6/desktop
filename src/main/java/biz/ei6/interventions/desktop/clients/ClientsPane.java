@@ -14,9 +14,9 @@ public class ClientsPane extends SplitPane {
 
     public ClientsPane(Interactors interactors) {
 
-        ResourceBundle clientsBundle = ResourceBundle.getBundle("clients");
+        ResourceBundle resources = ResourceBundle.getBundle("main");
         
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("clientsPane.fxml"), clientsBundle);
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("clientsPane.fxml"), resources);
 
         ClientsController ctrl = new ClientsController();
 
@@ -29,8 +29,8 @@ public class ClientsPane extends SplitPane {
             fxmlLoader.load();
         } catch (IOException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle(clientsBundle.getString("exception.erreur"));
-            alert.setHeaderText(clientsBundle.getString("exception.erreurChargementClientsPane"));
+            alert.setTitle(resources.getString("exception.erreur"));
+            alert.setHeaderText(resources.getString("exception.erreurChargementClientsPane"));
             alert.setContentText(e.toString());
             alert.show();
         }

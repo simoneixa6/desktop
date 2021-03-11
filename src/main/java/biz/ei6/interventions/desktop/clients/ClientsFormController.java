@@ -8,6 +8,7 @@ package biz.ei6.interventions.desktop.clients;
 import biz.ei6.interventions.desktop.App;
 import biz.ei6.interventions.desktop.App.Interactors;
 import biz.ei6.interventions.desktop.DesktopListener;
+import biz.ei6.interventions.desktop.framework.clients.ClientGetException;
 import biz.ei6.interventions.desktop.framework.clients.ClientPostException;
 import biz.ei6.interventions.desktop.framework.clients.ClientPutException;
 import biz.ei6.interventions.desktop.framework.interventions.InterventionGetException;
@@ -18,8 +19,6 @@ import biz.ei6.interventions.desktop.lib.domain.Site;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.function.UnaryOperator;
-import java.util.regex.Pattern;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -31,12 +30,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
@@ -48,6 +48,9 @@ public final class ClientsFormController implements Initializable {
     Interactors interactors;
 
     DesktopListener desktopListener;
+
+    @FXML
+    Label titleLbl;
 
     @FXML
     ChoiceBox civilityBox;
@@ -102,6 +105,11 @@ public final class ClientsFormController implements Initializable {
     @FXML
     Button deleteAddressBtn;
 
+    @FXML
+    Label linkedInterventionsLbl;
+    @FXML
+    ListView<Intervention> linkedInterventionsListView;
+
     /**
      * Intervention éditée par la partie droite de l'interface
      */
@@ -134,6 +142,7 @@ public final class ClientsFormController implements Initializable {
             civilityBox.setValue(resources.getString("m."));
             registerBtn.setText(resources.getString("enregistrer"));
             deleteBtn.setDisable(true);
+            titleLbl.setText(resources.getString("creer.un.client"));
         } else {
             registerBtn.setText(resources.getString("modifier"));
             deleteBtn.setDisable(false);
@@ -143,44 +152,38 @@ public final class ClientsFormController implements Initializable {
          * Action sur le clic du bouton "Enregistrer" / "Modifier"
          */
         registerBtn.setOnAction((ActionEvent actionEvent) -> {
+
+            // Client renvoyé par le serveur lors de l'ajout d'un client
+            Client addedClient = new Client();
+
             // Si tous les champs obligatoires sont remplies
             if (validate(resources) == true) {
-                // Si le client ne possède pas d'id, il est nouveau, on enregistre
+                // Si le client ne possède pas d'id, il est nouveau, on le crée
                 if (getEditedClient().getId() == null) {
                     try {
-                        interactors.addClient.invoke(getEditedClient());
+                        addedClient = interactors.addClient.invoke(getEditedClient());
+                        // On renvoie le client modifié    
+
                     } catch (ClientPostException e) {
                         showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.ajoutClient", e.toString());
                     }
                     // Si il possède un ID, il existe, donc on veut donc le modifier
                 } else {
+                    //On le modifie
                     try {
                         interactors.updateClient.invoke(getEditedClient());
-                    } catch (ClientPutException e) {
+                        // On récupère le client modifié
+                        addedClient = interactors.getClient.invoke(getEditedClient().getId());
+                    } catch (ClientGetException | ClientPutException e) {
                         showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.modificationClient", e.toString());
                     }
 
-                    ArrayList<Intervention> interventions = new ArrayList<Intervention>();
-
-                    // Récupération des interventions pour les mettres à jour si besoin
-                    try {
-                        interventions = interactors.getInterventions.invoke();
-                    } catch (InterventionGetException e) {
-                        showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.recuperationInterventions", e.toString());
-                    }
-
-                    // Mise à jour des interventions possédant ce client avec les nouvelles informations du client
-                    try {
-                        for (var intervention : interventions) {
-                            if (getEditedClient().getId().equals(intervention.getClient().getId())) {
-                                intervention.setClient(getEditedClient());
-                                interactors.updateIntervention.invoke(intervention);
-                            }
-                        }
-                    } catch (InterventionPutException e) {
-                        showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.modificationIntervention", e.toString());
-                    }
+                    updateInterventionsWithThisClient(resources);
                 }
+
+                // Renvoie le client ( utilisé lors de la création d'un client depuis le formulaire d'intervention )
+                desktopListener.returnClient(addedClient);
+                // Ferme la fenêtre et met à jour la liste des clients
                 desktopListener.close();
             }
         });
@@ -194,6 +197,8 @@ public final class ClientsFormController implements Initializable {
             } catch (ClientPutException e) {
                 showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.suppressionClient", e.toString());
             }
+            // Renvoie un nouveau client ( afin de deselectionné l'ancien client dans le formulaire d'intervention )
+            desktopListener.returnClient(new Client());
             desktopListener.close();
         });
 
@@ -221,17 +226,6 @@ public final class ClientsFormController implements Initializable {
             sites.remove(selectedSite);
         });
 
-        /**
-         * Text formatter sur le champ du numéro de téléphone pour accepter que
-         * des entiers
-         */
-        Pattern pattern = Pattern.compile("^[\\d ]*$");
-        TextFormatter onlyNumbersformatter = new TextFormatter((UnaryOperator<TextFormatter.Change>) change -> {
-            return pattern.matcher(change.getControlNewText()).matches() ? change : null;
-        });
-
-        phoneInput.setTextFormatter(onlyNumbersformatter);
-
         /*
          * Mise en place de la table view des adresses
          */
@@ -239,11 +233,35 @@ public final class ClientsFormController implements Initializable {
         zipCodeCol.setCellValueFactory(new PropertyValueFactory<Site, String>("zipCode"));
         cityCol.setCellValueFactory(new PropertyValueFactory<Site, String>("city"));
 
-        //Allow the table to be editable
+        // Autoriser l'édition de la tableview des adresses, ajout des cellfactorys
         siteTableView.setEditable(true);
         addressCol.setCellFactory(column -> new StringEditableCell(column));
         cityCol.setCellFactory(column -> new StringEditableCell(column));
         zipCodeCol.setCellFactory(column -> new NumberEditableCell(column));
+    }
+
+    private void updateInterventionsWithThisClient(ResourceBundle resources) {
+        ArrayList<Intervention> interventions = new ArrayList<Intervention>();
+
+        // Récupération des interventions pour les mettres à jour si besoin
+        try {
+            interventions = interactors.getInterventions.invoke();
+        } catch (InterventionGetException e) {
+            showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.recuperationInterventions", e.toString());
+        }
+
+        // Mise à jour des interventions possédant ce client avec les nouvelles informations du client
+        try {
+            for (var intervention : interventions) {
+                if (getEditedClient().getId().equals(intervention.getClient().getId())) {
+                    intervention.setClient(getEditedClient());
+                    interactors.updateIntervention.invoke(intervention);
+                }
+            }
+
+        } catch (InterventionPutException e) {
+            showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.modificationIntervention", e.toString());
+        }
     }
 
     public void ChangeAddressCellEvent(CellEditEvent editedCell) {

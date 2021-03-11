@@ -3,6 +3,7 @@ package biz.ei6.interventions.desktop.interventions;
 import biz.ei6.interventions.desktop.App.Interactors;
 import biz.ei6.interventions.desktop.DesktopListener;
 import biz.ei6.interventions.desktop.framework.interventions.InterventionGetException;
+import biz.ei6.interventions.desktop.lib.domain.Client;
 import biz.ei6.interventions.desktop.lib.domain.Intervention;
 import java.net.URL;
 import java.util.ArrayList;
@@ -126,5 +127,9 @@ public class InterventionsController implements Initializable, DesktopListener {
         }
         // Si erreur lors de la récupération, on renvoie une liste d'interventions vide
         return new ArrayList<>();
+    }
+
+    @Override
+    public void returnClient(Client client) {
     }
 }

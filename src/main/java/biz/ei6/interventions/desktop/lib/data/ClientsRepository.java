@@ -22,8 +22,8 @@ public class ClientsRepository {
         this.clientsDataSource = clientsDataSource;
     }
 
-    public void addClient(Client client) throws ClientPostException {
-        clientsDataSource.add(client);
+    public Client addClient(Client client) throws ClientPostException {
+       return clientsDataSource.add(client);
     }
 
     public ArrayList<Client> getClients() throws ClientGetException {
