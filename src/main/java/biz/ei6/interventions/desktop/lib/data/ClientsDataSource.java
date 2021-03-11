@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * @author Eixa6
  */
 public interface ClientsDataSource {
-    void add(Client client) throws ClientPostException;
+    Client add(Client client) throws ClientPostException;
     ArrayList<Client> readAll() throws ClientGetException;
     Client readOne( String client_id ) throws ClientGetException;
     void update( Client client ) throws ClientPutException;

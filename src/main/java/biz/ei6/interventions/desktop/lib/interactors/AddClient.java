@@ -13,7 +13,7 @@ public class AddClient {
     
     public AddClient(ClientsRepository clientsRepository) { this.clientsRepository=clientsRepository;}
     
-    public void invoke(Client client) throws ClientPostException {
-        clientsRepository.addClient(client);
+    public Client invoke(Client client) throws ClientPostException {
+        return clientsRepository.addClient(client);
     }
 }

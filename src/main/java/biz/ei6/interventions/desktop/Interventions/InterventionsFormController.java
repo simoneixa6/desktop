@@ -21,6 +21,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -209,7 +210,7 @@ public final class InterventionsFormController implements Initializable, Desktop
                     }
                     return clientString.toString();
                 } else {
-                    return resources.getString("exception.aucunClient");
+                    return "Erreur";
                 }
             }
 
@@ -573,7 +574,7 @@ public final class InterventionsFormController implements Initializable, Desktop
     }
 
     /**
-     * Méthode permettant de faire apparaitres une alerte
+     * Méthode permettant de faire apparaitre une alerte
      *
      * @param resources
      * @param alertType
@@ -638,11 +639,18 @@ public final class InterventionsFormController implements Initializable, Desktop
 
     @Override
     public void returnClient(Client client) {
+
         try {
             updateClientsComboBox();
         } catch (ClientGetException e) {
             showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.recuperationClients", e.toString());
         }
+
+        // On doit mettre à jour la valeur de la clientBox a null avant de reselectionné un client sinon l'affichage de la 
+        // combobox ne se met pas à jour ( même si la valeur du client est bien présente, c'est juste l'affichage qui ne se fait pas )
+        clientBox.setValue(null);
+
+        // On assigne le nouveau client en client selectionné
         setSelectedClient(client);
     }
 }

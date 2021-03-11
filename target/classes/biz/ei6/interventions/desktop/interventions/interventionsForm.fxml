@@ -49,7 +49,7 @@
                            <children>
                               <VBox prefHeight="73.0" prefWidth="380.0">
                                  <children>
-                                    <Label id="textinputlabel" text="%client">
+                                    <Label id="textinputlabel" text="%client*">
                                        <VBox.margin>
                                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                        </VBox.margin>
