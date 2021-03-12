@@ -19,7 +19,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
@@ -153,7 +152,7 @@ public final class InterventionsFormController implements Initializable, Desktop
     StringProperty selectedAddress = new SimpleStringProperty();
 
     Boolean isNewIntervention = false;
-    
+
     Status status1;
     Status status2;
     Status status3;
@@ -161,12 +160,13 @@ public final class InterventionsFormController implements Initializable, Desktop
 
     Stage clientStage;
 
-    
     ResourceBundle resources;
 
     InterventionsFormController(Intervention intervention) {
         setEditedIntervention(intervention);
-        if (intervention.getId() == null) isNewIntervention = true;
+        if (intervention.getId() == null) {
+            isNewIntervention = true;
+        }
     }
 
     public void setInteractors(App.Interactors interactors) {
@@ -218,7 +218,7 @@ public final class InterventionsFormController implements Initializable, Desktop
 
             @Override
             public Status fromString(String arg0) {
-                throw new UnsupportedOperationException("Not supported yet.");
+                throw new UnsupportedOperationException("Not supported.");
             }
         });
 
@@ -253,7 +253,7 @@ public final class InterventionsFormController implements Initializable, Desktop
 
             @Override
             public Client fromString(String arg0) {
-                throw new UnsupportedOperationException("Not supported yet.");
+                throw new UnsupportedOperationException("Not supported.");
             }
         });
 
@@ -306,7 +306,7 @@ public final class InterventionsFormController implements Initializable, Desktop
 
             @Override
             public Site fromString(String arg0) {
-                throw new UnsupportedOperationException("Not supported yet.");
+                throw new UnsupportedOperationException("Not supported.");
             }
         });
 
@@ -356,7 +356,7 @@ public final class InterventionsFormController implements Initializable, Desktop
                     } catch (InterventionPostException e) {
                         showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.ajoutIntervention", e.toString());
                     }
-                // Si l'intervention existe déjà
+                    // Si l'intervention existe déjà
                 } else {
                     try {
                         interactors.updateIntervention.invoke(getEditedIntervention());
@@ -475,7 +475,7 @@ public final class InterventionsFormController implements Initializable, Desktop
                             LocalTime start = period.getStart();
                             LocalTime end = period.getEnd();
                             Duration duration = Duration.between(start, end);
-                            LocalTime time = LocalTime.MIN.plus( duration );
+                            LocalTime time = LocalTime.MIN.plus(duration);
                             return time.toString();
                         } catch (Exception e) {
                             return "";
@@ -553,7 +553,7 @@ public final class InterventionsFormController implements Initializable, Desktop
         clientBox.valueProperty().bindBidirectional(getSelectedClientProperty());
         addressBox.valueProperty().bindBidirectional(getEditedIntervention().getAddressProperty());
         addressBox.itemsProperty().bind(getSelectedClient().getAddressesProperty());
-    
+
         statusBox.valueProperty().bindBidirectional(getEditedIntervention().getStatusProperty());
     }
 
