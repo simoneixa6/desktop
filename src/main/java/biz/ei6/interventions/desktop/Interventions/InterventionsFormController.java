@@ -14,6 +14,7 @@ import biz.ei6.interventions.desktop.lib.domain.Client;
 import biz.ei6.interventions.desktop.lib.domain.Status;
 import java.io.InputStream;
 import java.net.URL;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -151,6 +152,8 @@ public final class InterventionsFormController implements Initializable, Desktop
     StringProperty city = new SimpleStringProperty();
     StringProperty selectedAddress = new SimpleStringProperty();
 
+    Boolean isNewIntervention = false;
+    
     Status status1;
     Status status2;
     Status status3;
@@ -158,10 +161,12 @@ public final class InterventionsFormController implements Initializable, Desktop
 
     Stage clientStage;
 
+    
     ResourceBundle resources;
 
     InterventionsFormController(Intervention intervention) {
         setEditedIntervention(intervention);
+        if (intervention.getId() == null) isNewIntervention = true;
     }
 
     public void setInteractors(App.Interactors interactors) {
@@ -175,6 +180,7 @@ public final class InterventionsFormController implements Initializable, Desktop
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        // Fichier ressources pour les chaines de caractères
         this.resources = resources;
 
         // Création des statuts d'intervention
@@ -203,7 +209,11 @@ public final class InterventionsFormController implements Initializable, Desktop
         statusBox.setConverter(new StringConverter<Status>() {
             @Override
             public String toString(Status status) {
-                return status.getName();
+                if (status != null) {
+                    return status.getName();
+                } else {
+                    return resources.getString("exception.erreur");
+                }
             }
 
             @Override
@@ -316,16 +326,16 @@ public final class InterventionsFormController implements Initializable, Desktop
         /*
          * Initialisation des champs si c'est une nouvelle intervention ( Si une intervention n'a pas d'id, c'est que c'est une nouvelle intervention )
          */
-        if (getEditedIntervention().getId() == null) {
+        if (isNewIntervention) {
             // Valeurs pas défault pour une nouvelle intervention
-            statusBox.setValue(new Status("1", resources.getString("status.ouverte")));
+            getEditedIntervention().setStatus(status1);
             paymenttypeBox.setValue(resources.getString("paiement.cheque"));
             registerBtn.setText(resources.getString("enregistrer"));
             deleteBtn.setDisable(true);
             titleLbl.setText(resources.getString("creer.une.intervention"));
 
             //TEMPORAIRE
-            userBox.setValue("Slad");
+            getEditedIntervention().setUser_id("Slad");
 
         } else {
             registerBtn.setText(resources.getString("modifier"));
@@ -339,14 +349,14 @@ public final class InterventionsFormController implements Initializable, Desktop
 
             // Si tous les champs obligatoires sont remplies
             if (validate(resources) == true) {
-                // Si l'intervention ne possède pas d'id, elle est nouvelle, on enregistre
-                if (getEditedIntervention().getId() == null) {
+                // Si l'intervention est nouvelle
+                if (isNewIntervention) {
                     try {
                         interactors.addIntervention.invoke(getEditedIntervention());
                     } catch (InterventionPostException e) {
                         showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.ajoutIntervention", e.toString());
                     }
-                    // Si elle possède un ID, elle existe, on veut donc la modifier
+                // Si l'intervention existe déjà
                 } else {
                     try {
                         interactors.updateIntervention.invoke(getEditedIntervention());
@@ -417,13 +427,13 @@ public final class InterventionsFormController implements Initializable, Desktop
             double a;
             double b;
 
-            if (newVal != null) {
+            if (newVal != null && !"".equals(newVal)) {
                 a = Double.parseDouble(newVal);
             } else {
                 a = 0;
             }
 
-            if (backKmInput.getText() == null) {
+            if (backKmInput.getText() == null || "".equals(backKmInput.getText())) {
                 b = 0;
             } else {
                 b = Double.parseDouble(backKmInput.getText());
@@ -435,13 +445,13 @@ public final class InterventionsFormController implements Initializable, Desktop
             double a;
             double b;
 
-            if (newVal != null) {
+            if (newVal != null && !"".equals(newVal)) {
                 a = Double.parseDouble(newVal);
             } else {
                 a = 0;
             }
 
-            if (backKmInput.getText() == null) {
+            if (goKmInput.getText() == null || "".equals(goKmInput.getText())) {
                 b = 0;
             } else {
                 b = Double.parseDouble(goKmInput.getText());
@@ -464,27 +474,9 @@ public final class InterventionsFormController implements Initializable, Desktop
                         try {
                             LocalTime start = period.getStart();
                             LocalTime end = period.getEnd();
-                            int time = (int) start.until(end, ChronoUnit.MINUTES) + 1;
-                            int hours = time / 60;
-                            int minutes = time % 60;
-
-                            StringBuilder hour = new StringBuilder();
-
-                            // Si le résultat est plus petit que 10, on ajoute un 0 devant pour respecter le format 00:00
-                            if (hours < 10) {
-                                hour.append("0").append(hours).append(":");
-                            } else {
-                                hour.append(hour).append(":");
-                            }
-
-                            // Si le résultat est plus petit que 10, on ajoute un 0 devant pour respecter le format 00:00
-                            if (minutes < 10) {
-                                hour.append("0").append(minutes);
-                            } else {
-                                hour.append(minutes);
-                            }
-
-                            return hour.toString();
+                            Duration duration = Duration.between(start, end);
+                            LocalTime time = LocalTime.MIN.plus( duration );
+                            return time.toString();
                         } catch (Exception e) {
                             return "";
                         }
@@ -557,11 +549,12 @@ public final class InterventionsFormController implements Initializable, Desktop
         billDateInput.valueProperty().bindBidirectional(getEditedIntervention().getBillDateProperty());
         billNumberInput.textProperty().bindBidirectional(getEditedIntervention().getBillNumberProperty());
         paymentDateInput.valueProperty().bindBidirectional(getEditedIntervention().getPaymentDateProperty());
-        statusBox.valueProperty().bindBidirectional(getEditedIntervention().getStatusProperty());
         paymenttypeBox.valueProperty().bindBidirectional(getEditedIntervention().getPaymentTypeProperty());
         clientBox.valueProperty().bindBidirectional(getSelectedClientProperty());
         addressBox.valueProperty().bindBidirectional(getEditedIntervention().getAddressProperty());
         addressBox.itemsProperty().bind(getSelectedClient().getAddressesProperty());
+    
+        statusBox.valueProperty().bindBidirectional(getEditedIntervention().getStatusProperty());
     }
 
     /**

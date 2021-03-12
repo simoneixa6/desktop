@@ -320,19 +320,19 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
             interventionDTO.setPeriods(periodsDTO);
         }
 
-        if (intervention.getKm() != null) {
+        if (intervention.getKm() != null && !"".equals(intervention.getKm())) {
             interventionDTO.setKm(Double.parseDouble(intervention.getKm()) + "");
         } else {
             // interventionDTO.Km sera à null si aucune valeur choisi lors de la création
         }
 
-        if (intervention.getGoKm() != null) {
+        if (intervention.getGoKm() != null && !"".equals(intervention.getGoKm()) ) {
             interventionDTO.setGoKm(Double.parseDouble(intervention.getGoKm()) + "");
         } else {
             // interventionDTO.Km sera à null si aucune valeur choisi lors de la création
         }
 
-        if (intervention.getBackKm() != null) {
+        if (intervention.getBackKm() != null && !"".equals(intervention.getBackKm())) {
             interventionDTO.setBackKm(Double.parseDouble(intervention.getBackKm()) + "");
         } else {
             // interventionDTO.Km sera à null si aucune valeur choisi lors de la création

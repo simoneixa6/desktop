@@ -158,7 +158,7 @@ public class InterventionsController implements Initializable, DesktopListener {
 
         // Supprime les interventions possédant le statut selectionné dans la combobox de trie
         if (!status.equals(resources.getString("tous.les.etats"))) {
-            interventions.removeIf(intervention -> !intervention.getStatus().equals(status));
+            interventions.removeIf(intervention -> !intervention.getStatus().getName().equals(status));
         }
         
         interventionsListView.setItems(interventions);
