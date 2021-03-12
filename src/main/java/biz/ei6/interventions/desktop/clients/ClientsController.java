@@ -7,6 +7,8 @@ import biz.ei6.interventions.desktop.framework.clients.ClientGetException;
 import biz.ei6.interventions.desktop.lib.domain.Client;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -105,8 +107,10 @@ class ClientsController implements Initializable, DesktopListener {
     }
 
     public void updateClientsListView() {
-        var dataobs = FXCollections.observableArrayList(getClients());
-        clientsListView.setItems(dataobs);
+
+        var clientObs = FXCollections.observableArrayList(getClients());
+        clientObs.sort(new SortClient());
+        clientsListView.setItems(clientObs);
     }
 
     public ArrayList<Client> getClients() {

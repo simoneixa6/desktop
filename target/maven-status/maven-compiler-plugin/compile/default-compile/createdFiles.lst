@@ -15,6 +15,7 @@ biz\ei6\interventions\desktop\interventions\InterventionsFormController$3.class
 biz\ei6\interventions\desktop\lib\interactors\RemoveIntervention.class
 biz\ei6\interventions\desktop\framework\interventions\WSInterventionsDataSource.class
 biz\ei6\interventions\desktop\clients\ClientsController$1.class
+biz\ei6\interventions\desktop\clients\SortClient.class
 biz\ei6\interventions\desktop\interventions\InterventionsController.class
 biz\ei6\interventions\desktop\lib\interactors\UpdateClient.class
 biz\ei6\interventions\desktop\interventions\SortBoxCellFactory$SortBoxCell.class
