@@ -5,6 +5,7 @@ import biz.ei6.interventions.desktop.DesktopListener;
 import biz.ei6.interventions.desktop.framework.interventions.InterventionGetException;
 import biz.ei6.interventions.desktop.lib.domain.Client;
 import biz.ei6.interventions.desktop.lib.domain.Intervention;
+import biz.ei6.interventions.desktop.lib.domain.Status;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -12,7 +13,6 @@ import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -22,6 +22,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SplitPane;
+import javafx.util.StringConverter;
 
 public class InterventionsController implements Initializable, DesktopListener {
 
@@ -32,7 +33,7 @@ public class InterventionsController implements Initializable, DesktopListener {
     ListView<Intervention> interventionsListView;
 
     @FXML
-    ComboBox sortBox;
+    ComboBox<Status> sortBox;
 
     @FXML
     Button createBtn;
@@ -41,7 +42,12 @@ public class InterventionsController implements Initializable, DesktopListener {
 
     ResourceBundle resources;
 
-    String sortType;
+    // Statuts de la combobox de tri
+    Status status0;
+    Status status1;
+    Status status2;
+    Status status3;
+    Status status4;
 
     public void setInteractors(Interactors interactors) {
         this.interactors = interactors;
@@ -51,7 +57,7 @@ public class InterventionsController implements Initializable, DesktopListener {
     public void close() {
         splitPane.getItems().remove(1);
         interventionsListView.getSelectionModel().clearSelection();
-        updateInterventionsListView();
+        updateInterventionsListView(resources.getString("tous.les.etats"));
     }
 
     @Override
@@ -59,15 +65,47 @@ public class InterventionsController implements Initializable, DesktopListener {
 
         this.resources = resources;
 
-        // Remplissage de la choicebox de trie
+        // Création des statuts d'intervention
+        this.status0 = new Status("0", resources.getString("tous.les.etats"));
+        this.status1 = new Status("1", resources.getString("status.ouverte"));
+        this.status2 = new Status("2", resources.getString("status.terminee"));
+        this.status3 = new Status("3", resources.getString("status.facturee"));
+        this.status4 = new Status("4", resources.getString("status.reglee"));
+
+        // Remplissage de la choicebox de tri
         sortBox.setCellFactory(new SortBoxCellFactory());
-        sortBox.getItems().addAll(resources.getString("tous.les.etats"), resources.getString("status.ouverte"), resources.getString("status.terminee"), resources.getString("status.facturee"), resources.getString("status.reglee"));
-        sortBox.setValue(resources.getString("tous.les.etats"));
+        sortBox.getItems().addAll(status0,status1,status2,status3,status4);
+        sortBox.setValue(status0);
+
+        sortBox.setConverter(new StringConverter<Status>() {
+
+            @Override
+            public String toString(Status status) {
+                return status.getName();
+            }
+
+            @Override
+            public Status fromString(String string) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+        });
+
+        /*
+         * Listener sur la selection d'un type de tri
+         */
+        sortBox.valueProperty().addListener(new ChangeListener<Status>() {
+            @Override
+            public void changed(ObservableValue ov, Status oldStatus, Status newStatus) {
+                if (newStatus != null) {
+                    updateInterventionsListView(newStatus.getName());
+                }
+            }
+        });
 
         /*
          * Mise en place de la cell factory de la listview des interventions
          */
-        interventionsListView.setCellFactory(new InterventionCellFactory(interactors));
+        interventionsListView.setCellFactory(new InterventionCellFactory());
 
         /*
          * Action lors de la selection d'une intervention dans la listview
@@ -81,7 +119,7 @@ public class InterventionsController implements Initializable, DesktopListener {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                        updateInterventionsListView();
+                        updateInterventionsListView(sortBox.getValue().getName());
                     }
                 });
             }
@@ -97,7 +135,7 @@ public class InterventionsController implements Initializable, DesktopListener {
         });
 
         // Muse à jour de la liste des interventions au démarrage
-        updateInterventionsListView();
+        updateInterventionsListView(resources.getString("tous.les.etats"));
 
     }
 
@@ -115,11 +153,14 @@ public class InterventionsController implements Initializable, DesktopListener {
         }
     }
 
-    public void updateInterventionsListView() {
+    public void updateInterventionsListView(String status) {
         var interventions = FXCollections.observableArrayList(getInteventions());
 
-        interventions.removeIf(intervention -> intervention.getStatus() == sortType);
-
+        // Supprime les interventions possédant le statut selectionné dans la combobox de trie
+        if (!status.equals(resources.getString("tous.les.etats"))) {
+            interventions.removeIf(intervention -> !intervention.getStatus().equals(status));
+        }
+        
         interventionsListView.setItems(interventions);
     }
 

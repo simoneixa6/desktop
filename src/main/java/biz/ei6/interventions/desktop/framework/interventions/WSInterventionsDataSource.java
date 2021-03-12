@@ -7,6 +7,7 @@ import biz.ei6.interventions.desktop.lib.domain.Client;
 import biz.ei6.interventions.desktop.lib.domain.Intervention;
 import biz.ei6.interventions.desktop.lib.domain.Period;
 import biz.ei6.interventions.desktop.lib.domain.Site;
+import biz.ei6.interventions.desktop.lib.domain.Status;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import java.util.ArrayList;
@@ -284,6 +285,8 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
 
     }
 
+    
+    
     private void setInterventionDTO(InterventionDTO interventionDTO, Intervention intervention) {
         interventionDTO.setId(intervention.getId());
         interventionDTO.setTitle(intervention.getTitle());
@@ -291,7 +294,6 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
         interventionDTO.setDescription(intervention.getDescription());
         interventionDTO.setBillNumber(intervention.getBillNumber());
         interventionDTO.setPaymentType(intervention.getPaymentType());
-        interventionDTO.setStatus(intervention.getStatus());
         interventionDTO.setMedias(intervention.getMedias());
         interventionDTO.setDeleted(String.valueOf(intervention.getDeleted()));
 
@@ -336,6 +338,12 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
             // interventionDTO.Km sera à null si aucune valeur choisi lors de la création
         }
 
+        if (intervention.getStatus() != null) {
+            StatusDTO statusDTO = new StatusDTO();
+            setStatusDTO(statusDTO, intervention.getStatus());
+            interventionDTO.setStatus(statusDTO);
+        }
+        
         if (!"".equals(intervention.getBillDate())) {
             interventionDTO.setBillDate(intervention.getBillDate());
         } else {
@@ -356,7 +364,6 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
         intervention.setDescription(interventionDTO.getDescription());
         intervention.setBillNumber(interventionDTO.getBillNumber());
         intervention.setPaymentType(interventionDTO.getPaymentType());
-        intervention.setStatus(interventionDTO.getStatus());
         intervention.setMedias(interventionDTO.getMedias());
         intervention.setDeleted(parseBoolean(interventionDTO.getDeleted()));
 
@@ -366,6 +373,12 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
             intervention.setClient(client);
         }
 
+        if (interventionDTO.getStatus() != null) {
+            Status status = new Status("","");
+            setStatus(status, interventionDTO.getStatus());
+            intervention.setStatus(status);
+        }
+        
         if (interventionDTO.getAddress() != null) {
             Site site = new Site();
             setSite(site, interventionDTO.getAddress());
@@ -381,6 +394,7 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
                 periods.add(period);
             }
         }
+        
         intervention.setPeriods(periods);
 
         if ("0".equals(interventionDTO.getKm())) {
@@ -412,5 +426,15 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
         } else {
             intervention.setPaymentDate(interventionDTO.getPaymentDate());
         }
+    }
+
+    private void setStatusDTO(StatusDTO statusDTO, Status status) {
+        statusDTO.setId(status.getId());
+        statusDTO.setName(status.getName());
+    }
+    
+    private void setStatus(Status status, StatusDTO statusDTO) {
+        status.setId(statusDTO.getId());
+        status.setName(statusDTO.getName());
     }
 }

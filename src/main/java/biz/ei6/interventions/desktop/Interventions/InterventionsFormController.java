@@ -11,6 +11,7 @@ import biz.ei6.interventions.desktop.lib.domain.Site;
 import biz.ei6.interventions.desktop.lib.domain.Intervention;
 import biz.ei6.interventions.desktop.lib.domain.Period;
 import biz.ei6.interventions.desktop.lib.domain.Client;
+import biz.ei6.interventions.desktop.lib.domain.Status;
 import java.io.InputStream;
 import java.net.URL;
 import java.time.LocalDate;
@@ -97,7 +98,7 @@ public final class InterventionsFormController implements Initializable, Desktop
     ComboBox<Site> addressBox;
 
     @FXML
-    ChoiceBox<String> statusBox;
+    ComboBox<Status> statusBox;
 
     @FXML
     ChoiceBox<String> paymenttypeBox;
@@ -150,6 +151,11 @@ public final class InterventionsFormController implements Initializable, Desktop
     StringProperty city = new SimpleStringProperty();
     StringProperty selectedAddress = new SimpleStringProperty();
 
+    Status status1;
+    Status status2;
+    Status status3;
+    Status status4;
+
     Stage clientStage;
 
     ResourceBundle resources;
@@ -171,6 +177,12 @@ public final class InterventionsFormController implements Initializable, Desktop
 
         this.resources = resources;
 
+        // Création des statuts d'intervention
+        this.status1 = new Status("1", resources.getString("status.ouverte"));
+        this.status2 = new Status("2", resources.getString("status.terminee"));
+        this.status3 = new Status("3", resources.getString("status.facturee"));
+        this.status4 = new Status("4", resources.getString("status.reglee"));
+
         /**
          * On récupère le client lié à l'intervention si il y en a un, et on le
          * place en tant que selectedClient
@@ -184,9 +196,21 @@ public final class InterventionsFormController implements Initializable, Desktop
         // TEMPORAIRE
         userBox.getItems().addAll("Slad", "Fabien");
 
-        //Remplissage des choiceboxs
-        statusBox.getItems().addAll(resources.getString("status.ouverte"), resources.getString("status.terminee"), resources.getString("status.facturee"), resources.getString("status.reglee"));
+        // Remplissage des choiceboxs
+        statusBox.getItems().addAll(status1, status2, status3, status4);
         paymenttypeBox.getItems().addAll(resources.getString("paiement.cheque"), resources.getString("paiement.cb"), resources.getString("paiement.espece"));
+
+        statusBox.setConverter(new StringConverter<Status>() {
+            @Override
+            public String toString(Status status) {
+                return status.getName();
+            }
+
+            @Override
+            public Status fromString(String arg0) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+        });
 
         // Mise en place de la cellFactory de la combobox des clients
         clientBox.setCellFactory(new ClientCellFactory());
@@ -206,7 +230,7 @@ public final class InterventionsFormController implements Initializable, Desktop
                     // Si il a une entreprise
                     if (client.getCompany() != null) {
                         if (client.getName() != null || client.getLastname() != null) {
-                            clientString.append("(" + client.getCompany() + ")");
+                            clientString.append(" (" + client.getCompany() + ")");
                         } else {
                             clientString.append(client.getCompany());
                         }
@@ -276,9 +300,6 @@ public final class InterventionsFormController implements Initializable, Desktop
             }
         });
 
-        // Binding à l'initialisation
-        bind();
-
         /*
          * Listener sur la selection d'un client dans la combobox des clients
          */
@@ -297,7 +318,7 @@ public final class InterventionsFormController implements Initializable, Desktop
          */
         if (getEditedIntervention().getId() == null) {
             // Valeurs pas défault pour une nouvelle intervention
-            statusBox.setValue(resources.getString("status.ouverte"));
+            statusBox.setValue(new Status("1", resources.getString("status.ouverte")));
             paymenttypeBox.setValue(resources.getString("paiement.cheque"));
             registerBtn.setText(resources.getString("enregistrer"));
             deleteBtn.setDisable(true);
@@ -478,6 +499,8 @@ public final class InterventionsFormController implements Initializable, Desktop
         startCol.setCellFactory(column -> new TimeEditableCell(column));
         endCol.setCellFactory(column -> new TimeEditableCell(column));
 
+        // Binding à l'initialisation
+        bind();
     }
 
     /**
