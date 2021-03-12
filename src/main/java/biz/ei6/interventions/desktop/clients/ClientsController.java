@@ -107,7 +107,6 @@ class ClientsController implements Initializable, DesktopListener {
     }
 
     public void updateClientsListView() {
-
         var clientObs = FXCollections.observableArrayList(getClients());
         clientObs.sort(new SortClient());
         clientsListView.setItems(clientObs);

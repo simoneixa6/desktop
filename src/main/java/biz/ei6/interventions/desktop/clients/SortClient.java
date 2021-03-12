@@ -17,24 +17,24 @@ public class SortClient implements Comparator<Client> {
 
         // Concaténation du premier client
         if (o1.getName() != null) {
-            client1.append(o1.getName()).append(" ");
+            client1.append(o1.getName());
         }
         if (o1.getLastname() != null) {
-            client1.append(o1.getLastname()).append(" ");
+            client1.append(o1.getLastname());
         }
         if (o1.getCompany() != null) {
-            client1.append(o1.getCompany()).append(" ");
+            client1.append(o1.getCompany());
         }
 
-        // Concaténation du premier client
+        // Concaténation du second client
         if (o2.getName() != null) {
-            client2.append(o2.getName()).append(" ");
+            client2.append(o2.getName());
         }
         if (o2.getLastname() != null) {
-            client2.append(o2.getLastname()).append(" ");
+            client2.append(o2.getLastname());
         }
         if (o2.getCompany() != null) {
-            client2.append(o2.getCompany()).append(" ");
+            client2.append(o2.getCompany());
         }
 
         int value = client1.toString().compareTo(client2.toString());
