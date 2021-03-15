@@ -7,6 +7,7 @@ import biz.ei6.interventions.desktop.framework.clients.ClientGetException;
 import biz.ei6.interventions.desktop.lib.domain.Client;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -15,8 +16,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SplitPane;
+import javafx.scene.input.MouseEvent;
 
 /*
  * @author Eixa6
@@ -36,12 +39,15 @@ class ClientsController implements Initializable, DesktopListener {
 
     ResourceBundle resources;
 
+    Boolean wasNotSaved = false;
+
     public void setInteractors(App.Interactors interactors) {
         this.interactors = interactors;
     }
 
     @Override
     public void close() {
+        wasNotSaved = false;
         splitPane.getItems().remove(1);
         clientsListView.getSelectionModel().clearSelection();
         updateClientsListView();
@@ -63,7 +69,11 @@ class ClientsController implements Initializable, DesktopListener {
         clientsListView.getSelectionModel().selectedItemProperty().addListener((observable, oldSelectedClient, newSelectedClient) -> {
             if (newSelectedClient != null) {
                 ClientsForm clientsForm = new ClientsForm(interactors, newSelectedClient, this, resources);
-                addClientsFormToSplitPane(clientsForm);            
+                addClientsFormToSplitPane(clientsForm);
+                
+                clientsForm.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
+                    wasNotSaved = true;
+                });
             }
         });
 
@@ -85,8 +95,31 @@ class ClientsController implements Initializable, DesktopListener {
          * Supprime la partie formulaire si elle est déjà présente
          */
         if (splitPane.getItems().size() > 1) {
-            splitPane.getItems().remove(1);
-            splitPane.getItems().add(1, clientsForm);
+
+            // Affiche une boite de dialogue si l'utilisateur n'a pas enregistré avant de changer de client
+            if (wasNotSaved == true) {
+                Alert alert = new Alert(AlertType.CONFIRMATION);
+                alert.setTitle(resources.getString("warning.attention"));
+                alert.setHeaderText(resources.getString("warning.modification.non.enregistre"));
+                alert.setContentText(resources.getString("warning.choix.modification.non.enregistre"));
+                Optional<ButtonType> result = alert.showAndWait();
+                // Si il appuie sur Ok, on ignore les anciens changements, et on met à jour la liste des interventions
+                if (result.get() == ButtonType.OK) {
+                    wasNotSaved = false;
+                    splitPane.getItems().remove(1);
+                    splitPane.getItems().add(1, clientsForm);
+                    updateClientsListView();
+                    // Sinon on conserve le formulaire et on deselectionne l'élément afin que l'utilisateur continue sa modification
+                } else if (result.get() == ButtonType.CANCEL) {
+                    clientsListView.getSelectionModel().clearSelection();
+                }
+                // Si l'utilisateur n'a pas effectué de modification, on remplace le formulaire par le nouveau
+            } else {
+                splitPane.getItems().remove(1);
+                splitPane.getItems().add(1, clientsForm);
+                updateClientsListView();
+            }
+
         } // Sinon ajoute la partie formulaire
         else {
             splitPane.getItems().add(1, clientsForm);
