@@ -307,7 +307,6 @@ public final class InterventionsFormController implements Initializable, Desktop
                     return "";
                 }
             }
-
             @Override
             public Site fromString(String arg0) {
                 throw new UnsupportedOperationException("Not supported.");
@@ -323,6 +322,9 @@ public final class InterventionsFormController implements Initializable, Desktop
                 if (newClient != null) {
                     getEditedIntervention().setClient(newClient);
                     addressBox.itemsProperty().bind(getSelectedClient().getAddressesProperty());
+                    
+                    //var addresses = FXCollections.observableArrayList(newClient.getAddresses());
+                    //addressBox.setItems(addresses);
                 }
             }
         });
@@ -667,7 +669,7 @@ public final class InterventionsFormController implements Initializable, Desktop
         } catch (ClientGetException e) {
             showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.recuperationClients", e.toString());
         }
-
+        
         var clientsList = clientBox.getItems();
 
         // A revoir lors de la suppression d'un client

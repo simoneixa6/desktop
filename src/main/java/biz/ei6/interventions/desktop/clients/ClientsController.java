@@ -109,7 +109,7 @@ class ClientsController implements Initializable, DesktopListener {
                     splitPane.getItems().remove(1);
                     splitPane.getItems().add(1, clientsForm);
                     updateClientsListView();
-                    // Sinon on conserve le formulaire et on deselectionne l'élément afin que l'utilisateur continue sa modification
+                // Sinon on conserve le formulaire et on deselectionne l'élément afin que l'utilisateur continue sa modification
                 } else if (result.get() == ButtonType.CANCEL) {
                     clientsListView.getSelectionModel().clearSelection();
                 }
@@ -119,7 +119,6 @@ class ClientsController implements Initializable, DesktopListener {
                 splitPane.getItems().add(1, clientsForm);
                 updateClientsListView();
             }
-
         } // Sinon ajoute la partie formulaire
         else {
             splitPane.getItems().add(1, clientsForm);
