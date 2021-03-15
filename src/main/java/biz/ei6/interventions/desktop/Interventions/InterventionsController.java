@@ -156,7 +156,7 @@ public class InterventionsController implements Initializable, DesktopListener {
     public void updateInterventionsListView(String status) {
         var interventions = FXCollections.observableArrayList(getInteventions());
 
-        // Supprime les interventions possédant le statut selectionné dans la combobox de trie
+        // Supprime les interventions possédant le statut selectionné dans la combobox de tri
         if (!status.equals(resources.getString("tous.les.etats"))) {
             interventions.removeIf(intervention -> !intervention.getStatus().getName().equals(status));
         }
@@ -172,7 +172,7 @@ public class InterventionsController implements Initializable, DesktopListener {
             alert.setTitle(resources.getString("exception.erreur"));
             alert.setHeaderText(resources.getString("exception.recuperationInterventions"));
             alert.setContentText(e.toString());
-            alert.show();
+            alert.showAndWait();
         }
         // Si erreur lors de la récupération, on renvoie une liste d'interventions vide
         return new ArrayList<>();

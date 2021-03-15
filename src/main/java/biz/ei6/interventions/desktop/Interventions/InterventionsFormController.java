@@ -50,6 +50,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
@@ -204,6 +205,9 @@ public final class InterventionsFormController implements Initializable, Desktop
 
         // Remplissage des choiceboxs
         statusBox.getItems().addAll(status1, status2, status3, status4);
+        
+        statusBox.setCellFactory(new StatusCellFactory());
+        
         paymenttypeBox.getItems().addAll(resources.getString("paiement.cheque"), resources.getString("paiement.cb"), resources.getString("paiement.espece"));
 
         statusBox.setConverter(new StringConverter<Status>() {
@@ -240,14 +244,14 @@ public final class InterventionsFormController implements Initializable, Desktop
                     // Si il a une entreprise
                     if (client.getCompany() != null) {
                         if (client.getName() != null || client.getLastname() != null) {
-                            clientString.append(" (" + client.getCompany() + ")");
+                            clientString.append(" (").append(client.getCompany()).append(")");
                         } else {
                             clientString.append(client.getCompany());
                         }
                     }
                     return clientString.toString();
                 } else {
-                    return "Erreur";
+                    return resources.getString("exception.erreur");
                 }
             }
 
@@ -275,7 +279,8 @@ public final class InterventionsFormController implements Initializable, Desktop
             clientStage = new Stage();
             clientStage.getIcons().add(new Image(whiteIcon));
             clientStage.setScene(new Scene(clientsForm, 650, 450));
-            clientStage.show();
+            clientStage.initModality(Modality.APPLICATION_MODAL);
+            clientStage.showAndWait();
         });
 
         /**
@@ -284,11 +289,12 @@ public final class InterventionsFormController implements Initializable, Desktop
         updateClientBtn.setOnAction((ActionEvent event) -> {
             // Si un client est selectionné
             if (clientBox.getValue().getId() != null) {
-                ClientsForm clientsForm = new ClientsForm(interactors, getSelectedClient(), InterventionsFormController.this, resources);
+                ClientsForm clientsForm = new ClientsForm(interactors, selectedClient, InterventionsFormController.this, resources);
                 clientStage = new Stage();
                 clientStage.getIcons().add(new Image(whiteIcon));
                 clientStage.setScene(new Scene(clientsForm, 650, 450));
-                clientStage.show();
+                clientStage.initModality(Modality.APPLICATION_MODAL);
+                clientStage.showAndWait();
             }
         });
 
@@ -499,6 +505,7 @@ public final class InterventionsFormController implements Initializable, Desktop
      * Mise à jour de la combobox des clients
      */
     private void updateClientsComboBox() throws ClientGetException {
+        // Appelé 3 fois FBR lors de l'ouverture d'une intervention ?
         var clients = FXCollections.observableArrayList(interactors.getClients.invoke());
         clientBox.setItems(clients);
     }
@@ -553,7 +560,6 @@ public final class InterventionsFormController implements Initializable, Desktop
         clientBox.valueProperty().bindBidirectional(getSelectedClientProperty());
         addressBox.valueProperty().bindBidirectional(getEditedIntervention().getAddressProperty());
         addressBox.itemsProperty().bind(getSelectedClient().getAddressesProperty());
-
         statusBox.valueProperty().bindBidirectional(getEditedIntervention().getStatusProperty());
     }
 
@@ -665,11 +671,9 @@ public final class InterventionsFormController implements Initializable, Desktop
             showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.recuperationClients", e.toString());
         }
 
-        // On doit mettre à jour la valeur de la clientBox a null avant de reselectionné un client sinon l'affichage de la 
-        // combobox ne se met pas à jour ( même si la valeur du client est bien présente, c'est juste l'affichage qui ne se fait pas )
-        clientBox.setValue(null);
+        var clientsList = clientBox.getItems();
 
-        // On assigne le nouveau client en client selectionné
-        setSelectedClient(client);
+        // A revoir lors de la suppression d'un client
+        setSelectedClient(clientsList.stream().filter(c -> c.getId().equals(client.getId())).findFirst().get());
     }
 }

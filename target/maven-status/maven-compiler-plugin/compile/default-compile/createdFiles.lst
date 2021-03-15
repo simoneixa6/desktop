@@ -51,6 +51,7 @@ biz\ei6\interventions\desktop\framework\interventions\InterventionGetException.c
 biz\ei6\interventions\desktop\lib\interactors\AddIntervention.class
 biz\ei6\interventions\desktop\lib\domain\Period.class
 biz\ei6\interventions\desktop\interventions\InterventionCellFactory$InterventionCell.class
+biz\ei6\interventions\desktop\interventions\StatusCellFactory$StatusCell.class
 biz\ei6\interventions\desktop\clients\NumberEditableCell.class
 biz\ei6\interventions\desktop\lib\interactors\GetClients.class
 biz\ei6\interventions\desktop\interventions\InterventionsController$2.class
@@ -66,3 +67,4 @@ biz\ei6\interventions\desktop\interventions\TimeEditableCell.class
 biz\ei6\interventions\desktop\framework\clients\WSClientsDataSource.class
 biz\ei6\interventions\desktop\framework\clients\ClientGetException.class
 biz\ei6\interventions\desktop\framework\interventions\InterventionsMemoryDataSource.class
+biz\ei6\interventions\desktop\interventions\StatusCellFactory.class

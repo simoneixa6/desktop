@@ -56,12 +56,11 @@ public class ClientCellFactory implements Callback<ListView<Client>, ListCell<Cl
                 // Si il a une entreprise
                 if (client.getCompany() != null) {
                     if (client.getName() != null || client.getLastname() != null) {
-                        clientString.append(" (" + client.getCompany() + ")");
+                        clientString.append(" (").append(client.getCompany()).append(")");
                     } else {
                         clientString.append(client.getCompany());
                     }
                 }
-
                 setText(clientString.toString());
             }
         }
