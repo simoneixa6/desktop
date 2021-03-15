@@ -14,7 +14,6 @@ biz\ei6\interventions\desktop\interventions\ClientCellFactory$ClientCell.class
 biz\ei6\interventions\desktop\interventions\InterventionsFormController$3.class
 biz\ei6\interventions\desktop\lib\interactors\RemoveIntervention.class
 biz\ei6\interventions\desktop\framework\interventions\WSInterventionsDataSource.class
-biz\ei6\interventions\desktop\clients\ClientsController$1.class
 biz\ei6\interventions\desktop\clients\SortClient.class
 biz\ei6\interventions\desktop\interventions\InterventionsController.class
 biz\ei6\interventions\desktop\lib\interactors\UpdateClient.class
@@ -32,7 +31,6 @@ biz\ei6\interventions\desktop\lib\interactors\RemoveClient.class
 biz\ei6\interventions\desktop\interventions\InterventionsPane.class
 biz\ei6\interventions\desktop\lib\domain\Client.class
 biz\ei6\interventions\desktop\App$Interactors.class
-biz\ei6\interventions\desktop\interventions\InterventionsController$3.class
 biz\ei6\interventions\desktop\interventions\DateEditableCell.class
 biz\ei6\interventions\desktop\interventions\InterventionsForm.class
 biz\ei6\interventions\desktop\framework\interventions\InterventionPostException.class

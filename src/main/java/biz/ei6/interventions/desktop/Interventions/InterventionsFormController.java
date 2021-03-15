@@ -219,7 +219,6 @@ public final class InterventionsFormController implements Initializable, Desktop
                     return resources.getString("exception.erreur");
                 }
             }
-
             @Override
             public Status fromString(String arg0) {
                 throw new UnsupportedOperationException("Not supported.");
@@ -254,7 +253,6 @@ public final class InterventionsFormController implements Initializable, Desktop
                     return resources.getString("exception.erreur");
                 }
             }
-
             @Override
             public Client fromString(String arg0) {
                 throw new UnsupportedOperationException("Not supported.");
@@ -408,7 +406,6 @@ public final class InterventionsFormController implements Initializable, Desktop
             Period selectedPeriod = periodTableView.getSelectionModel().getSelectedItem();
 
             periods.remove(selectedPeriod);
-
         });
 
         /*

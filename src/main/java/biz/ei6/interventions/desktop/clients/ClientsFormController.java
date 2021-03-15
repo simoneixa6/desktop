@@ -110,16 +110,16 @@ public final class ClientsFormController implements Initializable {
     ListView<Intervention> linkedInterventionsListView;
 
     ResourceBundle resources;
-    
+
     /**
      * Intervention éditée par la partie droite de l'interface
      */
-    private final SimpleObjectProperty<Client> editedClient ;
+    private final SimpleObjectProperty<Client> editedClient;
 
     ClientsFormController(SimpleObjectProperty<Client> client) {
         editedClient = client;
     }
-    
+
     ClientsFormController(Client client) {
         editedClient = new SimpleObjectProperty<Client>(client);
     }
@@ -136,7 +136,7 @@ public final class ClientsFormController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         this.resources = resources;
-        
+
         // Remplissage des choiceboxs
         companyStatusBox.getItems().addAll("SARL/EURL", "SAS/SASU", "SCI");
         civilityBox.getItems().addAll(resources.getString("m."), resources.getString("mme."));
@@ -165,12 +165,12 @@ public final class ClientsFormController implements Initializable {
 
             // Si tous les champs obligatoires sont remplies
             if (validate() == true) {
-                
+
                 // Si le client ne possède pas d'id, il est nouveau, on le crée
                 if (getEditedClient().getId() == null) {
                     try {
                         // Ajout du client, le serveur renvoie le client modifié    
-                        addedClient = interactors.addClient.invoke(getEditedClient());   
+                        addedClient = interactors.addClient.invoke(getEditedClient());
 
                     } catch (ClientPostException e) {
                         showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.ajoutClient", e.toString());
@@ -180,15 +180,15 @@ public final class ClientsFormController implements Initializable {
                     //On le modifie
                     try {
                         var id = getEditedClient().getId();
-                        
+
                         interactors.updateClient.invoke(getEditedClient());
-                        
+
                         addedClient = getEditedClient();
                     } catch (ClientPutException e) {
                         showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.modificationClient", e.toString());
                     }
 
-                   updateInterventionsWithThisClient();
+                    updateInterventionsWithThisClient();
                 }
 
                 // Renvoie le client ( utilisé lors de la création d'un client depuis le formulaire d'intervention )
@@ -294,7 +294,6 @@ public final class ClientsFormController implements Initializable {
      * Methode permettant de valider si les champs obligatoires sont bien
      * remplies
      *
-     * @param resources
      * @return
      */
     public boolean validate() {
@@ -311,10 +310,6 @@ public final class ClientsFormController implements Initializable {
             if (lastnameInput.getText() == null || "".equals(lastnameInput.getText())) {
                 errors.append(resources.getString("warning.nomEntreprise"));
             }
-        }
-
-        if (phoneInput.getText() == null || "".equals(phoneInput.getText())) {
-            errors.append(resources.getString("warning.telephone"));
         }
 
         // Si une information est manquante, montre un message d'erreur et renvoie false

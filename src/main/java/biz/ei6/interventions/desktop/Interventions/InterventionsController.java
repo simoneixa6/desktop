@@ -8,8 +8,8 @@ import biz.ei6.interventions.desktop.lib.domain.Intervention;
 import biz.ei6.interventions.desktop.lib.domain.Status;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
-import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -19,9 +19,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SplitPane;
+import javafx.scene.input.MouseEvent;
 import javafx.util.StringConverter;
 
 public class InterventionsController implements Initializable, DesktopListener {
@@ -42,6 +44,8 @@ public class InterventionsController implements Initializable, DesktopListener {
 
     ResourceBundle resources;
 
+    Boolean wasNotSaved = false;
+
     // Statuts de la combobox de tri
     Status status0;
     Status status1;
@@ -55,9 +59,10 @@ public class InterventionsController implements Initializable, DesktopListener {
 
     @Override
     public void close() {
+        wasNotSaved = false;
         splitPane.getItems().remove(1);
         interventionsListView.getSelectionModel().clearSelection();
-        updateInterventionsListView(resources.getString("tous.les.etats"));
+        updateInterventionsListView(sortBox.getValue().getName());
     }
 
     @Override
@@ -74,11 +79,10 @@ public class InterventionsController implements Initializable, DesktopListener {
 
         // Remplissage de la choicebox de tri
         sortBox.setCellFactory(new SortBoxCellFactory());
-        sortBox.getItems().addAll(status0,status1,status2,status3,status4);
+        sortBox.getItems().addAll(status0, status1, status2, status3, status4);
         sortBox.setValue(status0);
 
         sortBox.setConverter(new StringConverter<Status>() {
-
             @Override
             public String toString(Status status) {
                 return status.getName();
@@ -86,7 +90,7 @@ public class InterventionsController implements Initializable, DesktopListener {
 
             @Override
             public Status fromString(String string) {
-                throw new UnsupportedOperationException("Not supported yet.");
+                throw new UnsupportedOperationException("Not supported.");
             }
         });
 
@@ -115,12 +119,8 @@ public class InterventionsController implements Initializable, DesktopListener {
                 InterventionsForm interventionsForm = new InterventionsForm(interactors, newSelectedIntervention, this, resources);
                 addInterventionsFormToSplitPane(interventionsForm);
 
-                // Permet de mettre à jour l'ui depuis le thread principale ( si l'ui est mise à jour dans le thread secondaire, une exception est levée )
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        updateInterventionsListView(sortBox.getValue().getName());
-                    }
+                interventionsForm.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
+                    wasNotSaved = true;
                 });
             }
         });
@@ -134,25 +134,50 @@ public class InterventionsController implements Initializable, DesktopListener {
             addInterventionsFormToSplitPane(interventionsForm);
         });
 
-        // Muse à jour de la liste des interventions au démarrage
+        // Mise à jour de la liste des interventions au démarrage
         updateInterventionsListView(resources.getString("tous.les.etats"));
-
     }
 
     private void addInterventionsFormToSplitPane(InterventionsForm interventionsForm) {
-
         /*
          * Supprime la partie formulaire d'intervention si elle est déjà présente
          */
         if (splitPane.getItems().size() > 1) {
-            splitPane.getItems().remove(1);
-            splitPane.getItems().add(1, interventionsForm);
+            
+            // Affiche une boite de dialogue si l'utilisateur n'a pas enregistré avant de changer d'intervention
+            if (wasNotSaved == true) {
+                Alert alert = new Alert(AlertType.CONFIRMATION);
+                alert.setTitle(resources.getString("warning.attention"));
+                alert.setHeaderText(resources.getString("warning.modification.non.enregistre"));
+                alert.setContentText(resources.getString("warning.choix.modification.non.enregistre"));
+                Optional<ButtonType> result = alert.showAndWait();
+                // Si il appuie sur Ok, on ignore les anciens changements, et on met à jour la liste des interventions
+                if (result.get() == ButtonType.OK) {
+                    wasNotSaved = false;
+                    splitPane.getItems().remove(1);
+                    splitPane.getItems().add(1, interventionsForm);
+                    updateInterventionsListView(sortBox.getValue().getName());
+                // Sinon on conserve le formulaire et on deselectionne l'élément afin que l'utilisateur continue sa modification
+                } else if (result.get() == ButtonType.CANCEL) {
+                    interventionsListView.getSelectionModel().clearSelection();
+                }
+            // Si l'utilisateur n'a pas effectué de modification, on remplace le formulaire par le nouveau
+            } else {
+                splitPane.getItems().remove(1);
+                splitPane.getItems().add(1, interventionsForm);
+                updateInterventionsListView(sortBox.getValue().getName());
+            }
+            
         } // Sinon la partie formulaire est ajouté
         else {
             splitPane.getItems().add(1, interventionsForm);
         }
     }
 
+    /**
+     *
+     * @param status Statut de l'intervention utilisé pour le tri
+     */
     public void updateInterventionsListView(String status) {
         var interventions = FXCollections.observableArrayList(getInteventions());
 
@@ -160,7 +185,7 @@ public class InterventionsController implements Initializable, DesktopListener {
         if (!status.equals(resources.getString("tous.les.etats"))) {
             interventions.removeIf(intervention -> !intervention.getStatus().getName().equals(status));
         }
-        
+
         interventionsListView.setItems(interventions);
     }
 
