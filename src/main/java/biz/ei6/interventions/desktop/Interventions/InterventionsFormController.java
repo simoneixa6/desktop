@@ -197,7 +197,7 @@ public final class InterventionsFormController implements Initializable, Desktop
         if (getEditedIntervention().getClient() != null) {
             setSelectedClient(getEditedIntervention().getClient());
         } else {
-            setSelectedClient(new Client());
+            setSelectedClient(null);
         }
 
         // TEMPORAIRE
@@ -316,6 +316,10 @@ public final class InterventionsFormController implements Initializable, Desktop
             }
         });
 
+        // Initialisation de la combobox des adresses
+        var addresses = FXCollections.observableArrayList(getSelectedClient().getAddresses());
+        addressBox.setItems(addresses);
+
         /*
          * Listener sur la selection d'un client dans la combobox des clients
          */
@@ -324,10 +328,11 @@ public final class InterventionsFormController implements Initializable, Desktop
             public void changed(ObservableValue ov, Client oldClient, Client newClient) {
                 if (newClient != null) {
                     getEditedIntervention().setClient(newClient);
-                    addressBox.itemsProperty().bind(getSelectedClient().getAddressesProperty());
+                    //addressBox.itemsProperty().unbind();
 
-                    //var addresses = FXCollections.observableArrayList(newClient.getAddresses());
-                    //addressBox.setItems(addresses);
+                    // Chargement des addresses dans la combobox des adresses
+                    var addresses = FXCollections.observableArrayList(newClient.getAddresses());
+                    addressBox.setItems(addresses);
                 }
             }
         });
@@ -561,7 +566,7 @@ public final class InterventionsFormController implements Initializable, Desktop
         paymenttypeBox.valueProperty().bindBidirectional(getEditedIntervention().getPaymentTypeProperty());
         clientBox.valueProperty().bindBidirectional(getSelectedClientProperty());
         addressBox.valueProperty().bindBidirectional(getEditedIntervention().getAddressProperty());
-        addressBox.itemsProperty().bind(getSelectedClient().getAddressesProperty());
+        //addressBox.itemsProperty().bind(getSelectedClient().getAddressesProperty());
         statusBox.valueProperty().bindBidirectional(getEditedIntervention().getStatusProperty());
     }
 
@@ -569,7 +574,6 @@ public final class InterventionsFormController implements Initializable, Desktop
      * Methode permettant de valider si les champs obligatoires sont bien
      * remplies
      *
-     * @param resources
      * @return
      */
     public boolean validate() {
