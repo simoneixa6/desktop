@@ -19,6 +19,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
@@ -495,7 +496,7 @@ public final class InterventionsFormController implements Initializable, Desktop
                             LocalTime end = period.getEnd();
                             Duration duration = Duration.between(start, end);
                             LocalTime time = LocalTime.MIN.plus(duration);
-                            return time.toString();
+                            return time.format(DateTimeFormatter.ofPattern("HH!mm"));
                         } catch (Exception e) {
                             return "";
                         }
