@@ -10,6 +10,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -143,7 +144,7 @@ public class InterventionsController implements Initializable, DesktopListener {
          * Supprime la partie formulaire d'intervention si elle est déjà présente
          */
         if (splitPane.getItems().size() > 1) {
-            
+
             // Affiche une boite de dialogue si l'utilisateur n'a pas enregistré avant de changer d'intervention
             if (wasNotSaved == true) {
                 Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -156,18 +157,23 @@ public class InterventionsController implements Initializable, DesktopListener {
                     wasNotSaved = false;
                     splitPane.getItems().remove(1);
                     splitPane.getItems().add(1, interventionsForm);
-                    updateInterventionsListView(sortBox.getValue().getName());
-                // Sinon on conserve le formulaire et on deselectionne l'élément afin que l'utilisateur continue sa modification
+
+                    Platform.runLater(() -> {
+                        updateInterventionsListView(sortBox.getValue().getName());
+                    });
+
+                    // Sinon on conserve le formulaire et on deselectionne l'élément afin que l'utilisateur continue sa modification
                 } else if (result.get() == ButtonType.CANCEL) {
-                    interventionsListView.getSelectionModel().clearSelection();
+
+                    Platform.runLater(interventionsListView.getSelectionModel()::clearSelection);
+
                 }
-            // Si l'utilisateur n'a pas effectué de modification, on remplace le formulaire par le nouveau
+                // Si l'utilisateur n'a pas effectué de modification, on remplace le formulaire par le nouveau
             } else {
                 splitPane.getItems().remove(1);
                 splitPane.getItems().add(1, interventionsForm);
-                updateInterventionsListView(sortBox.getValue().getName());
             }
-            
+
         } // Sinon la partie formulaire est ajouté
         else {
             splitPane.getItems().add(1, interventionsForm);

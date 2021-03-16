@@ -9,6 +9,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -70,7 +71,7 @@ class ClientsController implements Initializable, DesktopListener {
             if (newSelectedClient != null) {
                 ClientsForm clientsForm = new ClientsForm(interactors, newSelectedClient, this, resources);
                 addClientsFormToSplitPane(clientsForm);
-                
+
                 clientsForm.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
                     wasNotSaved = true;
                 });
@@ -108,16 +109,21 @@ class ClientsController implements Initializable, DesktopListener {
                     wasNotSaved = false;
                     splitPane.getItems().remove(1);
                     splitPane.getItems().add(1, clientsForm);
-                    updateClientsListView();
-                // Sinon on conserve le formulaire et on deselectionne l'élément afin que l'utilisateur continue sa modification
+
+                    Platform.runLater(() -> {
+                        updateClientsListView();
+                    });
+
+                    // Sinon on conserve le formulaire et on deselectionne l'élément afin que l'utilisateur continue sa modification
                 } else if (result.get() == ButtonType.CANCEL) {
-                    clientsListView.getSelectionModel().clearSelection();
+                    
+                    Platform.runLater(clientsListView.getSelectionModel()::clearSelection);
+                    
                 }
                 // Si l'utilisateur n'a pas effectué de modification, on remplace le formulaire par le nouveau
             } else {
                 splitPane.getItems().remove(1);
                 splitPane.getItems().add(1, clientsForm);
-                updateClientsListView();
             }
         } // Sinon ajoute la partie formulaire
         else {

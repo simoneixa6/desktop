@@ -40,7 +40,13 @@ public class SiteCellFactory implements Callback<ListView<Site>, ListCell<Site>>
             if (site == null || empty) {
                 setGraphic(null);
             } else {
-                setText(site.getAddress() + ", " + site.getZipCode() + " " + site.getCity());
+                   StringBuilder address = new StringBuilder();
+                    
+                    if(site.getAddress()!= null) address.append(site.getAddress());
+                    if(site.getZipCode()!= null) address.append(", " + site.getZipCode());
+                    if(site.getCity()!= null) address.append(" " + site.getCity());
+                    
+                    setText(address.toString());
             }
         }
     }

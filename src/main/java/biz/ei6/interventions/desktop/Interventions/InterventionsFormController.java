@@ -197,7 +197,7 @@ public final class InterventionsFormController implements Initializable, Desktop
         if (getEditedIntervention().getClient() != null) {
             setSelectedClient(getEditedIntervention().getClient());
         } else {
-            setSelectedClient(null);
+            setSelectedClient(new Client());
         }
 
         // TEMPORAIRE
@@ -231,7 +231,7 @@ public final class InterventionsFormController implements Initializable, Desktop
         clientBox.setConverter(new StringConverter<Client>() {
             @Override
             public String toString(Client client) {
-                if (client != null) {
+                if (client != null && client.getId() != null) {
                     StringBuilder clientString = new StringBuilder();
                     // Si il a un prénom
                     if (client.getName() != null) {
@@ -304,9 +304,16 @@ public final class InterventionsFormController implements Initializable, Desktop
             @Override
             public String toString(Site site) {
                 if (site != null) {
-                    return site.getAddress() + ", " + site.getZipCode() + " " + site.getCity();
+                    
+                    StringBuilder address = new StringBuilder();
+                    
+                    if(site.getAddress()!= null) address.append(site.getAddress());
+                    if(site.getZipCode()!= null) address.append(", " + site.getZipCode());
+                    if(site.getCity()!= null) address.append(" " + site.getCity());
+                    
+                    return address.toString();
                 } else {
-                    return "";
+                    return resources.getString("info.pas.d.adresses.client");
                 }
             }
 
@@ -328,7 +335,6 @@ public final class InterventionsFormController implements Initializable, Desktop
             public void changed(ObservableValue ov, Client oldClient, Client newClient) {
                 if (newClient != null) {
                     getEditedIntervention().setClient(newClient);
-                    //addressBox.itemsProperty().unbind();
 
                     // Chargement des addresses dans la combobox des adresses
                     var addresses = FXCollections.observableArrayList(newClient.getAddresses());
