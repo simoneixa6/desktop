@@ -3,7 +3,6 @@ package biz.ei6.interventions.desktop.framework.interventions;
 import biz.ei6.interventions.desktop.framework.clients.ClientDTO;
 import biz.ei6.interventions.desktop.framework.clients.SiteDTO;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.util.List;
 
 /**
@@ -27,7 +26,7 @@ public class InterventionDTO {
     String billDate;
     String paymentType;
     String paymentDate;
-    String status;
+    StatusDTO status;
     List<String> medias;
     String deleted;
 
@@ -127,11 +126,11 @@ public class InterventionDTO {
         this.paymentDate = paymentDate;
     }
 
-    public String getStatus() {
+    public StatusDTO getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(StatusDTO status) {
         this.status = status;
     }
 
@@ -166,6 +165,4 @@ public class InterventionDTO {
     public void setBackKm(String backKm) {
         this.backKm = backKm;
     }
-    
-    
 }

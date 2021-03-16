@@ -1,6 +1,6 @@
 package biz.ei6.interventions.desktop.interventions;
 
-import biz.ei6.interventions.desktop.lib.domain.Site;
+import biz.ei6.interventions.desktop.lib.domain.Status;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.Background;
@@ -12,18 +12,18 @@ import javafx.util.Callback;
  *
  * @author Eixa6
  */
-public class SiteCellFactory implements Callback<ListView<Site>, ListCell<Site>> {
+public class StatusCellFactory implements Callback<ListView<Status>, ListCell<Status>> {
 
     @Override
-    public ListCell<Site> call(ListView<Site> arg0) {
-        return new SiteCell();
+    public ListCell<Status> call(ListView<Status> arg0) {
+        return new StatusCell();
     }
-
-    public class SiteCell extends ListCell<Site> {
+    
+        public class StatusCell extends ListCell<Status> {
 
         @Override
-        protected void updateItem(Site site, boolean empty) {
-            super.updateItem(site, empty);
+        protected void updateItem(Status status, boolean empty) {
+            super.updateItem(status, empty);
 
             // Ajout du style pour une cell
             Background mainGreyBackground = new Background(new BackgroundFill(Color.web("F2F2F2"), null, null));
@@ -37,17 +37,21 @@ public class SiteCellFactory implements Callback<ListView<Site>, ListCell<Site>>
                 setBackground(mainGreyBackground);
             });
 
-            if (site == null || empty) {
+            if (status == null || empty) {
                 setGraphic(null);
             } else {
-                   StringBuilder address = new StringBuilder();
-                    
-                    if(site.getAddress()!= null) address.append(site.getAddress());
-                    if(site.getZipCode()!= null) address.append(", " + site.getZipCode());
-                    if(site.getCity()!= null) address.append(" " + site.getCity());
-                    
-                    setText(address.toString());
+
+                StringBuilder statusString = new StringBuilder();
+
+                // Si il a un prénom
+                if (status.getName() != null) {
+                    statusString.append(status.getName()).append(" ");
+                }
+
+                setText(statusString.toString());
             }
         }
     }
+    
+    
 }

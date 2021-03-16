@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ListProperty;
@@ -45,6 +46,7 @@ public class Client {
         // Ajout du tableau d'adresses vide par défault
         ArrayList<Site> sitesList = new ArrayList<>();
         this.setAddresses(sitesList);
+        this.setLastname("");
     }
 
     public StringProperty getIdProperty() {
@@ -314,5 +316,4 @@ public class Client {
     public void setDeleted(Boolean deleted) {
         this.deleted.set(deleted);
     }
-
 }

@@ -41,7 +41,7 @@ public class Intervention {
     private final ObjectProperty<LocalDate> billDate = new SimpleObjectProperty();
     private final StringProperty paymentType = new SimpleStringProperty();
     private final ObjectProperty<LocalDate> paymentDate = new SimpleObjectProperty();
-    private final StringProperty status = new SimpleStringProperty();
+    private final ObjectProperty<Status> status = new SimpleObjectProperty();
     private final ListProperty<String> medias = new SimpleListProperty();
     private final BooleanProperty deleted = new SimpleBooleanProperty();
 
@@ -354,18 +354,18 @@ public class Intervention {
     /**
      * @return the status
      */
-    public StringProperty getStatusProperty() {
+    public ObjectProperty getStatusProperty() {
         return status;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status.get();
     }
 
     /**
      * @param status the status to set
      */
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status.set(status);
     }
 
@@ -406,5 +406,4 @@ public class Intervention {
     public void setDeleted(Boolean deleted) {
         this.deleted.set(deleted);
     }
-
 }

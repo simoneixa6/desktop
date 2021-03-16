@@ -5,10 +5,14 @@ import biz.ei6.interventions.desktop.DesktopListener;
 import biz.ei6.interventions.desktop.framework.interventions.InterventionGetException;
 import biz.ei6.interventions.desktop.lib.domain.Client;
 import biz.ei6.interventions.desktop.lib.domain.Intervention;
+import biz.ei6.interventions.desktop.lib.domain.Status;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,9 +20,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SplitPane;
+import javafx.scene.input.MouseEvent;
+import javafx.util.StringConverter;
 
 public class InterventionsController implements Initializable, DesktopListener {
 
@@ -29,7 +36,7 @@ public class InterventionsController implements Initializable, DesktopListener {
     ListView<Intervention> interventionsListView;
 
     @FXML
-    ComboBox sortBox;
+    ComboBox<Status> sortBox;
 
     @FXML
     Button createBtn;
@@ -38,12 +45,22 @@ public class InterventionsController implements Initializable, DesktopListener {
 
     ResourceBundle resources;
 
+    Boolean wasNotSaved = false;
+
+    // Statuts de la combobox de filtrage
+    Status status0; // Valeur par défaut, pas de filtrage
+    Status status1;
+    Status status2;
+    Status status3;
+    Status status4;
+
     public void setInteractors(Interactors interactors) {
         this.interactors = interactors;
     }
 
     @Override
     public void close() {
+        wasNotSaved = false;
         splitPane.getItems().remove(1);
         interventionsListView.getSelectionModel().clearSelection();
         updateInterventionsListView();
@@ -54,15 +71,46 @@ public class InterventionsController implements Initializable, DesktopListener {
 
         this.resources = resources;
 
-        // Remplissage de la choicebox de trie
+        // Création des statuts d'intervention
+        this.status0 = new Status("0", resources.getString("tous.les.etats")); // Valeur par défaut, pas de filtrage
+        this.status1 = new Status("1", resources.getString("status.ouverte"));
+        this.status2 = new Status("2", resources.getString("status.terminee"));
+        this.status3 = new Status("3", resources.getString("status.facturee"));
+        this.status4 = new Status("4", resources.getString("status.reglee"));
+
+        // Remplissage de la choicebox de filtrage
         sortBox.setCellFactory(new SortBoxCellFactory());
-        sortBox.getItems().addAll(resources.getString("tous.les.etats"), resources.getString("status.ouverte"), resources.getString("status.terminee"), resources.getString("status.facturee"), resources.getString("status.reglee"));
-        sortBox.setValue(resources.getString("tous.les.etats"));
+        sortBox.getItems().addAll(status0, status1, status2, status3, status4);
+        sortBox.setValue(status0);
+
+        sortBox.setConverter(new StringConverter<Status>() {
+            @Override
+            public String toString(Status status) {
+                return status.getName();
+            }
+
+            @Override
+            public Status fromString(String string) {
+                throw new UnsupportedOperationException("Not supported.");
+            }
+        });
+
+        /*
+         * Listener sur la selection d'un type de tri
+         */
+        sortBox.valueProperty().addListener(new ChangeListener<Status>() {
+            @Override
+            public void changed(ObservableValue ov, Status oldStatus, Status newStatus) {
+                if (newStatus != null) {
+                    updateInterventionsListView();
+                }
+            }
+        });
 
         /*
          * Mise en place de la cell factory de la listview des interventions
          */
-        interventionsListView.setCellFactory(new InterventionCellFactory(interactors));
+        interventionsListView.setCellFactory(new InterventionCellFactory());
 
         /*
          * Action lors de la selection d'une intervention dans la listview
@@ -72,12 +120,8 @@ public class InterventionsController implements Initializable, DesktopListener {
                 InterventionsForm interventionsForm = new InterventionsForm(interactors, newSelectedIntervention, this, resources);
                 addInterventionsFormToSplitPane(interventionsForm);
 
-                // Permet de mettre à jour l'ui depuis le thread principale ( si l'ui est mise à jour dans le thread secondaire, une exception est levée )
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        updateInterventionsListView();
-                    }
+                interventionsForm.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
+                    wasNotSaved = true;
                 });
             }
         });
@@ -91,28 +135,63 @@ public class InterventionsController implements Initializable, DesktopListener {
             addInterventionsFormToSplitPane(interventionsForm);
         });
 
-        // Muse à jour de la liste des interventions au démarrage
+        // Mise à jour de la liste des interventions au démarrage
         updateInterventionsListView();
-
     }
 
     private void addInterventionsFormToSplitPane(InterventionsForm interventionsForm) {
-
         /*
          * Supprime la partie formulaire d'intervention si elle est déjà présente
          */
         if (splitPane.getItems().size() > 1) {
-            splitPane.getItems().remove(1);
-            splitPane.getItems().add(1, interventionsForm);
+
+            // Affiche une boite de dialogue si l'utilisateur n'a pas enregistré avant de changer d'intervention
+            if (wasNotSaved == true) {
+                Alert alert = new Alert(AlertType.CONFIRMATION);
+                alert.setTitle(resources.getString("warning.attention"));
+                alert.setHeaderText(resources.getString("warning.modification.non.enregistre"));
+                alert.setContentText(resources.getString("warning.choix.modification.non.enregistre"));
+                Optional<ButtonType> result = alert.showAndWait();
+                // Si il appuie sur Ok, on ignore les anciens changements, et on met à jour la liste des interventions
+                if (result.get() == ButtonType.OK) {
+                    wasNotSaved = false;
+                    splitPane.getItems().remove(1);
+                    splitPane.getItems().add(1, interventionsForm);
+
+                    Platform.runLater(() -> {
+                        updateInterventionsListView();
+                    });
+
+                    // Sinon on conserve le formulaire et on deselectionne l'élément afin que l'utilisateur continue sa modification
+                } else if (result.get() == ButtonType.CANCEL) {
+
+                    Platform.runLater(interventionsListView.getSelectionModel()::clearSelection);
+
+                }
+                // Si l'utilisateur n'a pas effectué de modification, on remplace le formulaire par le nouveau
+            } else {
+                splitPane.getItems().remove(1);
+                splitPane.getItems().add(1, interventionsForm);
+            }
+
         } // Sinon la partie formulaire est ajouté
         else {
             splitPane.getItems().add(1, interventionsForm);
         }
     }
 
+    /**
+     * Méthode de mise à jour de la listview
+     */
     public void updateInterventionsListView() {
-        var dataobs = FXCollections.observableArrayList(getInteventions());
-        interventionsListView.setItems(dataobs);
+        var interventions = FXCollections.observableArrayList(getInteventions());
+
+        // Supprime les interventions possédant le statut selectionné dans la combobox de tri, si l'id vaut 0 (valeur par défaut), on ne filtre pas
+        if (!sortBox.getValue().getId().equals("0")) {
+            interventions.removeIf(intervention -> !intervention.getStatus().getId().equals(sortBox.getValue().getId()));
+        }
+
+        interventionsListView.setItems(interventions);
     }
 
     public ArrayList<Intervention> getInteventions() {
@@ -123,7 +202,7 @@ public class InterventionsController implements Initializable, DesktopListener {
             alert.setTitle(resources.getString("exception.erreur"));
             alert.setHeaderText(resources.getString("exception.recuperationInterventions"));
             alert.setContentText(e.toString());
-            alert.show();
+            alert.showAndWait();
         }
         // Si erreur lors de la récupération, on renvoie une liste d'interventions vide
         return new ArrayList<>();

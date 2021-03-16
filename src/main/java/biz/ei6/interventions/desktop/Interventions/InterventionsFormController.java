@@ -11,21 +11,19 @@ import biz.ei6.interventions.desktop.lib.domain.Site;
 import biz.ei6.interventions.desktop.lib.domain.Intervention;
 import biz.ei6.interventions.desktop.lib.domain.Period;
 import biz.ei6.interventions.desktop.lib.domain.Client;
+import biz.ei6.interventions.desktop.lib.domain.Status;
 import java.io.InputStream;
 import java.net.URL;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
-import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -50,6 +48,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
@@ -98,7 +97,7 @@ public final class InterventionsFormController implements Initializable, Desktop
     ComboBox<Site> addressBox;
 
     @FXML
-    ChoiceBox<String> statusBox;
+    ComboBox<Status> statusBox;
 
     @FXML
     ChoiceBox<String> paymenttypeBox;
@@ -146,10 +145,13 @@ public final class InterventionsFormController implements Initializable, Desktop
     private final SimpleObjectProperty<Intervention> editedIntervention = new SimpleObjectProperty<Intervention>();
 
     private final SimpleObjectProperty<Client> selectedClient = new SimpleObjectProperty<Client>();
-    StringProperty address = new SimpleStringProperty();
-    StringProperty zipCode = new SimpleStringProperty();
-    StringProperty city = new SimpleStringProperty();
-    StringProperty selectedAddress = new SimpleStringProperty();
+
+    Boolean isNewIntervention = false;
+
+    Status status1;
+    Status status2;
+    Status status3;
+    Status status4;
 
     Stage clientStage;
 
@@ -157,6 +159,9 @@ public final class InterventionsFormController implements Initializable, Desktop
 
     InterventionsFormController(Intervention intervention) {
         setEditedIntervention(intervention);
+        if (intervention.getId() == null) {
+            isNewIntervention = true;
+        }
     }
 
     public void setInteractors(App.Interactors interactors) {
@@ -170,7 +175,14 @@ public final class InterventionsFormController implements Initializable, Desktop
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        // Fichier ressources pour les chaines de caractères
         this.resources = resources;
+
+        // Création des statuts d'intervention
+        this.status1 = new Status("1", resources.getString("status.ouverte"));
+        this.status2 = new Status("2", resources.getString("status.terminee"));
+        this.status3 = new Status("3", resources.getString("status.facturee"));
+        this.status4 = new Status("4", resources.getString("status.reglee"));
 
         /**
          * On récupère le client lié à l'intervention si il y en a un, et on le
@@ -185,16 +197,35 @@ public final class InterventionsFormController implements Initializable, Desktop
         // TEMPORAIRE
         userBox.getItems().addAll("Slad", "Fabien");
 
-        //Remplissage des choiceboxs
-        statusBox.getItems().addAll(resources.getString("status.ouverte"), resources.getString("status.terminee"), resources.getString("status.facturee"), resources.getString("status.reglee"));
+        // Remplissage des choiceboxs
+        statusBox.getItems().addAll(status1, status2, status3, status4);
+
+        statusBox.setCellFactory(new StatusCellFactory());
+
         paymenttypeBox.getItems().addAll(resources.getString("paiement.cheque"), resources.getString("paiement.cb"), resources.getString("paiement.espece"));
+
+        statusBox.setConverter(new StringConverter<Status>() {
+            @Override
+            public String toString(Status status) {
+                if (status != null) {
+                    return status.getName();
+                } else {
+                    return resources.getString("exception.erreur");
+                }
+            }
+
+            @Override
+            public Status fromString(String arg0) {
+                throw new UnsupportedOperationException("Not supported.");
+            }
+        });
 
         // Mise en place de la cellFactory de la combobox des clients
         clientBox.setCellFactory(new ClientCellFactory());
         clientBox.setConverter(new StringConverter<Client>() {
             @Override
             public String toString(Client client) {
-                if (client != null) {
+                if (client != null && client.getId() != null) {
                     StringBuilder clientString = new StringBuilder();
                     // Si il a un prénom
                     if (client.getName() != null) {
@@ -206,17 +237,21 @@ public final class InterventionsFormController implements Initializable, Desktop
                     }
                     // Si il a une entreprise
                     if (client.getCompany() != null) {
-                        clientString.append(" (").append(client.getCompany()).append(")");
+                        if (client.getName() != null || client.getLastname() != null) {
+                            clientString.append(" (").append(client.getCompany()).append(")");
+                        } else {
+                            clientString.append(client.getCompany());
+                        }
                     }
                     return clientString.toString();
                 } else {
-                    return "Erreur";
+                    return resources.getString("info.choisir.client");
                 }
             }
 
             @Override
             public Client fromString(String arg0) {
-                throw new UnsupportedOperationException("Not supported yet.");
+                throw new UnsupportedOperationException("Not supported.");
             }
         });
 
@@ -238,7 +273,8 @@ public final class InterventionsFormController implements Initializable, Desktop
             clientStage = new Stage();
             clientStage.getIcons().add(new Image(whiteIcon));
             clientStage.setScene(new Scene(clientsForm, 650, 450));
-            clientStage.show();
+            clientStage.initModality(Modality.APPLICATION_MODAL);
+            clientStage.showAndWait();
         });
 
         /**
@@ -247,11 +283,12 @@ public final class InterventionsFormController implements Initializable, Desktop
         updateClientBtn.setOnAction((ActionEvent event) -> {
             // Si un client est selectionné
             if (clientBox.getValue().getId() != null) {
-                ClientsForm clientsForm = new ClientsForm(interactors, getSelectedClient(), InterventionsFormController.this, resources);
+                ClientsForm clientsForm = new ClientsForm(interactors, selectedClient, InterventionsFormController.this, resources);
                 clientStage = new Stage();
                 clientStage.getIcons().add(new Image(whiteIcon));
                 clientStage.setScene(new Scene(clientsForm, 650, 450));
-                clientStage.show();
+                clientStage.initModality(Modality.APPLICATION_MODAL);
+                clientStage.showAndWait();
             }
         });
 
@@ -261,20 +298,28 @@ public final class InterventionsFormController implements Initializable, Desktop
             @Override
             public String toString(Site site) {
                 if (site != null) {
-                    return site.getAddress() + ", " + site.getZipCode() + " " + site.getCity();
+                    
+                    StringBuilder address = new StringBuilder();
+                    
+                    if(site.getAddress()!= null) address.append(site.getAddress());
+                    if(site.getZipCode()!= null) address.append(", " + site.getZipCode());
+                    if(site.getCity()!= null) address.append(" " + site.getCity());
+                    
+                    return address.toString();
                 } else {
-                    return "";
+                    return resources.getString("info.pas.d.adresses.client");
                 }
             }
 
             @Override
             public Site fromString(String arg0) {
-                throw new UnsupportedOperationException("Not supported yet.");
+                throw new UnsupportedOperationException("Not supported.");
             }
         });
 
-        // Binding à l'initialisation
-        bind();
+        // Initialisation de la combobox des adresses
+        var addresses = FXCollections.observableArrayList(getSelectedClient().getAddresses());
+        addressBox.setItems(addresses);
 
         /*
          * Listener sur la selection d'un client dans la combobox des clients
@@ -284,7 +329,10 @@ public final class InterventionsFormController implements Initializable, Desktop
             public void changed(ObservableValue ov, Client oldClient, Client newClient) {
                 if (newClient != null) {
                     getEditedIntervention().setClient(newClient);
-                    addressBox.itemsProperty().bind(getSelectedClient().getAddressesProperty());
+
+                    // Chargement des addresses dans la combobox des adresses
+                    var addresses = FXCollections.observableArrayList(newClient.getAddresses());
+                    addressBox.setItems(addresses);
                 }
             }
         });
@@ -292,16 +340,16 @@ public final class InterventionsFormController implements Initializable, Desktop
         /*
          * Initialisation des champs si c'est une nouvelle intervention ( Si une intervention n'a pas d'id, c'est que c'est une nouvelle intervention )
          */
-        if (getEditedIntervention().getId() == null) {
+        if (isNewIntervention) {
             // Valeurs pas défault pour une nouvelle intervention
-            statusBox.setValue(resources.getString("status.ouverte"));
+            getEditedIntervention().setStatus(status1);
             paymenttypeBox.setValue(resources.getString("paiement.cheque"));
             registerBtn.setText(resources.getString("enregistrer"));
             deleteBtn.setDisable(true);
             titleLbl.setText(resources.getString("creer.une.intervention"));
 
             //TEMPORAIRE
-            userBox.setValue("Slad");
+            getEditedIntervention().setUser_id("Slad");
 
         } else {
             registerBtn.setText(resources.getString("modifier"));
@@ -314,15 +362,15 @@ public final class InterventionsFormController implements Initializable, Desktop
         registerBtn.setOnAction((ActionEvent actionEvent) -> {
 
             // Si tous les champs obligatoires sont remplies
-            if (validate(resources) == true) {
-                // Si l'intervention ne possède pas d'id, elle est nouvelle, on enregistre
-                if (getEditedIntervention().getId() == null) {
+            if (validate() == true) {
+                // Si l'intervention est nouvelle
+                if (isNewIntervention) {
                     try {
                         interactors.addIntervention.invoke(getEditedIntervention());
                     } catch (InterventionPostException e) {
                         showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.ajoutIntervention", e.toString());
                     }
-                    // Si elle possède un ID, elle existe, on veut donc la modifier
+                    // Si l'intervention existe déjà
                 } else {
                     try {
                         interactors.updateIntervention.invoke(getEditedIntervention());
@@ -368,7 +416,6 @@ public final class InterventionsFormController implements Initializable, Desktop
             Period selectedPeriod = periodTableView.getSelectionModel().getSelectedItem();
 
             periods.remove(selectedPeriod);
-
         });
 
         /*
@@ -393,13 +440,13 @@ public final class InterventionsFormController implements Initializable, Desktop
             double a;
             double b;
 
-            if (newVal != null) {
+            if (newVal != null && !"".equals(newVal)) {
                 a = Double.parseDouble(newVal);
             } else {
                 a = 0;
             }
 
-            if (backKmInput.getText() == null) {
+            if (backKmInput.getText() == null || "".equals(backKmInput.getText())) {
                 b = 0;
             } else {
                 b = Double.parseDouble(backKmInput.getText());
@@ -411,13 +458,13 @@ public final class InterventionsFormController implements Initializable, Desktop
             double a;
             double b;
 
-            if (newVal != null) {
+            if (newVal != null && !"".equals(newVal)) {
                 a = Double.parseDouble(newVal);
             } else {
                 a = 0;
             }
 
-            if (backKmInput.getText() == null) {
+            if (goKmInput.getText() == null || "".equals(goKmInput.getText())) {
                 b = 0;
             } else {
                 b = Double.parseDouble(goKmInput.getText());
@@ -440,27 +487,9 @@ public final class InterventionsFormController implements Initializable, Desktop
                         try {
                             LocalTime start = period.getStart();
                             LocalTime end = period.getEnd();
-                            int time = (int) start.until(end, ChronoUnit.MINUTES) + 1;
-                            int hours = time / 60;
-                            int minutes = time % 60;
-
-                            StringBuilder hour = new StringBuilder();
-
-                            // Si le résultat est plus petit que 10, on ajoute un 0 devant pour respecter le format 00:00
-                            if (hours < 10) {
-                                hour.append("0").append(hours).append(":");
-                            } else {
-                                hour.append(hour).append(":");
-                            }
-
-                            // Si le résultat est plus petit que 10, on ajoute un 0 devant pour respecter le format 00:00
-                            if (minutes < 10) {
-                                hour.append("0").append(minutes);
-                            } else {
-                                hour.append(minutes);
-                            }
-
-                            return hour.toString();
+                            Duration duration = Duration.between(start, end);
+                            LocalTime time = LocalTime.MIN.plus(duration);
+                            return time.format(DateTimeFormatter.ofPattern("HH!mm"));
                         } catch (Exception e) {
                             return "";
                         }
@@ -475,12 +504,15 @@ public final class InterventionsFormController implements Initializable, Desktop
         startCol.setCellFactory(column -> new TimeEditableCell(column));
         endCol.setCellFactory(column -> new TimeEditableCell(column));
 
+        // Binding à l'initialisation
+        bind();
     }
 
     /**
      * Mise à jour de la combobox des clients
      */
     private void updateClientsComboBox() throws ClientGetException {
+        // Appelé 3 fois FBR lors de l'ouverture d'une intervention ?
         var clients = FXCollections.observableArrayList(interactors.getClients.invoke());
         clientBox.setItems(clients);
     }
@@ -531,34 +563,32 @@ public final class InterventionsFormController implements Initializable, Desktop
         billDateInput.valueProperty().bindBidirectional(getEditedIntervention().getBillDateProperty());
         billNumberInput.textProperty().bindBidirectional(getEditedIntervention().getBillNumberProperty());
         paymentDateInput.valueProperty().bindBidirectional(getEditedIntervention().getPaymentDateProperty());
-        statusBox.valueProperty().bindBidirectional(getEditedIntervention().getStatusProperty());
         paymenttypeBox.valueProperty().bindBidirectional(getEditedIntervention().getPaymentTypeProperty());
         clientBox.valueProperty().bindBidirectional(getSelectedClientProperty());
         addressBox.valueProperty().bindBidirectional(getEditedIntervention().getAddressProperty());
-        addressBox.itemsProperty().bind(getSelectedClient().getAddressesProperty());
+        statusBox.valueProperty().bindBidirectional(getEditedIntervention().getStatusProperty());
     }
 
     /**
      * Methode permettant de valider si les champs obligatoires sont bien
      * remplies
      *
-     * @param resources
      * @return
      */
-    public boolean validate(ResourceBundle resources) {
+    public boolean validate() {
 
         StringBuilder errors = new StringBuilder();
 
         // Vérifie que les champs obligatoires soient bien remplies
         if (nameInput.getText() == null || "".equals(nameInput.getText())) {
-            errors.append(resources.getString("warning.nom"));
+            errors.append(resources.getString("warning.titreIntervention"));
         }
 
         if (periodTableView.getItems().size() < 1) {
             errors.append(resources.getString("warning.periode"));
         }
 
-        if (clientBox.getSelectionModel().getSelectedItem().getId() == null) {
+        if (clientBox.getSelectionModel().getSelectedItem() == null || clientBox.getSelectionModel().getSelectedItem().getId() == null) {
             errors.append(resources.getString("warning.choisirClient"));
         }
 
@@ -640,17 +670,21 @@ public final class InterventionsFormController implements Initializable, Desktop
     @Override
     public void returnClient(Client client) {
 
+        // Mise à jour de la combobox des clients
         try {
             updateClientsComboBox();
         } catch (ClientGetException e) {
             showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.recuperationClients", e.toString());
         }
 
-        // On doit mettre à jour la valeur de la clientBox a null avant de reselectionné un client sinon l'affichage de la 
-        // combobox ne se met pas à jour ( même si la valeur du client est bien présente, c'est juste l'affichage qui ne se fait pas )
-        clientBox.setValue(null);
-
-        // On assigne le nouveau client en client selectionné
-        setSelectedClient(client);
+        // Si un client est renvoyé, on le sélectionne dans la combobox
+        if (client != null) {
+            var clientsList = clientBox.getItems();
+            // A revoir lors de la suppression d'un client
+            setSelectedClient(clientsList.stream().filter(c -> c.getId().equals(client.getId())).findFirst().get());
+        } // Si null est renvoyé, le client a été supprimé, on place la valeur de la combobox a null
+        else {
+            clientBox.setValue(null);
+        }
     }
 }

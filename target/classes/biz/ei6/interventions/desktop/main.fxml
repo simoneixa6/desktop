@@ -42,6 +42,18 @@
                <padding>
                   <Insets bottom="5.0" left="15.0" top="5.0" />
                </padding></Button>
+            <Button id="sidebarBtn" fx:id="restitutionsBtn" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="295.0" text="%restitutions">
+               <graphic>
+                  <ImageView fitHeight="23.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@assets/datasheet.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <padding>
+                  <Insets bottom="5.0" left="15.0" top="5.0" />
+               </padding>
+            </Button>
             <Label id="menubarTitle" alignment="CENTER" prefHeight="33.0" prefWidth="114.0" text="%administration">
                <padding>
                   <Insets bottom="10.0" left="10.0" top="15.0" />

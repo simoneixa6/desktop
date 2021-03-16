@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<fx:root id="splitpanestyle" fx:id="anchorPane" minWidth="400.0" prefHeight="531.0" prefWidth="1368.0" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <TableView fx:id="interventionsTableView" layoutX="34.0" layoutY="72.0" prefHeight="431.0" prefWidth="847.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="100.0">
+            <columns>
+                <TableColumn fx:id="statusCol" prefWidth="100.0" text="%statut.de.l.intervention" />
+                <TableColumn fx:id="titleCol" prefWidth="150.0" text="%nom.de.l.intervention" />
+                <TableColumn fx:id="clientCol" prefWidth="150.0" text="%client" />
+                <TableColumn fx:id="descriptionCol" prefWidth="200.0" text="%description.de.l.intervention" />
+                <TableColumn fx:id="goKmCol" prefWidth="50.0" text="%aller" />
+                <TableColumn fx:id="backKmCol" prefWidth="50.0" text="%retour" />
+            <TableColumn fx:id="kmCol" prefWidth="75.0" text="%km" />
+                <TableColumn fx:id="billNumberCol" prefWidth="150.0" text="%numero.de.facture" />
+                <TableColumn fx:id="billDateCol" prefWidth="120.0" text="%date.de.facturation" />
+                <TableColumn fx:id="paymentTypeCol" prefWidth="150.0" text="%mode.de.reglement" />
+                <TableColumn fx:id="paymentDateCol" prefWidth="120.0" text="%date.de.reglement" />
+            </columns>
+        </TableView>
+      <ChoiceBox fx:id="statusChoiceBox" id="combobox" layoutX="40.0" layoutY="45.0" prefWidth="150.0" />
+      <Label layoutX="40.0" layoutY="22.0" text="Filtrer par status" />
+    </children>
+</fx:root>

@@ -8,7 +8,6 @@ package biz.ei6.interventions.desktop.clients;
 import biz.ei6.interventions.desktop.App;
 import biz.ei6.interventions.desktop.App.Interactors;
 import biz.ei6.interventions.desktop.DesktopListener;
-import biz.ei6.interventions.desktop.framework.clients.ClientGetException;
 import biz.ei6.interventions.desktop.framework.clients.ClientPostException;
 import biz.ei6.interventions.desktop.framework.clients.ClientPutException;
 import biz.ei6.interventions.desktop.framework.interventions.InterventionGetException;
@@ -110,13 +109,19 @@ public final class ClientsFormController implements Initializable {
     @FXML
     ListView<Intervention> linkedInterventionsListView;
 
+    ResourceBundle resources;
+
     /**
      * Intervention éditée par la partie droite de l'interface
      */
-    private final SimpleObjectProperty<Client> editedClient = new SimpleObjectProperty<Client>();
+    private final SimpleObjectProperty<Client> editedClient;
+
+    ClientsFormController(SimpleObjectProperty<Client> client) {
+        editedClient = client;
+    }
 
     ClientsFormController(Client client) {
-        setEditedClient(client);
+        editedClient = new SimpleObjectProperty<Client>(client);
     }
 
     public void setInteractors(App.Interactors interactors) {
@@ -129,6 +134,8 @@ public final class ClientsFormController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        this.resources = resources;
 
         // Remplissage des choiceboxs
         companyStatusBox.getItems().addAll("SARL/EURL", "SAS/SASU", "SCI");
@@ -154,15 +161,16 @@ public final class ClientsFormController implements Initializable {
         registerBtn.setOnAction((ActionEvent actionEvent) -> {
 
             // Client renvoyé par le serveur lors de l'ajout d'un client
-            Client addedClient = new Client();
+            Client addedClient = null;
 
             // Si tous les champs obligatoires sont remplies
-            if (validate(resources) == true) {
+            if (validate() == true) {
+
                 // Si le client ne possède pas d'id, il est nouveau, on le crée
                 if (getEditedClient().getId() == null) {
                     try {
+                        // Ajout du client, le serveur renvoie le client modifié    
                         addedClient = interactors.addClient.invoke(getEditedClient());
-                        // On renvoie le client modifié    
 
                     } catch (ClientPostException e) {
                         showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.ajoutClient", e.toString());
@@ -171,14 +179,16 @@ public final class ClientsFormController implements Initializable {
                 } else {
                     //On le modifie
                     try {
+                        var id = getEditedClient().getId();
+
                         interactors.updateClient.invoke(getEditedClient());
-                        // On récupère le client modifié
-                        addedClient = interactors.getClient.invoke(getEditedClient().getId());
-                    } catch (ClientGetException | ClientPutException e) {
+
+                        addedClient = getEditedClient();
+                    } catch (ClientPutException e) {
                         showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.modificationClient", e.toString());
                     }
 
-                    updateInterventionsWithThisClient(resources);
+                    updateInterventionsWithThisClient();
                 }
 
                 // Renvoie le client ( utilisé lors de la création d'un client depuis le formulaire d'intervention )
@@ -197,8 +207,8 @@ public final class ClientsFormController implements Initializable {
             } catch (ClientPutException e) {
                 showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.suppressionClient", e.toString());
             }
-            // Renvoie un nouveau client ( afin de deselectionné l'ancien client dans le formulaire d'intervention )
-            desktopListener.returnClient(new Client());
+            // Renvoie un nouveau client ( afin de deselectionné l'ancien client dans le formulaire d'intervention
+            desktopListener.returnClient(null);
             desktopListener.close();
         });
 
@@ -240,7 +250,8 @@ public final class ClientsFormController implements Initializable {
         zipCodeCol.setCellFactory(column -> new NumberEditableCell(column));
     }
 
-    private void updateInterventionsWithThisClient(ResourceBundle resources) {
+    // FBR : j'ai un sushi métaphysique avec ce code : mise à jour de l'intervention dans le contrôleur de clients    
+    private void updateInterventionsWithThisClient() {
         ArrayList<Intervention> interventions = new ArrayList<Intervention>();
 
         // Récupération des interventions pour les mettres à jour si besoin
@@ -283,19 +294,22 @@ public final class ClientsFormController implements Initializable {
      * Methode permettant de valider si les champs obligatoires sont bien
      * remplies
      *
-     * @param resources
      * @return
      */
-    public boolean validate(ResourceBundle resources) {
+    public boolean validate() {
 
         StringBuilder errors = new StringBuilder();
 
-        // Vérifie que les champs obligatoires soient bien remplies
+        // Vérifie qu'au moins un nom de client ou un nom d'entreprise a été renseigné
         if (lastnameInput.getText() == null || "".equals(lastnameInput.getText())) {
-            errors.append(resources.getString("warning.nom"));
+            if (companyInput.getText() == null || "".equals(companyInput.getText())) {
+                errors.append(resources.getString("warning.nomClient"));
+            }
         }
-        if (phoneInput.getText() == null || "".equals(phoneInput.getText())) {
-            errors.append(resources.getString("warning.telephone"));
+        if (companyInput.getText() == null || "".equals(companyInput.getText())) {
+            if (lastnameInput.getText() == null || "".equals(lastnameInput.getText())) {
+                errors.append(resources.getString("warning.nomEntreprise"));
+            }
         }
 
         // Si une information est manquante, montre un message d'erreur et renvoie false
@@ -303,10 +317,8 @@ public final class ClientsFormController implements Initializable {
             showAlert(resources, AlertType.WARNING, "warning.attention", "warning.champsObligatoires", errors.toString());
             return false;
         }
-
         // Pas d'erreur
         return true;
-
     }
 
     /**

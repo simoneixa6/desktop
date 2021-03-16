@@ -317,11 +317,11 @@
                                     <Insets bottom="5.0" left="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <ChoiceBox id="combobox" fx:id="statusBox" minHeight="28.0" prefHeight="28.0" prefWidth="150.0">
+                              <ComboBox id="combobox" fx:id="statusBox" minHeight="28.0" prefHeight="28.0" prefWidth="150.0">
                                  <VBox.margin>
                                     <Insets left="5.0" />
                                  </VBox.margin>
-                              </ChoiceBox>
+                              </ComboBox>
                            </children>
                            <VBox.margin>
                               <Insets />
