@@ -205,9 +205,9 @@ public final class InterventionsFormController implements Initializable, Desktop
 
         // Remplissage des choiceboxs
         statusBox.getItems().addAll(status1, status2, status3, status4);
-        
+
         statusBox.setCellFactory(new StatusCellFactory());
-        
+
         paymenttypeBox.getItems().addAll(resources.getString("paiement.cheque"), resources.getString("paiement.cb"), resources.getString("paiement.espece"));
 
         statusBox.setConverter(new StringConverter<Status>() {
@@ -219,6 +219,7 @@ public final class InterventionsFormController implements Initializable, Desktop
                     return resources.getString("exception.erreur");
                 }
             }
+
             @Override
             public Status fromString(String arg0) {
                 throw new UnsupportedOperationException("Not supported.");
@@ -250,9 +251,10 @@ public final class InterventionsFormController implements Initializable, Desktop
                     }
                     return clientString.toString();
                 } else {
-                    return resources.getString("exception.erreur");
+                    return resources.getString("info.choisir.client");
                 }
             }
+
             @Override
             public Client fromString(String arg0) {
                 throw new UnsupportedOperationException("Not supported.");
@@ -307,6 +309,7 @@ public final class InterventionsFormController implements Initializable, Desktop
                     return "";
                 }
             }
+
             @Override
             public Site fromString(String arg0) {
                 throw new UnsupportedOperationException("Not supported.");
@@ -322,7 +325,7 @@ public final class InterventionsFormController implements Initializable, Desktop
                 if (newClient != null) {
                     getEditedIntervention().setClient(newClient);
                     addressBox.itemsProperty().bind(getSelectedClient().getAddressesProperty());
-                    
+
                     //var addresses = FXCollections.observableArrayList(newClient.getAddresses());
                     //addressBox.setItems(addresses);
                 }
@@ -354,7 +357,7 @@ public final class InterventionsFormController implements Initializable, Desktop
         registerBtn.setOnAction((ActionEvent actionEvent) -> {
 
             // Si tous les champs obligatoires sont remplies
-            if (validate(resources) == true) {
+            if (validate() == true) {
                 // Si l'intervention est nouvelle
                 if (isNewIntervention) {
                     try {
@@ -569,7 +572,7 @@ public final class InterventionsFormController implements Initializable, Desktop
      * @param resources
      * @return
      */
-    public boolean validate(ResourceBundle resources) {
+    public boolean validate() {
 
         StringBuilder errors = new StringBuilder();
 
@@ -582,7 +585,7 @@ public final class InterventionsFormController implements Initializable, Desktop
             errors.append(resources.getString("warning.periode"));
         }
 
-        if (clientBox.getSelectionModel().getSelectedItem().getId() == null) {
+        if (clientBox.getSelectionModel().getSelectedItem() == null || clientBox.getSelectionModel().getSelectedItem().getId() == null) {
             errors.append(resources.getString("warning.choisirClient"));
         }
 
@@ -664,15 +667,21 @@ public final class InterventionsFormController implements Initializable, Desktop
     @Override
     public void returnClient(Client client) {
 
+        // Mise à jour de la combobox des clients
         try {
             updateClientsComboBox();
         } catch (ClientGetException e) {
             showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.recuperationClients", e.toString());
         }
-        
-        var clientsList = clientBox.getItems();
 
-        // A revoir lors de la suppression d'un client
-        setSelectedClient(clientsList.stream().filter(c -> c.getId().equals(client.getId())).findFirst().get());
+        // Si un client est renvoyé, on le sélectionne dans la combobox
+        if (client != null) {
+            var clientsList = clientBox.getItems();
+            // A revoir lors de la suppression d'un client
+            setSelectedClient(clientsList.stream().filter(c -> c.getId().equals(client.getId())).findFirst().get());
+        } // Si null est renvoyé, le client a été supprimé, on place la valeur de la combobox a null
+        else {
+            clientBox.setValue(null);
+        }
     }
 }

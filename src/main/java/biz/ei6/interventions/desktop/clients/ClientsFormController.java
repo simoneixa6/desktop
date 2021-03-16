@@ -208,7 +208,7 @@ public final class ClientsFormController implements Initializable {
                 showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.suppressionClient", e.toString());
             }
             // Renvoie un nouveau client ( afin de deselectionné l'ancien client dans le formulaire d'intervention
-            desktopListener.returnClient(new Client());
+            desktopListener.returnClient(null);
             desktopListener.close();
         });
 
