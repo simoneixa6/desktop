@@ -5,6 +5,7 @@ C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\lib\interactors\GetClients.java
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\MainController.java
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\clients\ClientsFormController.java
+C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\DateCell.java
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\lib\domain\Period.java
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\lib\domain\Intervention.java
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\clients\ClientsController.java
@@ -34,6 +35,7 @@ C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\clients\StringEditableCell.java
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\interventions\ClientCellFactory.java
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\clients\NumberEditableCell.java
+C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\RestitutionsController.java
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\framework\clients\WSClientsDataSource.java
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\lib\data\ClientsDataSource.java
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\lib\interactors\RemoveClient.java
@@ -47,6 +49,7 @@ C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\interventions\InterventionsPane.java
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\interventions\InterventionsForm.java
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\lib\interactors\RemoveIntervention.java
+C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\RestitutionsPane.java
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\App.java
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\framework\clients\ClientDTO.java
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\lib\interactors\AddIntervention.java

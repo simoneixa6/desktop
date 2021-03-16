@@ -26,6 +26,9 @@ public class MainController implements Initializable {
     Button clientsBtn;
 
     @FXML
+    Button restitutionsBtn;
+
+    @FXML
     Button usersBtn;
 
     @FXML
@@ -34,8 +37,8 @@ public class MainController implements Initializable {
     Interactors interactors;
 
     InterventionsPane interventionsPane;
-
     ClientsPane clientsPane;
+    RestitutionsPane restitutionsPane;
 
     public void setInteractors(Interactors interactors) {
         this.interactors = interactors;
@@ -50,7 +53,7 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        
         /*
          * Action sur le clic du bouton "Interventions"
          */
@@ -72,6 +75,17 @@ public class MainController implements Initializable {
                 setSelectedButtonStyle(clientsBtn);
             }
         });
+
+        /*
+         * Action sur le clic du bouton "Restitution"
+         */
+        restitutionsBtn.setOnAction((ActionEvent actionEvent) -> {
+            if (mainBorderPane.getCenter() != restitutionsPane) {
+                restitutionsPane = new RestitutionsPane(interactors);
+                mainBorderPane.setCenter(restitutionsPane);
+                setSelectedButtonStyle(restitutionsBtn);
+            }
+        });
     }
 
     public void setSelectedButtonStyle(Button button) {
@@ -82,6 +96,9 @@ public class MainController implements Initializable {
         }
         if (button != clientsBtn) {
             clientsBtn.setId("sidebarBtn");
+        }
+        if (button != restitutionsBtn) {
+            restitutionsBtn.setId("sidebarBtn");
         }
         if (button != usersBtn) {
             usersBtn.setId("sidebarBtn");

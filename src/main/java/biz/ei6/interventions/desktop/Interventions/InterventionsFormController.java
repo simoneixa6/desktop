@@ -19,14 +19,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -148,10 +145,6 @@ public final class InterventionsFormController implements Initializable, Desktop
     private final SimpleObjectProperty<Intervention> editedIntervention = new SimpleObjectProperty<Intervention>();
 
     private final SimpleObjectProperty<Client> selectedClient = new SimpleObjectProperty<Client>();
-    StringProperty address = new SimpleStringProperty();
-    StringProperty zipCode = new SimpleStringProperty();
-    StringProperty city = new SimpleStringProperty();
-    StringProperty selectedAddress = new SimpleStringProperty();
 
     Boolean isNewIntervention = false;
 
@@ -573,7 +566,6 @@ public final class InterventionsFormController implements Initializable, Desktop
         paymenttypeBox.valueProperty().bindBidirectional(getEditedIntervention().getPaymentTypeProperty());
         clientBox.valueProperty().bindBidirectional(getSelectedClientProperty());
         addressBox.valueProperty().bindBidirectional(getEditedIntervention().getAddressProperty());
-        //addressBox.itemsProperty().bind(getSelectedClient().getAddressesProperty());
         statusBox.valueProperty().bindBidirectional(getEditedIntervention().getStatusProperty());
     }
 

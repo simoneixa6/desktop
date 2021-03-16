@@ -47,8 +47,8 @@ public class InterventionsController implements Initializable, DesktopListener {
 
     Boolean wasNotSaved = false;
 
-    // Statuts de la combobox de tri
-    Status status0;
+    // Statuts de la combobox de filtrage
+    Status status0; // Valeur par défaut, pas de filtrage
     Status status1;
     Status status2;
     Status status3;
@@ -63,7 +63,7 @@ public class InterventionsController implements Initializable, DesktopListener {
         wasNotSaved = false;
         splitPane.getItems().remove(1);
         interventionsListView.getSelectionModel().clearSelection();
-        updateInterventionsListView(sortBox.getValue().getName());
+        updateInterventionsListView();
     }
 
     @Override
@@ -72,13 +72,13 @@ public class InterventionsController implements Initializable, DesktopListener {
         this.resources = resources;
 
         // Création des statuts d'intervention
-        this.status0 = new Status("0", resources.getString("tous.les.etats"));
+        this.status0 = new Status("0", resources.getString("tous.les.etats")); // Valeur par défaut, pas de filtrage
         this.status1 = new Status("1", resources.getString("status.ouverte"));
         this.status2 = new Status("2", resources.getString("status.terminee"));
         this.status3 = new Status("3", resources.getString("status.facturee"));
         this.status4 = new Status("4", resources.getString("status.reglee"));
 
-        // Remplissage de la choicebox de tri
+        // Remplissage de la choicebox de filtrage
         sortBox.setCellFactory(new SortBoxCellFactory());
         sortBox.getItems().addAll(status0, status1, status2, status3, status4);
         sortBox.setValue(status0);
@@ -102,7 +102,7 @@ public class InterventionsController implements Initializable, DesktopListener {
             @Override
             public void changed(ObservableValue ov, Status oldStatus, Status newStatus) {
                 if (newStatus != null) {
-                    updateInterventionsListView(newStatus.getName());
+                    updateInterventionsListView();
                 }
             }
         });
@@ -136,7 +136,7 @@ public class InterventionsController implements Initializable, DesktopListener {
         });
 
         // Mise à jour de la liste des interventions au démarrage
-        updateInterventionsListView(resources.getString("tous.les.etats"));
+        updateInterventionsListView();
     }
 
     private void addInterventionsFormToSplitPane(InterventionsForm interventionsForm) {
@@ -159,7 +159,7 @@ public class InterventionsController implements Initializable, DesktopListener {
                     splitPane.getItems().add(1, interventionsForm);
 
                     Platform.runLater(() -> {
-                        updateInterventionsListView(sortBox.getValue().getName());
+                        updateInterventionsListView();
                     });
 
                     // Sinon on conserve le formulaire et on deselectionne l'élément afin que l'utilisateur continue sa modification
@@ -181,15 +181,14 @@ public class InterventionsController implements Initializable, DesktopListener {
     }
 
     /**
-     *
-     * @param status Statut de l'intervention utilisé pour le tri
+     * Méthode de mise à jour de la listview
      */
-    public void updateInterventionsListView(String status) {
+    public void updateInterventionsListView() {
         var interventions = FXCollections.observableArrayList(getInteventions());
 
-        // Supprime les interventions possédant le statut selectionné dans la combobox de tri
-        if (!status.equals(resources.getString("tous.les.etats"))) {
-            interventions.removeIf(intervention -> !intervention.getStatus().getName().equals(status));
+        // Supprime les interventions possédant le statut selectionné dans la combobox de tri, si l'id vaut 0 (valeur par défaut), on ne filtre pas
+        if (!sortBox.getValue().getId().equals("0")) {
+            interventions.removeIf(intervention -> !intervention.getStatus().getId().equals(sortBox.getValue().getId()));
         }
 
         interventionsListView.setItems(interventions);
