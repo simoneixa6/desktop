@@ -134,10 +134,7 @@ class RestitutionsController implements Initializable {
         /*
          * Mise en place de la table view des interventions
          */
-        interventionsTableView.getSelectionModel().setSelectionMode(
-                SelectionMode.MULTIPLE
-        );
-
+        interventionsTableView.getSelectionModel().setSelectionMode( SelectionMode.MULTIPLE );
         statusCol.setCellValueFactory(new PropertyValueFactory<Intervention, Status>("status"));
         titleCol.setCellValueFactory(new PropertyValueFactory<Intervention, String>("title"));
         clientCol.setCellValueFactory(new PropertyValueFactory<Intervention, Client>("client"));
@@ -176,7 +173,7 @@ class RestitutionsController implements Initializable {
 
                     // Si il a prénom
                     if (client.getName() != null) {
-                        clientString.append(client.getName() + " ");
+                        clientString.append(client.getName()).append(" ");
                     }
 
                     // Si il a nom
@@ -187,7 +184,7 @@ class RestitutionsController implements Initializable {
                     // Si il a une entreprise
                     if (client.getCompany() != null) {
                         if (client.getName() != null || client.getLastname() != null) {
-                            clientString.append(" - " + client.getCompany());
+                            clientString.append(" - ").append(client.getCompany());
                         } else {
                             clientString.append(client.getCompany());
                         }
@@ -197,17 +194,14 @@ class RestitutionsController implements Initializable {
             }
         });
 
-        // Mise à jour de la table des interventions a l'initialisation
-        updateInterventionsListView();
-
         /**
          * Action sur le clic du bouton "Valider"
          */
         keyWordBtn.setOnAction((ActionEvent event) -> {
-            
+
             var interventions = FXCollections.observableArrayList(getInterventions());
 
-            var filteredInterventions = interventions.stream().filter( intervention -> Objects.nonNull(intervention.getDescription())).filter(intervention -> intervention.getDescription().contains(keyWordInput.getText())).collect(Collectors.toList());
+            var filteredInterventions = interventions.stream().filter(intervention -> Objects.nonNull(intervention.getDescription())).filter(intervention -> intervention.getDescription().contains(keyWordInput.getText())).collect(Collectors.toList());
 
             var filteredInterventionsObs = FXCollections.observableArrayList(filteredInterventions);
 
@@ -225,6 +219,9 @@ class RestitutionsController implements Initializable {
                 nbrOfKmOfSelectedInterventions.setText(String.valueOf(somme));
             }
         });
+
+        // Mise à jour de la table des interventions a l'initialisation
+        updateInterventionsListView();
     }
 
     public void updateInterventionsListView() {
