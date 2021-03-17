@@ -46,8 +46,8 @@ public class InterventionsMemoryDataSource implements InterventionsDataSource {
         interventions.get(interventionIndex).setId(intervention.getId());
         interventions.get(interventionIndex).setTitle(intervention.getTitle());
         interventions.get(interventionIndex).setDescription(intervention.getDescription());
-        interventions.get(interventionIndex).setBillDate(intervention.getBillDate());
-        interventions.get(interventionIndex).setPaymentDate(intervention.getPaymentDate());
+        interventions.get(interventionIndex).setBillDate(intervention.getBillDateString());
+        interventions.get(interventionIndex).setPaymentDate(intervention.getPaymentDateString());
         interventions.get(interventionIndex).setStatus(intervention.getStatus());
     }
 

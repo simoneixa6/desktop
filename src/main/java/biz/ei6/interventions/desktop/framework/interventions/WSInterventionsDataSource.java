@@ -344,14 +344,14 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
             interventionDTO.setStatus(statusDTO);
         }
         
-        if (!"".equals(intervention.getBillDate())) {
-            interventionDTO.setBillDate(intervention.getBillDate());
+        if (!"".equals(intervention.getBillDateString())) {
+            interventionDTO.setBillDate(intervention.getBillDateString());
         } else {
             // interventionDTO.BillDate sera à null si aucune valeur choisi lors de la création
         }
 
-        if (!"".equals(intervention.getPaymentDate())) {
-            interventionDTO.setPaymentDate(intervention.getPaymentDate());
+        if (!"".equals(intervention.getPaymentDateString())) {
+            interventionDTO.setPaymentDate(intervention.getPaymentDateString());
         } else {
             // interventionDTO.PaymentDate sera à null si aucune valeur choisi lors de la création
         }

@@ -9,35 +9,47 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.function.BinaryOperator;
+import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.StringConverter;
 
 /**
- *
  * @author Eixa6
  */
 class RestitutionsController implements Initializable {
-
+    
     @FXML
     AnchorPane anchorPane;
-
+    
     @FXML
     ChoiceBox<Status> statusChoiceBox;
-
+    
+    @FXML
+    TextField nbrOfSelectedInterventions;
+    
+    @FXML
+    TextField nbrOfKmOfSelectedInterventions;
+    
     @FXML
     TableView<Intervention> interventionsTableView;
-
+    
     @FXML
     TableColumn<Intervention, Status> statusCol;
     @FXML
@@ -60,9 +72,9 @@ class RestitutionsController implements Initializable {
     TableColumn<Intervention, String> paymentTypeCol;
     @FXML
     TableColumn<Intervention, LocalDate> paymentDateCol;
-
+    
     Interactors interactors;
-
+    
     ResourceBundle resources;
 
     // Statuts de la combobox de filtrage
@@ -71,11 +83,11 @@ class RestitutionsController implements Initializable {
     Status status2;
     Status status3;
     Status status4;
-
+    
     void setInteractors(App.Interactors interactors) {
         this.interactors = interactors;
     }
-
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         this.resources = resources;
@@ -86,15 +98,16 @@ class RestitutionsController implements Initializable {
         this.status2 = new Status("2", resources.getString("status.terminee"));
         this.status3 = new Status("3", resources.getString("status.facturee"));
         this.status4 = new Status("4", resources.getString("status.reglee"));
-
+        
         statusChoiceBox.getItems().addAll(status0, status1, status2, status3, status4);
         statusChoiceBox.setValue(status0);
-
+        
         statusChoiceBox.setConverter(new StringConverter<Status>() {
             @Override
             public String toString(Status status) {
                 return status.getName();
             }
+            
             @Override
             public Status fromString(String string) {
                 throw new UnsupportedOperationException("Not supported.");
@@ -116,6 +129,10 @@ class RestitutionsController implements Initializable {
         /*
          * Mise en place de la table view des interventions
          */
+        interventionsTableView.getSelectionModel().setSelectionMode(
+                SelectionMode.MULTIPLE
+        );
+        
         statusCol.setCellValueFactory(new PropertyValueFactory<Intervention, Status>("status"));
         titleCol.setCellValueFactory(new PropertyValueFactory<Intervention, String>("title"));
         clientCol.setCellValueFactory(new PropertyValueFactory<Intervention, Client>("client"));
@@ -126,9 +143,11 @@ class RestitutionsController implements Initializable {
         billNumberCol.setCellValueFactory(new PropertyValueFactory<Intervention, String>("billNumber"));
         billDateCol.setCellValueFactory(new PropertyValueFactory<Intervention, LocalDate>("billDate"));
         paymentTypeCol.setCellValueFactory(new PropertyValueFactory<Intervention, String>("paymentType"));
-
         paymentDateCol.setCellValueFactory(new PropertyValueFactory<Intervention, LocalDate>("paymentDate"));
-
+        
+        billDateCol.setCellFactory(column -> new DateCell(column));
+        paymentDateCol.setCellFactory(column -> new DateCell(column));
+        
         statusCol.setCellFactory(column -> new TableCell<Intervention, Status>() {
             @Override
             protected void updateItem(Status status, boolean empty) {
@@ -140,7 +159,7 @@ class RestitutionsController implements Initializable {
                 }
             }
         });
-
+        
         clientCol.setCellFactory(column -> new TableCell<Intervention, Client>() {
             @Override
             protected void updateItem(Client client, boolean empty) {
@@ -173,23 +192,36 @@ class RestitutionsController implements Initializable {
             }
         });
 
-        //    paymentDateCol.setCellFactory(column -> new DateCell(column));
+        // Mise à jour de la table des interventions a l'initialisation
         updateInterventionsListView();
+        
+        interventionsTableView.getSelectionModel().selectedItemProperty().addListener((var obs, var oldSelection, var newSelection) -> {
+            if (newSelection != null) {
+                // Nombre d'interventions selectionné
+                nbrOfSelectedInterventions.setText(String.valueOf(interventionsTableView.getSelectionModel().getSelectedIndices().size()));
+                
+                
+                // Calcul de la somme des km pour les interventions selectionné
+                var interventions = interventionsTableView.getSelectionModel().getSelectedItems();
+                var somme = interventions.stream().map(intervention -> Double.parseDouble(intervention.getKm())).reduce(0.0, (Double arg0, Double arg1) -> arg0 + arg1);
+                nbrOfKmOfSelectedInterventions.setText(String.valueOf(somme));
+            }
+        });
     }
-
+    
     public void updateInterventionsListView() {
-
+        
         var interventions = FXCollections.observableArrayList(getInteventions());
 
         // Supprime les interventions possédant le statut selectionné dans la combobox de filtre, si l'id vaut 0 (valeur par défaut), on ne filtre pas
         if (!statusChoiceBox.getValue().getId().equals("0")) {
             interventions.removeIf(intervention -> !intervention.getStatus().getId().equals(statusChoiceBox.getValue().getId()));
         }
-
+        
         interventionsTableView.setItems(interventions);
-
+        
     }
-
+    
     public ArrayList<Intervention> getInteventions() {
         try {
             return interactors.getInterventions.invoke();

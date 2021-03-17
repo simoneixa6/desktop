@@ -262,7 +262,7 @@ public class Intervention {
     /**
      * @return the billDate
      */
-    public String getBillDate() {
+    public String getBillDateString() {
 
         String formattedBillDateTime;
 
@@ -275,6 +275,10 @@ public class Intervention {
         }
 
         return formattedBillDateTime;
+    }
+
+    public LocalDate getBillDate() {
+        return billDate.get();
     }
 
     public ObjectProperty<LocalDate> getBillDateProperty() {
@@ -321,7 +325,11 @@ public class Intervention {
         return paymentDate;
     }
 
-    public String getPaymentDate() {
+    public LocalDate getPaymentDate() {
+        return paymentDate.get();
+    }
+
+    public String getPaymentDateString() {
 
         String formattedPaymentDateTime;
 

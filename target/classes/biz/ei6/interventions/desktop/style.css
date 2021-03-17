@@ -151,6 +151,16 @@
     -fx-background-color: #9e0000       
 }
 
+#greyBtn {
+    -fx-background-color: mainGrey;  
+    -fx-text-fill: black;
+}
+
+#greyBtn:hover {
+    -fx-background-color: mainGreyHover;  
+}
+
+
 /*Styling of the scrollbar*/
 
 .scroll-bar:horizontal, .scroll-bar:vertical{
@@ -230,6 +240,10 @@
 
 .table-row-cell:filled:focused:selected {
     -fx-background-color: mainGrey;
+}
+
+.table-row-cell:filled:selected {
+    -fx-background-color: mainGreyHover;
 }
 
 .table-view:focused .table-row-cell:filled:focused:selected {

@@ -202,7 +202,7 @@ public final class InterventionsFormController implements Initializable, Desktop
 
         statusBox.setCellFactory(new StatusCellFactory());
 
-        paymenttypeBox.getItems().addAll(resources.getString("paiement.cheque"), resources.getString("paiement.cb"), resources.getString("paiement.espece"));
+        paymenttypeBox.getItems().addAll(resources.getString("paiement.cheque"), resources.getString("paiement.cb"), resources.getString("paiement.espece"), resources.getString("paiement.virement"));
 
         statusBox.setConverter(new StringConverter<Status>() {
             @Override
@@ -298,13 +298,19 @@ public final class InterventionsFormController implements Initializable, Desktop
             @Override
             public String toString(Site site) {
                 if (site != null) {
-                    
+
                     StringBuilder address = new StringBuilder();
-                    
-                    if(site.getAddress()!= null) address.append(site.getAddress());
-                    if(site.getZipCode()!= null) address.append(", " + site.getZipCode());
-                    if(site.getCity()!= null) address.append(" " + site.getCity());
-                    
+
+                    if (site.getAddress() != null) {
+                        address.append(site.getAddress());
+                    }
+                    if (site.getZipCode() != null) {
+                        address.append(", " + site.getZipCode());
+                    }
+                    if (site.getCity() != null) {
+                        address.append(" " + site.getCity());
+                    }
+
                     return address.toString();
                 } else {
                     return resources.getString("info.pas.d.adresses.client");

@@ -138,7 +138,17 @@ public final class ClientsFormController implements Initializable {
         this.resources = resources;
 
         // Remplissage des choiceboxs
-        companyStatusBox.getItems().addAll("SARL/EURL", "SAS/SASU", "SCI");
+        String statutEntreprise1 = resources.getString("entreprise.earl");
+        String statutEntreprise2 = resources.getString("entreprise.eirl");
+        String statutEntreprise3 = resources.getString("entreprise.eurl");
+        String statutEntreprise4 = resources.getString("entreprise.micro");
+        String statutEntreprise5 = resources.getString("entreprise.sa");
+        String statutEntreprise6 = resources.getString("entreprise.sarl");
+        String statutEntreprise7 = resources.getString("entreprise.sas");
+        String statutEntreprise8 = resources.getString("entreprise.sasu");
+
+        companyStatusBox.getItems().addAll(statutEntreprise1, statutEntreprise2, statutEntreprise3, statutEntreprise4, statutEntreprise5, statutEntreprise6, statutEntreprise7, statutEntreprise8);
+
         civilityBox.getItems().addAll(resources.getString("m."), resources.getString("mme."));
 
         //Binding à l'initialisation
