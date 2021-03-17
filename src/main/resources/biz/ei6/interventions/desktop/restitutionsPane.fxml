@@ -32,9 +32,9 @@
       <TextField id="textInput" fx:id="nbrOfSelectedInterventions" layoutX="514.0" layoutY="46.0" prefHeight="25.0" prefWidth="86.0" />
       <TextField id="textInput" fx:id="nbrOfKmOfSelectedInterventions" layoutX="620.0" layoutY="46.0" prefHeight="25.0" prefWidth="86.0" />
       <Label id="textinputlabel" layoutX="620.0" layoutY="22.0" text="%km" />
-      <TextField id="textInput" fx:id="nbrOfKmOfSelectedInterventions1" layoutX="211.0" layoutY="46.0" prefHeight="25.0" prefWidth="174.0" promptText="%rechercher.par.mot.cle" />
+      <TextField id="textInput" fx:id="keyWordInput" layoutX="211.0" layoutY="46.0" prefHeight="25.0" prefWidth="174.0" promptText="%rechercher.par.mot.cle" />
       <Label id="textinputlabel" layoutX="211.0" layoutY="22.0" text="%filtre.mot.cle" />
-      <Button id="greyBtn" layoutX="393.0" layoutY="46.0" mnemonicParsing="false" prefHeight="0.0" prefWidth="61.0" text="%valider" />
+      <Button id="greyBtn" fx:id="keyWordBtn" layoutX="393.0" layoutY="46.0" mnemonicParsing="false" prefHeight="0.0" prefWidth="61.0" text="%valider" />
       <Line endX="-100.0" endY="58.0" layoutX="587.0" layoutY="29.0" startX="-100.0" startY="-13.0" stroke="#c6c6c6" />
     </children>
 </fx:root>

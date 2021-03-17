@@ -202,7 +202,8 @@ public final class InterventionsFormController implements Initializable, Desktop
 
         statusBox.setCellFactory(new StatusCellFactory());
 
-        paymenttypeBox.getItems().addAll(resources.getString("paiement.cheque"), resources.getString("paiement.cb"), resources.getString("paiement.espece"), resources.getString("paiement.virement"));
+        paymenttypeBox.getItems().addAll(resources.getString("paiement.cheque"), resources.getString("paiement.cb"),
+        resources.getString("paiement.espece"), resources.getString("paiement.virement"));
 
         statusBox.setConverter(new StringConverter<Status>() {
             @Override
