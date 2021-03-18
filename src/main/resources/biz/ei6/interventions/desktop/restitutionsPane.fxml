@@ -29,8 +29,8 @@
       <ChoiceBox id="combobox" fx:id="statusChoiceBox" layoutX="40.0" layoutY="45.0" prefWidth="150.0" />
       <Label id="textinputlabel" layoutX="40.0" layoutY="22.0" text="%filtre.statut" />
       <Label id="textinputlabel" layoutX="514.0" layoutY="22.0" text="%intervention(s)" />
-      <TextField id="textInput" fx:id="nbrOfSelectedInterventions" layoutX="514.0" layoutY="46.0" prefHeight="25.0" prefWidth="86.0" />
-      <TextField id="textInput" fx:id="nbrOfKmOfSelectedInterventions" layoutX="620.0" layoutY="46.0" prefHeight="25.0" prefWidth="86.0" />
+      <TextField id="textInput" editable="false" fx:id="nbrOfSelectedInterventions" layoutX="514.0" layoutY="46.0" prefHeight="25.0" prefWidth="86.0" />
+      <TextField id="textInput" editable="false" fx:id="nbrOfKmOfSelectedInterventions" layoutX="620.0" layoutY="46.0" prefHeight="25.0" prefWidth="86.0" />
       <Label id="textinputlabel" layoutX="620.0" layoutY="22.0" text="%km" />
       <TextField id="textInput" fx:id="keyWordInput" layoutX="211.0" layoutY="46.0" prefHeight="25.0" prefWidth="174.0" promptText="%rechercher.par.mot.cle" />
       <Label id="textinputlabel" layoutX="211.0" layoutY="22.0" text="%filtre.mot.cle" />
