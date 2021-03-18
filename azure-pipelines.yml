@@ -10,18 +10,6 @@ pool:
   vmImage: vs2017-win2016
 
 steps:
-- task: Maven@3
-  inputs:
-    mavenPomFile: 'pom.xml'
-    mavenOptions: '-Xmx3072m  clean deploy'
-    javaHomeOption: 'JDKVersion'
-    jdkVersionOption: '1.11'
-    jdkArchitectureOption: 'x64'
-    publishJUnitResults: false
-    testResultsFiles: '**/surefire-reports/TEST-*.xml'
-    goals: 'package'
-- publish: $(System.DefaultWorkingDirectory)/target/interventions_desktop-1.0.7.jar
-  artifact: desktop.jar
 
 - task: Maven@3
   inputs:
