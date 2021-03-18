@@ -229,7 +229,7 @@
                               </Label>
                               <HBox alignment="CENTER_LEFT" prefHeight="12.0" prefWidth="89.0">
                                  <children>
-                                    <TextField id="textInput" fx:id="kmInput" minHeight="28.0" prefHeight="28.0" prefWidth="48.0">
+                                    <TextField id="textInput" editable="false" fx:id="kmInput" minHeight="28.0" prefHeight="28.0" prefWidth="48.0">
                                        <HBox.margin>
                                           <Insets right="3.0" />
                                        </HBox.margin>

@@ -12,6 +12,10 @@ import biz.ei6.interventions.desktop.lib.domain.Intervention;
 import biz.ei6.interventions.desktop.lib.domain.Period;
 import biz.ei6.interventions.desktop.lib.domain.Client;
 import biz.ei6.interventions.desktop.lib.domain.Status;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.time.Duration;
@@ -48,8 +52,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import javafx.util.StringConverter;
 
 /*
@@ -306,15 +312,15 @@ public final class InterventionsFormController implements Initializable, Desktop
                         address.append(site.getAddress());
                     }
                     if (site.getZipCode() != null) {
-                        address.append(", " + site.getZipCode());
+                        address.append(", ").append(site.getZipCode());
                     }
                     if (site.getCity() != null) {
-                        address.append(" " + site.getCity());
+                        address.append(" ").append(site.getCity());
                     }
 
                     return address.toString();
                 } else {
-                    return resources.getString("info.pas.d.adresses.client");
+                    return "";
                 }
             }
 
@@ -425,6 +431,25 @@ public final class InterventionsFormController implements Initializable, Desktop
             periods.remove(selectedPeriod);
         });
 
+        
+        addMediaBtn.setOnAction((ActionEvent actionEvent) -> {
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("Selectionnez un fichier à joindre à l'intervention");
+ 
+                File selectedFile = fileChooser.showOpenDialog(addMediaBtn.getScene().getWindow());
+                
+            try {
+                FileInputStream fileToUpload = new FileInputStream(selectedFile);
+                
+                fileToUpload.readAllBytes();
+                
+            } catch (Exception e) {
+               
+            } 
+                
+                
+        });
+        
         /*
          * Text formatter sur les champ des kms pour accepter que des entiers ou double
          */
