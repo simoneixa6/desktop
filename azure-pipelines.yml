@@ -20,5 +20,5 @@ steps:
     publishJUnitResults: false
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     goals: 'package'
-- publish: $(System.DefaultWorkingDirectory)/bin/desktop
+- publish: $(System.DefaultWorkingDirectory)/target\interventions_desktop-1.0.7.jar
   artifact: desktop.jar
