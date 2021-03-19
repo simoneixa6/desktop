@@ -1,5 +1,7 @@
 package biz.ei6.interventions.desktop;
 
+import biz.ei6.interventions.desktop.framework.medias.WSMediaFilesDataSource;
+import biz.ei6.interventions.desktop.framework.medias.WSMediasDataSource;
 import biz.ei6.interventions.desktop.lib.interactors.UpdateClient;
 import biz.ei6.interventions.desktop.framework.clients.WSClientsDataSource;
 import biz.ei6.interventions.desktop.framework.interventions.WSInterventionsDataSource;
@@ -7,13 +9,23 @@ import biz.ei6.interventions.desktop.lib.data.ClientsDataSource;
 import biz.ei6.interventions.desktop.lib.data.ClientsRepository;
 import biz.ei6.interventions.desktop.lib.data.InterventionsDataSource;
 import biz.ei6.interventions.desktop.lib.data.InterventionsRepository;
+import biz.ei6.interventions.desktop.lib.data.MediaFilesDataSource;
+import biz.ei6.interventions.desktop.lib.data.MediaFilesRepository;
+import biz.ei6.interventions.desktop.lib.data.MediasDataSource;
+import biz.ei6.interventions.desktop.lib.data.MediasRepository;
 import biz.ei6.interventions.desktop.lib.interactors.AddClient;
 import biz.ei6.interventions.desktop.lib.interactors.AddIntervention;
+import biz.ei6.interventions.desktop.lib.interactors.AddMedia;
+import biz.ei6.interventions.desktop.lib.interactors.AddMediaFile;
 import biz.ei6.interventions.desktop.lib.interactors.GetClient;
 import biz.ei6.interventions.desktop.lib.interactors.GetClients;
 import biz.ei6.interventions.desktop.lib.interactors.GetInterventions;
+import biz.ei6.interventions.desktop.lib.interactors.GetMedia;
+import biz.ei6.interventions.desktop.lib.interactors.GetMediaFile;
+import biz.ei6.interventions.desktop.lib.interactors.GetMedias;
 import biz.ei6.interventions.desktop.lib.interactors.RemoveClient;
 import biz.ei6.interventions.desktop.lib.interactors.RemoveIntervention;
+import biz.ei6.interventions.desktop.lib.interactors.RemoveMedia;
 import biz.ei6.interventions.desktop.lib.interactors.UpdateIntervention;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -51,6 +63,18 @@ public class App extends Application {
         public GetClients getClients = new GetClients(clientsRepository);
         public GetClient getClient = new GetClient(clientsRepository);
         public RemoveClient removeClient = new RemoveClient(clientsRepository);
+        
+        public MediasDataSource mediasDataSource = new WSMediasDataSource(resources, httpClient);
+        public MediasRepository mediasRepository = new MediasRepository(mediasDataSource);
+        public AddMedia addMedia = new AddMedia(mediasRepository);
+        public GetMedias getMedias = new GetMedias(mediasRepository);
+        public GetMedia getMedia = new GetMedia(mediasRepository);
+        public RemoveMedia removeMedia = new RemoveMedia(mediasRepository);
+        
+        public MediaFilesDataSource mediaFileDataSource = new WSMediaFilesDataSource(resources, httpClient);
+        public MediaFilesRepository mediaFilesRepository = new MediaFilesRepository(mediaFileDataSource);
+        public AddMediaFile addMediaFile = new AddMediaFile(mediaFilesRepository);
+        public GetMediaFile getMediaFile = new GetMediaFile(mediaFilesRepository);
     }
 
     private static Scene scene;

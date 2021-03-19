@@ -42,7 +42,7 @@ public class Intervention {
     private final StringProperty paymentType = new SimpleStringProperty();
     private final ObjectProperty<LocalDate> paymentDate = new SimpleObjectProperty();
     private final ObjectProperty<Status> status = new SimpleObjectProperty();
-    private final ListProperty<String> medias = new SimpleListProperty();
+    private final ListProperty<Media> medias = new SimpleListProperty();
     private final BooleanProperty deleted = new SimpleBooleanProperty();
 
     {
@@ -54,7 +54,7 @@ public class Intervention {
         this.setPeriods(periodlist);
 
         // Ajout du tableau de médias vide par défault
-        ArrayList<String> mediaslist = new ArrayList<>();
+        ArrayList<Media> mediaslist = new ArrayList<>();
         this.setMedias(mediaslist);
     }
 
@@ -380,18 +380,18 @@ public class Intervention {
     /**
      * @return the medias
      */
-    public ListProperty<String> getMediasProperty() {
+    public ListProperty<Media> getMediasProperty() {
         return medias;
     }
 
-    public List<String> getMedias() {
+    public List<Media> getMedias() {
         return medias.get();
     }
 
     /**
      * @param medias the medias to set
      */
-    public void setMedias(List<String> medias) {
+    public void setMedias(List<Media> medias) {
         if (medias != null) {
             this.medias.set(FXCollections.observableArrayList(medias));
         }

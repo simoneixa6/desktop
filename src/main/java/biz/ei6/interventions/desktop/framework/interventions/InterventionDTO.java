@@ -2,6 +2,7 @@ package biz.ei6.interventions.desktop.framework.interventions;
 
 import biz.ei6.interventions.desktop.framework.clients.ClientDTO;
 import biz.ei6.interventions.desktop.framework.clients.SiteDTO;
+import biz.ei6.interventions.desktop.framework.medias.MediaDTO;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class InterventionDTO {
     String paymentType;
     String paymentDate;
     StatusDTO status;
-    List<String> medias;
+    List<MediaDTO> medias;
     String deleted;
 
     public String getId() {
@@ -134,11 +135,11 @@ public class InterventionDTO {
         this.status = status;
     }
 
-    public List<String> getMedias() {
+    public List<MediaDTO> getMedias() {
         return medias;
     }
 
-    public void setMedias(List<String> medias) {
+    public void setMedias(List<MediaDTO> medias) {
         this.medias = medias;
     }
     

@@ -1,5 +1,6 @@
-package biz.ei6.interventions.desktop;
+package biz.ei6.interventions.desktop.restitutions;
 
+import biz.ei6.interventions.desktop.App;
 import biz.ei6.interventions.desktop.App.Interactors;
 import biz.ei6.interventions.desktop.framework.interventions.InterventionGetException;
 import biz.ei6.interventions.desktop.lib.domain.Client;

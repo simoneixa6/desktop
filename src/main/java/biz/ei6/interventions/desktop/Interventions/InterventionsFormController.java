@@ -7,11 +7,15 @@ import biz.ei6.interventions.desktop.clients.ClientsForm;
 import biz.ei6.interventions.desktop.framework.clients.ClientGetException;
 import biz.ei6.interventions.desktop.framework.interventions.InterventionPostException;
 import biz.ei6.interventions.desktop.framework.interventions.InterventionPutException;
+import biz.ei6.interventions.desktop.framework.medias.MediaPostException;
 import biz.ei6.interventions.desktop.lib.domain.Site;
 import biz.ei6.interventions.desktop.lib.domain.Intervention;
 import biz.ei6.interventions.desktop.lib.domain.Period;
 import biz.ei6.interventions.desktop.lib.domain.Client;
+import biz.ei6.interventions.desktop.lib.domain.Media;
+import biz.ei6.interventions.desktop.lib.domain.MediaFile;
 import biz.ei6.interventions.desktop.lib.domain.Status;
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -23,6 +27,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.Base64;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
@@ -55,7 +61,6 @@ import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 import javafx.util.StringConverter;
 
 /*
@@ -76,7 +81,7 @@ public final class InterventionsFormController implements Initializable, Desktop
     ChoiceBox userBox;
 
     @FXML
-    ListView<String> mediasListView;
+    ListView<Media> mediasListView;
 
     @FXML
     TextField kmInput;
@@ -209,7 +214,7 @@ public final class InterventionsFormController implements Initializable, Desktop
         statusBox.setCellFactory(new StatusCellFactory());
 
         paymenttypeBox.getItems().addAll(resources.getString("paiement.cheque"), resources.getString("paiement.cb"),
-        resources.getString("paiement.espece"), resources.getString("paiement.virement"));
+                resources.getString("paiement.espece"), resources.getString("paiement.virement"));
 
         statusBox.setConverter(new StringConverter<Status>() {
             @Override
@@ -431,25 +436,43 @@ public final class InterventionsFormController implements Initializable, Desktop
             periods.remove(selectedPeriod);
         });
 
-        
         addMediaBtn.setOnAction((ActionEvent actionEvent) -> {
-                FileChooser fileChooser = new FileChooser();
-                fileChooser.setTitle("Selectionnez un fichier à joindre à l'intervention");
- 
-                File selectedFile = fileChooser.showOpenDialog(addMediaBtn.getScene().getWindow());
-                
-            try {
-                FileInputStream fileToUpload = new FileInputStream(selectedFile);
-                
-                fileToUpload.readAllBytes();
-                
-            } catch (Exception e) {
-               
-            } 
-                
-                
+
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Selectionnez un fichier à joindre à l'intervention");
+
+            File selectedFile = fileChooser.showOpenDialog(addMediaBtn.getScene().getWindow());
+            int BUFFER_SIZE = 3 * 1024;
+
+            if (selectedFile != null) {
+                try ( FileInputStream input = new FileInputStream(selectedFile);  BufferedInputStream in = new BufferedInputStream(input, BUFFER_SIZE);) {
+
+                    Base64.Encoder encoder = Base64.getEncoder();
+                    StringBuilder result = new StringBuilder();
+                    byte[] chunk = new byte[BUFFER_SIZE];
+                    int len = 0;
+                    while ((len = in.read(chunk)) == BUFFER_SIZE) {
+                        result.append(encoder.encodeToString(chunk));
+                    }
+                    if (len > 0) {
+                        chunk = Arrays.copyOf(chunk, len);
+                        result.append(encoder.encodeToString(chunk));
+                    }
+
+                    // Création de l'objet média
+                    MediaFile mediaFile = new MediaFile(getEditedIntervention().getId(), selectedFile.getName(), result.toString());
+                    interactors.addMediaFile.invoke(mediaFile);
+
+                } catch (FileNotFoundException ex) {
+                    ex.printStackTrace();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                } catch (MediaPostException ex) {
+                    ex.printStackTrace();
+                }
+            }
         });
-        
+
         /*
          * Text formatter sur les champ des kms pour accepter que des entiers ou double
          */

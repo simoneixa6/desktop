@@ -1,5 +1,6 @@
-package biz.ei6.interventions.desktop;
+package biz.ei6.interventions.desktop.restitutions;
 
+import biz.ei6.interventions.desktop.restitutions.RestitutionsController;
 import biz.ei6.interventions.desktop.App.Interactors;
 import java.io.IOException;
 import java.util.ResourceBundle;

@@ -32,7 +32,7 @@ public class WSClientsDataSource implements ClientsDataSource {
     public Client add(Client client) throws ClientPostException {
 
         String serverResp = null;
-        Client addedClient = new Client();
+        Client addedClient = null;
 
         try {
             String json = jsonCreation(client);

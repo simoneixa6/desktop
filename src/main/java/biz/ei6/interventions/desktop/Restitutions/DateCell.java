@@ -1,4 +1,4 @@
-package biz.ei6.interventions.desktop;
+package biz.ei6.interventions.desktop.restitutions;
 
 import biz.ei6.interventions.desktop.lib.domain.Intervention;
 import biz.ei6.interventions.desktop.lib.domain.Period;

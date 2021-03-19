@@ -1,5 +1,6 @@
 package biz.ei6.interventions.desktop;
 
+import biz.ei6.interventions.desktop.restitutions.RestitutionsPane;
 import biz.ei6.interventions.desktop.clients.ClientsPane;
 import biz.ei6.interventions.desktop.interventions.InterventionsPane;
 import biz.ei6.interventions.desktop.App.Interactors;

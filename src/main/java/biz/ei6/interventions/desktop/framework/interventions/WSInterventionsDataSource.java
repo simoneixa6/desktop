@@ -2,9 +2,11 @@ package biz.ei6.interventions.desktop.framework.interventions;
 
 import biz.ei6.interventions.desktop.framework.clients.ClientDTO;
 import biz.ei6.interventions.desktop.framework.clients.SiteDTO;
+import biz.ei6.interventions.desktop.framework.medias.MediaDTO;
 import biz.ei6.interventions.desktop.lib.data.InterventionsDataSource;
 import biz.ei6.interventions.desktop.lib.domain.Client;
 import biz.ei6.interventions.desktop.lib.domain.Intervention;
+import biz.ei6.interventions.desktop.lib.domain.Media;
 import biz.ei6.interventions.desktop.lib.domain.Period;
 import biz.ei6.interventions.desktop.lib.domain.Site;
 import biz.ei6.interventions.desktop.lib.domain.Status;
@@ -20,7 +22,6 @@ import static java.lang.Boolean.parseBoolean;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutionException;
-
 
 /*
  * @author Eixa6
@@ -285,8 +286,6 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
 
     }
 
-    
-    
     private void setInterventionDTO(InterventionDTO interventionDTO, Intervention intervention) {
         interventionDTO.setId(intervention.getId());
         interventionDTO.setTitle(intervention.getTitle());
@@ -294,7 +293,6 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
         interventionDTO.setDescription(intervention.getDescription());
         interventionDTO.setBillNumber(intervention.getBillNumber());
         interventionDTO.setPaymentType(intervention.getPaymentType());
-        interventionDTO.setMedias(intervention.getMedias());
         interventionDTO.setDeleted(String.valueOf(intervention.getDeleted()));
 
         if (intervention.getClient() != null) {
@@ -320,13 +318,24 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
             interventionDTO.setPeriods(periodsDTO);
         }
 
+        if (intervention.getMedias() != null) {
+            List<MediaDTO> mediasDTO = new ArrayList<>();
+
+            for (Media media : intervention.getMedias()) {
+                MediaDTO mediaDTO = new MediaDTO();
+                setMediaDTO(mediaDTO, media);
+                mediasDTO.add(mediaDTO);
+            }
+            interventionDTO.setMedias(mediasDTO);
+        }
+
         if (intervention.getKm() != null && !"".equals(intervention.getKm())) {
             interventionDTO.setKm(Double.parseDouble(intervention.getKm()) + "");
         } else {
             // interventionDTO.Km sera à null si aucune valeur choisi lors de la création
         }
 
-        if (intervention.getGoKm() != null && !"".equals(intervention.getGoKm()) ) {
+        if (intervention.getGoKm() != null && !"".equals(intervention.getGoKm())) {
             interventionDTO.setGoKm(Double.parseDouble(intervention.getGoKm()) + "");
         } else {
             // interventionDTO.Km sera à null si aucune valeur choisi lors de la création
@@ -343,7 +352,7 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
             setStatusDTO(statusDTO, intervention.getStatus());
             interventionDTO.setStatus(statusDTO);
         }
-        
+
         if (!"".equals(intervention.getBillDateString())) {
             interventionDTO.setBillDate(intervention.getBillDateString());
         } else {
@@ -364,7 +373,6 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
         intervention.setDescription(interventionDTO.getDescription());
         intervention.setBillNumber(interventionDTO.getBillNumber());
         intervention.setPaymentType(interventionDTO.getPaymentType());
-        intervention.setMedias(interventionDTO.getMedias());
         intervention.setDeleted(parseBoolean(interventionDTO.getDeleted()));
 
         if (interventionDTO.getClient() != null) {
@@ -374,28 +382,40 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
         }
 
         if (interventionDTO.getStatus() != null) {
-            Status status = new Status("","");
+            Status status = new Status("", "");
             setStatus(status, interventionDTO.getStatus());
             intervention.setStatus(status);
         }
-        
+
         if (interventionDTO.getAddress() != null) {
             Site site = new Site();
             setSite(site, interventionDTO.getAddress());
             intervention.setAddress(site);
         }
 
-        List<Period> periods = new ArrayList<>();
-
         if (interventionDTO.getPeriods() != null) {
+            List<Period> periods = new ArrayList<>();
+
             for (PeriodDTO periodDTO : interventionDTO.getPeriods()) {
                 Period period = new Period();
                 setPeriod(period, periodDTO);
                 periods.add(period);
             }
+
+            intervention.setPeriods(periods);
         }
-        
-        intervention.setPeriods(periods);
+
+        if (interventionDTO.getMedias() != null) {
+            List<Media> medias = new ArrayList<>();
+
+            for (MediaDTO mediaDTO : interventionDTO.getMedias()) {
+                Media media = new Media();
+                setMedia(media, mediaDTO);
+                medias.add(media);
+            }
+            
+            intervention.setMedias(medias);
+        }
 
         if ("0".equals(interventionDTO.getKm())) {
             // Le serveur renvoie 0 si aucune valeur n'a été rentré lors de la création d'une intervention
@@ -432,9 +452,23 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
         statusDTO.setId(status.getId());
         statusDTO.setName(status.getName());
     }
-    
+
     private void setStatus(Status status, StatusDTO statusDTO) {
         status.setId(statusDTO.getId());
         status.setName(statusDTO.getName());
+    }
+
+    private void setMediaDTO(MediaDTO mediaDTO, Media media) {
+        mediaDTO.setId(media.getId());
+        mediaDTO.setDate(media.getDateString());
+        mediaDTO.setFileName(media.getFileName());
+        mediaDTO.setInterventionId(media.getInterventionId());
+    }
+
+    private void setMedia(Media media, MediaDTO mediaDTO) {
+        media.setId(mediaDTO.getId());
+        media.setDate(mediaDTO.getDate());
+        media.setFileName(mediaDTO.getFileName());
+        media.setInterventionId(mediaDTO.getInterventionId());
     }
 }
