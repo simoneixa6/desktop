@@ -21,12 +21,7 @@ public class MediaFilesRepository {
        return mediaFilesDataSource.add(mediaFile);
     }
 
-    public MediaFile getMediaFile(String mediaFile_url) throws MediaGetException {
-        return mediaFilesDataSource.readOne(mediaFile_url);
+    public MediaFile getMediaFile(String media_id) throws MediaGetException {
+        return mediaFilesDataSource.readOne(media_id);
     }
-    
-    public void removeMediaFile(String mediaFile_url) throws MediaPutException {
-        mediaFilesDataSource.remove(mediaFile_url);
-    }
-
 }

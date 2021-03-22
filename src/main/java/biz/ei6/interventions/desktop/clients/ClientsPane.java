@@ -28,11 +28,7 @@ public class ClientsPane extends SplitPane {
         try {
             fxmlLoader.load();
         } catch (IOException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle(resources.getString("exception.erreur"));
-            alert.setHeaderText(resources.getString("exception.erreurChargementClientsPane"));
-            alert.setContentText(e.toString());
-            alert.show();
+            e.printStackTrace();
         }
     }
 }

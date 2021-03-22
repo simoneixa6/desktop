@@ -15,10 +15,10 @@ import biz.ei6.interventions.desktop.lib.data.MediasDataSource;
 import biz.ei6.interventions.desktop.lib.data.MediasRepository;
 import biz.ei6.interventions.desktop.lib.interactors.AddClient;
 import biz.ei6.interventions.desktop.lib.interactors.AddIntervention;
-import biz.ei6.interventions.desktop.lib.interactors.AddMedia;
 import biz.ei6.interventions.desktop.lib.interactors.AddMediaFile;
 import biz.ei6.interventions.desktop.lib.interactors.GetClient;
 import biz.ei6.interventions.desktop.lib.interactors.GetClients;
+import biz.ei6.interventions.desktop.lib.interactors.GetInterventionMedias;
 import biz.ei6.interventions.desktop.lib.interactors.GetInterventions;
 import biz.ei6.interventions.desktop.lib.interactors.GetMedia;
 import biz.ei6.interventions.desktop.lib.interactors.GetMediaFile;
@@ -66,10 +66,11 @@ public class App extends Application {
         
         public MediasDataSource mediasDataSource = new WSMediasDataSource(resources, httpClient);
         public MediasRepository mediasRepository = new MediasRepository(mediasDataSource);
-        public AddMedia addMedia = new AddMedia(mediasRepository);
         public GetMedias getMedias = new GetMedias(mediasRepository);
+        public GetInterventionMedias getInterventionMedias = new GetInterventionMedias(mediasRepository);
         public GetMedia getMedia = new GetMedia(mediasRepository);
         public RemoveMedia removeMedia = new RemoveMedia(mediasRepository);
+        
         
         public MediaFilesDataSource mediaFileDataSource = new WSMediaFilesDataSource(resources, httpClient);
         public MediaFilesRepository mediaFilesRepository = new MediaFilesRepository(mediaFileDataSource);

@@ -1,6 +1,5 @@
 package biz.ei6.interventions.desktop.lib.domain;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import javafx.beans.property.BooleanProperty;
@@ -19,6 +18,7 @@ public class Media {
     private final StringProperty id = new SimpleStringProperty();
     private final StringProperty intervention_id = new SimpleStringProperty();
     private final ObjectProperty<LocalDateTime> date = new SimpleObjectProperty();
+    private final StringProperty url = new SimpleStringProperty();
     private final StringProperty fileName = new SimpleStringProperty();
     private final BooleanProperty deleted = new SimpleBooleanProperty();
 
@@ -59,9 +59,8 @@ public class Media {
         String dateString;
 
         if (date.getValue() != null) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
             LocalDateTime dateTime = date.get();
-            dateString = dateTime.format(formatter);
+            dateString = dateTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
         } else {
             dateString = "";
         }
@@ -70,14 +69,25 @@ public class Media {
     }
 
     public void setDate(String date) {
-        if (date != null) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
-            LocalDateTime parsedDate = LocalDateTime.parse(date, formatter);
+        if (date != null) {       
+            LocalDateTime parsedDate = LocalDateTime.parse(date, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
 
             this.date.set(parsedDate);
         } else {
             this.date.set(null);
         }
+    }
+
+    public StringProperty getUrlProperty() {
+        return url;
+    }
+
+    public String getUrl() {
+        return url.get();
+    }
+
+    public void setUrl(String url) {
+        this.url.set(url);
     }
 
     public StringProperty getFileNameProperty() {
@@ -91,4 +101,17 @@ public class Media {
     public void setFileName(String fileName) {
         this.fileName.set(fileName);
     }
+
+    public BooleanProperty getDeletedProperty() {
+        return deleted;
+    }
+
+    public Boolean getDeleted() {
+        return deleted.get();
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted.set(deleted);
+    }
+
 }

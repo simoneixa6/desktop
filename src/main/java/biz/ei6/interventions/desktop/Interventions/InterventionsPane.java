@@ -34,11 +34,7 @@ public class InterventionsPane extends SplitPane {
         try {
             fxmlLoader.load();
         } catch (IOException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle(resources.getString("exception.erreur"));
-            alert.setHeaderText(resources.getString("exception.erreurChargementInterventionsPane"));
-            alert.setContentText(e.toString());
-            alert.show();
+            e.printStackTrace();
         }
     }
 }

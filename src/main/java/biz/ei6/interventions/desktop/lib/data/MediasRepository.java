@@ -17,12 +17,12 @@ public class MediasRepository {
         this.mediasDataSource = mediasDataSource;
     }
 
-    public Media addMedia(Media media) throws MediaPostException {
-       return mediasDataSource.add(media);
-    }
-
     public ArrayList<Media> getMedias() throws MediaGetException {
         return mediasDataSource.readAll();
+    }
+
+    public ArrayList<Media> getInterventionMedias(String intervention_id) throws MediaGetException {
+        return mediasDataSource.readAllForIntervention(intervention_id);
     }
 
     public Media getMedia(String media_id) throws MediaGetException {

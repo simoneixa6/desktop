@@ -9,12 +9,6 @@ public class MediaFile {
     public String fileName;
     public String fileData;
 
-    public MediaFile(String intervention_id, String fileName, String fileData) {
-        this.intervention_id = intervention_id;
-        this.fileName = fileName;
-        this.fileData = fileData;
-    }
-
     public String getIntervention_id() {
         return intervention_id;
     }

@@ -23,11 +23,11 @@ public class MediaDTO {
         this.id = id;
     }
 
-    public String getInterventionId() {
+    public String getIntervention_id() {
         return intervention_id;
     }
 
-    public void setInterventionId(String interventionId) {
+    public void setIntervention_id(String intervention_id) {
         this.intervention_id = intervention_id;
     }
 

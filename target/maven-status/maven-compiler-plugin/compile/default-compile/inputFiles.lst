@@ -26,6 +26,7 @@ C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\framework\medias\MediaPutException.java
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\framework\clients\SiteDTO.java
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\interventions\TimeEditableCell.java
+C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\interventions\MediaCellFactory.java
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\framework\interventions\PeriodDTO.java
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\interventions\SortBoxCellFactory.java
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\framework\clients\ClientPutException.java
@@ -33,6 +34,7 @@ C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\lib\data\MediaFilesDataSource.java
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\lib\data\InterventionsDataSource.java
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\clients\ClientsPane.java
+C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\lib\interactors\GetInterventionMedias.java
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\lib\interactors\GetMedias.java
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\lib\data\InterventionsRepository.java
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\lib\data\ClientsRepository.java
@@ -60,7 +62,6 @@ C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\framework\interventions\StatusDTO.java
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\lib\interactors\GetMediaFile.java
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\lib\domain\Status.java
-C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\lib\interactors\AddMedia.java
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\interventions\InterventionsPane.java
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\interventions\InterventionsForm.java
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\lib\interactors\RemoveIntervention.java

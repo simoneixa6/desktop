@@ -7,7 +7,8 @@ import biz.ei6.interventions.desktop.clients.ClientsForm;
 import biz.ei6.interventions.desktop.framework.clients.ClientGetException;
 import biz.ei6.interventions.desktop.framework.interventions.InterventionPostException;
 import biz.ei6.interventions.desktop.framework.interventions.InterventionPutException;
-import biz.ei6.interventions.desktop.framework.medias.MediaPostException;
+import biz.ei6.interventions.desktop.framework.medias.MediaGetException;
+import biz.ei6.interventions.desktop.framework.medias.MediaPutException;
 import biz.ei6.interventions.desktop.lib.domain.Site;
 import biz.ei6.interventions.desktop.lib.domain.Intervention;
 import biz.ei6.interventions.desktop.lib.domain.Period;
@@ -18,15 +19,16 @@ import biz.ei6.interventions.desktop.lib.domain.Status;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.ResourceBundle;
@@ -39,6 +41,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
@@ -58,6 +61,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -370,6 +374,7 @@ public final class InterventionsFormController implements Initializable, Desktop
             getEditedIntervention().setUser_id("Slad");
 
         } else {
+            updateMediasListView();
             registerBtn.setText(resources.getString("modifier"));
             deleteBtn.setDisable(false);
         }
@@ -436,12 +441,51 @@ public final class InterventionsFormController implements Initializable, Desktop
             periods.remove(selectedPeriod);
         });
 
+        // Mise en place de la cell factory des médias
+        mediasListView.setCellFactory(new MediaCellFactory());
+
+        mediasListView.setOnMouseClicked((MouseEvent click) -> {
+            if (click.getClickCount() == 2) {
+                
+                MediaFile mediaFile = null;
+                
+                try {
+                    mediaFile = interactors.getMediaFile.invoke(mediasListView.getSelectionModel().getSelectedItem().getId());
+                } catch (MediaGetException e) {
+                    showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.recuperationMedia", e.toString());
+                }
+                
+                if (mediaFile != null) {
+                    FileChooser fileChooser = new FileChooser();
+                    fileChooser.setInitialFileName(mediaFile.fileName);
+                    FileChooser.ExtensionFilter textFilter = new FileChooser.ExtensionFilter("Fichier texte (*.txt)", "*.txt");
+                    FileChooser.ExtensionFilter pdfFilter = new FileChooser.ExtensionFilter("Fichier PDF (*.pdf)", "*.pdf");
+                    FileChooser.ExtensionFilter imageFilter = new FileChooser.ExtensionFilter("Image", "*.png", "*.jpeg", "*.jpg");
+                    fileChooser.getExtensionFilters().add(textFilter);
+                    fileChooser.getExtensionFilters().add(pdfFilter);
+                    fileChooser.getExtensionFilters().add(imageFilter);
+                    
+                    File filePath = fileChooser.showSaveDialog(mediasListView.getScene().getWindow());
+                    
+                    if (filePath != null) {
+                        byte[] data = Base64.getDecoder().decode(mediaFile.fileData);
+                        try ( OutputStream stream = new FileOutputStream(filePath)) {
+                            stream.write(data);
+                        } catch (Exception e) {
+                            showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.creationFichier", e.toString());
+                        }
+                    }
+                }
+            }
+        });
+
         addMediaBtn.setOnAction((ActionEvent actionEvent) -> {
 
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Selectionnez un fichier à joindre à l'intervention");
 
             File selectedFile = fileChooser.showOpenDialog(addMediaBtn.getScene().getWindow());
+
             int BUFFER_SIZE = 3 * 1024;
 
             if (selectedFile != null) {
@@ -460,16 +504,27 @@ public final class InterventionsFormController implements Initializable, Desktop
                     }
 
                     // Création de l'objet média
-                    MediaFile mediaFile = new MediaFile(getEditedIntervention().getId(), selectedFile.getName(), result.toString());
+                    MediaFile mediaFile = new MediaFile();
+                    mediaFile.setIntervention_id(getEditedIntervention().getId());
+                    mediaFile.setFileName(selectedFile.getName());
+                    mediaFile.setFileData(result.toString());
+
                     interactors.addMediaFile.invoke(mediaFile);
 
-                } catch (FileNotFoundException ex) {
-                    ex.printStackTrace();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                } catch (MediaPostException ex) {
-                    ex.printStackTrace();
+                    updateMediasListView();
+
+                } catch (Exception e) {
+                    showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.ajoutMedia", e.toString());
                 }
+            }
+        });
+
+        deleteMediaBtn.setOnAction((ActionEvent actionEvent) -> {
+            try {
+                interactors.removeMedia.invoke(mediasListView.getSelectionModel().getSelectedItem());
+                updateMediasListView();
+            } catch (MediaPutException e) {
+                showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.suppressionMedia", e.toString());
             }
         });
 
@@ -742,4 +797,24 @@ public final class InterventionsFormController implements Initializable, Desktop
             clientBox.setValue(null);
         }
     }
+
+    private void updateMediasListView() {
+        var medias = FXCollections.observableArrayList(getMedias());
+        getEditedIntervention().setMedias(medias);
+    }
+
+    public ArrayList<Media> getMedias() {
+        try {
+            return interactors.getInterventionMedias.invoke(getEditedIntervention().getId());
+        } catch (MediaGetException e) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("erreur");
+            alert.setHeaderText("erreur recup medias");
+            alert.setContentText(e.toString());
+            alert.showAndWait();
+        }
+        // Si erreur lors de la récupération, on renvoie une liste d'interventions vide
+        return new ArrayList<>();
+    }
+
 }

@@ -3,6 +3,7 @@ package biz.ei6.interventions.desktop.framework.medias;
 import biz.ei6.interventions.desktop.lib.data.MediaFilesDataSource;
 import biz.ei6.interventions.desktop.lib.domain.Media;
 import biz.ei6.interventions.desktop.lib.domain.MediaFile;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.net.URI;
@@ -10,6 +11,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ResourceBundle;
+import java.util.concurrent.ExecutionException;
 
 /*
  * @author Eixa6
@@ -27,9 +29,10 @@ public class WSMediaFilesDataSource implements MediaFilesDataSource {
     @Override
     public Media add(MediaFile mediaFile) throws MediaPostException {
 
+        String serverResp = null;
         ObjectMapper om = new ObjectMapper();
-        Media addedMedia = null;
-        
+        Media addedMedia = new Media();
+
         try {
             var json = om.writeValueAsString(mediaFile);
 
@@ -53,26 +56,69 @@ public class WSMediaFilesDataSource implements MediaFilesDataSource {
             setMedia(addedMedia, mediaDTO);
 
         } catch (Exception e) {
-            throw new MediaPostException("Erreur lors de l'upload du fichier", e);
+            StringBuilder exception = new StringBuilder();
+            exceptionBuilder(serverResp, exception, e);
+            throw new MediaPostException(exception.toString(), e);
         }
 
         return addedMedia;
     }
 
     @Override
-    public MediaFile readOne(String mediaFile_url) throws MediaGetException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    public MediaFile readOne(String media_id) throws MediaGetException {
 
-    @Override
-    public void remove(String mediaFile_url) throws MediaPutException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String serverResp = null;
+        MediaFile mediaFile = null;
+
+        try {
+            // Création de la requête
+            var request = HttpRequest.newBuilder(
+                    URI.create("http://localhost:60396/medias/" + media_id + "/file"))
+                    .header("Accept", "application/json")
+                    .GET()
+                    .build();
+
+            var response = httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString());
+
+            var resp = response.get();
+
+            var res = resp.body();
+
+            serverResp = resp.toString();
+
+            ObjectMapper om = new ObjectMapper();
+            om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+            mediaFile = om.readValue(res, MediaFile.class);
+
+        } catch (JsonProcessingException | InterruptedException | ExecutionException e) {
+            StringBuilder exception = new StringBuilder();
+            exceptionBuilder(serverResp, exception, e);
+            throw new MediaGetException(exception.toString(), e);
+        }
+
+        return mediaFile;
     }
 
     private void setMedia(Media addedMedia, MediaDTO mediaDTO) {
         addedMedia.setId(mediaDTO.getId());
         addedMedia.setDate(mediaDTO.getDate());
         addedMedia.setFileName(mediaDTO.getFileName());
-        addedMedia.setInterventionId(mediaDTO.getInterventionId());
+        addedMedia.setInterventionId(mediaDTO.getIntervention_id());
+    }
+
+    private void setMediaFile(Media addedMedia, MediaDTO mediaDTO) {
+        addedMedia.setId(mediaDTO.getId());
+        addedMedia.setDate(mediaDTO.getDate());
+        addedMedia.setFileName(mediaDTO.getFileName());
+        addedMedia.setInterventionId(mediaDTO.getIntervention_id());
+    }
+
+    private void exceptionBuilder(String serverResp, StringBuilder exception, Exception e) {
+        if (serverResp != null) {
+            exception.append(resources.getString("exception.reponseServeur")).append(serverResp);
+        }
+        exception.append(resources.getString("exception.exception"));
+        exception.append(e);
     }
 }

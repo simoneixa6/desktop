@@ -58,8 +58,10 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
 
             serverResp = resp.toString();
 
-        } catch (JsonProcessingException | InterruptedException | ExecutionException e) {
-            throw new InterventionPostException(resources.getString("exception.reponseServeur") + serverResp + resources.getString("exception.exception") + e, e);
+        } catch (Exception e) {
+            StringBuilder exception = new StringBuilder();
+            exceptionBuilder(serverResp, exception, e);
+            throw new InterventionPostException(exception.toString(), e);
         }
     }
 
@@ -103,7 +105,9 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
                 }
             }
         } catch (JsonProcessingException | InterruptedException | ExecutionException e) {
-            throw new InterventionGetException(resources.getString("exception.reponseServeur") + serverResp + resources.getString("exception.exception") + e, e);
+            StringBuilder exception = new StringBuilder();
+            exceptionBuilder(serverResp, exception, e);
+            throw new InterventionGetException(exception.toString(), e);
         }
         return interventions;
     }
@@ -131,7 +135,9 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
             serverResp = resp.toString();
 
         } catch (JsonProcessingException | InterruptedException | ExecutionException e) {
-            throw new InterventionPutException(resources.getString("exception.reponseServeur") + serverResp + resources.getString("exception.exception") + e, e);
+            StringBuilder exception = new StringBuilder();
+            exceptionBuilder(serverResp, exception, e);
+            throw new InterventionPutException(exception.toString(), e);
         }
     }
 
@@ -160,7 +166,9 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
             serverResp = resp.toString();
 
         } catch (JsonProcessingException | InterruptedException | ExecutionException e) {
-            throw new InterventionPutException(resources.getString("exception.reponseServeur") + serverResp + resources.getString("exception.exception") + e, e);
+            StringBuilder exception = new StringBuilder();
+            exceptionBuilder(serverResp, exception, e);
+            throw new InterventionPutException(exception.toString(), e);
         }
     }
 
@@ -413,7 +421,7 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
                 setMedia(media, mediaDTO);
                 medias.add(media);
             }
-            
+
             intervention.setMedias(medias);
         }
 
@@ -462,13 +470,22 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
         mediaDTO.setId(media.getId());
         mediaDTO.setDate(media.getDateString());
         mediaDTO.setFileName(media.getFileName());
-        mediaDTO.setInterventionId(media.getInterventionId());
+        mediaDTO.setIntervention_id(media.getInterventionId());
     }
 
     private void setMedia(Media media, MediaDTO mediaDTO) {
         media.setId(mediaDTO.getId());
         media.setDate(mediaDTO.getDate());
         media.setFileName(mediaDTO.getFileName());
-        media.setInterventionId(mediaDTO.getInterventionId());
+        media.setInterventionId(mediaDTO.getIntervention_id());
     }
+
+    private void exceptionBuilder(String serverResp, StringBuilder exception, Exception e) {
+        if (serverResp != null) {
+            exception.append(resources.getString("exception.reponseServeur")).append(serverResp);
+        }
+        exception.append(resources.getString("exception.exception"));
+        exception.append(e);
+    }
+
 }

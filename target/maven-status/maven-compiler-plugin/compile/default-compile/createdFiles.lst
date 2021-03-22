@@ -1,6 +1,7 @@
 biz\ei6\interventions\desktop\clients\ClientsController.class
 biz\ei6\interventions\desktop\framework\interventions\PeriodDTO.class
 biz\ei6\interventions\desktop\clients\ClientCellFactory.class
+biz\ei6\interventions\desktop\interventions\MediaCellFactory$MediaCell.class
 biz\ei6\interventions\desktop\lib\domain\MediaFile.class
 biz\ei6\interventions\desktop\framework\medias\MediaPostException.class
 biz\ei6\interventions\desktop\MainController.class
@@ -11,7 +12,6 @@ biz\ei6\interventions\desktop\framework\interventions\WSInterventionsDataSource.
 biz\ei6\interventions\desktop\clients\SortClient.class
 biz\ei6\interventions\desktop\lib\interactors\UpdateClient.class
 biz\ei6\interventions\desktop\interventions\SortBoxCellFactory$SortBoxCell.class
-biz\ei6\interventions\desktop\lib\interactors\AddMedia.class
 biz\ei6\interventions\desktop\clients\StringEditableCell.class
 biz\ei6\interventions\desktop\framework\interventions\InterventionPutException.class
 biz\ei6\interventions\desktop\interventions\SortBoxCellFactory.class
@@ -46,10 +46,12 @@ biz\ei6\interventions\desktop\interventions\InterventionCellFactory$Intervention
 biz\ei6\interventions\desktop\lib\interactors\GetClients.class
 biz\ei6\interventions\desktop\interventions\InterventionsController$2.class
 biz\ei6\interventions\desktop\restitutions\RestitutionsController$1.class
+biz\ei6\interventions\desktop\interventions\InterventionsFormController$5.class
 biz\ei6\interventions\desktop\lib\data\ClientsRepository.class
 biz\ei6\interventions\desktop\lib\domain\Intervention.class
 biz\ei6\interventions\desktop\lib\data\MediaFilesRepository.class
 biz\ei6\interventions\desktop\interventions\TimeEditableCell.class
+biz\ei6\interventions\desktop\interventions\MediaCellFactory.class
 biz\ei6\interventions\desktop\framework\interventions\InterventionsMemoryDataSource.class
 biz\ei6\interventions\desktop\interventions\StatusCellFactory.class
 biz\ei6\interventions\desktop\framework\medias\WSMediaFilesDataSource.class
@@ -76,6 +78,7 @@ biz\ei6\interventions\desktop\interventions\InterventionsPane.class
 biz\ei6\interventions\desktop\interventions\InterventionsForm.class
 biz\ei6\interventions\desktop\lib\interactors\GetMedia.class
 biz\ei6\interventions\desktop\clients\ClientsPane.class
+biz\ei6\interventions\desktop\lib\interactors\GetInterventionMedias.class
 biz\ei6\interventions\desktop\interventions\SiteCellFactory.class
 biz\ei6\interventions\desktop\interventions\InterventionsFormController$1.class
 biz\ei6\interventions\desktop\framework\clients\ClientPutException.class

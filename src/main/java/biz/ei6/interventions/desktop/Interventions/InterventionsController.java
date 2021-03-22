@@ -184,7 +184,7 @@ public class InterventionsController implements Initializable, DesktopListener {
      * Méthode de mise à jour de la listview
      */
     public void updateInterventionsListView() {
-        var interventions = FXCollections.observableArrayList(getInteventions());
+        var interventions = FXCollections.observableArrayList(getInterventions());
 
         // Supprime les interventions possédant le statut selectionné dans la combobox de tri, si l'id vaut 0 (valeur par défaut), on ne filtre pas
         if (!sortBox.getValue().getId().equals("0")) {
@@ -194,7 +194,7 @@ public class InterventionsController implements Initializable, DesktopListener {
         interventionsListView.setItems(interventions);
     }
 
-    public ArrayList<Intervention> getInteventions() {
+    public ArrayList<Intervention> getInterventions() {
         try {
             return interactors.getInterventions.invoke();
         } catch (InterventionGetException e) {

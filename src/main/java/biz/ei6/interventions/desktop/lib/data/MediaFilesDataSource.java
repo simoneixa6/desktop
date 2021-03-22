@@ -12,6 +12,5 @@ import biz.ei6.interventions.desktop.lib.domain.MediaFile;
  */
 public interface MediaFilesDataSource {
     Media add(MediaFile mediaFile) throws MediaPostException;  
-    MediaFile readOne( String mediaFile_url ) throws MediaGetException;
-    void remove( String mediaFile_url ) throws MediaPutException; 
+    MediaFile readOne( String media_id ) throws MediaGetException;
 }

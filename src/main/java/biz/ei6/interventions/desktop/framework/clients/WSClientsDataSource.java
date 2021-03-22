@@ -60,7 +60,9 @@ public class WSClientsDataSource implements ClientsDataSource {
             setClient(addedClient, clientDTO);
 
         } catch (JsonProcessingException | InterruptedException | ExecutionException e) {
-            throw new ClientPostException(resources.getString("exception.reponseServeur") + serverResp + resources.getString("exception.exception") + e, e);
+            StringBuilder exception = new StringBuilder();
+            exceptionBuilder(serverResp, exception, e);
+            throw new ClientPostException(exception.toString(), e);
         }
 
         return addedClient;
@@ -106,7 +108,10 @@ public class WSClientsDataSource implements ClientsDataSource {
                 }
             }
         } catch (JsonProcessingException | InterruptedException | ExecutionException e) {
-            throw new ClientGetException(resources.getString("exception.reponseServeur") + serverResp + resources.getString("exception.exception") + e, e);
+
+            StringBuilder exception = new StringBuilder();
+            exceptionBuilder(serverResp, exception, e);
+            throw new ClientGetException(exception.toString(), e);
         }
         return clients;
     }
@@ -138,7 +143,9 @@ public class WSClientsDataSource implements ClientsDataSource {
             setClient(client, clientDTO);
 
         } catch (JsonProcessingException | InterruptedException | ExecutionException e) {
-            throw new ClientGetException(resources.getString("exception.reponseServeur") + serverResp + resources.getString("exception.exception") + e, e);
+            StringBuilder exception = new StringBuilder();
+            exceptionBuilder(serverResp, exception, e);
+            throw new ClientGetException(exception.toString(), e);
         }
         return client;
     }
@@ -166,7 +173,9 @@ public class WSClientsDataSource implements ClientsDataSource {
             serverResp = resp.toString();
 
         } catch (JsonProcessingException | InterruptedException | ExecutionException e) {
-            throw new ClientPutException(resources.getString("exception.reponseServeur") + serverResp + resources.getString("exception.exception") + e, e);
+            StringBuilder exception = new StringBuilder();
+            exceptionBuilder(serverResp, exception, e);
+            throw new ClientPutException(exception.toString(), e);
         }
     }
 
@@ -195,7 +204,9 @@ public class WSClientsDataSource implements ClientsDataSource {
             serverResp = resp.toString();
 
         } catch (JsonProcessingException | InterruptedException | ExecutionException e) {
-            throw new ClientPutException(resources.getString("exception.reponseServeur") + serverResp + resources.getString("exception.exception") + e, e);
+            StringBuilder exception = new StringBuilder();
+            exceptionBuilder(serverResp, exception, e);
+            throw new ClientPutException(exception.toString(), e);
         }
     }
 
@@ -283,6 +294,14 @@ public class WSClientsDataSource implements ClientsDataSource {
         } else {
             client.setFirstVisitDate(clientDTO.getFirstVisitDate());
         }
+    }
+
+    private void exceptionBuilder(String serverResp, StringBuilder exception, Exception e) {
+        if (serverResp != null) {
+            exception.append(resources.getString("exception.reponseServeur")).append(serverResp);
+        }
+        exception.append(resources.getString("exception.exception"));
+        exception.append(e);
     }
 
 }
