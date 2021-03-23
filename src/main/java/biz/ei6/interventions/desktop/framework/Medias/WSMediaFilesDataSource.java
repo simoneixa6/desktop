@@ -35,7 +35,7 @@ public class WSMediaFilesDataSource implements MediaFilesDataSource {
 
         try {
             var json = om.writeValueAsString(mediaFile);
-
+      
             // Création de la requête
             var request = HttpRequest.newBuilder(
                     URI.create("https://simon.biz/medias"))
@@ -96,7 +96,6 @@ public class WSMediaFilesDataSource implements MediaFilesDataSource {
             exceptionBuilder(serverResp, exception, e);
             throw new MediaGetException(exception.toString(), e);
         }
-
         return mediaFile;
     }
 

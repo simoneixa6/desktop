@@ -3,6 +3,7 @@ module biz.ei6.interventions.desktop {
     requires javafx.fxml;
     requires java.xml;
     requires java.net.http;
+    requires java.desktop;
     requires com.fasterxml.jackson.databind;
 
    

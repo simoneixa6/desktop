@@ -16,10 +16,12 @@ import biz.ei6.interventions.desktop.lib.domain.Client;
 import biz.ei6.interventions.desktop.lib.domain.Media;
 import biz.ei6.interventions.desktop.lib.domain.MediaFile;
 import biz.ei6.interventions.desktop.lib.domain.Status;
+import java.awt.Desktop;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
@@ -41,7 +43,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
@@ -369,6 +370,8 @@ public final class InterventionsFormController implements Initializable, Desktop
             registerBtn.setText(resources.getString("enregistrer"));
             deleteBtn.setDisable(true);
             titleLbl.setText(resources.getString("creer.une.intervention"));
+            addMediaBtn.setDisable(true);
+            deleteMediaBtn.setDisable(true);
 
             //TEMPORAIRE
             getEditedIntervention().setUser_id("Slad");
@@ -445,34 +448,32 @@ public final class InterventionsFormController implements Initializable, Desktop
         mediasListView.setCellFactory(new MediaCellFactory());
 
         mediasListView.setOnMouseClicked((MouseEvent click) -> {
-            if (click.getClickCount() == 2) {
-                
+            if (click.getClickCount() == 2 && mediasListView.getSelectionModel().getSelectedItem() != null) {
+
                 MediaFile mediaFile = null;
-                
+
                 try {
                     mediaFile = interactors.getMediaFile.invoke(mediasListView.getSelectionModel().getSelectedItem().getId());
                 } catch (MediaGetException e) {
                     showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.recuperationMedia", e.toString());
                 }
-                
+
                 if (mediaFile != null) {
-                    FileChooser fileChooser = new FileChooser();
-                    fileChooser.setInitialFileName(mediaFile.fileName);
-                    FileChooser.ExtensionFilter textFilter = new FileChooser.ExtensionFilter("Fichier texte (*.txt)", "*.txt");
-                    FileChooser.ExtensionFilter pdfFilter = new FileChooser.ExtensionFilter("Fichier PDF (*.pdf)", "*.pdf");
-                    FileChooser.ExtensionFilter imageFilter = new FileChooser.ExtensionFilter("Image", "*.png", "*.jpeg", "*.jpg");
-                    fileChooser.getExtensionFilters().add(textFilter);
-                    fileChooser.getExtensionFilters().add(pdfFilter);
-                    fileChooser.getExtensionFilters().add(imageFilter);
-                    
-                    File filePath = fileChooser.showSaveDialog(mediasListView.getScene().getWindow());
-                    
+
+                    File filePath = new File(System.getProperty("user.home") + "/Downloads/"+ mediaFile.getFileName());
+
                     if (filePath != null) {
                         byte[] data = Base64.getDecoder().decode(mediaFile.fileData);
                         try ( OutputStream stream = new FileOutputStream(filePath)) {
                             stream.write(data);
                         } catch (Exception e) {
                             showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.creationFichier", e.toString());
+                        }
+                        
+                        try {
+                            Desktop.getDesktop().open(filePath);
+                        } catch (IOException e) {
+                           showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.ouvertureFichier", e.toString());
                         }
                     }
                 }
@@ -520,11 +521,13 @@ public final class InterventionsFormController implements Initializable, Desktop
         });
 
         deleteMediaBtn.setOnAction((ActionEvent actionEvent) -> {
-            try {
-                interactors.removeMedia.invoke(mediasListView.getSelectionModel().getSelectedItem());
-                updateMediasListView();
-            } catch (MediaPutException e) {
-                showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.suppressionMedia", e.toString());
+            if (mediasListView.getSelectionModel().getSelectedItem() != null) {
+                try {
+                    interactors.removeMedia.invoke(mediasListView.getSelectionModel().getSelectedItem());
+                    updateMediasListView();
+                } catch (MediaPutException e) {
+                    showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.suppressionMedia", e.toString());
+                }
             }
         });
 

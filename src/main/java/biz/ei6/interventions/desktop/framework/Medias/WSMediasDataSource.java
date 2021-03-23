@@ -102,11 +102,11 @@ public class WSMediasDataSource implements MediasDataSource {
                     .PUT(HttpRequest.BodyPublishers.ofString(json))
                     .build();
 
-            httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString());
+            var response = httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString());
 
-            //var resp = response.get();
+            var resp = response.get();
 
-            //serverResp = resp.toString();
+            serverResp = resp.toString();
 
         } catch (Exception e) {
             StringBuilder exception = new StringBuilder();
