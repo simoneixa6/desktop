@@ -46,7 +46,6 @@ biz\ei6\interventions\desktop\interventions\InterventionCellFactory$Intervention
 biz\ei6\interventions\desktop\lib\interactors\GetClients.class
 biz\ei6\interventions\desktop\interventions\InterventionsController$2.class
 biz\ei6\interventions\desktop\restitutions\RestitutionsController$1.class
-biz\ei6\interventions\desktop\interventions\InterventionsFormController$5.class
 biz\ei6\interventions\desktop\lib\data\ClientsRepository.class
 biz\ei6\interventions\desktop\lib\domain\Intervention.class
 biz\ei6\interventions\desktop\lib\data\MediaFilesRepository.class

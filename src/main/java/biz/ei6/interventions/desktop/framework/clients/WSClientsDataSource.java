@@ -29,13 +29,12 @@ public class WSClientsDataSource implements ClientsDataSource {
     }
 
     @Override
-    public Client add(Client client) throws ClientPostException {
+    public Client add(Client addedClient) throws ClientPostException {
 
         String serverResp = null;
-        Client addedClient = null;
 
         try {
-            String json = jsonCreation(client);
+            String json = jsonCreation(addedClient);
 
             // Création de la requête
             var request = HttpRequest.newBuilder(

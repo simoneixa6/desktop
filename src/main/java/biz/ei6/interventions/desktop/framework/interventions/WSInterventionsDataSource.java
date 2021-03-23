@@ -2,11 +2,9 @@ package biz.ei6.interventions.desktop.framework.interventions;
 
 import biz.ei6.interventions.desktop.framework.clients.ClientDTO;
 import biz.ei6.interventions.desktop.framework.clients.SiteDTO;
-import biz.ei6.interventions.desktop.framework.medias.MediaDTO;
 import biz.ei6.interventions.desktop.lib.data.InterventionsDataSource;
 import biz.ei6.interventions.desktop.lib.domain.Client;
 import biz.ei6.interventions.desktop.lib.domain.Intervention;
-import biz.ei6.interventions.desktop.lib.domain.Media;
 import biz.ei6.interventions.desktop.lib.domain.Period;
 import biz.ei6.interventions.desktop.lib.domain.Site;
 import biz.ei6.interventions.desktop.lib.domain.Status;
@@ -326,17 +324,6 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
             interventionDTO.setPeriods(periodsDTO);
         }
 
-        if (intervention.getMedias() != null) {
-            List<MediaDTO> mediasDTO = new ArrayList<>();
-
-            for (Media media : intervention.getMedias()) {
-                MediaDTO mediaDTO = new MediaDTO();
-                setMediaDTO(mediaDTO, media);
-                mediasDTO.add(mediaDTO);
-            }
-            interventionDTO.setMedias(mediasDTO);
-        }
-
         if (intervention.getKm() != null && !"".equals(intervention.getKm())) {
             interventionDTO.setKm(Double.parseDouble(intervention.getKm()) + "");
         } else {
@@ -413,18 +400,6 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
             intervention.setPeriods(periods);
         }
 
-        if (interventionDTO.getMedias() != null) {
-            List<Media> medias = new ArrayList<>();
-
-            for (MediaDTO mediaDTO : interventionDTO.getMedias()) {
-                Media media = new Media();
-                setMedia(media, mediaDTO);
-                medias.add(media);
-            }
-
-            intervention.setMedias(medias);
-        }
-
         if ("0".equals(interventionDTO.getKm())) {
             // Le serveur renvoie 0 si aucune valeur n'a été rentré lors de la création d'une intervention
         } else {
@@ -466,20 +441,6 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
         status.setName(statusDTO.getName());
     }
 
-    private void setMediaDTO(MediaDTO mediaDTO, Media media) {
-        mediaDTO.setId(media.getId());
-        mediaDTO.setDate(media.getDateString());
-        mediaDTO.setFileName(media.getFileName());
-        mediaDTO.setIntervention_id(media.getInterventionId());
-    }
-
-    private void setMedia(Media media, MediaDTO mediaDTO) {
-        media.setId(mediaDTO.getId());
-        media.setDate(mediaDTO.getDate());
-        media.setFileName(mediaDTO.getFileName());
-        media.setInterventionId(mediaDTO.getIntervention_id());
-    }
-
     private void exceptionBuilder(String serverResp, StringBuilder exception, Exception e) {
         if (serverResp != null) {
             exception.append(resources.getString("exception.reponseServeur")).append(serverResp);
@@ -487,5 +448,4 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
         exception.append(resources.getString("exception.exception"));
         exception.append(e);
     }
-
 }

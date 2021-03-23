@@ -663,7 +663,6 @@ public final class InterventionsFormController implements Initializable, Desktop
      */
     private void bind() {
         periodTableView.itemsProperty().bindBidirectional(getEditedIntervention().getPeriodsProperty());
-        mediasListView.itemsProperty().bindBidirectional(getEditedIntervention().getMediasProperty());
         nameInput.textProperty().bindBidirectional(getEditedIntervention().getTitleProperty());
         userBox.valueProperty().bindBidirectional(getEditedIntervention().getUser_idProperty());
         descriptionInput.textProperty().bindBidirectional(getEditedIntervention().getDescriptionProperty());
@@ -800,7 +799,7 @@ public final class InterventionsFormController implements Initializable, Desktop
 
     private void updateMediasListView() {
         var medias = FXCollections.observableArrayList(getMedias());
-        getEditedIntervention().setMedias(medias);
+        mediasListView.setItems(medias);
     }
 
     public ArrayList<Media> getMedias() {

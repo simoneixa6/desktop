@@ -42,7 +42,7 @@ public class WSMediasDataSource implements MediasDataSource {
         try {
             // Création de la requête
             var request = HttpRequest.newBuilder(
-                    URI.create("http://localhost:60396/medias/intervention/" + intervention_id))
+                    URI.create("https://simon.biz/medias/intervention/" + intervention_id))
                     .header("Accept", "application/json")
                     .GET()
                     .build();
@@ -97,7 +97,7 @@ public class WSMediasDataSource implements MediasDataSource {
 
             // Création de la requête
             var request = HttpRequest.newBuilder(
-                    URI.create("http://localhost:60396/medias/" + media.getId()))
+                    URI.create("https://simon.biz/medias/" + media.getId()))
                     .header("Content-Type", "application/json")
                     .PUT(HttpRequest.BodyPublishers.ofString(json))
                     .build();

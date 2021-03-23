@@ -38,7 +38,7 @@ public class WSMediaFilesDataSource implements MediaFilesDataSource {
 
             // Création de la requête
             var request = HttpRequest.newBuilder(
-                    URI.create("http://localhost:60396/medias"))
+                    URI.create("https://simon.biz/medias"))
                     .header("Content-Type", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(json))
                     .build();
@@ -73,7 +73,7 @@ public class WSMediaFilesDataSource implements MediaFilesDataSource {
         try {
             // Création de la requête
             var request = HttpRequest.newBuilder(
-                    URI.create("http://localhost:60396/medias/" + media_id + "/file"))
+                    URI.create("https://simon.biz/medias/" + media_id + "/file"))
                     .header("Accept", "application/json")
                     .GET()
                     .build();

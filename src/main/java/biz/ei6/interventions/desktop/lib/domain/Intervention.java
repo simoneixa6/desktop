@@ -42,7 +42,6 @@ public class Intervention {
     private final StringProperty paymentType = new SimpleStringProperty();
     private final ObjectProperty<LocalDate> paymentDate = new SimpleObjectProperty();
     private final ObjectProperty<Status> status = new SimpleObjectProperty();
-    private final ListProperty<Media> medias = new SimpleListProperty();
     private final BooleanProperty deleted = new SimpleBooleanProperty();
 
     {
@@ -52,10 +51,6 @@ public class Intervention {
         period.setStartString(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")));
         List<Period> periodlist = List.of(period);
         this.setPeriods(periodlist);
-
-        // Ajout du tableau de médias vide par défault
-        ArrayList<Media> mediaslist = new ArrayList<>();
-        this.setMedias(mediaslist);
     }
 
     /*
@@ -375,26 +370,6 @@ public class Intervention {
      */
     public void setStatus(Status status) {
         this.status.set(status);
-    }
-
-    /**
-     * @return the medias
-     */
-    public ListProperty<Media> getMediasProperty() {
-        return medias;
-    }
-
-    public List<Media> getMedias() {
-        return medias.get();
-    }
-
-    /**
-     * @param medias the medias to set
-     */
-    public void setMedias(List<Media> medias) {
-        if (medias != null) {
-            this.medias.set(FXCollections.observableArrayList(medias));
-        }
     }
 
     /**
