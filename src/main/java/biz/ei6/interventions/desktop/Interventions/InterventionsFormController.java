@@ -75,55 +75,42 @@ public final class InterventionsFormController implements Initializable, Desktop
 
     @FXML
     Label titleLbl;
-
     @FXML
     TextField nameInput;
-
     @FXML
     TextArea descriptionInput;
-
     @FXML
     ChoiceBox userBox;
-
     @FXML
     ListView<Media> mediasListView;
-
     @FXML
     TextField kmInput;
-
     @FXML
     TextField goKmInput;
-
     @FXML
     TextField backKmInput;
-
+    @FXML
+    TextField multiplePeriodBegin;
+    @FXML
+    TextField multiplePeriodEnd;
     @FXML
     DatePicker billDateInput;
-
     @FXML
     TextField billNumberInput;
-
     @FXML
     DatePicker paymentDateInput;
-
     @FXML
     ComboBox<Client> clientBox;
-
     @FXML
     ComboBox<Site> addressBox;
-
     @FXML
     ComboBox<Status> statusBox;
-
     @FXML
     ChoiceBox<String> paymenttypeBox;
-
     @FXML
     Button deleteBtn;
-
     @FXML
     Button registerBtn;
-
     // TableView des périodes
     @FXML
     TableView<Period> periodTableView;
@@ -139,6 +126,8 @@ public final class InterventionsFormController implements Initializable, Desktop
     Button addPeriodBtn;
     @FXML
     Button deletePeriodBtn;
+    @FXML
+    Button multiplePeriodBtn;
     @FXML
     Button addMediaBtn;
     @FXML
@@ -444,6 +433,32 @@ public final class InterventionsFormController implements Initializable, Desktop
             periods.remove(selectedPeriod);
         });
 
+        
+        
+        multiplePeriodBtn.setOnAction((ActionEvent actionEvent) -> {
+            ObservableList<Period> periods;
+            periods = periodTableView.getItems();
+
+            // Renvoie le site selectionné
+            Period selectedPeriod = periodTableView.getSelectionModel().getSelectedItem();
+
+            periods.remove(selectedPeriod);
+        });
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         // Mise en place de la cell factory des médias
         mediasListView.setCellFactory(new MediaCellFactory());
 
