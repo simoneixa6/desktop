@@ -433,32 +433,13 @@ public final class InterventionsFormController implements Initializable, Desktop
             periods.remove(selectedPeriod);
         });
 
-        
-        
         multiplePeriodBtn.setOnAction((ActionEvent actionEvent) -> {
-            ObservableList<Period> periods;
-            periods = periodTableView.getItems();
-
-            // Renvoie le site selectionné
-            Period selectedPeriod = periodTableView.getSelectionModel().getSelectedItem();
-
-            periods.remove(selectedPeriod);
+            Period period = new Period();
+            period.setDateString(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")));
+            period.setStartString(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")));
+            periodTableView.getItems().add(period);
         });
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+
         // Mise en place de la cell factory des médias
         mediasListView.setCellFactory(new MediaCellFactory());
 

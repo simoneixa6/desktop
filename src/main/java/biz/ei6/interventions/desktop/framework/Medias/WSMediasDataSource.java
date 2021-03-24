@@ -1,5 +1,6 @@
 package biz.ei6.interventions.desktop.framework.medias;
 
+import biz.ei6.interventions.desktop.httpClient;
 import biz.ei6.interventions.desktop.lib.data.MediasDataSource;
 import biz.ei6.interventions.desktop.lib.domain.Media;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -19,12 +20,11 @@ import java.util.concurrent.ExecutionException;
  */
 public class WSMediasDataSource implements MediasDataSource {
 
-    HttpClient httpClient;
+    HttpClient httpClient = new httpClient().get();
     ResourceBundle resources;
 
-    public WSMediasDataSource(ResourceBundle resources, HttpClient httpClient) {
+    public WSMediasDataSource(ResourceBundle resources) {
         this.resources = resources;
-        this.httpClient = httpClient;
     }
 
     @Override

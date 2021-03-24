@@ -1,5 +1,6 @@
 package biz.ei6.interventions.desktop.framework.medias;
 
+import biz.ei6.interventions.desktop.httpClient;
 import biz.ei6.interventions.desktop.lib.data.MediaFilesDataSource;
 import biz.ei6.interventions.desktop.lib.domain.Media;
 import biz.ei6.interventions.desktop.lib.domain.MediaFile;
@@ -18,12 +19,11 @@ import java.util.concurrent.ExecutionException;
  */
 public class WSMediaFilesDataSource implements MediaFilesDataSource {
 
-    HttpClient httpClient;
+    HttpClient httpClient = new httpClient().get();
     ResourceBundle resources;
 
-    public WSMediaFilesDataSource(ResourceBundle resources, HttpClient httpClient) {
+    public WSMediaFilesDataSource(ResourceBundle resources) {
         this.resources = resources;
-        this.httpClient = httpClient;
     }
 
     @Override

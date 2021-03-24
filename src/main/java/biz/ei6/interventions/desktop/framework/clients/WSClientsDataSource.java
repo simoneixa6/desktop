@@ -1,5 +1,6 @@
 package biz.ei6.interventions.desktop.framework.clients;
 
+import biz.ei6.interventions.desktop.httpClient;
 import biz.ei6.interventions.desktop.lib.data.ClientsDataSource;
 import biz.ei6.interventions.desktop.lib.domain.Client;
 import biz.ei6.interventions.desktop.lib.domain.Site;
@@ -20,12 +21,11 @@ import java.util.concurrent.ExecutionException;
  */
 public class WSClientsDataSource implements ClientsDataSource {
 
-    HttpClient httpClient;
+    HttpClient httpClient = new httpClient().get();
     ResourceBundle resources;
 
-    public WSClientsDataSource(ResourceBundle resources, HttpClient httpClient) {
+    public WSClientsDataSource(ResourceBundle resources) {
         this.resources = resources;
-        this.httpClient = httpClient;
     }
 
     @Override

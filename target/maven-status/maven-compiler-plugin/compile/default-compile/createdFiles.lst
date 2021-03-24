@@ -36,6 +36,7 @@ biz\ei6\interventions\desktop\DesktopListener.class
 biz\ei6\interventions\desktop\lib\interactors\UpdateIntervention.class
 biz\ei6\interventions\desktop\restitutions\RestitutionsController$2.class
 biz\ei6\interventions\desktop\clients\ClientCellFactory$ClientCell.class
+biz\ei6\interventions\desktop\httpClient.class
 module-info.class
 biz\ei6\interventions\desktop\framework\interventions\InterventionGetException.class
 biz\ei6\interventions\desktop\framework\medias\WSMediasDataSource.class

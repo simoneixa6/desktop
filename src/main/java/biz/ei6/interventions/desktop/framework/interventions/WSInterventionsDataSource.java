@@ -2,6 +2,7 @@ package biz.ei6.interventions.desktop.framework.interventions;
 
 import biz.ei6.interventions.desktop.framework.clients.ClientDTO;
 import biz.ei6.interventions.desktop.framework.clients.SiteDTO;
+import biz.ei6.interventions.desktop.httpClient;
 import biz.ei6.interventions.desktop.lib.data.InterventionsDataSource;
 import biz.ei6.interventions.desktop.lib.domain.Client;
 import biz.ei6.interventions.desktop.lib.domain.Intervention;
@@ -26,12 +27,11 @@ import java.util.concurrent.ExecutionException;
  */
 public class WSInterventionsDataSource implements InterventionsDataSource {
 
-    HttpClient httpClient;
+    HttpClient httpClient = new httpClient().get();
     ResourceBundle resources;
 
-    public WSInterventionsDataSource(ResourceBundle resources, HttpClient httpClient) {
+    public WSInterventionsDataSource(ResourceBundle resources) {
         this.resources = resources;
-        this.httpClient = httpClient;
     }
 
     @Override

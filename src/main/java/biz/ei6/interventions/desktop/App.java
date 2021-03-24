@@ -34,7 +34,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.http.HttpClient;
 import java.util.ResourceBundle;
 import javafx.scene.image.Image;
 
@@ -45,18 +44,16 @@ public class App extends Application {
 
     static public class Interactors {
 
-        // Client HTTP utilisé dans toutes l'application
-        static HttpClient httpClient = HttpClient.newHttpClient();
         ResourceBundle resources = ResourceBundle.getBundle("main");
 
-        public InterventionsDataSource interventionsDataSource = new WSInterventionsDataSource(resources, httpClient);//new MemoryDataSource();
+        public InterventionsDataSource interventionsDataSource = new WSInterventionsDataSource(resources);//new MemoryDataSource();
         public InterventionsRepository interventionsRepository = new InterventionsRepository(interventionsDataSource);
         public AddIntervention addIntervention = new AddIntervention(interventionsRepository);
         public UpdateIntervention updateIntervention = new UpdateIntervention(interventionsRepository);
         public GetInterventions getInterventions = new GetInterventions(interventionsRepository);
         public RemoveIntervention removeIntervention = new RemoveIntervention(interventionsRepository);
 
-        public ClientsDataSource clientsDataSource = new WSClientsDataSource(resources, httpClient);
+        public ClientsDataSource clientsDataSource = new WSClientsDataSource(resources);
         public ClientsRepository clientsRepository = new ClientsRepository(clientsDataSource);
         public AddClient addClient = new AddClient(clientsRepository);
         public UpdateClient updateClient = new UpdateClient(clientsRepository);
@@ -64,7 +61,7 @@ public class App extends Application {
         public GetClient getClient = new GetClient(clientsRepository);
         public RemoveClient removeClient = new RemoveClient(clientsRepository);
         
-        public MediasDataSource mediasDataSource = new WSMediasDataSource(resources, httpClient);
+        public MediasDataSource mediasDataSource = new WSMediasDataSource(resources);
         public MediasRepository mediasRepository = new MediasRepository(mediasDataSource);
         public GetMedias getMedias = new GetMedias(mediasRepository);
         public GetInterventionMedias getInterventionMedias = new GetInterventionMedias(mediasRepository);
@@ -72,7 +69,7 @@ public class App extends Application {
         public RemoveMedia removeMedia = new RemoveMedia(mediasRepository);
         
         
-        public MediaFilesDataSource mediaFileDataSource = new WSMediaFilesDataSource(resources, httpClient);
+        public MediaFilesDataSource mediaFileDataSource = new WSMediaFilesDataSource(resources);
         public MediaFilesRepository mediaFilesRepository = new MediaFilesRepository(mediaFileDataSource);
         public AddMediaFile addMediaFile = new AddMediaFile(mediaFilesRepository);
         public GetMediaFile getMediaFile = new GetMediaFile(mediaFilesRepository);

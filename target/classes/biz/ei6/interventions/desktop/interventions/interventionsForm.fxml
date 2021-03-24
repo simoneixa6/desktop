@@ -147,13 +147,27 @@
                                           <TableColumn fx:id="durationCol" editable="true" maxWidth="80.0" minWidth="50.0" text="%duree" />
                                        </columns>
                                        <VBox.margin>
-                                          <Insets left="5.0" />
+                                          <Insets bottom="5.0" left="5.0" />
                                        </VBox.margin>
                                     </TableView>
                                     <HBox>
                                        <children>
                                     <Button id="tableViewButton" fx:id="addPeriodBtn" mnemonicParsing="false" text="%ajouter" />
-                                    <Button id="tableViewButton" fx:id="deletePeriodBtn" mnemonicParsing="false" text="%supprimer" />
+                                    <Button id="tableViewButton" fx:id="deletePeriodBtn" mnemonicParsing="false" text="%supprimer">
+                                       <HBox.margin>
+                                          <Insets right="30.0" />
+                                       </HBox.margin></Button>
+                                    <TextField fx:id="multiplePeriodBegin" prefWidth="60.0" promptText="%date.debut">
+                                       <HBox.margin>
+                                          <Insets right="15.0" />
+                                       </HBox.margin>
+                                    </TextField>
+                                    <TextField fx:id="multiplePeriodEnd" prefWidth="60.0" promptText="%date.fin">
+                                       <HBox.margin>
+                                          <Insets right="10.0" />
+                                       </HBox.margin>
+                                    </TextField>
+                                    <Button fx:id="multiplePeriodBtn" mnemonicParsing="false" text="%creer" />
                                        </children>
                                     </HBox>
                                  </children>
