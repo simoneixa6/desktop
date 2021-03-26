@@ -1,4 +1,30 @@
 -------------------------------------------------------------------------------
 Test set: biz.ei6.interventions.desktop.framework.medias.MediaDTOTest
 -------------------------------------------------------------------------------
-Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 sec
+Tests run: 10, Failures: 3, Errors: 0, Skipped: 0, Time elapsed: 0.024 sec <<< FAILURE!
+biz.ei6.interventions.desktop.framework.medias.MediaDTOTest.testGetDate()  Time elapsed: 0.021 sec  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <test> but was: <2011-12-03T10:15:30>
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:55)
+	at org.junit.jupiter.api.AssertionUtils.failNotEqual(AssertionUtils.java:62)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1124)
+	at biz.ei6.interventions.desktop.framework.medias.MediaDTOTest.testGetDate(MediaDTOTest.java:94)
+
+biz.ei6.interventions.desktop.framework.medias.MediaDTOTest.testGetDeleted()  Time elapsed: 0 sec  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <false> but was: <true>
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:55)
+	at org.junit.jupiter.api.AssertionUtils.failNotEqual(AssertionUtils.java:62)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1124)
+	at biz.ei6.interventions.desktop.framework.medias.MediaDTOTest.testGetDeleted(MediaDTOTest.java:161)
+
+biz.ei6.interventions.desktop.framework.medias.MediaDTOTest.testGetIntervention_id()  Time elapsed: 0 sec  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <true> but was: <false>
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:55)
+	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:40)
+	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:35)
+	at org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:162)
+	at biz.ei6.interventions.desktop.framework.medias.MediaDTOTest.testGetIntervention_id(MediaDTOTest.java:63)
+
