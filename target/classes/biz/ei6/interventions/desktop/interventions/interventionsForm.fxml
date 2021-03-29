@@ -155,23 +155,35 @@
                                     <Button id="tableViewButton" fx:id="addPeriodBtn" mnemonicParsing="false" text="%ajouter" />
                                     <Button id="tableViewButton" fx:id="deletePeriodBtn" mnemonicParsing="false" text="%supprimer">
                                        <HBox.margin>
-                                          <Insets right="30.0" />
+                                          <Insets right="25.0" />
                                        </HBox.margin></Button>
-                                    <TextField fx:id="multiplePeriodBegin" prefWidth="60.0" promptText="%date.debut">
-                                       <HBox.margin>
-                                          <Insets right="15.0" />
-                                       </HBox.margin>
-                                    </TextField>
-                                    <TextField fx:id="multiplePeriodEnd" prefWidth="60.0" promptText="%date.fin">
-                                       <HBox.margin>
-                                          <Insets right="10.0" />
-                                       </HBox.margin>
-                                    </TextField>
-                                    <Button fx:id="multiplePeriodBtn" mnemonicParsing="false" text="%creer" />
                                        </children>
                                     </HBox>
                                  </children>
+                           <HBox.margin>
+                              <Insets right="15.0" />
+                           </HBox.margin>
                               </VBox>
+                        <VBox>
+                           <children>
+                              <Label id="textinputlabel" text="%ajouter.plusieurs.dates">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" top="11.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <DatePicker fx:id="multiplePeriodBegin" prefHeight="28.0" prefWidth="110.0">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </DatePicker>
+                              <DatePicker fx:id="multiplePeriodEnd" prefHeight="28.0" prefWidth="110.0">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </DatePicker>
+                              <Button id="greyBtn" fx:id="multiplePeriodBtn" mnemonicParsing="false" prefHeight="26.0" prefWidth="65.0" text="%creer" />
+                           </children>
+                        </VBox>
                            </children>
                            <VBox.margin>
                               <Insets bottom="10.0" />

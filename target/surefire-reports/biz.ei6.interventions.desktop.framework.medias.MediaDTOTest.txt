@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: biz.ei6.interventions.desktop.framework.medias.MediaDTOTest
--------------------------------------------------------------------------------
-Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 sec

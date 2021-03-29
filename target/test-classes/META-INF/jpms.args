@@ -1,4 +1,0 @@
---patch-module
-biz.ei6.interventions.desktop=_
---add-reads
-biz.ei6.interventions.desktop=ALL-UNNAMED

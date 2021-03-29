@@ -36,6 +36,7 @@ import java.util.Base64;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
@@ -90,9 +91,9 @@ public final class InterventionsFormController implements Initializable, Desktop
     @FXML
     TextField backKmInput;
     @FXML
-    TextField multiplePeriodBegin;
+    DatePicker multiplePeriodBegin;
     @FXML
-    TextField multiplePeriodEnd;
+    DatePicker multiplePeriodEnd;
     @FXML
     DatePicker billDateInput;
     @FXML
@@ -265,7 +266,7 @@ public final class InterventionsFormController implements Initializable, Desktop
             // Remplissage de la combobox des clients
             updateClientsComboBox();
         } catch (ClientGetException e) {
-            showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.recuperationClients", e.toString());
+            showAlert(AlertType.ERROR, "exception.erreur", "exception.recuperationClients", e.toString());
         }
 
         // Image utilisé pour les icônes des fenêtres "Créer un client" et "Modifier un client"
@@ -383,14 +384,14 @@ public final class InterventionsFormController implements Initializable, Desktop
                     try {
                         interactors.addIntervention.invoke(getEditedIntervention());
                     } catch (InterventionPostException e) {
-                        showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.ajoutIntervention", e.toString());
+                        showAlert(AlertType.ERROR, "exception.erreur", "exception.ajoutIntervention", e.toString());
                     }
                     // Si l'intervention existe déjà
                 } else {
                     try {
                         interactors.updateIntervention.invoke(getEditedIntervention());
                     } catch (InterventionPutException e) {
-                        showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.modificationIntervention", e.toString());
+                        showAlert(AlertType.ERROR, "exception.erreur", "exception.modificationIntervention", e.toString());
                     }
                 }
                 desktopListener.close();
@@ -404,7 +405,7 @@ public final class InterventionsFormController implements Initializable, Desktop
             try {
                 interactors.removeIntervention.invoke(getEditedIntervention());
             } catch (InterventionPutException e) {
-                showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.suppressionIntervention", e.toString());
+                showAlert(AlertType.ERROR, "exception.erreur", "exception.suppressionIntervention", e.toString());
             }
             desktopListener.close();
         });
@@ -434,10 +435,23 @@ public final class InterventionsFormController implements Initializable, Desktop
         });
 
         multiplePeriodBtn.setOnAction((ActionEvent actionEvent) -> {
-            Period period = new Period();
-            period.setDateString(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")));
-            period.setStartString(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")));
-            periodTableView.getItems().add(period);
+            try {
+                var dates = multiplePeriodBegin.getValue().datesUntil(multiplePeriodEnd.getValue().plusDays(1)).collect(Collectors.toList());
+
+                for (LocalDate date : dates) {
+                    Period period = new Period();
+                    period.setDateString(date.atStartOfDay().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")));
+                    period.setStartString(LocalTime.of(9, 0, 0, 0).atDate(date).format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")));
+                    period.setEndString(LocalTime.of(17, 0, 0, 0).atDate(date).format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")));
+                    periodTableView.getItems().add(period);
+                }
+            } catch (NullPointerException e) {
+                showAlert(AlertType.WARNING, "warning.attention", "exception.formatDatesIncorrect", resources.getString("exception.info.formatDatesIncorrect"));
+            } catch (IllegalArgumentException e) {
+                showAlert(AlertType.WARNING, "warning.attention", "exception.ordre.dates.incorrect", resources.getString("exception.info.ordre.dates.incorrect"));
+            } catch (Exception e) {
+                showAlert(AlertType.WARNING, "exception.erreur", "exception.erreurAjoutDate", e.toString());
+            }
         });
 
         // Mise en place de la cell factory des médias
@@ -451,25 +465,25 @@ public final class InterventionsFormController implements Initializable, Desktop
                 try {
                     mediaFile = interactors.getMediaFile.invoke(mediasListView.getSelectionModel().getSelectedItem().getId());
                 } catch (MediaGetException e) {
-                    showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.recuperationMedia", e.toString());
+                    showAlert(AlertType.ERROR, "exception.erreur", "exception.recuperationMedia", e.toString());
                 }
 
                 if (mediaFile != null) {
 
-                    File filePath = new File(System.getProperty("user.home") + "/Downloads/"+ mediaFile.getFileName());
+                    File filePath = new File(System.getProperty("user.home") + "/Downloads/" + mediaFile.getFileName());
 
                     if (filePath != null) {
                         byte[] data = Base64.getDecoder().decode(mediaFile.fileData);
                         try ( OutputStream stream = new FileOutputStream(filePath)) {
                             stream.write(data);
                         } catch (Exception e) {
-                            showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.creationFichier", e.toString());
+                            showAlert(AlertType.ERROR, "exception.erreur", "exception.creationFichier", e.toString());
                         }
-                        
+
                         try {
                             Desktop.getDesktop().open(filePath);
                         } catch (IOException e) {
-                           showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.ouvertureFichier", e.toString());
+                            showAlert(AlertType.ERROR, "exception.erreur", "exception.ouvertureFichier", e.toString());
                         }
                     }
                 }
@@ -511,7 +525,7 @@ public final class InterventionsFormController implements Initializable, Desktop
                     updateMediasListView();
 
                 } catch (Exception e) {
-                    showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.ajoutMedia", e.toString());
+                    showAlert(AlertType.ERROR, "exception.erreur", "exception.ajoutMedia", e.toString());
                 }
             }
         });
@@ -522,7 +536,7 @@ public final class InterventionsFormController implements Initializable, Desktop
                     interactors.removeMedia.invoke(mediasListView.getSelectionModel().getSelectedItem());
                     updateMediasListView();
                 } catch (MediaPutException e) {
-                    showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.suppressionMedia", e.toString());
+                    showAlert(AlertType.ERROR, "exception.erreur", "exception.suppressionMedia", e.toString());
                 }
             }
         });
@@ -702,7 +716,7 @@ public final class InterventionsFormController implements Initializable, Desktop
 
         // Si une information est manquante, montre un message d'erreur et renvoie false
         if (errors.length() > 0) {
-            showAlert(resources, AlertType.WARNING, "warning.attention", "warning.champsObligatoires", errors.toString());
+            showAlert(AlertType.WARNING, "warning.attention", "warning.champsObligatoires", errors.toString());
             return false;
         }
 
@@ -720,7 +734,7 @@ public final class InterventionsFormController implements Initializable, Desktop
      * @param exceptionProperty
      * @param contentText
      */
-    private void showAlert(ResourceBundle resources, AlertType alertType, String titleProperty, String exceptionProperty, String contentText) {
+    private void showAlert(AlertType alertType, String titleProperty, String exceptionProperty, String contentText) {
         Alert alert = new Alert(alertType);
         alert.setTitle(resources.getString(titleProperty));
         alert.setHeaderText(resources.getString(exceptionProperty));
@@ -782,7 +796,7 @@ public final class InterventionsFormController implements Initializable, Desktop
         try {
             updateClientsComboBox();
         } catch (ClientGetException e) {
-            showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.recuperationClients", e.toString());
+            showAlert(AlertType.ERROR, "exception.erreur", "exception.recuperationClients", e.toString());
         }
 
         // Si un client est renvoyé, on le sélectionne dans la combobox
