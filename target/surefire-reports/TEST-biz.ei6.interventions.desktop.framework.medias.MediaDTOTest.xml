@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="10" failures="3" name="biz.ei6.interventions.desktop.framework.medias.MediaDTOTest" time="0.022" errors="0" skipped="0">
+<testsuite tests="10" failures="0" name="biz.ei6.interventions.desktop.framework.medias.MediaDTOTest" time="0.004" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
     <property name="java.vm.version" value="11+28"/>
@@ -64,40 +64,14 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="biz.ei6.interventions.desktop.framework.medias.MediaDTOTest" name="biz.ei6.interventions.desktop.framework.medias.MediaDTOTest.testSetId" time="0.001"/>
-  <testcase classname="biz.ei6.interventions.desktop.framework.medias.MediaDTOTest" name="biz.ei6.interventions.desktop.framework.medias.MediaDTOTest.testGetId" time="0"/>
-  <testcase classname="biz.ei6.interventions.desktop.framework.medias.MediaDTOTest" name="biz.ei6.interventions.desktop.framework.medias.MediaDTOTest.testGetDate" time="0.021">
-    <failure message="expected: &lt;test&gt; but was: &lt;2011-12-03T10:15:30&gt;" type="org.opentest4j.AssertionFailedError">org.opentest4j.AssertionFailedError: expected: &lt;test&gt; but was: &lt;2011-12-03T10:15:30&gt;
-	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:55)
-	at org.junit.jupiter.api.AssertionUtils.failNotEqual(AssertionUtils.java:62)
-	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
-	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
-	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1124)
-	at biz.ei6.interventions.desktop.framework.medias.MediaDTOTest.testGetDate(MediaDTOTest.java:94)
-</failure>
-  </testcase>
-  <testcase classname="biz.ei6.interventions.desktop.framework.medias.MediaDTOTest" name="biz.ei6.interventions.desktop.framework.medias.MediaDTOTest.testGetFileName" time="0"/>
+  <testcase classname="biz.ei6.interventions.desktop.framework.medias.MediaDTOTest" name="biz.ei6.interventions.desktop.framework.medias.MediaDTOTest.testGetIntervention_id" time="0.002"/>
+  <testcase classname="biz.ei6.interventions.desktop.framework.medias.MediaDTOTest" name="biz.ei6.interventions.desktop.framework.medias.MediaDTOTest.testSetIntervention_id" time="0.001"/>
   <testcase classname="biz.ei6.interventions.desktop.framework.medias.MediaDTOTest" name="biz.ei6.interventions.desktop.framework.medias.MediaDTOTest.testSetFileName" time="0"/>
+  <testcase classname="biz.ei6.interventions.desktop.framework.medias.MediaDTOTest" name="biz.ei6.interventions.desktop.framework.medias.MediaDTOTest.testGetDeleted" time="0"/>
+  <testcase classname="biz.ei6.interventions.desktop.framework.medias.MediaDTOTest" name="biz.ei6.interventions.desktop.framework.medias.MediaDTOTest.testGetDate" time="0"/>
   <testcase classname="biz.ei6.interventions.desktop.framework.medias.MediaDTOTest" name="biz.ei6.interventions.desktop.framework.medias.MediaDTOTest.testSetDate" time="0"/>
+  <testcase classname="biz.ei6.interventions.desktop.framework.medias.MediaDTOTest" name="biz.ei6.interventions.desktop.framework.medias.MediaDTOTest.testSetId" time="0"/>
+  <testcase classname="biz.ei6.interventions.desktop.framework.medias.MediaDTOTest" name="biz.ei6.interventions.desktop.framework.medias.MediaDTOTest.testGetFileName" time="0"/>
+  <testcase classname="biz.ei6.interventions.desktop.framework.medias.MediaDTOTest" name="biz.ei6.interventions.desktop.framework.medias.MediaDTOTest.testGetId" time="0.001"/>
   <testcase classname="biz.ei6.interventions.desktop.framework.medias.MediaDTOTest" name="biz.ei6.interventions.desktop.framework.medias.MediaDTOTest.testSetDeleted" time="0"/>
-  <testcase classname="biz.ei6.interventions.desktop.framework.medias.MediaDTOTest" name="biz.ei6.interventions.desktop.framework.medias.MediaDTOTest.testGetDeleted" time="0">
-    <failure message="expected: &lt;false&gt; but was: &lt;true&gt;" type="org.opentest4j.AssertionFailedError">org.opentest4j.AssertionFailedError: expected: &lt;false&gt; but was: &lt;true&gt;
-	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:55)
-	at org.junit.jupiter.api.AssertionUtils.failNotEqual(AssertionUtils.java:62)
-	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
-	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
-	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1124)
-	at biz.ei6.interventions.desktop.framework.medias.MediaDTOTest.testGetDeleted(MediaDTOTest.java:161)
-</failure>
-  </testcase>
-  <testcase classname="biz.ei6.interventions.desktop.framework.medias.MediaDTOTest" name="biz.ei6.interventions.desktop.framework.medias.MediaDTOTest.testSetIntervention_id" time="0"/>
-  <testcase classname="biz.ei6.interventions.desktop.framework.medias.MediaDTOTest" name="biz.ei6.interventions.desktop.framework.medias.MediaDTOTest.testGetIntervention_id" time="0">
-    <failure message="expected: &lt;true&gt; but was: &lt;false&gt;" type="org.opentest4j.AssertionFailedError">org.opentest4j.AssertionFailedError: expected: &lt;true&gt; but was: &lt;false&gt;
-	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:55)
-	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:40)
-	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:35)
-	at org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:162)
-	at biz.ei6.interventions.desktop.framework.medias.MediaDTOTest.testGetIntervention_id(MediaDTOTest.java:63)
-</failure>
-  </testcase>
 </testsuite>

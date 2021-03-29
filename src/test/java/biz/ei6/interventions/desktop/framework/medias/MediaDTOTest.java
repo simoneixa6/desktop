@@ -60,7 +60,7 @@ public class MediaDTOTest {
         String result = instance.getIntervention_id();
         
         assertEquals(intervention_id,result,"L'id n'est pas le bon");
-        assertTrue(result.length() == 23);
+        assertTrue(result.length() == 24);
         
     }
 
@@ -91,7 +91,7 @@ public class MediaDTOTest {
         
         String result = instance.getDate();
         
-        assertEquals("test", result);
+        assertEquals(expResult, result);
        
     }
 
@@ -158,7 +158,7 @@ public class MediaDTOTest {
         
         String result = instance.getDeleted();
         
-        assertEquals("false", result);
+        assertEquals(expResult, result);
     }
 
     /**
@@ -176,5 +176,4 @@ public class MediaDTOTest {
         
         assertEquals(deleted,expResult);
     }
-    
 }
