@@ -18,7 +18,7 @@ public class Media {
     private final StringProperty id = new SimpleStringProperty();
     private final StringProperty intervention_id = new SimpleStringProperty();
     private final ObjectProperty<LocalDateTime> date = new SimpleObjectProperty();
-    private final StringProperty url = new SimpleStringProperty();
+    private final StringProperty tempName = new SimpleStringProperty();
     private final StringProperty fileName = new SimpleStringProperty();
     private final BooleanProperty deleted = new SimpleBooleanProperty();
 
@@ -79,15 +79,15 @@ public class Media {
     }
 
     public StringProperty getUrlProperty() {
-        return url;
+        return tempName;
     }
 
     public String getUrl() {
-        return url.get();
+        return tempName.get();
     }
 
     public void setUrl(String url) {
-        this.url.set(url);
+        this.tempName.set(url);
     }
 
     public StringProperty getFileNameProperty() {
