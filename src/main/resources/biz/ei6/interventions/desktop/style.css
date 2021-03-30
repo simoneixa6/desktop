@@ -4,10 +4,9 @@
 */
 
 .root {
-
     /* Color variables */
-    mainGrey: #F2F2F2;
-    mainGreyHover: #EAEAEA;
+    mainGrey: #f4f6f5;
+    mainGreyHover: #f0f0f0;
 
     -fx-background-color: white;
     -fx-faint-focus-color: transparent;
@@ -217,11 +216,24 @@
 /* Styling of the tableview */
 
 .table-view {
-    -fx-border-color: #ffffff;
+    -fx-border-color: transparent;
 }
 
 .table-column {
-  -fx-alignment: CENTER;
+    -fx-alignment: CENTER;
+}
+
+#descriptionCol {
+    -fx-alignment: CENTER_LEFT;
+}
+
+.table-row-cell{
+    -fx-border-color: transparent;
+    -fx-table-cell-border-color:transparent; 
+}
+
+.table-row-cell:selected {
+     -fx-text-background-color: black;
 }
 
 .table-view .placeholder {
@@ -230,8 +242,7 @@
 }
 
 .table-view .table-cell{
-    -fx-text-fill: black;
-    -fx-border-color: mainGrey;
+    -fx-border-width: 0px;
 }
 
 .table-view:row-selection .table-row-cell:filled:hover {
@@ -244,14 +255,15 @@
 
 .table-row-cell:filled:selected {
     -fx-background-color: mainGreyHover;
+
 }
 
 .table-view:focused .table-row-cell:filled:focused:selected {
     -fx-background-color: mainGreyHover;
+
 }
 
 .table-row-cell:filled:selected:focused {
-    -fx-border-color: mainGreyHover;
     -fx-border-width: 0px;
 }
 
@@ -259,17 +271,19 @@
     -fx-background-color: mainGrey;
 }
 .table-row-cell:even{
-    -fx-background-color: mainGrey;
+    -fx-background-color: white ;
 }
 
 .table-view .column-header-background{
     -fx-background-color: white;
     -fx-background-radius: 4px 4px 0px 0px;
-    -fx-padding: 5px 0px 3px 0px;
+    -fx-padding: 5px 0px 0px 0px;
 }
 
 .table-view .column-header {
     -fx-background-color: white;
+    -fx-border-color: mainGreyHover;
+    -fx-border-width: 0 1 1 0;
 }
 
 .table-view .column-header-background .filler {

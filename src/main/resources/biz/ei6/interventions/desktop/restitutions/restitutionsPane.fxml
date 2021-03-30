@@ -16,7 +16,7 @@
                 <TableColumn fx:id="statusCol" prefWidth="100.0" text="%statut" />
                 <TableColumn fx:id="titleCol" prefWidth="150.0" text="%titre" />
                 <TableColumn fx:id="clientCol" prefWidth="150.0" text="%client" />
-                <TableColumn fx:id="descriptionCol" prefWidth="200.0" text="%description.de.l.intervention" />
+                <TableColumn id="descriptionCol" fx:id="descriptionCol" maxWidth="600.0" minWidth="50.0" prefWidth="500.0" text="%description.de.l.intervention" />
                 <TableColumn fx:id="goKmCol" prefWidth="50.0" text="%aller" />
                 <TableColumn fx:id="backKmCol" prefWidth="50.0" text="%retour" />
             <TableColumn fx:id="kmCol" prefWidth="75.0" text="%km" />
@@ -35,6 +35,6 @@
       <TextField id="textInput" fx:id="keyWordInput" layoutX="211.0" layoutY="46.0" prefHeight="25.0" prefWidth="174.0" promptText="%rechercher.par.mot.cle" />
       <Label id="textinputlabel" layoutX="211.0" layoutY="22.0" text="%filtre.mot.cle" />
       <Button id="greyBtn" fx:id="keyWordBtn" layoutX="393.0" layoutY="46.0" mnemonicParsing="false" prefHeight="0.0" prefWidth="90.0" text="%rechercher" />
-      <Line endX="-100.0" endY="58.0" layoutX="611.0" layoutY="33.0" startX="-100.0" startY="-20.0" stroke="#c6c6c6" />
+      <Line endX="-100.0" endY="58.0" fill="#f4f6f5" layoutX="611.0" layoutY="33.0" startX="-100.0" startY="-20.0" stroke="#c6c6c6" />
     </children>
 </fx:root>
