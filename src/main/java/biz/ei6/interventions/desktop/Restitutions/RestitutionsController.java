@@ -21,6 +21,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Control;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -28,6 +29,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 import javafx.util.StringConverter;
 
 /**
@@ -135,7 +137,7 @@ class RestitutionsController implements Initializable {
         /*
          * Mise en place de la table view des interventions
          */
-        interventionsTableView.getSelectionModel().setSelectionMode( SelectionMode.MULTIPLE );
+        interventionsTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         statusCol.setCellValueFactory(new PropertyValueFactory<Intervention, Status>("status"));
         titleCol.setCellValueFactory(new PropertyValueFactory<Intervention, String>("title"));
         clientCol.setCellValueFactory(new PropertyValueFactory<Intervention, Client>("client"));
@@ -193,6 +195,19 @@ class RestitutionsController implements Initializable {
                     setText(clientString.toString());
                 }
             }
+        });
+
+        /**
+         * Permet de wrapper le texte dans la colonne description
+         */
+        descriptionCol.setCellFactory(tc -> {
+            TableCell<Intervention, String> cell = new TableCell<>();
+            Text text = new Text();
+            cell.setGraphic(text);
+            cell.setPrefHeight(Control.USE_COMPUTED_SIZE);
+            text.wrappingWidthProperty().bind(descriptionCol.widthProperty());
+            text.textProperty().bind(cell.itemProperty());
+            return cell;
         });
 
         /**

@@ -16,7 +16,7 @@
                 <TableColumn fx:id="statusCol" prefWidth="100.0" text="%statut" />
                 <TableColumn fx:id="titleCol" prefWidth="150.0" text="%titre" />
                 <TableColumn fx:id="clientCol" prefWidth="150.0" text="%client" />
-                <TableColumn id="descriptionCol" fx:id="descriptionCol" maxWidth="600.0" minWidth="50.0" prefWidth="500.0" text="%description.de.l.intervention" />
+                <TableColumn id="descriptionCol" fx:id="descriptionCol" maxWidth="1000.0" minWidth="50.0" prefWidth="500.0" text="%description.de.l.intervention" />
                 <TableColumn fx:id="goKmCol" prefWidth="50.0" text="%aller" />
                 <TableColumn fx:id="backKmCol" prefWidth="50.0" text="%retour" />
             <TableColumn fx:id="kmCol" prefWidth="75.0" text="%km" />

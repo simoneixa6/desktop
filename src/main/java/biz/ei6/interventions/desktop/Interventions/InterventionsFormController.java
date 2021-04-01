@@ -73,7 +73,7 @@ import javafx.util.StringConverter;
  * @author Eixa6
  */
 public final class InterventionsFormController implements Initializable, DesktopListener {
-
+    
     @FXML
     Label titleLbl;
     @FXML
@@ -137,47 +137,47 @@ public final class InterventionsFormController implements Initializable, Desktop
     Button createClientBtn;
     @FXML
     Button updateClientBtn;
-
+    
     Label linkedInterventionsLbl;
     ListView<Intervention> linkedInterventionsListView;
-
+    
     Interactors interactors;
-
+    
     DesktopListener desktopListener;
 
     /**
      * Intervention éditée par la partie droite de l'interface
      */
     private final SimpleObjectProperty<Intervention> editedIntervention = new SimpleObjectProperty<Intervention>();
-
+    
     private final SimpleObjectProperty<Client> selectedClient = new SimpleObjectProperty<Client>();
-
+    
     Boolean isNewIntervention = false;
-
+    
     Status status1;
     Status status2;
     Status status3;
     Status status4;
-
+    
     Stage clientStage;
-
+    
     ResourceBundle resources;
-
+    
     InterventionsFormController(Intervention intervention) {
         setEditedIntervention(intervention);
         if (intervention.getId() == null) {
             isNewIntervention = true;
         }
     }
-
+    
     public void setInteractors(App.Interactors interactors) {
         this.interactors = interactors;
     }
-
+    
     public void setDesktopListener(DesktopListener desktopListener) {
         this.desktopListener = desktopListener;
     }
-
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -203,14 +203,15 @@ public final class InterventionsFormController implements Initializable, Desktop
         // TEMPORAIRE
         userBox.getItems().addAll("Slad", "Fabien");
 
+        // Ajout du wrapping du texte pour le champ description
+        descriptionInput.setWrapText(true);
+
         // Remplissage des choiceboxs
         statusBox.getItems().addAll(status1, status2, status3, status4);
-
-        statusBox.setCellFactory(new StatusCellFactory());
-
         paymenttypeBox.getItems().addAll(resources.getString("paiement.cheque"), resources.getString("paiement.cb"),
                 resources.getString("paiement.espece"), resources.getString("paiement.virement"));
-
+        
+        statusBox.setCellFactory(new StatusCellFactory());
         statusBox.setConverter(new StringConverter<Status>() {
             @Override
             public String toString(Status status) {
@@ -220,7 +221,7 @@ public final class InterventionsFormController implements Initializable, Desktop
                     return resources.getString("exception.erreur");
                 }
             }
-
+            
             @Override
             public Status fromString(String arg0) {
                 throw new UnsupportedOperationException("Not supported.");
@@ -255,13 +256,13 @@ public final class InterventionsFormController implements Initializable, Desktop
                     return resources.getString("info.choisir.client");
                 }
             }
-
+            
             @Override
             public Client fromString(String arg0) {
                 throw new UnsupportedOperationException("Not supported.");
             }
         });
-
+        
         try {
             // Remplissage de la combobox des clients
             updateClientsComboBox();
@@ -305,9 +306,9 @@ public final class InterventionsFormController implements Initializable, Desktop
             @Override
             public String toString(Site site) {
                 if (site != null) {
-
+                    
                     StringBuilder address = new StringBuilder();
-
+                    
                     if (site.getAddress() != null) {
                         address.append(site.getAddress());
                     }
@@ -317,13 +318,13 @@ public final class InterventionsFormController implements Initializable, Desktop
                     if (site.getCity() != null) {
                         address.append(" ").append(site.getCity());
                     }
-
+                    
                     return address.toString();
                 } else {
                     return "";
                 }
             }
-
+            
             @Override
             public Site fromString(String arg0) {
                 throw new UnsupportedOperationException("Not supported.");
@@ -365,7 +366,7 @@ public final class InterventionsFormController implements Initializable, Desktop
 
             //TEMPORAIRE
             getEditedIntervention().setUser_id("Slad");
-
+            
         } else {
             updateMediasListView();
             registerBtn.setText(resources.getString("modifier"));
@@ -430,14 +431,14 @@ public final class InterventionsFormController implements Initializable, Desktop
 
             // Renvoie le site selectionné
             Period selectedPeriod = periodTableView.getSelectionModel().getSelectedItem();
-
+            
             periods.remove(selectedPeriod);
         });
-
+        
         multiplePeriodBtn.setOnAction((ActionEvent actionEvent) -> {
             try {
                 var dates = multiplePeriodBegin.getValue().datesUntil(multiplePeriodEnd.getValue().plusDays(1)).collect(Collectors.toList());
-
+                
                 for (LocalDate date : dates) {
                     Period period = new Period();
                     period.setDateString(date.atStartOfDay().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")));
@@ -456,22 +457,22 @@ public final class InterventionsFormController implements Initializable, Desktop
 
         // Mise en place de la cell factory des médias
         mediasListView.setCellFactory(new MediaCellFactory());
-
+        
         mediasListView.setOnMouseClicked((MouseEvent click) -> {
             if (click.getClickCount() == 2 && mediasListView.getSelectionModel().getSelectedItem() != null) {
-
+                
                 MediaFile mediaFile = null;
-
+                
                 try {
                     mediaFile = interactors.getMediaFile.invoke(mediasListView.getSelectionModel().getSelectedItem().getId());
                 } catch (MediaGetException e) {
                     showAlert(AlertType.ERROR, "exception.erreur", "exception.recuperationMedia", e.toString());
                 }
-
+                
                 if (mediaFile != null) {
-
+                    
                     File filePath = new File(System.getProperty("user.home") + "/Downloads/" + mediaFile.getFileName());
-
+                    
                     if (filePath != null) {
                         byte[] data = Base64.getDecoder().decode(mediaFile.fileData);
                         try ( OutputStream stream = new FileOutputStream(filePath)) {
@@ -479,7 +480,7 @@ public final class InterventionsFormController implements Initializable, Desktop
                         } catch (Exception e) {
                             showAlert(AlertType.ERROR, "exception.erreur", "exception.creationFichier", e.toString());
                         }
-
+                        
                         try {
                             Desktop.getDesktop().open(filePath);
                         } catch (IOException e) {
@@ -489,19 +490,19 @@ public final class InterventionsFormController implements Initializable, Desktop
                 }
             }
         });
-
+        
         addMediaBtn.setOnAction((ActionEvent actionEvent) -> {
-
+            
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Selectionnez un fichier à joindre à l'intervention");
-
+            
             File selectedFile = fileChooser.showOpenDialog(addMediaBtn.getScene().getWindow());
-
+            
             int BUFFER_SIZE = 3 * 1024;
-
+            
             if (selectedFile != null) {
                 try ( FileInputStream input = new FileInputStream(selectedFile);  BufferedInputStream in = new BufferedInputStream(input, BUFFER_SIZE);) {
-
+                    
                     Base64.Encoder encoder = Base64.getEncoder();
                     StringBuilder result = new StringBuilder();
                     byte[] chunk = new byte[BUFFER_SIZE];
@@ -519,17 +520,17 @@ public final class InterventionsFormController implements Initializable, Desktop
                     mediaFile.setIntervention_id(getEditedIntervention().getId());
                     mediaFile.setFileName(selectedFile.getName());
                     mediaFile.setFileData(result.toString());
-
+                    
                     interactors.addMediaFile.invoke(mediaFile);
-
+                    
                     updateMediasListView();
-
+                    
                 } catch (Exception e) {
                     showAlert(AlertType.ERROR, "exception.erreur", "exception.ajoutMedia", e.toString());
                 }
             }
         });
-
+        
         deleteMediaBtn.setOnAction((ActionEvent actionEvent) -> {
             if (mediasListView.getSelectionModel().getSelectedItem() != null) {
                 try {
@@ -554,21 +555,21 @@ public final class InterventionsFormController implements Initializable, Desktop
         TextFormatter onlyIntDoubleFormatter2 = new TextFormatter((UnaryOperator<TextFormatter.Change>) change -> {
             return pattern.matcher(change.getControlNewText()).matches() ? change : null;
         });
-
+        
         kmInput.setTextFormatter(onlyIntDoubleFormatter);
         goKmInput.setTextFormatter(onlyIntDoubleFormatter1);
         backKmInput.setTextFormatter(onlyIntDoubleFormatter2);
-
+        
         goKmInput.textProperty().addListener((observable, oldVal, newVal) -> {
             double a;
             double b;
-
+            
             if (newVal != null && !"".equals(newVal)) {
                 a = Double.parseDouble(newVal);
             } else {
                 a = 0;
             }
-
+            
             if (backKmInput.getText() == null || "".equals(backKmInput.getText())) {
                 b = 0;
             } else {
@@ -576,17 +577,17 @@ public final class InterventionsFormController implements Initializable, Desktop
             }
             kmInput.setText(String.valueOf(a + b));
         });
-
+        
         backKmInput.textProperty().addListener((observable, oldVal, newVal) -> {
             double a;
             double b;
-
+            
             if (newVal != null && !"".equals(newVal)) {
                 a = Double.parseDouble(newVal);
             } else {
                 a = 0;
             }
-
+            
             if (goKmInput.getText() == null || "".equals(goKmInput.getText())) {
                 b = 0;
             } else {
@@ -621,7 +622,7 @@ public final class InterventionsFormController implements Initializable, Desktop
                     period.getEndProperty()
             );
         });
-
+        
         periodTableView.setEditable(true);
         dateCol.setCellFactory(column -> new DateEditableCell(column));
         startCol.setCellFactory(column -> new TimeEditableCell(column));
@@ -698,18 +699,18 @@ public final class InterventionsFormController implements Initializable, Desktop
      * @return
      */
     public boolean validate() {
-
+        
         StringBuilder errors = new StringBuilder();
 
         // Vérifie que les champs obligatoires soient bien remplies
         if (nameInput.getText() == null || "".equals(nameInput.getText())) {
             errors.append(resources.getString("warning.titreIntervention"));
         }
-
+        
         if (periodTableView.getItems().size() < 1) {
             errors.append(resources.getString("warning.periode"));
         }
-
+        
         if (clientBox.getSelectionModel().getSelectedItem() == null || clientBox.getSelectionModel().getSelectedItem().getId() == null) {
             errors.append(resources.getString("warning.choisirClient"));
         }
@@ -722,7 +723,7 @@ public final class InterventionsFormController implements Initializable, Desktop
 
         // Pas d'erreur, tous les champs sont remplies correctement
         return true;
-
+        
     }
 
     /**
@@ -783,12 +784,12 @@ public final class InterventionsFormController implements Initializable, Desktop
     public SimpleObjectProperty<Client> getSelectedClientProperty() {
         return selectedClient;
     }
-
+    
     @Override
     public void close() {
         clientStage.close();
     }
-
+    
     @Override
     public void returnClient(Client client) {
 
@@ -809,12 +810,12 @@ public final class InterventionsFormController implements Initializable, Desktop
             clientBox.setValue(null);
         }
     }
-
+    
     private void updateMediasListView() {
         var medias = FXCollections.observableArrayList(getMedias());
         mediasListView.setItems(medias);
     }
-
+    
     public ArrayList<Media> getMedias() {
         try {
             return interactors.getInterventionMedias.invoke(getEditedIntervention().getId());
@@ -828,5 +829,5 @@ public final class InterventionsFormController implements Initializable, Desktop
         // Si erreur lors de la récupération, on renvoie une liste d'interventions vide
         return new ArrayList<>();
     }
-
+    
 }
