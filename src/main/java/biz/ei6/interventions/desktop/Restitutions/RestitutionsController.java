@@ -231,7 +231,7 @@ class RestitutionsController implements Initializable {
 
                 // Calcul de la somme des km pour les interventions selectionné
                 var interventions = interventionsTableView.getSelectionModel().getSelectedItems();
-                var somme = interventions.stream().map(intervention -> Double.parseDouble(intervention.getKm())).reduce(0.0, (Double arg0, Double arg1) -> arg0 + arg1);
+                var somme = interventions.stream().filter( intervention -> Objects.nonNull(intervention.getKm())).map(intervention -> Double.parseDouble(intervention.getKm())).reduce(0.0, (Double arg0, Double arg1) -> arg0 + arg1);
                 nbrOfKmOfSelectedInterventions.setText(String.valueOf(somme));
             }
         });
