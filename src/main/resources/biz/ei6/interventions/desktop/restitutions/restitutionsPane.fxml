@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
@@ -8,6 +9,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
 
 <fx:root id="splitpanestyle" fx:id="anchorPane" minWidth="400.0" prefHeight="531.0" prefWidth="1368.0" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
     <children>
@@ -19,22 +21,42 @@
                 <TableColumn id="descriptionCol" fx:id="descriptionCol" maxWidth="1000.0" minWidth="50.0" prefWidth="500.0" text="%description.de.l.intervention" />
                 <TableColumn fx:id="goKmCol" prefWidth="50.0" text="%aller" />
                 <TableColumn fx:id="backKmCol" prefWidth="50.0" text="%retour" />
-            <TableColumn fx:id="kmCol" prefWidth="75.0" text="%km" />
+                <TableColumn fx:id="kmCol" prefWidth="75.0" text="%km" />
                 <TableColumn fx:id="billNumberCol" prefWidth="150.0" text="%numero.de.facture" />
                 <TableColumn fx:id="billDateCol" prefWidth="120.0" text="%date.de.facturation" />
                 <TableColumn fx:id="paymentTypeCol" prefWidth="150.0" text="%mode.de.reglement" />
                 <TableColumn fx:id="paymentDateCol" prefWidth="120.0" text="%date.de.reglement" />
             </columns>
         </TableView>
-      <ChoiceBox id="combobox" fx:id="statusChoiceBox" layoutX="40.0" layoutY="45.0" prefWidth="150.0" />
-      <Label id="textinputlabel" layoutX="40.0" layoutY="22.0" text="%filtre.statut" />
-      <Label id="textinputlabel" layoutX="538.0" layoutY="22.0" text="%intervention(s)" />
-      <TextField id="textInput" fx:id="nbrOfSelectedInterventions" editable="false" layoutX="538.0" layoutY="46.0" prefHeight="25.0" prefWidth="86.0" />
-      <TextField id="textInput" fx:id="nbrOfKmOfSelectedInterventions" editable="false" layoutX="644.0" layoutY="46.0" prefHeight="25.0" prefWidth="86.0" />
-      <Label id="textinputlabel" layoutX="644.0" layoutY="22.0" text="%km" />
-      <TextField id="textInput" fx:id="keyWordInput" layoutX="211.0" layoutY="46.0" prefHeight="25.0" prefWidth="174.0" promptText="%rechercher.par.mot.cle" />
-      <Label id="textinputlabel" layoutX="211.0" layoutY="22.0" text="%filtre.mot.cle" />
-      <Button id="greyBtn" fx:id="keyWordBtn" layoutX="393.0" layoutY="46.0" mnemonicParsing="false" prefHeight="0.0" prefWidth="90.0" text="%rechercher" />
-      <Line endX="-100.0" endY="58.0" fill="#f4f6f5" layoutX="611.0" layoutY="33.0" startX="-100.0" startY="-20.0" stroke="#c6c6c6" />
+        <ChoiceBox id="combobox" fx:id="statusChoiceBox" layoutX="40.0" layoutY="45.0" prefWidth="150.0" />
+        <Label id="textinputlabel" layoutX="40.0" layoutY="22.0" text="%filtre.statut" />
+        <Label id="textinputlabel" layoutX="538.0" layoutY="22.0" text="%intervention(s)" />
+        <TextField id="textInput" fx:id="nbrOfSelectedInterventions" editable="false" layoutX="538.0" layoutY="46.0" prefHeight="25.0" prefWidth="86.0">
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor></TextField>
+        <TextField id="textInput" fx:id="nbrOfKmOfSelectedInterventions" editable="false" layoutX="644.0" layoutY="46.0" prefHeight="25.0" prefWidth="86.0">
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor></TextField>
+        <Label id="textinputlabel" layoutX="644.0" layoutY="22.0" text="%km" />
+      
+        <AnchorPane layoutX="211.0" layoutY="45.0" maxHeight="25.0" maxWidth="174.0" minHeight="25.0" minWidth="174.0" prefHeight="25.0" prefWidth="174.0">
+            <children>
+                <TextField id="textInput" fx:id="keyWordInput" maxWidth="677.0" prefHeight="25.0" prefWidth="156.0" promptText="%rechercher.par.mot.cle" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="18.0" AnchorPane.topAnchor="0.0">
+               <cursor>
+                  <Cursor fx:constant="TEXT" />
+               </cursor>
+            </TextField>
+                <Button fx:id="clearKeyWordInputBtn" graphicTextGap="0.0" layoutX="147.0" minHeight="10.0" minWidth="13.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="27.0" style="-fx-background-color: #f4f6f5;" text="X" textFill="#8d8d8d" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Button>
+            </children>
+        </AnchorPane>
+      
+        <Label id="textinputlabel" layoutX="211.0" layoutY="22.0" text="%filtre.mot.cle" />
+        <Button id="greyBtn" fx:id="keyWordBtn" layoutX="393.0" layoutY="46.0" mnemonicParsing="false" prefHeight="0.0" prefWidth="90.0" text="%rechercher" />
+        <Line endX="-100.0" endY="58.0" fill="#f4f6f5" layoutX="611.0" layoutY="33.0" startX="-100.0" startY="-20.0" stroke="#c6c6c6" />
     </children>
 </fx:root>

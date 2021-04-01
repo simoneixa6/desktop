@@ -54,6 +54,9 @@ class RestitutionsController implements Initializable {
 
     @FXML
     Button keyWordBtn;
+    
+    @FXML
+    Button clearKeyWordInputBtn;
 
     @FXML
     TableView<Intervention> interventionsTableView;
@@ -211,19 +214,23 @@ class RestitutionsController implements Initializable {
         });
 
         /**
-         * Action sur le clic du bouton "Valider"
+         * Action sur le clic du bouton "Rechercher"
          */
         keyWordBtn.setOnAction((ActionEvent event) -> {
-
-            var interventions = FXCollections.observableArrayList(getInterventions());
-
-            var filteredInterventions = interventions.stream().filter(intervention -> Objects.nonNull(intervention.getDescription())).filter(intervention -> intervention.getDescription().contains(keyWordInput.getText())).collect(Collectors.toList());
-
-            var filteredInterventionsObs = FXCollections.observableArrayList(filteredInterventions);
-
-            interventionsTableView.setItems(filteredInterventionsObs);
+            sortInterventions();
         });
 
+        /**
+         * Action sur le clic du bouton "x"
+         */
+        clearKeyWordInputBtn.setOnAction((ActionEvent event) -> {
+            keyWordInput.clear();
+            sortInterventions();
+        });
+        
+        /**
+         * Calcul du nombre d'interventions selectionnées et du nombre de km pour ces interventions
+         */
         interventionsTableView.getSelectionModel().selectedItemProperty().addListener((var obs, var oldSelection, var newSelection) -> {
             if (newSelection != null) {
                 // Nombre d'interventions selectionné
@@ -238,6 +245,16 @@ class RestitutionsController implements Initializable {
 
         // Mise à jour de la table des interventions a l'initialisation
         updateInterventionsListView();
+    }
+
+    private void sortInterventions() {
+        var interventions = FXCollections.observableArrayList(getInterventions());
+        
+        var filteredInterventions = interventions.stream().filter(intervention -> Objects.nonNull(intervention.getDescription())).filter(intervention -> intervention.getDescription().contains(keyWordInput.getText())).collect(Collectors.toList());
+        
+        var filteredInterventionsObs = FXCollections.observableArrayList(filteredInterventions);
+        
+        interventionsTableView.setItems(filteredInterventionsObs);
     }
 
     public void updateInterventionsListView() {
