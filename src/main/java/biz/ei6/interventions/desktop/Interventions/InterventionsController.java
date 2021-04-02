@@ -118,7 +118,7 @@ public class InterventionsController implements Initializable, DesktopListener {
         interventionsListView.getSelectionModel().selectedItemProperty().addListener((observable, oldSelectedIntervention, newSelectedIntervention) -> {
             if (newSelectedIntervention != null) {
                 InterventionsForm interventionsForm = new InterventionsForm(interactors, newSelectedIntervention, this, resources);
-                addInterventionsFormToSplitPane(interventionsForm);
+                addInterventionsFormToSplitPane(interventionsForm, oldSelectedIntervention);
 
                 interventionsForm.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
                     wasNotSaved = true;
@@ -132,14 +132,14 @@ public class InterventionsController implements Initializable, DesktopListener {
         createBtn.setOnAction((ActionEvent actionEvent) -> {
             interventionsListView.getSelectionModel().clearSelection();
             InterventionsForm interventionsForm = new InterventionsForm(interactors, new Intervention(), this, resources);
-            addInterventionsFormToSplitPane(interventionsForm);
+            addInterventionsFormToSplitPane(interventionsForm, null);
         });
 
         // Mise à jour de la liste des interventions au démarrage
         updateInterventionsListView();
     }
 
-    private void addInterventionsFormToSplitPane(InterventionsForm interventionsForm) {
+    private void addInterventionsFormToSplitPane(InterventionsForm interventionsForm, Intervention oldSelectedIntervention) {
         /*
          * Supprime la partie formulaire d'intervention si elle est déjà présente
          */
@@ -165,7 +165,7 @@ public class InterventionsController implements Initializable, DesktopListener {
                     // Sinon on conserve le formulaire et on deselectionne l'élément afin que l'utilisateur continue sa modification
                 } else if (result.get() == ButtonType.CANCEL) {
 
-                    Platform.runLater(interventionsListView.getSelectionModel()::clearSelection);
+               //     Platform.runLater(interventionsListView.getSelectionModel().select(oldSelectedIntervention));
 
                 }
                 // Si l'utilisateur n'a pas effectué de modification, on remplace le formulaire par le nouveau

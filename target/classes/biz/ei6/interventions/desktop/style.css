@@ -269,7 +269,6 @@
 
 .table-row-cell:odd{
     -fx-background-color: mainGrey;
-    -fx-border-width:10 0 0 0;
     -fx-border-color: mainGrey;
 }
 .table-row-cell:even{
