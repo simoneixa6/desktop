@@ -35,7 +35,9 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ResourceBundle;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
+import javafx.stage.Screen;
 
 /*
  * JavaFX App
@@ -60,15 +62,14 @@ public class App extends Application {
         public GetClients getClients = new GetClients(clientsRepository);
         public GetClient getClient = new GetClient(clientsRepository);
         public RemoveClient removeClient = new RemoveClient(clientsRepository);
-        
+
         public MediasDataSource mediasDataSource = new WSMediasDataSource(resources);
         public MediasRepository mediasRepository = new MediasRepository(mediasDataSource);
         public GetMedias getMedias = new GetMedias(mediasRepository);
         public GetInterventionMedias getInterventionMedias = new GetInterventionMedias(mediasRepository);
         public GetMedia getMedia = new GetMedia(mediasRepository);
         public RemoveMedia removeMedia = new RemoveMedia(mediasRepository);
-        
-        
+
         public MediaFilesDataSource mediaFileDataSource = new WSMediaFilesDataSource(resources);
         public MediaFilesRepository mediaFilesRepository = new MediaFilesRepository(mediaFileDataSource);
         public AddMediaFile addMediaFile = new AddMediaFile(mediaFilesRepository);
@@ -88,7 +89,10 @@ public class App extends Application {
         ctrl.setInteractors(interactors);
         ctrl.setDefaultPane();
 
-        scene = new Scene(root, 1220, 940);
+        // Récupération de la taille de l'écran
+        Rectangle2D screenBounds = Screen.getPrimary().getBounds();
+
+        scene = new Scene(root, screenBounds.getWidth() * 0.7, screenBounds.getHeight() * 0.7);
         stage.setTitle(mainBundle.getString("titreAppli"));
         stage.setScene(scene);
         InputStream logo = getClass().getResourceAsStream("logo.png");
