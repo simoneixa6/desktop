@@ -17,6 +17,8 @@ public class DateEditableCell extends TableCell<Period, LocalDate> {
     TableColumn<Period, LocalDate> column;
     private TextField textField;
     DateTimeFormatter Dateformatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    DateTimeFormatter Dateformatter1 = DateTimeFormatter.ofPattern("dd/MM/yy");
+    DateTimeFormatter Dateformatter2 = DateTimeFormatter.ofPattern("ddMMyy");
 
     DateEditableCell(TableColumn<Period, LocalDate> column) {
         this.column = column;
@@ -37,8 +39,8 @@ public class DateEditableCell extends TableCell<Period, LocalDate> {
     @Override
     public void cancelEdit() {
         super.cancelEdit();
-        if(getItem()!=null){
-            setText(getItem().format(Dateformatter));     
+        if (getItem() != null) {
+            setText(getItem().format(Dateformatter));
         }
         setGraphic(null);
     }
@@ -62,7 +64,20 @@ public class DateEditableCell extends TableCell<Period, LocalDate> {
                     if (!arg2) {
                         // Essaye de parser la valeur en LocalDate, si exception alors la valeur ne correspond pas au bon format, on annule l'édition
                         try {
-                            LocalDate parsedDate = LocalDate.parse(textField.getText(), Dateformatter);
+                            LocalDate parsedDate;
+                            switch (textField.getText().length()) {
+                                case 6:
+                                    parsedDate = LocalDate.parse(textField.getText(), Dateformatter2);
+                                    break;
+                                case 8:
+                                    parsedDate = LocalDate.parse(textField.getText(), Dateformatter1);
+                                    break;
+                                case 10:
+                                    parsedDate = LocalDate.parse(textField.getText(), Dateformatter);
+                                    break;
+                                default:
+                                    throw new Exception();
+                            }
                             commitEdit(parsedDate);
                             setGraphic(null);
                         } catch (Exception e) {
