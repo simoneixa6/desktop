@@ -28,6 +28,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.util.StringConverter;
@@ -54,7 +55,7 @@ class RestitutionsController implements Initializable {
 
     @FXML
     Button keyWordBtn;
-    
+
     @FXML
     Button clearKeyWordInputBtn;
 
@@ -213,6 +214,12 @@ class RestitutionsController implements Initializable {
             return cell;
         });
 
+        keyWordInput.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                sortInterventions();
+            }
+        });
+
         /**
          * Action sur le clic du bouton "Rechercher"
          */
@@ -227,9 +234,10 @@ class RestitutionsController implements Initializable {
             keyWordInput.clear();
             sortInterventions();
         });
-        
+
         /**
-         * Calcul du nombre d'interventions selectionnées et du nombre de km pour ces interventions
+         * Calcul du nombre d'interventions selectionnées et du nombre de km
+         * pour ces interventions
          */
         interventionsTableView.getSelectionModel().selectedItemProperty().addListener((var obs, var oldSelection, var newSelection) -> {
             if (newSelection != null) {
@@ -238,7 +246,7 @@ class RestitutionsController implements Initializable {
 
                 // Calcul de la somme des km pour les interventions selectionné
                 var interventions = interventionsTableView.getSelectionModel().getSelectedItems();
-                var somme = interventions.stream().filter( intervention -> Objects.nonNull(intervention.getKm())).map(intervention -> Double.parseDouble(intervention.getKm())).reduce(0.0, (Double arg0, Double arg1) -> arg0 + arg1);
+                var somme = interventions.stream().filter(intervention -> Objects.nonNull(intervention.getKm())).map(intervention -> Double.parseDouble(intervention.getKm())).reduce(0.0, (Double arg0, Double arg1) -> arg0 + arg1);
                 nbrOfKmOfSelectedInterventions.setText(String.valueOf(somme));
             }
         });
@@ -249,11 +257,11 @@ class RestitutionsController implements Initializable {
 
     private void sortInterventions() {
         var interventions = FXCollections.observableArrayList(getInterventions());
-        
+
         var filteredInterventions = interventions.stream().filter(intervention -> Objects.nonNull(intervention.getDescription())).filter(intervention -> intervention.getDescription().contains(keyWordInput.getText())).collect(Collectors.toList());
-        
+
         var filteredInterventionsObs = FXCollections.observableArrayList(filteredInterventions);
-        
+
         interventionsTableView.setItems(filteredInterventionsObs);
     }
 
