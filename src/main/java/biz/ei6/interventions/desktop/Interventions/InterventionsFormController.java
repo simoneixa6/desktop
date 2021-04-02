@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+import java.nio.file.Files;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -519,6 +520,8 @@ public final class InterventionsFormController implements Initializable, Desktop
                     MediaFile mediaFile = new MediaFile();
                     mediaFile.setIntervention_id(getEditedIntervention().getId());
                     mediaFile.setFileName(selectedFile.getName());
+                    String mimeType = Files.probeContentType(selectedFile.toPath());
+                    mediaFile.setMimeType(mimeType);
                     mediaFile.setFileData(result.toString());
                     
                     interactors.addMediaFile.invoke(mediaFile);

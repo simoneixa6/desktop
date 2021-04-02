@@ -22,6 +22,8 @@ public class WSMediaFilesDataSource implements MediaFilesDataSource {
     HttpClient httpClient = new httpClient().get();
     ResourceBundle resources;
 
+    String url = "https://simon.biz/medias";
+    
     public WSMediaFilesDataSource(ResourceBundle resources) {
         this.resources = resources;
     }
@@ -38,7 +40,7 @@ public class WSMediaFilesDataSource implements MediaFilesDataSource {
       
             // Création de la requête
             var request = HttpRequest.newBuilder(
-                    URI.create("https://simon.biz/medias"))
+                    URI.create(url))
                     .header("Content-Type", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(json))
                     .build();
@@ -73,7 +75,7 @@ public class WSMediaFilesDataSource implements MediaFilesDataSource {
         try {
             // Création de la requête
             var request = HttpRequest.newBuilder(
-                    URI.create("https://simon.biz/medias/" + media_id + "/file"))
+                    URI.create(url + media_id + "/file"))
                     .header("Accept", "application/json")
                     .GET()
                     .build();
@@ -103,13 +105,7 @@ public class WSMediaFilesDataSource implements MediaFilesDataSource {
         addedMedia.setId(mediaDTO.getId());
         addedMedia.setDate(mediaDTO.getDate());
         addedMedia.setFileName(mediaDTO.getFileName());
-        addedMedia.setInterventionId(mediaDTO.getIntervention_id());
-    }
-
-    private void setMediaFile(Media addedMedia, MediaDTO mediaDTO) {
-        addedMedia.setId(mediaDTO.getId());
-        addedMedia.setDate(mediaDTO.getDate());
-        addedMedia.setFileName(mediaDTO.getFileName());
+        addedMedia.setMimeType(mediaDTO.getMimeType());
         addedMedia.setInterventionId(mediaDTO.getIntervention_id());
     }
 

@@ -30,6 +30,9 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
     HttpClient httpClient = new httpClient().get();
     ResourceBundle resources;
 
+    String urlWrite = "https://simon.biz/interventionswr";
+    String urlRead = "https://simon.biz/interventions";
+    
     public WSInterventionsDataSource(ResourceBundle resources) {
         this.resources = resources;
     }
@@ -45,7 +48,7 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
 
             // Création de la requête
             var request = HttpRequest.newBuilder(
-                    URI.create("https://simon.biz/interventionswr"))
+                    URI.create(urlWrite))
                     .header("Content-Type", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(json))
                     .build();
@@ -73,7 +76,7 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
         try {
             // Création de la requête
             var request = HttpRequest.newBuilder(
-                    URI.create("https://simon.biz/interventions"))
+                    URI.create(urlRead))
                     .header("Accept", "application/json")
                     .GET()
                     .build();
@@ -121,7 +124,7 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
 
             // Création de la requête
             var request = HttpRequest.newBuilder(
-                    URI.create("https://simon.biz/interventionswr/" + intervention.getId()))
+                    URI.create(urlWrite + "/" + intervention.getId()))
                     .header("Content-Type", "application/json")
                     .PUT(HttpRequest.BodyPublishers.ofString(json))
                     .build();
@@ -152,7 +155,7 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
 
             // Création de la requête
             var request = HttpRequest.newBuilder(
-                    URI.create("https://simon.biz/interventionswr/" + intervention.getId()))
+                    URI.create(urlWrite + "/" + intervention.getId()))
                     .header("Content-Type", "application/json")
                     .PUT(HttpRequest.BodyPublishers.ofString(json))
                     .build();

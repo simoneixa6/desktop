@@ -24,6 +24,9 @@ public class WSClientsDataSource implements ClientsDataSource {
     HttpClient httpClient = new httpClient().get();
     ResourceBundle resources;
 
+    String urlWrite = "https://simon.biz/clientswr";
+    String urlRead = "https://simon.biz/clients";
+    
     public WSClientsDataSource(ResourceBundle resources) {
         this.resources = resources;
     }
@@ -38,7 +41,7 @@ public class WSClientsDataSource implements ClientsDataSource {
 
             // Création de la requête
             var request = HttpRequest.newBuilder(
-                    URI.create("https://simon.biz/clientswr"))
+                    URI.create(urlWrite))
                     .header("Content-Type", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(json))
                     .build();
@@ -77,7 +80,7 @@ public class WSClientsDataSource implements ClientsDataSource {
         try {
             // Création de la requête
             var request = HttpRequest.newBuilder(
-                    URI.create("https://simon.biz/clients"))
+                    URI.create(urlRead))
                     .header("Accept", "application/json")
                     .GET()
                     .build();
@@ -122,7 +125,7 @@ public class WSClientsDataSource implements ClientsDataSource {
         try {
             // Création de la requête
             var request = HttpRequest.newBuilder(
-                    URI.create("https://simon.biz/clients/" + client_id))
+                    URI.create(urlRead + "/" + client_id))
                     .header("Accept", "application/json")
                     .GET()
                     .build();
@@ -160,7 +163,7 @@ public class WSClientsDataSource implements ClientsDataSource {
 
             // Création de la requête
             var request = HttpRequest.newBuilder(
-                    URI.create("https://simon.biz/clientswr/" + client.getId()))
+                    URI.create(urlWrite + "/" + client.getId()))
                     .header("Content-Type", "application/json")
                     .PUT(HttpRequest.BodyPublishers.ofString(json))
                     .build();
@@ -191,7 +194,7 @@ public class WSClientsDataSource implements ClientsDataSource {
 
             // Création de la requête
             var request = HttpRequest.newBuilder(
-                    URI.create("https://simon.biz/clientswr/" + client.getId()))
+                    URI.create(urlWrite + "/" + client.getId()))
                     .header("Content-Type", "application/json")
                     .PUT(HttpRequest.BodyPublishers.ofString(json))
                     .build();

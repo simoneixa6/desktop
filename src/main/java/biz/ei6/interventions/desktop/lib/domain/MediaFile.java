@@ -7,6 +7,7 @@ public class MediaFile {
     
     public String intervention_id;
     public String fileName;
+    private String mimeType;
     public String fileData;
 
     public String getIntervention_id() {
@@ -23,6 +24,14 @@ public class MediaFile {
 
     public void setFileName(String FileName) {
         this.fileName = FileName;
+    }
+
+    public String getMimeType() {
+        return mimeType;
+    }
+
+    public void setMimeType(String mimeType) {
+        this.mimeType = mimeType;
     }
 
     public String getFileData() {

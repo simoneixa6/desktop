@@ -13,6 +13,7 @@ public class MediaDTO {
     String intervention_id;
     String date;
     String fileName;
+    String mimeType;
     String deleted;
 
     public String getId() {
@@ -45,6 +46,14 @@ public class MediaDTO {
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
+    }
+
+    public String getMimeType() {
+        return mimeType;
+    }
+
+    public void setMimeType(String mimeType) {
+        this.mimeType = mimeType;
     }
 
     public String getDeleted() {

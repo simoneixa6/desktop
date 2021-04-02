@@ -22,6 +22,7 @@ public class WSMediasDataSource implements MediasDataSource {
 
     HttpClient httpClient = new httpClient().get();
     ResourceBundle resources;
+    String url = "https://simon.biz/medias";
 
     public WSMediasDataSource(ResourceBundle resources) {
         this.resources = resources;
@@ -42,7 +43,7 @@ public class WSMediasDataSource implements MediasDataSource {
         try {
             // Création de la requête
             var request = HttpRequest.newBuilder(
-                    URI.create("https://simon.biz/medias/intervention/" + intervention_id))
+                    URI.create(url + "/intervention/" + intervention_id))
                     .header("Accept", "application/json")
                     .GET()
                     .build();
@@ -88,7 +89,7 @@ public class WSMediasDataSource implements MediasDataSource {
     public void remove(Media media) throws MediaPutException {
         
         String serverResp = null;
-
+        
         try {
 
             media.setDeleted(true);
@@ -97,7 +98,7 @@ public class WSMediasDataSource implements MediasDataSource {
 
             // Création de la requête
             var request = HttpRequest.newBuilder(
-                    URI.create("https://simon.biz/medias/" + media.getId()))
+                    URI.create(url + media.getId()))
                     .header("Content-Type", "application/json")
                     .PUT(HttpRequest.BodyPublishers.ofString(json))
                     .build();
@@ -123,7 +124,6 @@ public class WSMediasDataSource implements MediasDataSource {
         return json;
     }
     
-    
     private void exceptionBuilder(String serverResp, StringBuilder exception, Exception e) {
         if (serverResp != null) {
             exception.append(resources.getString("exception.reponseServeur")).append(serverResp);
@@ -136,14 +136,15 @@ public class WSMediasDataSource implements MediasDataSource {
         addedMedia.setId(mediaDTO.getId());
         addedMedia.setDate(mediaDTO.getDate());
         addedMedia.setFileName(mediaDTO.getFileName());
+        addedMedia.setMimeType(mediaDTO.getMimeType());
         addedMedia.setInterventionId(mediaDTO.getIntervention_id());
-        addedMedia.setDeleted(Boolean.valueOf(mediaDTO.getDeleted()));
     }
 
     private void setMediaDTO(MediaDTO mediaDTO, Media media) {
         mediaDTO.setId(media.getId());
         mediaDTO.setDate(media.getDateString());
         mediaDTO.setFileName(media.getFileName());
+        mediaDTO.setMimeType(media.getMimeType());
         mediaDTO.setIntervention_id(media.getInterventionId());
         mediaDTO.setDeleted(String.valueOf(media.getDeleted()));
     }

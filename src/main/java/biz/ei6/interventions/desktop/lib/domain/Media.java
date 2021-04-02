@@ -20,6 +20,7 @@ public class Media {
     private final ObjectProperty<LocalDateTime> date = new SimpleObjectProperty();
     private final StringProperty tempName = new SimpleStringProperty();
     private final StringProperty fileName = new SimpleStringProperty();
+    private final StringProperty mimeType = new SimpleStringProperty();
     private final BooleanProperty deleted = new SimpleBooleanProperty();
 
     public StringProperty getIdProperty() {
@@ -69,7 +70,7 @@ public class Media {
     }
 
     public void setDate(String date) {
-        if (date != null) {       
+        if (date != null) {
             LocalDateTime parsedDate = LocalDateTime.parse(date, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
 
             this.date.set(parsedDate);
@@ -102,6 +103,18 @@ public class Media {
         this.fileName.set(fileName);
     }
 
+    public StringProperty getMimeTypeProperty() {
+        return mimeType;
+    }
+
+    public String getMimeType() {
+        return mimeType.get();
+    }
+
+    public void setMimeType(String mimeType) {
+        this.mimeType.set(mimeType);
+    }
+
     public BooleanProperty getDeletedProperty() {
         return deleted;
     }
@@ -113,5 +126,4 @@ public class Media {
     public void setDeleted(Boolean deleted) {
         this.deleted.set(deleted);
     }
-
 }
