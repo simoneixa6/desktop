@@ -219,7 +219,7 @@ public class Client {
         String formattedFirstVisitDateTime;
 
         if (firstVisitDate.getValue() != null) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
             LocalDateTime dateTime = firstVisitDate.get().atStartOfDay();
             formattedFirstVisitDateTime = dateTime.format(formatter);
         } else {

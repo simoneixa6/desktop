@@ -13,6 +13,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutionException;
+import javafx.scene.Cursor;
 
 /*
  * @author Eixa6

@@ -98,7 +98,7 @@ public class WSMediasDataSource implements MediasDataSource {
 
             // Création de la requête
             var request = HttpRequest.newBuilder(
-                    URI.create(url + media.getId()))
+                    URI.create(url + "/" + media.getId()))
                     .header("Content-Type", "application/json")
                     .PUT(HttpRequest.BodyPublishers.ofString(json))
                     .build();
