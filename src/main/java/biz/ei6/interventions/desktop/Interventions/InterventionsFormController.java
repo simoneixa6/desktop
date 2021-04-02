@@ -4,6 +4,7 @@ import biz.ei6.interventions.desktop.App;
 import biz.ei6.interventions.desktop.App.Interactors;
 import biz.ei6.interventions.desktop.DesktopListener;
 import biz.ei6.interventions.desktop.clients.ClientsForm;
+import biz.ei6.interventions.desktop.clients.SortClient;
 import biz.ei6.interventions.desktop.framework.clients.ClientGetException;
 import biz.ei6.interventions.desktop.framework.interventions.InterventionPostException;
 import biz.ei6.interventions.desktop.framework.interventions.InterventionPutException;
@@ -654,9 +655,9 @@ public final class InterventionsFormController implements Initializable, Desktop
      * Mise à jour de la combobox des clients
      */
     private void updateClientsComboBox() throws ClientGetException {
-        // Appelé 3 fois FBR lors de l'ouverture d'une intervention ?
-        var clients = FXCollections.observableArrayList(interactors.getClients.invoke());
-        clientBox.setItems(clients);
+        var clientsObs = FXCollections.observableArrayList(interactors.getClients.invoke());
+        clientsObs.sort(new SortClient());
+        clientBox.setItems(clientsObs);
     }
 
     /**
