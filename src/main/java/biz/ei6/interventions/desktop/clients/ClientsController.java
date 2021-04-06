@@ -142,9 +142,9 @@ class ClientsController implements Initializable, DesktopListener {
             return interactors.getClients.invoke();
         } catch (ClientGetException e) {
             Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Erreur");
-            alert.setHeaderText("Erreur lors de la récupération des clients (GET) :");
-            alert.setContentText(e.toString());
+            alert.setTitle(resources.getString("exception.erreur"));
+            alert.setHeaderText(resources.getString("exception.serveur.injoignable") + resources.getString("exception.recuperationClients"));
+            alert.setContentText(resources.getString("exception.serveur.injoignable.detail") + "\n" + "\n" + e.toString());
             alert.show();
         }
         return new ArrayList<>();

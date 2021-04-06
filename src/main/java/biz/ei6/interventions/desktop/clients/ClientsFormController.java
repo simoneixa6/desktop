@@ -183,7 +183,7 @@ public final class ClientsFormController implements Initializable {
                         addedClient = interactors.addClient.invoke(getEditedClient());
 
                     } catch (ClientPostException e) {
-                        showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.ajoutClient", e.toString());
+                        showAlert(AlertType.ERROR,resources.getString("exception.erreur"), resources.getString("exception.ajoutClient"), e.toString());
                     }
                     // Si il possède un ID, il existe, donc on veut donc le modifier
                 } else {
@@ -195,7 +195,7 @@ public final class ClientsFormController implements Initializable {
 
                         addedClient = getEditedClient();
                     } catch (ClientPutException e) {
-                        showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.modificationClient", e.toString());
+                        showAlert(AlertType.ERROR, resources.getString("exception.erreur"), resources.getString("exception.modificationClient"), e.toString());
                     }
 
                     updateInterventionsWithThisClient();
@@ -215,7 +215,7 @@ public final class ClientsFormController implements Initializable {
             try {
                 interactors.removeClient.invoke(getEditedClient());
             } catch (ClientPutException e) {
-                showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.suppressionClient", e.toString());
+                showAlert(AlertType.ERROR, resources.getString("exception.erreur"), resources.getString("exception.suppressionClient"), e.toString());
             }
             // Renvoie un nouveau client ( afin de deselectionné l'ancien client dans le formulaire d'intervention
             desktopListener.returnClient(null);
@@ -268,7 +268,7 @@ public final class ClientsFormController implements Initializable {
         try {
             interventions = interactors.getInterventions.invoke();
         } catch (InterventionGetException e) {
-            showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.recuperationInterventions", e.toString());
+            showAlert(AlertType.ERROR, resources.getString("exception.erreur"), resources.getString("exception.recuperationInterventions"), e.toString());
         }
 
         // Mise à jour des interventions possédant ce client avec les nouvelles informations du client
@@ -281,7 +281,7 @@ public final class ClientsFormController implements Initializable {
             }
 
         } catch (InterventionPutException e) {
-            showAlert(resources, AlertType.ERROR, "exception.erreur", "exception.modificationIntervention", e.toString());
+            showAlert(AlertType.ERROR, resources.getString("exception.erreur"), resources.getString("exception.modificationIntervention"), e.toString());
         }
     }
 
@@ -321,10 +321,9 @@ public final class ClientsFormController implements Initializable {
                 errors.append(resources.getString("warning.nomEntreprise"));
             }
         }
-
         // Si une information est manquante, montre un message d'erreur et renvoie false
         if (errors.length() > 0) {
-            showAlert(resources, AlertType.WARNING, "warning.attention", "warning.champsObligatoires", errors.toString());
+            showAlert(AlertType.WARNING, resources.getString("warning.attention"), resources.getString("warning.champsObligatoires"), errors.toString());
             return false;
         }
         // Pas d'erreur
@@ -351,21 +350,21 @@ public final class ClientsFormController implements Initializable {
     }
 
     /**
-     * Méthode permettant de faire apparaitres une alerte
+     * Méthode permettant de faire apparaitre une alerte
      *
-     * @param resources
      * @param alertType
-     * @param titleProperty
-     * @param exceptionProperty
+     * @param titleText
+     * @param headerText
      * @param contentText
      */
-    private void showAlert(ResourceBundle resources, Alert.AlertType alertType, String titleProperty, String exceptionProperty, String contentText) {
+    private void showAlert(AlertType alertType, String titleText, String headerText ,String contentText) {
         Alert alert = new Alert(alertType);
-        alert.setTitle(resources.getString(titleProperty));
-        alert.setHeaderText(resources.getString(exceptionProperty));
+        alert.setTitle(titleText);
+        alert.setHeaderText(headerText);
         alert.setContentText(contentText);
         alert.showAndWait();
     }
+
 
     /**
      * @return the editedClient

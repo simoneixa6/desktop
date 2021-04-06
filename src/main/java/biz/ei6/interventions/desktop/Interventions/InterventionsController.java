@@ -164,9 +164,7 @@ public class InterventionsController implements Initializable, DesktopListener {
 
                     // Sinon on conserve le formulaire et on deselectionne l'élément afin que l'utilisateur continue sa modification
                 } else if (result.get() == ButtonType.CANCEL) {
-
-               //     Platform.runLater(interventionsListView.getSelectionModel().select(oldSelectedIntervention));
-
+                    Platform.runLater(interventionsListView.getSelectionModel()::clearSelection);
                 }
                 // Si l'utilisateur n'a pas effectué de modification, on remplace le formulaire par le nouveau
             } else {
@@ -200,8 +198,8 @@ public class InterventionsController implements Initializable, DesktopListener {
         } catch (InterventionGetException e) {
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle(resources.getString("exception.erreur"));
-            alert.setHeaderText(resources.getString("exception.recuperationInterventions"));
-            alert.setContentText(e.toString());
+            alert.setHeaderText(resources.getString("exception.serveur.injoignable") + resources.getString("exception.recuperationInterventions"));
+            alert.setContentText(resources.getString("exception.serveur.injoignable.detail") + "\n" + "\n" + e.toString());
             alert.showAndWait();
         }
         // Si erreur lors de la récupération, on renvoie une liste d'interventions vide
