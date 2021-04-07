@@ -424,7 +424,8 @@ public final class InterventionsFormController implements Initializable, Desktop
         addPeriodBtn.setOnAction((ActionEvent actionEvent) -> {
             Period period = new Period();
             period.setDateString(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")));
-            period.setStartString(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")));
+            // Je met les secondes à zero afin que lors du calcul de la durée, il n'y est pas d'approximation de faites avec les secondes
+            period.setStartString(LocalDateTime.now().withSecond(0).format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")));
             periodTableView.getItems().add(period);
         });
 
@@ -673,7 +674,7 @@ public final class InterventionsFormController implements Initializable, Desktop
                             LocalTime end = period.getEnd();
                             Duration duration = Duration.between(start, end);
                             LocalTime time = LocalTime.MIN.plus(duration);
-                            return time.format(DateTimeFormatter.ofPattern("HH!mm"));
+                            return time.format(DateTimeFormatter.ofPattern("HH:mm"));
                         } catch (Exception e) {
                             return "";
                         }

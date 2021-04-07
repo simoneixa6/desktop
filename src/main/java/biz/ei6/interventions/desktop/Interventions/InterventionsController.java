@@ -8,6 +8,7 @@ import biz.ei6.interventions.desktop.lib.domain.Intervention;
 import biz.ei6.interventions.desktop.lib.domain.Status;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -183,7 +184,10 @@ public class InterventionsController implements Initializable, DesktopListener {
      */
     public void updateInterventionsListView() {
         var interventions = FXCollections.observableArrayList(getInterventions());
-
+        
+        // Ainsi les nouvelles interventions sont affichés en haut de la liste et pas en bas
+        Collections.reverse(interventions);
+        
         // Supprime les interventions possédant le statut selectionné dans la combobox de tri, si l'id vaut 0 (valeur par défaut), on ne filtre pas
         if (!sortBox.getValue().getId().equals("0")) {
             interventions.removeIf(intervention -> !intervention.getStatus().getId().equals(sortBox.getValue().getId()));

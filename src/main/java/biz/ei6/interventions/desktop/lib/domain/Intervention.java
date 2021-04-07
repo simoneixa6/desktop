@@ -44,10 +44,11 @@ public class Intervention {
     private final BooleanProperty deleted = new SimpleBooleanProperty();
 
     {
-        // Ajout d'une période et d'une heure de début par défault
+        // Ajout d'une période et d'une heure de début par défaut
         Period period = new Period();
         period.setDateString(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")));
-        period.setStartString(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")));
+        // Je met les secondes à zero afin que lors du calcul de la durée, il n'y est pas d'approximation de faites avec les secondes
+        period.setStartString(LocalDateTime.now().withSecond(0).format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")));
         List<Period> periodlist = List.of(period);
         this.setPeriods(periodlist);
     }
