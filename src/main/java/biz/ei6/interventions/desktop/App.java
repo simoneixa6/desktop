@@ -93,7 +93,7 @@ public class App extends Application {
         Rectangle2D screenBounds = Screen.getPrimary().getBounds();
 
         scene = new Scene(root, screenBounds.getWidth() * 0.7, screenBounds.getHeight() * 0.7);
-        stage.setTitle(mainBundle.getString("titreAppli"));
+        stage.setTitle(mainBundle.getString("titreAppli") + " - "+ mainBundle.getString("versionAppli"));
         stage.setScene(scene);
         InputStream logo = getClass().getResourceAsStream("logo.png");
         stage.getIcons().add(new Image(logo));
