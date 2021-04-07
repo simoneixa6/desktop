@@ -49,6 +49,8 @@ public class WSMediaFilesDataSource implements MediaFilesDataSource {
             var response = httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString());
 
             var resp = response.get();
+            
+            serverResp = resp.toString();
 
             var res = resp.body();
 

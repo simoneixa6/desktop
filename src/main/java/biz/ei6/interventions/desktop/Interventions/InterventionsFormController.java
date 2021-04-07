@@ -9,6 +9,7 @@ import biz.ei6.interventions.desktop.framework.clients.ClientGetException;
 import biz.ei6.interventions.desktop.framework.interventions.InterventionPostException;
 import biz.ei6.interventions.desktop.framework.interventions.InterventionPutException;
 import biz.ei6.interventions.desktop.framework.medias.MediaGetException;
+import biz.ei6.interventions.desktop.framework.medias.MediaPostException;
 import biz.ei6.interventions.desktop.framework.medias.MediaPutException;
 import biz.ei6.interventions.desktop.lib.domain.Site;
 import biz.ei6.interventions.desktop.lib.domain.Intervention;
@@ -39,6 +40,7 @@ import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
@@ -47,6 +49,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
@@ -509,7 +512,7 @@ public final class InterventionsFormController implements Initializable, Desktop
             if (selectedFile != null) {
 
                 // Conversion de la taille du fichier en mégaoctet
-                if ((selectedFile.length() / (1024 * 1024)) <= 30) {
+                if ((selectedFile.length() / (1024 * 1024)) <= 20) {
 
                     try ( FileInputStream input = new FileInputStream(selectedFile);  BufferedInputStream in = new BufferedInputStream(input, BUFFER_SIZE);) {
 
@@ -537,10 +540,24 @@ public final class InterventionsFormController implements Initializable, Desktop
                         Task uploadFileTask = new Task() {
                             @Override
                             protected Void call() throws Exception {
-                                scene.setCursor(Cursor.WAIT); //Change cursor to wait style
-                                interactors.addMediaFile.invoke(mediaFile);
-                                scene.setCursor(Cursor.DEFAULT); //Change cursor to default style
-                                updateMediasListView();
+                                EventHandler<MouseEvent> handler = MouseEvent::consume;
+                                try {
+                                    scene.setCursor(Cursor.WAIT);
+                                    scene.addEventFilter(MouseEvent.ANY, handler);
+                                    interactors.addMediaFile.invoke(mediaFile);
+                                } catch (MediaPostException e) {
+                                    // Pour que l'affichage se fasse dans le thread JavaFx
+                                    Platform.runLater(() -> {
+                                        showAlert(AlertType.ERROR, resources.getString("exception.erreur"), resources.getString("exception.ajoutMedia"), e.toString());
+                                    });
+                                } finally {
+                                    // Pour que l'affichage se fasse dans le thread JavaFx
+                                    Platform.runLater(() -> {
+                                        scene.setCursor(Cursor.DEFAULT);
+                                        scene.removeEventFilter(MouseEvent.ANY, handler);
+                                        updateMediasListView();
+                                    });
+                                }
                                 return null;
                             }
                         };
@@ -549,6 +566,7 @@ public final class InterventionsFormController implements Initializable, Desktop
                         th.start();
 
                     } catch (Exception e) {
+                        System.out.println(e);
                         showAlert(AlertType.ERROR, resources.getString("exception.erreur"), resources.getString("exception.ajoutMedia"), e.toString());
                     }
                 } else {
