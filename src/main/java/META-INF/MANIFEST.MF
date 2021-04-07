@@ -1,3 +1,0 @@
-Manifest-Version: 1.1.2
-Main-Class: biz.ei6.interventions.desktop.App
-

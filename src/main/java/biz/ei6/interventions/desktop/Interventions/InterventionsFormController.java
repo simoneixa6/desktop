@@ -507,59 +507,69 @@ public final class InterventionsFormController implements Initializable, Desktop
             int BUFFER_SIZE = 3 * 1024;
 
             if (selectedFile != null) {
-                try ( FileInputStream input = new FileInputStream(selectedFile);  BufferedInputStream in = new BufferedInputStream(input, BUFFER_SIZE);) {
 
-                    Base64.Encoder encoder = Base64.getEncoder();
-                    StringBuilder result = new StringBuilder();
-                    byte[] chunk = new byte[BUFFER_SIZE];
-                    int len = 0;
-                    while ((len = in.read(chunk)) == BUFFER_SIZE) {
-                        result.append(encoder.encodeToString(chunk));
-                    }
-                    if (len > 0) {
-                        chunk = Arrays.copyOf(chunk, len);
-                        result.append(encoder.encodeToString(chunk));
-                    }
+                // Conversion de la taille du fichier en mégaoctet
+                if ((selectedFile.length() / (1024 * 1024)) <= 30) {
 
-                    // Création de l'objet média
-                    MediaFile mediaFile = new MediaFile();
-                    mediaFile.setIntervention_id(getEditedIntervention().getId());
-                    mediaFile.setFileName(selectedFile.getName());
-                    String mimeType = Files.probeContentType(selectedFile.toPath());
-                    mediaFile.setMimeType(mimeType);
-                    mediaFile.setFileData(result.toString());
+                    try ( FileInputStream input = new FileInputStream(selectedFile);  BufferedInputStream in = new BufferedInputStream(input, BUFFER_SIZE);) {
 
-                    // Tache d'upload du fichier
-                    Task uploadFileTask = new Task() {
-                        @Override
-                        protected Void call() throws Exception {
-                            scene.setCursor(Cursor.WAIT); //Change cursor to wait style
-                            interactors.addMediaFile.invoke(mediaFile);
-                            scene.setCursor(Cursor.DEFAULT); //Change cursor to default style
-                            updateMediasListView();
-                            return null;
+                        Base64.Encoder encoder = Base64.getEncoder();
+                        StringBuilder result = new StringBuilder();
+                        byte[] chunk = new byte[BUFFER_SIZE];
+                        int len = 0;
+                        while ((len = in.read(chunk)) == BUFFER_SIZE) {
+                            result.append(encoder.encodeToString(chunk));
                         }
-                    };
-                    Thread th = new Thread(uploadFileTask);
-                    th.setDaemon(true);
-                    th.start();
+                        if (len > 0) {
+                            chunk = Arrays.copyOf(chunk, len);
+                            result.append(encoder.encodeToString(chunk));
+                        }
 
-                } catch (Exception e) {
-                    showAlert(AlertType.ERROR, resources.getString("exception.erreur"),resources.getString("exception.ajoutMedia"), e.toString());
+                        // Création de l'objet média
+                        MediaFile mediaFile = new MediaFile();
+                        mediaFile.setIntervention_id(getEditedIntervention().getId());
+                        mediaFile.setFileName(selectedFile.getName());
+                        String mimeType = Files.probeContentType(selectedFile.toPath());
+                        mediaFile.setMimeType(mimeType);
+                        mediaFile.setFileData(result.toString());
+
+                        // Tache d'upload du fichier
+                        Task uploadFileTask = new Task() {
+                            @Override
+                            protected Void call() throws Exception {
+                                scene.setCursor(Cursor.WAIT); //Change cursor to wait style
+                                interactors.addMediaFile.invoke(mediaFile);
+                                scene.setCursor(Cursor.DEFAULT); //Change cursor to default style
+                                updateMediasListView();
+                                return null;
+                            }
+                        };
+                        Thread th = new Thread(uploadFileTask);
+                        th.setDaemon(true);
+                        th.start();
+
+                    } catch (Exception e) {
+                        showAlert(AlertType.ERROR, resources.getString("exception.erreur"), resources.getString("exception.ajoutMedia"), e.toString());
+                    }
+                } else {
+                    showAlert(AlertType.WARNING, resources.getString("warning.attention"), resources.getString("warning.fichier.trop.volumineux"), resources.getString("warning.fichier.trop.volumineux.detail"));
                 }
             }
-        });
+        }
+        );
 
-        deleteMediaBtn.setOnAction((ActionEvent actionEvent) -> {
-            if (mediasListView.getSelectionModel().getSelectedItem() != null) {
-                try {
-                    interactors.removeMedia.invoke(mediasListView.getSelectionModel().getSelectedItem());
-                    updateMediasListView();
-                } catch (MediaPutException e) {
-                    showAlert(AlertType.ERROR, resources.getString("exception.erreur"), resources.getString("exception.suppressionMedia"),  e.toString());
+        deleteMediaBtn.setOnAction(
+                (ActionEvent actionEvent) -> {
+                    if (mediasListView.getSelectionModel().getSelectedItem() != null) {
+                        try {
+                            interactors.removeMedia.invoke(mediasListView.getSelectionModel().getSelectedItem());
+                            updateMediasListView();
+                        } catch (MediaPutException e) {
+                            showAlert(AlertType.ERROR, resources.getString("exception.erreur"), resources.getString("exception.suppressionMedia"), e.toString());
+                        }
+                    }
                 }
-            }
-        });
+        );
 
         /*
          * Text formatter sur les champ des kms pour accepter que des entiers ou double
@@ -576,54 +586,67 @@ public final class InterventionsFormController implements Initializable, Desktop
         });
 
         kmInput.setTextFormatter(onlyIntDoubleFormatter);
+
         goKmInput.setTextFormatter(onlyIntDoubleFormatter1);
+
         backKmInput.setTextFormatter(onlyIntDoubleFormatter2);
 
-        goKmInput.textProperty().addListener((observable, oldVal, newVal) -> {
-            double a;
-            double b;
+        goKmInput.textProperty()
+                .addListener((observable, oldVal, newVal) -> {
+                    double a;
+                    double b;
 
-            if (newVal != null && !"".equals(newVal)) {
-                a = Double.parseDouble(newVal);
-            } else {
-                a = 0;
-            }
+                    if (newVal != null && !"".equals(newVal)) {
+                        a = Double.parseDouble(newVal);
+                    } else {
+                        a = 0;
+                    }
 
-            if (backKmInput.getText() == null || "".equals(backKmInput.getText())) {
-                b = 0;
-            } else {
-                b = Double.parseDouble(backKmInput.getText());
-            }
-            kmInput.setText(String.valueOf(a + b));
-        });
+                    if (backKmInput.getText() == null || "".equals(backKmInput.getText())) {
+                        b = 0;
+                    } else {
+                        b = Double.parseDouble(backKmInput.getText());
+                    }
+                    kmInput.setText(String.valueOf(a + b));
+                }
+                );
 
-        backKmInput.textProperty().addListener((observable, oldVal, newVal) -> {
-            double a;
-            double b;
+        backKmInput.textProperty()
+                .addListener((observable, oldVal, newVal) -> {
+                    double a;
+                    double b;
 
-            if (newVal != null && !"".equals(newVal)) {
-                a = Double.parseDouble(newVal);
-            } else {
-                a = 0;
-            }
+                    if (newVal != null && !"".equals(newVal)) {
+                        a = Double.parseDouble(newVal);
+                    } else {
+                        a = 0;
+                    }
 
-            if (goKmInput.getText() == null || "".equals(goKmInput.getText())) {
-                b = 0;
-            } else {
-                b = Double.parseDouble(goKmInput.getText());
-            }
-            kmInput.setText(String.valueOf(a + b));
-        });
+                    if (goKmInput.getText() == null || "".equals(goKmInput.getText())) {
+                        b = 0;
+                    } else {
+                        b = Double.parseDouble(goKmInput.getText());
+                    }
+                    kmInput.setText(String.valueOf(a + b));
+                }
+                );
 
         /*
          * Mise en place de la table view des Périodes
          */
-        dateCol.setCellValueFactory(new PropertyValueFactory<Period, LocalDate>("date"));
-        startCol.setCellValueFactory(new PropertyValueFactory<Period, LocalTime>("start"));
-        endCol.setCellValueFactory(new PropertyValueFactory<Period, LocalTime>("end"));
+        dateCol.setCellValueFactory(
+                new PropertyValueFactory<Period, LocalDate>(
+                        "date"));
+        startCol.setCellValueFactory(
+                new PropertyValueFactory<Period, LocalTime>(
+                        "start"));
+        endCol.setCellValueFactory(
+                new PropertyValueFactory<Period, LocalTime>(
+                        "end"));
 
         // Cell value factory permettant de calculer la duréé entre l'heure de début et l'heure de fin
-        durationCol.setCellValueFactory(cellData -> {
+        durationCol.setCellValueFactory(cellData
+                -> {
             Period period = cellData.getValue();
             return Bindings.createStringBinding(
                     () -> {
@@ -640,12 +663,17 @@ public final class InterventionsFormController implements Initializable, Desktop
                     period.getStartProperty(),
                     period.getEndProperty()
             );
-        });
+        }
+        );
 
-        periodTableView.setEditable(true);
-        dateCol.setCellFactory(column -> new DateEditableCell(column));
-        startCol.setCellFactory(column -> new TimeEditableCell(column));
-        endCol.setCellFactory(column -> new TimeEditableCell(column));
+        periodTableView.setEditable(
+                true);
+        dateCol.setCellFactory(column
+                -> new DateEditableCell(column));
+        startCol.setCellFactory(column
+                -> new TimeEditableCell(column));
+        endCol.setCellFactory(column
+                -> new TimeEditableCell(column));
 
         // Binding à l'initialisation
         bind();
@@ -752,7 +780,7 @@ public final class InterventionsFormController implements Initializable, Desktop
      * @param headerText
      * @param contentText
      */
-    private void showAlert(AlertType alertType, String titleText, String headerText ,String contentText) {
+    private void showAlert(AlertType alertType, String titleText, String headerText, String contentText) {
         Alert alert = new Alert(alertType);
         alert.setTitle(titleText);
         alert.setHeaderText(headerText);
