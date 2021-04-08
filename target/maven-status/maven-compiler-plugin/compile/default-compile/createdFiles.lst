@@ -72,6 +72,7 @@ biz\ei6\interventions\desktop\restitutions\RestitutionsController$3.class
 biz\ei6\interventions\desktop\restitutions\DateCell.class
 biz\ei6\interventions\desktop\restitutions\RestitutionsPane.class
 biz\ei6\interventions\desktop\interventions\InterventionsController.class
+biz\ei6\interventions\desktop\restitutions\RestitutionsController$5.class
 biz\ei6\interventions\desktop\interventions\InterventionCellFactory.class
 biz\ei6\interventions\desktop\interventions\SiteCellFactory$SiteCell.class
 biz\ei6\interventions\desktop\interventions\ClientCellFactory.class

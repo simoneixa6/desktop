@@ -9,10 +9,13 @@ import biz.ei6.interventions.desktop.interventions.SortInterventionsByDates;
 import biz.ei6.interventions.desktop.lib.domain.Client;
 import biz.ei6.interventions.desktop.lib.domain.Intervention;
 import biz.ei6.interventions.desktop.lib.domain.Status;
+import biz.ei6.interventions.desktop.lib.domain.Period;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -75,6 +78,8 @@ class RestitutionsController implements Initializable {
 
     @FXML
     TableColumn<Intervention, Status> statusCol;
+    @FXML
+    TableColumn<Intervention, List<Period>> dateCol;
     @FXML
     TableColumn<Intervention, String> titleCol;
     @FXML
@@ -161,12 +166,14 @@ class RestitutionsController implements Initializable {
         goKmCol.setCellValueFactory(new PropertyValueFactory<Intervention, String>("goKm"));
         backKmCol.setCellValueFactory(new PropertyValueFactory<Intervention, String>("backKm"));
         billNumberCol.setCellValueFactory(new PropertyValueFactory<Intervention, String>("billNumber"));
+        dateCol.setCellValueFactory(new PropertyValueFactory<Intervention, List<Period>>("periods"));
         billDateCol.setCellValueFactory(new PropertyValueFactory<Intervention, LocalDate>("billDate"));
         paymentTypeCol.setCellValueFactory(new PropertyValueFactory<Intervention, String>("paymentType"));
         paymentDateCol.setCellValueFactory(new PropertyValueFactory<Intervention, LocalDate>("paymentDate"));
 
         billDateCol.setCellFactory(column -> new DateCell(column));
         paymentDateCol.setCellFactory(column -> new DateCell(column));
+        //dateCol.setCellFactory(column -> new PeriodCell(column));
 
         statusCol.setCellFactory(column -> new TableCell<Intervention, Status>() {
             @Override
@@ -208,6 +215,18 @@ class RestitutionsController implements Initializable {
                         }
                     }
                     setText(clientString.toString());
+                }
+            }
+        });
+
+        dateCol.setCellFactory(column -> new TableCell<Intervention, List<Period>>() {
+            @Override
+            protected void updateItem(List<Period> periods, boolean empty) {
+                super.updateItem(periods, empty);
+                if (empty) {
+                    setText("");
+                } else {
+                    setText(periods.get(0).getDate().format(DateTimeFormatter.ISO_DATE));
                 }
             }
         });

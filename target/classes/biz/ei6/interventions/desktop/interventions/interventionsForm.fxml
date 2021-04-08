@@ -141,7 +141,7 @@
                                  <children>
                                     <TableView fx:id="periodTableView" editable="true" prefHeight="128.0" prefWidth="380.0">
                                        <columns>
-                                          <TableColumn fx:id="dateCol" editable="true" maxWidth="90.0" minWidth="50.0" onEditCommit="#changeDateCellEvent" prefWidth="90.0" text="%date" />
+                                          <TableColumn fx:id="dateCol" editable="true" maxWidth="90.0" minWidth="50.0" onEditCommit="#changeDateCellEvent" prefWidth="90.0" text="%date*" />
                                           <TableColumn fx:id="startCol" editable="true" maxWidth="100.0" minWidth="50.0" onEditCommit="#changeStartCellEvent" prefWidth="100.0" text="%heure.de.debut" />
                                           <TableColumn fx:id="endCol" editable="true" maxWidth="90.0" minWidth="50.0" onEditCommit="#changeEndCellEvent" prefWidth="90.0" text="%heure.de.fin" />
                                           <TableColumn fx:id="durationCol" editable="true" maxWidth="80.0" minWidth="50.0" text="%duree" />

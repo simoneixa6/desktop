@@ -1,13 +1,10 @@
 package biz.ei6.interventions.desktop.restitutions;
 
 import biz.ei6.interventions.desktop.lib.domain.Intervention;
-import biz.ei6.interventions.desktop.lib.domain.Period;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TextField;
 
 /**
  *
