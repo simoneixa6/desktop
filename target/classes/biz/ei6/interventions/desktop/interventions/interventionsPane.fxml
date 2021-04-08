@@ -23,7 +23,7 @@
             </Label>
             <HBox alignment="CENTER" layoutX="200.0" layoutY="53.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="53.0">
                <children>
-                  <Label text="%trie">
+                  <Label text="%trier">
                      <HBox.margin>
                         <Insets right="5.0" />
                      </HBox.margin>

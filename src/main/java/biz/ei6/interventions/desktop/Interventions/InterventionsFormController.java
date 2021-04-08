@@ -445,15 +445,27 @@ public final class InterventionsFormController implements Initializable, Desktop
 
         multiplePeriodBtn.setOnAction((ActionEvent actionEvent) -> {
             try {
-                var dates = multiplePeriodBegin.getValue().datesUntil(multiplePeriodEnd.getValue().plusDays(1)).collect(Collectors.toList());
+                var dates = periodTableView.getItems();
+                var datesToAdd = multiplePeriodBegin.getValue().datesUntil(multiplePeriodEnd.getValue().plusDays(1)).collect(Collectors.toList());
 
-                for (LocalDate date : dates) {
-                    Period period = new Period();
-                    period.setDateString(date.atStartOfDay().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")));
-                    period.setStartString(LocalTime.of(9, 0, 0, 0).atDate(date).format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")));
-                    period.setEndString(LocalTime.of(17, 0, 0, 0).atDate(date).format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")));
-                    periodTableView.getItems().add(period);
-                }
+                datesToAdd.forEach(date -> {
+                    LocalTime start = LocalTime.of(9, 0, 0, 0);
+                    LocalTime end = LocalTime.of(17, 0, 0, 0);
+                    Boolean dateAlreadyExists = false;
+                    // On vérifie si cette date n'est pas déjà présente dans les périodes de l'intervention
+                    for (Period period : dates) {
+                        if (period.getDate().equals(date) && period.getStart().equals(start) && period.getEnd().equals(end)) {
+                            dateAlreadyExists = true;
+                        }
+                    }
+                    if (!dateAlreadyExists) {
+                        Period period = new Period();
+                        period.setDateString(date.atStartOfDay().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")));
+                        period.setStartString(start.atDate(date).format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")));
+                        period.setEndString(end.atDate(date).format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")));
+                        periodTableView.getItems().add(period);
+                    }
+                });
             } catch (NullPointerException e) {
                 showAlert(AlertType.WARNING, resources.getString("warning.attention"), resources.getString("exception.formatDatesIncorrect"), resources.getString("exception.info.formatDatesIncorrect"));
             } catch (IllegalArgumentException e) {
