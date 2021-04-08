@@ -21,44 +21,44 @@
                   <Insets right="10.0" />
                </padding>
             </Label>
-            <HBox alignment="CENTER" layoutX="200.0" layoutY="53.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="53.0">
-               <children>
-                  <Label text="%trier">
-                     <HBox.margin>
-                        <Insets right="5.0" />
-                     </HBox.margin>
-                  </Label>
-                  <ToggleButton id="greyBtn" fx:id="sortByDatesBtn" mnemonicParsing="false" prefHeight="28.0" text="%trie.date">
-                     <HBox.margin>
-                        <Insets right="5.0" />
-                     </HBox.margin>
-                  </ToggleButton>
-                  <ToggleButton id="greyBtn" fx:id="sortByClientsBtn" mnemonicParsing="false" prefHeight="28.0" text="%trie.client">
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </ToggleButton>
-               </children>
-            </HBox>
+            <HBox alignment="CENTER" layoutX="200.0" layoutY="53.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="53.0" />
             <HBox alignment="CENTER_LEFT" layoutY="70.0" prefHeight="48.0" prefWidth="400.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
                <children>
-                  <TextField id="textInput" minWidth="40.0" prefHeight="28.0" prefWidth="226.0" promptText="%rechercher">
+                  <TextField id="textInput" fx:id="searchInput" minWidth="40.0" prefHeight="28.0" prefWidth="226.0" promptText="%rechercher">
                      <HBox.margin>
                         <Insets left="20.0" right="5.0" top="20.0" />
                      </HBox.margin>
                   </TextField>
-                  <ComboBox id="combobox" fx:id="sortBox" prefHeight="28.0" prefWidth="130.0">
+                  <ComboBox id="combobox" fx:id="statusComboBox" prefHeight="28.0" prefWidth="130.0">
                      <HBox.margin>
                         <Insets right="20.0" top="20.0" />
                      </HBox.margin>
                   </ComboBox>
                </children>
             </HBox>
-            <ListView id="greylistview" fx:id="interventionsListView" layoutY="127.0" prefHeight="713.0" prefWidth="360.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="127.0" />
+            <ListView id="greylistview" fx:id="interventionsListView" layoutY="127.0" prefHeight="686.0" prefWidth="360.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="127.0" />
             <FlowPane prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-            <HBox alignment="CENTER" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <HBox alignment="CENTER_LEFT" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <children>
-                  <Button id="bluebtn" fx:id="createBtn" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" text="%nouvelle.intervention" />
+                  <Label minWidth="30.0" text="%trier">
+                     <HBox.margin>
+                        <Insets left="20.0" right="5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <ToggleButton id="greyBtn" fx:id="sortByDatesBtn" contentDisplay="CENTER" minWidth="54.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="70.0" text="%trie.date">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                  </ToggleButton>
+                  <ToggleButton id="greyBtn" fx:id="sortByClientsBtn" contentDisplay="CENTER" minWidth="60.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="70.0" text="%trie.client">
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin>
+                  </ToggleButton>
+                  <Button id="bluebtn" fx:id="createBtn" contentDisplay="CENTER" minWidth="60.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" text="%nouvelle.intervention">
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin></Button>
                </children>
             </HBox>
          </children>

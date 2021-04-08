@@ -9,14 +9,16 @@ import biz.ei6.interventions.desktop.lib.domain.Status;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -26,7 +28,9 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.util.StringConverter;
 
@@ -39,7 +43,10 @@ public class InterventionsController implements Initializable, DesktopListener {
     ListView<Intervention> interventionsListView;
 
     @FXML
-    ComboBox<Status> sortBox;
+    ComboBox<Status> statusComboBox;
+
+    @FXML
+    TextField searchInput;
 
     @FXML
     ToggleButton sortByDatesBtn;
@@ -88,11 +95,11 @@ public class InterventionsController implements Initializable, DesktopListener {
         this.status4 = new Status("4", resources.getString("status.reglee"));
 
         // Remplissage de la choicebox de filtrage
-        sortBox.setCellFactory(new SortBoxCellFactory());
-        sortBox.getItems().addAll(status0, status1, status2, status3, status4);
-        sortBox.setValue(status0);
+        statusComboBox.setCellFactory(new SortBoxCellFactory());
+        statusComboBox.getItems().addAll(status0, status1, status2, status3, status4);
+        statusComboBox.setValue(status0);
 
-        sortBox.setConverter(new StringConverter<Status>() {
+        statusComboBox.setConverter(new StringConverter<Status>() {
             @Override
             public String toString(Status status) {
                 return status.getName();
@@ -107,7 +114,7 @@ public class InterventionsController implements Initializable, DesktopListener {
         /*
          * Listener sur la selection d'un type de tri
          */
-        sortBox.valueProperty().addListener(new ChangeListener<Status>() {
+        statusComboBox.valueProperty().addListener(new ChangeListener<Status>() {
             @Override
             public void changed(ObservableValue ov, Status oldStatus, Status newStatus) {
                 if (newStatus != null) {
@@ -122,6 +129,12 @@ public class InterventionsController implements Initializable, DesktopListener {
 
         sortByClientsBtn.setOnAction((ActionEvent event) -> {
             updateInterventionsListView();
+        });
+
+        searchInput.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                updateInterventionsListView();
+            }
         });
 
         /*
@@ -200,12 +213,28 @@ public class InterventionsController implements Initializable, DesktopListener {
      */
     public void updateInterventionsListView() {
         var interventions = FXCollections.observableArrayList(getInterventions());
+        List<Intervention> filteredInterventions;
 
-        // Supprime les interventions possédant le statut selectionné dans la combobox de tri, si l'id vaut 0 (valeur par défaut), on ne filtre pas
-        if (!sortBox.getValue().getId().equals("0")) {
-            interventions.removeIf(intervention -> !intervention.getStatus().getId().equals(sortBox.getValue().getId()));
+        // Supprime les interventions possédant le statut selectionné dans la combobox de filtre, si l'id vaut 0 (valeur par défaut), on ne filtre pas
+        if (!statusComboBox.getValue().getId().equals("0")) {
+            interventions.removeIf(intervention -> !intervention.getStatus().getId().equals(statusComboBox.getValue().getId()));
         }
 
+        // Filtre les interventions en fonction de la valeur du champ de recherche, sauf si il est vide
+        if (!"".equals(searchInput.getText())) {
+            filteredInterventions = interventions.stream().filter(intervention -> intervention.checkIfSearched(searchInput.getText())).collect(Collectors.toList());
+        } else {
+            filteredInterventions = interventions;
+        }
+
+        var filteredInterventionsObs = FXCollections.observableArrayList(filteredInterventions);
+
+        sortInterventions(filteredInterventionsObs);
+
+        interventionsListView.setItems(filteredInterventionsObs);
+    }
+
+    private void sortInterventions(ObservableList<Intervention> interventions) {
         // Les nouvelles interventions sont affichées en haut de la liste et pas en bas
         Collections.reverse(interventions);
 
@@ -223,8 +252,6 @@ public class InterventionsController implements Initializable, DesktopListener {
         if (sortByDatesBtn.isSelected() && sortByClientsBtn.isSelected()) {
             interventions.sort(new SortInterventionsByClientsAndDates());
         }
-
-        interventionsListView.setItems(interventions);
     }
 
     public ArrayList<Intervention> getInterventions() {
