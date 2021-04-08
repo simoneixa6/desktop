@@ -5,6 +5,8 @@
  */
 package biz.ei6.interventions.desktop.lib.domain;
 
+import java.text.Collator;
+import java.text.Normalizer;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -389,4 +391,22 @@ public class Intervention {
     public void setDeleted(Boolean deleted) {
         this.deleted.set(deleted);
     }
+
+    public boolean checkIfSearched(String input) {
+
+        StringBuilder data = new StringBuilder();
+
+        data.append(this.getTitle());
+        if(this.getDescription() != null) data.append(this.getDescription());
+        if(this.getClient().getName() != null) data.append(this.getClient().getName());
+        if(this.getClient().getLastname() != null) data.append(this.getClient().getLastname());
+        if(this.getClient().getCompany() != null) data.append(this.getClient().getCompany());
+
+        // On supprime les accents et on transforma la châine en minuscule afin de supporter la casse
+        String interventionData = Normalizer.normalize(data.toString().toLowerCase(), Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+        String test = Normalizer.normalize(input.toLowerCase(), Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+        
+        return interventionData.contains(test);
+    }
+
 }

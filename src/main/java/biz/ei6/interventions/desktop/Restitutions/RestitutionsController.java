@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -246,7 +247,7 @@ class RestitutionsController implements Initializable {
 
         keyWordInput.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
-                sortInterventions();
+                updateInterventionsListView();
             }
         });
 
@@ -254,7 +255,7 @@ class RestitutionsController implements Initializable {
          * Action sur le clic du bouton "Rechercher"
          */
         keyWordBtn.setOnAction((ActionEvent event) -> {
-            sortInterventions();
+            updateInterventionsListView();
         });
 
         /**
@@ -262,7 +263,7 @@ class RestitutionsController implements Initializable {
          */
         clearKeyWordInputBtn.setOnAction((ActionEvent event) -> {
             keyWordInput.clear();
-            sortInterventions();
+            updateInterventionsListView();
         });
 
         sortByDatesBtn.setOnAction((ActionEvent event) -> {
@@ -293,12 +294,14 @@ class RestitutionsController implements Initializable {
         updateInterventionsListView();
     }
 
-    private void sortInterventions() {
+    private void searchInterventions() {
         var interventions = FXCollections.observableArrayList(getInterventions());
 
-        var filteredInterventions = interventions.stream().filter(intervention -> Objects.nonNull(intervention.getDescription())).filter(intervention -> intervention.getDescription().contains(keyWordInput.getText())).collect(Collectors.toList());
+        var filteredInterventions = interventions.stream().filter(intervention -> intervention.checkIfSearched(keyWordInput.getText())).collect(Collectors.toList());
 
         var filteredInterventionsObs = FXCollections.observableArrayList(filteredInterventions);
+
+        sortInterventions(filteredInterventionsObs);
 
         interventionsTableView.setItems(filteredInterventionsObs);
     }
@@ -306,12 +309,29 @@ class RestitutionsController implements Initializable {
     public void updateInterventionsListView() {
 
         var interventions = FXCollections.observableArrayList(getInterventions());
-
+        List<Intervention> filteredInterventions;
+        
         // Supprime les interventions possédant le statut selectionné dans la combobox de filtre, si l'id vaut 0 (valeur par défaut), on ne filtre pas
         if (!statusChoiceBox.getValue().getId().equals("0")) {
             interventions.removeIf(intervention -> !intervention.getStatus().getId().equals(statusChoiceBox.getValue().getId()));
         }
 
+        // Filtre les interventions en fonction de la valeur du champ de recherche, sauf si il est vide
+        if (!"".equals(keyWordInput.getText())) {
+            filteredInterventions = interventions.stream().filter(intervention -> intervention.checkIfSearched(keyWordInput.getText())).collect(Collectors.toList());
+        }
+        else{
+            filteredInterventions = interventions;
+        }
+        
+        var filteredInterventionsObs = FXCollections.observableArrayList(filteredInterventions);
+
+        sortInterventions(filteredInterventionsObs);
+
+        interventionsTableView.setItems(filteredInterventionsObs);
+    }
+
+    private void sortInterventions(ObservableList<Intervention> interventions) {
         // Les nouvelles interventions sont affichées en haut de la liste et pas en bas
         Collections.reverse(interventions);
 
@@ -329,8 +349,6 @@ class RestitutionsController implements Initializable {
         if (sortByDatesBtn.isSelected() && sortByClientsBtn.isSelected()) {
             interventions.sort(new SortInterventionsByClientsAndDates());
         }
-
-        interventionsTableView.setItems(interventions);
     }
 
     public ArrayList<Intervention> getInterventions() {
