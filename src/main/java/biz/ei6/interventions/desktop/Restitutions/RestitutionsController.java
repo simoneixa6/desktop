@@ -3,12 +3,16 @@ package biz.ei6.interventions.desktop.restitutions;
 import biz.ei6.interventions.desktop.App;
 import biz.ei6.interventions.desktop.App.Interactors;
 import biz.ei6.interventions.desktop.framework.interventions.InterventionGetException;
+import biz.ei6.interventions.desktop.interventions.SortInterventionsByClients;
+import biz.ei6.interventions.desktop.interventions.SortInterventionsByClientsAndDates;
+import biz.ei6.interventions.desktop.interventions.SortInterventionsByDates;
 import biz.ei6.interventions.desktop.lib.domain.Client;
 import biz.ei6.interventions.desktop.lib.domain.Intervention;
 import biz.ei6.interventions.desktop.lib.domain.Status;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -27,6 +31,7 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
@@ -58,6 +63,12 @@ class RestitutionsController implements Initializable {
 
     @FXML
     Button clearKeyWordInputBtn;
+
+    @FXML
+    ToggleButton sortByDatesBtn;
+
+    @FXML
+    ToggleButton sortByClientsBtn;
 
     @FXML
     TableView<Intervention> interventionsTableView;
@@ -235,6 +246,14 @@ class RestitutionsController implements Initializable {
             sortInterventions();
         });
 
+        sortByDatesBtn.setOnAction((ActionEvent event) -> {
+            updateInterventionsListView();
+        });
+
+        sortByClientsBtn.setOnAction((ActionEvent event) -> {
+            updateInterventionsListView();
+        });
+
         /**
          * Calcul du nombre d'interventions selectionnées et du nombre de km
          * pour ces interventions
@@ -273,6 +292,25 @@ class RestitutionsController implements Initializable {
         if (!statusChoiceBox.getValue().getId().equals("0")) {
             interventions.removeIf(intervention -> !intervention.getStatus().getId().equals(statusChoiceBox.getValue().getId()));
         }
+
+        // Les nouvelles interventions sont affichées en haut de la liste et pas en bas
+        Collections.reverse(interventions);
+
+        // Tri des interventions par clients
+        if (sortByClientsBtn.isSelected() && !sortByDatesBtn.isSelected()) {
+            interventions.sort(new SortInterventionsByClients());
+        }
+
+        // Tri des interventions par date ( la première date de l'intervention )
+        if (sortByDatesBtn.isSelected() && !sortByClientsBtn.isSelected()) {
+            interventions.sort(new SortInterventionsByDates());
+        }
+
+        // Tri des interventions par client et par date
+        if (sortByDatesBtn.isSelected() && sortByClientsBtn.isSelected()) {
+            interventions.sort(new SortInterventionsByClientsAndDates());
+        }
+
         interventionsTableView.setItems(interventions);
     }
 

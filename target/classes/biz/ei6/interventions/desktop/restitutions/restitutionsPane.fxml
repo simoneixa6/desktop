@@ -7,6 +7,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
@@ -30,16 +31,16 @@
         </TableView>
         <ChoiceBox id="combobox" fx:id="statusChoiceBox" layoutX="40.0" layoutY="45.0" prefWidth="150.0" />
         <Label id="textinputlabel" layoutX="40.0" layoutY="22.0" text="%filtre.statut" />
-        <Label id="textinputlabel" layoutX="538.0" layoutY="22.0" text="%intervention(s)" />
-        <TextField id="textInput" fx:id="nbrOfSelectedInterventions" editable="false" layoutX="538.0" layoutY="46.0" prefHeight="25.0" prefWidth="86.0">
+        <Label id="textinputlabel" layoutX="733.0" layoutY="22.0" text="%intervention(s)" />
+        <TextField id="textInput" fx:id="nbrOfSelectedInterventions" editable="false" layoutX="733.0" layoutY="46.0" prefHeight="25.0" prefWidth="86.0">
          <cursor>
             <Cursor fx:constant="DEFAULT" />
          </cursor></TextField>
-        <TextField id="textInput" fx:id="nbrOfKmOfSelectedInterventions" editable="false" layoutX="644.0" layoutY="46.0" prefHeight="25.0" prefWidth="86.0">
+        <TextField id="textInput" fx:id="nbrOfKmOfSelectedInterventions" editable="false" layoutX="839.0" layoutY="46.0" prefHeight="25.0" prefWidth="86.0">
          <cursor>
             <Cursor fx:constant="DEFAULT" />
          </cursor></TextField>
-        <Label id="textinputlabel" layoutX="644.0" layoutY="22.0" text="%km" />
+        <Label id="textinputlabel" layoutX="839.0" layoutY="22.0" text="%km" />
       
         <AnchorPane layoutX="211.0" layoutY="45.0" maxHeight="25.0" maxWidth="174.0" minHeight="25.0" minWidth="174.0" prefHeight="25.0" prefWidth="174.0">
             <children>
@@ -58,5 +59,9 @@
         <Label id="textinputlabel" layoutX="211.0" layoutY="22.0" text="%filtre.mot.cle" />
         <Button id="greyBtn" fx:id="keyWordBtn" layoutX="393.0" layoutY="46.0" mnemonicParsing="false" prefHeight="0.0" prefWidth="90.0" text="%rechercher" />
         <Line endX="-100.0" endY="58.0" fill="#f4f6f5" layoutX="611.0" layoutY="33.0" startX="-100.0" startY="-20.0" stroke="#c6c6c6" />
+      <Line endX="-100.0" endY="58.0" fill="#f4f6f5" layoutX="807.0" layoutY="33.0" startX="-100.0" startY="-20.0" stroke="#c6c6c6" />
+      <ToggleButton id="greyBtn" fx:id="sortByDatesBtn" layoutX="537.0" layoutY="46.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" text="%trie.date" />
+      <ToggleButton id="greyBtn" fx:id="sortByClientsBtn" layoutX="613.0" layoutY="46.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" text="%trie.client" />
+      <Label id="textinputlabel" layoutX="537.0" layoutY="22.0" text="%trie" />
     </children>
 </fx:root>

@@ -16,6 +16,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -25,6 +26,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.input.MouseEvent;
 import javafx.util.StringConverter;
 
@@ -38,6 +40,12 @@ public class InterventionsController implements Initializable, DesktopListener {
 
     @FXML
     ComboBox<Status> sortBox;
+
+    @FXML
+    ToggleButton sortByDatesBtn;
+
+    @FXML
+    ToggleButton sortByClientsBtn;
 
     @FXML
     Button createBtn;
@@ -106,6 +114,14 @@ public class InterventionsController implements Initializable, DesktopListener {
                     updateInterventionsListView();
                 }
             }
+        });
+
+        sortByDatesBtn.setOnAction((ActionEvent event) -> {
+            updateInterventionsListView();
+        });
+
+        sortByClientsBtn.setOnAction((ActionEvent event) -> {
+            updateInterventionsListView();
         });
 
         /*
@@ -184,13 +200,28 @@ public class InterventionsController implements Initializable, DesktopListener {
      */
     public void updateInterventionsListView() {
         var interventions = FXCollections.observableArrayList(getInterventions());
-        
-        // Ainsi les nouvelles interventions sont affichés en haut de la liste et pas en bas
-        Collections.reverse(interventions);
-        
+
         // Supprime les interventions possédant le statut selectionné dans la combobox de tri, si l'id vaut 0 (valeur par défaut), on ne filtre pas
         if (!sortBox.getValue().getId().equals("0")) {
             interventions.removeIf(intervention -> !intervention.getStatus().getId().equals(sortBox.getValue().getId()));
+        }
+
+        // Les nouvelles interventions sont affichées en haut de la liste et pas en bas
+        Collections.reverse(interventions);
+
+        // Tri des interventions par clients
+        if (sortByClientsBtn.isSelected() && !sortByDatesBtn.isSelected()) {
+            interventions.sort(new SortInterventionsByClients());
+        }
+
+        // Tri des interventions par date ( la première date de l'intervention )
+        if (sortByDatesBtn.isSelected() && !sortByClientsBtn.isSelected()) {
+            interventions.sort(new SortInterventionsByDates());
+        }
+
+        // Tri des interventions par client et par date
+        if (sortByDatesBtn.isSelected() && sortByClientsBtn.isSelected()) {
+            interventions.sort(new SortInterventionsByClientsAndDates());
         }
 
         interventionsListView.setItems(interventions);

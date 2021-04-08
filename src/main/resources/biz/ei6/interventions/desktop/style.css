@@ -7,6 +7,7 @@
     /* Color variables */
     mainGrey: #f4f6f5;
     mainGreyHover: #f0f0f0;
+    mainGreySelected: #e5e5e5;
 
     -fx-background-color: white;
     -fx-faint-focus-color: transparent;
@@ -159,6 +160,9 @@
     -fx-background-color: mainGreyHover;  
 }
 
+#greyBtn:selected {
+    -fx-background-color: mainGreySelected;  
+}
 
 /*Styling of the scrollbar*/
 

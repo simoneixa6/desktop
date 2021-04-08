@@ -7,6 +7,7 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
@@ -20,9 +21,28 @@
                   <Insets right="10.0" />
                </padding>
             </Label>
-            <HBox alignment="CENTER_LEFT" layoutY="48.0" prefWidth="400.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">
+            <HBox alignment="CENTER" layoutX="200.0" layoutY="53.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="53.0">
                <children>
-                  <TextField id="textInput" minWidth="40.0" prefHeight="28.0" prefWidth="250.0" promptText="%rechercher">
+                  <Label text="%trie">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <ToggleButton id="greyBtn" fx:id="sortByDatesBtn" mnemonicParsing="false" prefHeight="28.0" text="%trie.date">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                  </ToggleButton>
+                  <ToggleButton id="greyBtn" fx:id="sortByClientsBtn" mnemonicParsing="false" prefHeight="28.0" text="%trie.client">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </ToggleButton>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" layoutY="70.0" prefHeight="48.0" prefWidth="400.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
+               <children>
+                  <TextField id="textInput" minWidth="40.0" prefHeight="28.0" prefWidth="226.0" promptText="%rechercher">
                      <HBox.margin>
                         <Insets left="20.0" right="5.0" top="20.0" />
                      </HBox.margin>
@@ -34,7 +54,7 @@
                   </ComboBox>
                </children>
             </HBox>
-            <ListView id="greylistview" fx:id="interventionsListView" layoutY="120.0" prefHeight="720.0" prefWidth="360.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="120.0" />
+            <ListView id="greylistview" fx:id="interventionsListView" layoutY="127.0" prefHeight="713.0" prefWidth="360.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="127.0" />
             <FlowPane prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
             <HBox alignment="CENTER" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <children>

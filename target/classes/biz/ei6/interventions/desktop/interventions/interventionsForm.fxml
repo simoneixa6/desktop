@@ -135,9 +135,9 @@
                               <Insets bottom="10.0" />
                            </VBox.margin>
                         </HBox>
-                        <HBox prefHeight="156.0" prefWidth="704.0">
+                        <HBox>
                            <children>
-                              <VBox prefHeight="156.0" prefWidth="389.0">
+                              <VBox prefWidth="389.0">
                                  <children>
                                     <TableView fx:id="periodTableView" editable="true" prefHeight="128.0" prefWidth="380.0">
                                        <columns>

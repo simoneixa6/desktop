@@ -6,6 +6,7 @@ C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\MainController.java
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\clients\ClientsFormController.java
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\lib\domain\Period.java
+C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\interventions\SortInterventionsByClientsAndDates.java
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\lib\interactors\GetMedia.java
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\framework\medias\WSMediaFilesDataSource.java
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\lib\domain\Intervention.java
@@ -20,6 +21,7 @@ C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\framework\interventions\InterventionDTO.java
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\interventions\InterventionsFormController.java
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\framework\clients\ClientGetException.java
+C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\interventions\SortInterventionsByDates.java
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\restitutions\DateCell.java
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\interventions\SiteCellFactory.java
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\framework\interventions\InterventionPostException.java
@@ -58,6 +60,7 @@ C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\module-info.java
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\interventions\DateEditableCell.java
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\lib\domain\Client.java
+C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\interventions\SortInterventionsByClients.java
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\lib\interactors\AddClient.java
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\framework\interventions\StatusDTO.java
 C:\Users\Eixa6\Desktop\DEV Simon\Projet\Front End\desktop\src\main\java\biz\ei6\interventions\desktop\lib\interactors\GetMediaFile.java

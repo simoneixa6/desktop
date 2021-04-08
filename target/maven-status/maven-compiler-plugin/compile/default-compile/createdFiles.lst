@@ -44,12 +44,14 @@ biz\ei6\interventions\desktop\lib\interactors\AddIntervention.class
 biz\ei6\interventions\desktop\lib\domain\Period.class
 biz\ei6\interventions\desktop\lib\interactors\RemoveMedia.class
 biz\ei6\interventions\desktop\interventions\InterventionCellFactory$InterventionCell.class
+biz\ei6\interventions\desktop\interventions\SortInterventionsByDates.class
 biz\ei6\interventions\desktop\lib\interactors\GetClients.class
 biz\ei6\interventions\desktop\interventions\InterventionsController$2.class
 biz\ei6\interventions\desktop\restitutions\RestitutionsController$1.class
 biz\ei6\interventions\desktop\interventions\InterventionsFormController$5.class
 biz\ei6\interventions\desktop\lib\data\ClientsRepository.class
 biz\ei6\interventions\desktop\lib\domain\Intervention.class
+biz\ei6\interventions\desktop\interventions\SortInterventionsByClients.class
 biz\ei6\interventions\desktop\lib\data\MediaFilesRepository.class
 biz\ei6\interventions\desktop\interventions\TimeEditableCell.class
 biz\ei6\interventions\desktop\interventions\MediaCellFactory.class
@@ -80,6 +82,7 @@ biz\ei6\interventions\desktop\interventions\InterventionsForm.class
 biz\ei6\interventions\desktop\lib\interactors\GetMedia.class
 biz\ei6\interventions\desktop\clients\ClientsPane.class
 biz\ei6\interventions\desktop\lib\interactors\GetInterventionMedias.class
+biz\ei6\interventions\desktop\interventions\SortInterventionsByClientsAndDates.class
 biz\ei6\interventions\desktop\interventions\SiteCellFactory.class
 biz\ei6\interventions\desktop\interventions\InterventionsFormController$1.class
 biz\ei6\interventions\desktop\framework\clients\ClientPutException.class
