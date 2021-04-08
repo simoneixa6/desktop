@@ -227,7 +227,7 @@ class RestitutionsController implements Initializable {
                 if (empty) {
                     setText("");
                 } else {
-                    setText(periods.get(0).getDate().format(DateTimeFormatter.ISO_DATE));
+                    setText(periods.get(0).getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
                 }
             }
         });
