@@ -209,7 +209,7 @@
                                  <columns>
                                     <TableColumn fx:id="addressCol" maxWidth="450.0" minWidth="100.0" onEditCommit="#ChangeAddressCellEvent" prefWidth="295.0" text="%adresse" />
                                     <TableColumn fx:id="zipCodeCol" maxWidth="150.0" minWidth="100.0" onEditCommit="#ChangeZipCodeCellEvent" prefWidth="100.0" text="%code.postal" />
-                                    <TableColumn fx:id="cityCol" maxWidth="300.0" minWidth="100.0" onEditCommit="#ChangeCityCellEvent" prefWidth="200.0" text="%ville" />
+                                    <TableColumn fx:id="cityCol" id="lastColumn" maxWidth="300.0" minWidth="100.0" onEditCommit="#ChangeCityCellEvent" prefWidth="200.0" text="%ville" />
                                  </columns>
                                  <VBox.margin>
                                     <Insets bottom="5.0" right="5.0" />

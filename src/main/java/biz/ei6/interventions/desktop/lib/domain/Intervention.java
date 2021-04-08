@@ -401,8 +401,17 @@ public class Intervention {
         if(this.getClient().getName() != null) data.append(this.getClient().getName());
         if(this.getClient().getLastname() != null) data.append(this.getClient().getLastname());
         if(this.getClient().getCompany() != null) data.append(this.getClient().getCompany());
+        if(this.getClient().getAddresses() != null)
+        {
+            for ( Site site : this.getClient().getAddresses() )
+            {
+                if ( site.getAddress() != null ) data.append(site.getAddress());
+                if ( site.getCity() != null ) data.append(site.getCity());
+                if ( site.getZipCode() != null ) data.append(site.getZipCode());
+            }
+        }
 
-        // On supprime les accents et on transforma la châine en minuscule afin de supporter la casse
+        // On supprime les accents et on transforma les châines en minuscule afin de supporter la casse
         String interventionData = Normalizer.normalize(data.toString().toLowerCase(), Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
         String test = Normalizer.normalize(input.toLowerCase(), Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
         

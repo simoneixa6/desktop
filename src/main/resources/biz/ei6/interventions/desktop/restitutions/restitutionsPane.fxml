@@ -19,15 +19,15 @@
                 <TableColumn fx:id="statusCol" prefWidth="100.0" text="%statut" />
             <TableColumn fx:id="dateCol" text="%date" />
                 <TableColumn fx:id="titleCol" prefWidth="150.0" text="%titre" />
-                <TableColumn fx:id="clientCol" prefWidth="150.0" text="%client" />
-                <TableColumn id="descriptionCol" fx:id="descriptionCol" maxWidth="1000.0" minWidth="50.0" prefWidth="400.0" text="%description.de.l.intervention" />
+                <TableColumn fx:id="clientCol" prefWidth="143.75" text="%client" />
+                <TableColumn id="descriptionCol" fx:id="descriptionCol" maxWidth="1000.0" minWidth="50.0" prefWidth="407.25" text="%description.de.l.intervention" />
                 <TableColumn fx:id="goKmCol" prefWidth="50.0" text="%aller" />
                 <TableColumn fx:id="backKmCol" prefWidth="50.0" text="%retour" />
                 <TableColumn fx:id="kmCol" prefWidth="75.0" text="%km" />
                 <TableColumn fx:id="billNumberCol" prefWidth="150.0" text="%numero.de.facture" />
                 <TableColumn fx:id="billDateCol" prefWidth="120.0" text="%date.de.facturation" />
                 <TableColumn fx:id="paymentTypeCol" prefWidth="150.0" text="%mode.de.reglement" />
-                <TableColumn fx:id="paymentDateCol" prefWidth="120.0" text="%date.de.reglement" />
+                <TableColumn id="lastColumn" fx:id="paymentDateCol" prefWidth="120.0" text="%date.de.reglement" />
             </columns>
         </TableView>
         <ChoiceBox id="combobox" fx:id="statusChoiceBox" layoutX="40.0" layoutY="45.0" prefWidth="150.0" />
@@ -59,8 +59,8 @@
       
         <Label id="textinputlabel" layoutX="211.0" layoutY="22.0" text="%filtre.mot.cle" />
         <Button id="greyBtn" fx:id="keyWordBtn" layoutX="393.0" layoutY="46.0" mnemonicParsing="false" prefHeight="0.0" prefWidth="90.0" text="%rechercher" />
-        <Line endX="-100.0" endY="58.0" fill="#f4f6f5" layoutX="611.0" layoutY="33.0" startX="-100.0" startY="-20.0" stroke="#c6c6c6" />
-      <Line endX="-100.0" endY="58.0" fill="#f4f6f5" layoutX="807.0" layoutY="33.0" startX="-100.0" startY="-20.0" stroke="#c6c6c6" />
+        <Line endX="-100.0" endY="58.0" fill="#f4f6f5" layoutX="611.0" layoutY="33.0" startX="-100.0" startY="-20.0" stroke="#f4f6f5" strokeWidth="2.0" />
+      <Line endX="-100.0" endY="58.0" fill="#f4f6f5" layoutX="807.0" layoutY="33.0" startX="-100.0" startY="-20.0" stroke="#f4f6f5" strokeWidth="2.0" />
       <ToggleButton id="greyBtn" fx:id="sortByDatesBtn" layoutX="537.0" layoutY="46.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" text="%trie.date" />
       <ToggleButton id="greyBtn" fx:id="sortByClientsBtn" layoutX="613.0" layoutY="46.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" text="%trie.client" />
       <Label id="textinputlabel" layoutX="537.0" layoutY="22.0" text="%trie" />
