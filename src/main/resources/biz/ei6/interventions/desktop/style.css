@@ -217,6 +217,10 @@
     -fx-text-fill: black;
 }
 
+#greylistview .list-cell:empty {
+    visibility:hidden;
+}
+
 /* Styling of the tableview */
 
 .table-view {
