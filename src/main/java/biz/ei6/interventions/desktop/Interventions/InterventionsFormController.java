@@ -274,7 +274,7 @@ public final class InterventionsFormController implements Initializable, Desktop
             // Remplissage de la combobox des clients
             updateClientsComboBox();
         } catch (ClientGetException e) {
-            showAlert(AlertType.ERROR, resources.getString("exception.erreur"), resources.getString("exception.recuperationClients"), resources.getString("exception.serveur.injoignable.detail") + "\n" + "\n" + e.toString());
+            showAlert(AlertType.ERROR, resources.getString("exception.erreur"), resources.getString("exception.recuperationClients"), e.toString());
         }
 
         // Image utilisé pour les icônes des fenêtres "Créer un client" et "Modifier un client"

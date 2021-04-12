@@ -26,7 +26,7 @@ public class WSClientsDataSource implements ClientsDataSource {
 
     String urlWrite = "https://simon.biz/clientswr";
     String urlRead = "https://simon.biz/clients";
-    
+
     public WSClientsDataSource(ResourceBundle resources) {
         this.resources = resources;
     }
@@ -61,7 +61,7 @@ public class WSClientsDataSource implements ClientsDataSource {
 
             setClient(addedClient, clientDTO);
 
-        } catch (JsonProcessingException | InterruptedException | ExecutionException e) {
+        } catch (Exception e) {
             StringBuilder exception = new StringBuilder();
             exceptionBuilder(serverResp, exception, e);
             throw new ClientPostException(exception.toString(), e);
@@ -109,7 +109,7 @@ public class WSClientsDataSource implements ClientsDataSource {
                     clients.add(client);
                 }
             }
-        } catch (JsonProcessingException | InterruptedException | ExecutionException e) {
+        } catch (Exception e) {
 
             StringBuilder exception = new StringBuilder();
             exceptionBuilder(serverResp, exception, e);
@@ -144,7 +144,7 @@ public class WSClientsDataSource implements ClientsDataSource {
             var clientDTO = om.readValue(res, ClientDTO.class);
             setClient(client, clientDTO);
 
-        } catch (JsonProcessingException | InterruptedException | ExecutionException e) {
+        } catch (Exception e) {
             StringBuilder exception = new StringBuilder();
             exceptionBuilder(serverResp, exception, e);
             throw new ClientGetException(exception.toString(), e);
@@ -174,7 +174,7 @@ public class WSClientsDataSource implements ClientsDataSource {
 
             serverResp = resp.toString();
 
-        } catch (JsonProcessingException | InterruptedException | ExecutionException e) {
+        } catch (Exception e) {
             StringBuilder exception = new StringBuilder();
             exceptionBuilder(serverResp, exception, e);
             throw new ClientPutException(exception.toString(), e);
@@ -264,37 +264,41 @@ public class WSClientsDataSource implements ClientsDataSource {
         }
     }
 
-    private void setClient(Client client, ClientDTO clientDTO) {
-        client.setId(clientDTO.getId());
-        client.setCivility(clientDTO.getCivility());
-        client.setName(clientDTO.getName());
-        client.setLastname(clientDTO.getLastname());
-        client.setCompany(clientDTO.getCompany());
-        client.setCompanyStatus(clientDTO.getCompanyStatus());
-        client.setPhone(clientDTO.getPhone());
-        client.setMail(clientDTO.getMail());
-        client.setHow(clientDTO.getHow());
-        client.setWhy(clientDTO.getWhy());
-        client.setProblematic(parseBoolean(clientDTO.getProblematic()));
-        client.setDeleted(parseBoolean(clientDTO.getDeleted()));
+    private void setClient(Client client, ClientDTO clientDTO) throws ClientGetException {
+        try {
+            client.setId(clientDTO.getId());
+            client.setCivility(clientDTO.getCivility());
+            client.setName(clientDTO.getName());
+            client.setLastname(clientDTO.getLastname());
+            client.setCompany(clientDTO.getCompany());
+            client.setCompanyStatus(clientDTO.getCompanyStatus());
+            client.setPhone(clientDTO.getPhone());
+            client.setMail(clientDTO.getMail());
+            client.setHow(clientDTO.getHow());
+            client.setWhy(clientDTO.getWhy());
+            client.setProblematic(parseBoolean(clientDTO.getProblematic()));
+            client.setDeleted(parseBoolean(clientDTO.getDeleted()));
 
-        if (clientDTO.getAddresses() != null) {
-            ArrayList<Site> sites = new ArrayList<>();
+            if (clientDTO.getAddresses() != null) {
+                ArrayList<Site> sites = new ArrayList<>();
 
-            for (SiteDTO siteDTO : clientDTO.getAddresses()) {
-                Site site = new Site();
-                setSite(site, siteDTO);
-                sites.add(site);
+                for (SiteDTO siteDTO : clientDTO.getAddresses()) {
+                    Site site = new Site();
+                    setSite(site, siteDTO);
+                    sites.add(site);
+                }
+                client.setAddresses(sites);
             }
-            client.setAddresses(sites);
-        }
 
-        if ("0001-01-01T00:00:00Z".equals(clientDTO.getFirstVisitDate()) || "0001-01-01T00:00:00".equals(clientDTO.getFirstVisitDate())) {
-            // Le serveur renvoie la date 0001-01-01T00:00:00Z si aucune valeur de date n'a été rentré lors de la création du client
-            // Le test avec la valeur 0001-01-01T00:00:00 a été ajouté car lors du post d'un client, la valeur renvoyé par le serveur
-            // pour le client n'est plus 0001-01-01T00:00:00Z mais 0001-01-01T00:00:00, pour toutes les requetes suivantes, il renvoie bien avec un z 
-        } else {
-            client.setFirstVisitDate(clientDTO.getFirstVisitDate());
+            if ("0001-01-01T00:00:00Z".equals(clientDTO.getFirstVisitDate()) || "0001-01-01T00:00:00".equals(clientDTO.getFirstVisitDate())) {
+                // Le serveur renvoie la date 0001-01-01T00:00:00Z si aucune valeur de date n'a été rentré lors de la création du client
+                // Le test avec la valeur 0001-01-01T00:00:00 a été ajouté car lors du post d'un client, la valeur renvoyé par le serveur
+                // pour le client n'est plus 0001-01-01T00:00:00Z mais 0001-01-01T00:00:00, pour toutes les requetes suivantes, il renvoie bien avec un z 
+            } else {
+                client.setFirstVisitDate(clientDTO.getFirstVisitDate());
+            }
+        } catch (Exception e) {
+            throw new ClientGetException(e.toString(), e);
         }
     }
 

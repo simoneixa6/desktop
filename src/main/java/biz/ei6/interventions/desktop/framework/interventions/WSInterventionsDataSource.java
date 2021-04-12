@@ -32,7 +32,7 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
 
     String urlWrite = "https://simon.biz/interventionswr";
     String urlRead = "https://simon.biz/interventions";
-    
+
     public WSInterventionsDataSource(ResourceBundle resources) {
         this.resources = resources;
     }
@@ -364,73 +364,77 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
         }
     }
 
-    private void setIntervention(Intervention intervention, InterventionDTO interventionDTO) {
-        intervention.setId(interventionDTO.getId());
-        intervention.setTitle(interventionDTO.getTitle());
-        intervention.setUser_id(interventionDTO.getUser_id());
-        intervention.setDescription(interventionDTO.getDescription());
-        intervention.setBillNumber(interventionDTO.getBillNumber());
-        intervention.setPaymentType(interventionDTO.getPaymentType());
-        intervention.setDeleted(parseBoolean(interventionDTO.getDeleted()));
+    private void setIntervention(Intervention intervention, InterventionDTO interventionDTO) throws InterventionGetException {
+        try {
+            intervention.setId(interventionDTO.getId());
+            intervention.setTitle(interventionDTO.getTitle());
+            intervention.setUser_id(interventionDTO.getUser_id());
+            intervention.setDescription(interventionDTO.getDescription());
+            intervention.setBillNumber(interventionDTO.getBillNumber());
+            intervention.setPaymentType(interventionDTO.getPaymentType());
+            intervention.setDeleted(parseBoolean(interventionDTO.getDeleted()));
 
-        if (interventionDTO.getClient() != null) {
-            Client client = new Client();
-            setClient(client, interventionDTO.getClient());
-            intervention.setClient(client);
-        }
-
-        if (interventionDTO.getStatus() != null) {
-            Status status = new Status("", "");
-            setStatus(status, interventionDTO.getStatus());
-            intervention.setStatus(status);
-        }
-
-        if (interventionDTO.getAddress() != null) {
-            Site site = new Site();
-            setSite(site, interventionDTO.getAddress());
-            intervention.setAddress(site);
-        }
-
-        if (interventionDTO.getPeriods() != null) {
-            List<Period> periods = new ArrayList<>();
-
-            for (PeriodDTO periodDTO : interventionDTO.getPeriods()) {
-                Period period = new Period();
-                setPeriod(period, periodDTO);
-                periods.add(period);
+            if (interventionDTO.getClient() != null) {
+                Client client = new Client();
+                setClient(client, interventionDTO.getClient());
+                intervention.setClient(client);
             }
 
-            intervention.setPeriods(periods);
-        }
+            if (interventionDTO.getStatus() != null) {
+                Status status = new Status("", "");
+                setStatus(status, interventionDTO.getStatus());
+                intervention.setStatus(status);
+            }
 
-        if ("0".equals(interventionDTO.getKm())) {
-            // Le serveur renvoie 0 si aucune valeur n'a été rentré lors de la création d'une intervention
-        } else {
-            intervention.setKm(interventionDTO.getKm());
-        }
+            if (interventionDTO.getAddress() != null) {
+                Site site = new Site();
+                setSite(site, interventionDTO.getAddress());
+                intervention.setAddress(site);
+            }
 
-        if ("0".equals(interventionDTO.getGoKm())) {
-            // Le serveur renvoie 0 si aucune valeur n'a été rentré lors de la création d'une intervention
-        } else {
-            intervention.setGoKm(interventionDTO.getGoKm());
-        }
+            if (interventionDTO.getPeriods() != null) {
+                List<Period> periods = new ArrayList<>();
 
-        if ("0".equals(interventionDTO.getBackKm())) {
-            // Le serveur renvoie 0 si aucune valeur n'a été rentré lors de la création d'une intervention
-        } else {
-            intervention.setBackKm(interventionDTO.getBackKm());
-        }
+                for (PeriodDTO periodDTO : interventionDTO.getPeriods()) {
+                    Period period = new Period();
+                    setPeriod(period, periodDTO);
+                    periods.add(period);
+                }
 
-        if ("0001-01-01T00:00:00Z".equals(interventionDTO.getBillDate())) {
-            // Le serveur renvoie la date 0001-01-01T00:00:00Z si aucune valeur de date n'a été rentré lors de la création d'une intervention
-        } else {
-            intervention.setBillDate(interventionDTO.getBillDate());
-        }
+                intervention.setPeriods(periods);
+            }
 
-        if ("0001-01-01T00:00:00Z".equals(interventionDTO.getPaymentDate())) {
-            // Le serveur renvoie la date 0001-01-01T00:00:00Z si aucune valeur de date n'a été rentré lors de la création d'une intervention
-        } else {
-            intervention.setPaymentDate(interventionDTO.getPaymentDate());
+            if ("0".equals(interventionDTO.getKm())) {
+                // Le serveur renvoie 0 si aucune valeur n'a été rentré lors de la création d'une intervention
+            } else {
+                intervention.setKm(interventionDTO.getKm());
+            }
+
+            if ("0".equals(interventionDTO.getGoKm())) {
+                // Le serveur renvoie 0 si aucune valeur n'a été rentré lors de la création d'une intervention
+            } else {
+                intervention.setGoKm(interventionDTO.getGoKm());
+            }
+
+            if ("0".equals(interventionDTO.getBackKm())) {
+                // Le serveur renvoie 0 si aucune valeur n'a été rentré lors de la création d'une intervention
+            } else {
+                intervention.setBackKm(interventionDTO.getBackKm());
+            }
+
+            if ("0001-01-01T00:00:00Z".equals(interventionDTO.getBillDate())) {
+                // Le serveur renvoie la date 0001-01-01T00:00:00Z si aucune valeur de date n'a été rentré lors de la création d'une intervention
+            } else {
+                intervention.setBillDate(interventionDTO.getBillDate());
+            }
+
+            if ("0001-01-01T00:00:00Z".equals(interventionDTO.getPaymentDate())) {
+                // Le serveur renvoie la date 0001-01-01T00:00:00Z si aucune valeur de date n'a été rentré lors de la création d'une intervention
+            } else {
+                intervention.setPaymentDate(interventionDTO.getPaymentDate());
+            }
+        } catch (Exception e) {
+            throw new InterventionGetException(e.toString(), e);
         }
     }
 
