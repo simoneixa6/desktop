@@ -224,7 +224,7 @@
 /* Styling of the tableview */
 
 .table-view {
-    -fx-border-color: transparent;
+    -fx-background-color:transparent;
 }
 
 .table-column {
@@ -263,12 +263,10 @@
 
 .table-row-cell:filled:selected {
     -fx-background-color: mainGreyHover;
-
 }
 
 .table-view:focused .table-row-cell:filled:focused:selected {
     -fx-background-color: mainGreyHover;
-
 }
 
 .table-row-cell:filled:selected:focused {

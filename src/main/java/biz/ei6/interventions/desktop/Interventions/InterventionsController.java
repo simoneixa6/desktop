@@ -260,8 +260,8 @@ public class InterventionsController implements Initializable, DesktopListener {
         } catch (InterventionGetException e) {
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle(resources.getString("exception.erreur"));
-            alert.setHeaderText(resources.getString("exception.serveur.injoignable") + resources.getString("exception.recuperationInterventions"));
-            alert.setContentText(resources.getString("exception.serveur.injoignable.detail") + "\n" + "\n" + e.toString());
+            alert.setHeaderText(resources.getString("exception.recuperationInterventions"));
+            alert.setContentText(e.toString());
             alert.showAndWait();
         }
         // Si erreur lors de la récupération, on renvoie une liste d'interventions vide

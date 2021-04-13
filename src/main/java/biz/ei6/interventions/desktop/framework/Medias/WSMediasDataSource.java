@@ -13,7 +13,6 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.concurrent.ExecutionException;
 
 /*
  * @author Eixa6
@@ -51,10 +50,14 @@ public class WSMediasDataSource implements MediasDataSource {
             var response = httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString());
 
             var resp = response.get();
+            serverResp = resp.toString();
+
+            // Serveur injoignable si 404, ou ressource demandé non trouvée
+            if (resp.statusCode() == 404) {
+                throw new MediaGetException(resources.getString("exception.serveur.404.detail"), new Exception());
+            }
 
             var res = resp.body();
-
-            serverResp = resp.toString();
 
             ObjectMapper om = new ObjectMapper();
             om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -72,7 +75,7 @@ public class WSMediasDataSource implements MediasDataSource {
                     medias.add(media);
                 }
             }
-        } catch (JsonProcessingException | InterruptedException | ExecutionException e) {
+        } catch (Exception e) {
             StringBuilder exception = new StringBuilder();
             exceptionBuilder(serverResp, exception, e);
             throw new MediaGetException(exception.toString(), e);
@@ -87,9 +90,9 @@ public class WSMediasDataSource implements MediasDataSource {
 
     @Override
     public void remove(Media media) throws MediaPutException {
-        
+
         String serverResp = null;
-        
+
         try {
 
             media.setDeleted(true);
@@ -109,6 +112,11 @@ public class WSMediasDataSource implements MediasDataSource {
 
             serverResp = resp.toString();
 
+            // Serveur injoignable si 404, ou ressource demandé non trouvée
+            if (resp.statusCode() == 404) {
+                throw new MediaPutException(resources.getString("exception.serveur.404.detail"), new Exception());
+            }
+
         } catch (Exception e) {
             StringBuilder exception = new StringBuilder();
             exceptionBuilder(serverResp, exception, e);
@@ -123,7 +131,7 @@ public class WSMediasDataSource implements MediasDataSource {
         var json = om.writeValueAsString(mediaDTO);
         return json;
     }
-    
+
     private void exceptionBuilder(String serverResp, StringBuilder exception, Exception e) {
         if (serverResp != null) {
             exception.append(resources.getString("exception.reponseServeur")).append(serverResp);

@@ -104,11 +104,6 @@ public final class ClientsFormController implements Initializable {
     @FXML
     Button deleteAddressBtn;
 
-    @FXML
-    Label linkedInterventionsLbl;
-    @FXML
-    ListView<Intervention> linkedInterventionsListView;
-
     ResourceBundle resources;
 
     /**

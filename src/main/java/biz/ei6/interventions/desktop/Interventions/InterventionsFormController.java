@@ -486,7 +486,7 @@ public final class InterventionsFormController implements Initializable, Desktop
                 try {
                     mediaFile = interactors.getMediaFile.invoke(mediasListView.getSelectionModel().getSelectedItem().getId());
                 } catch (MediaGetException e) {
-                    showAlert(AlertType.ERROR, resources.getString("exception.erreur"), resources.getString("exception.recuperationMedia"), resources.getString("exception.serveur.injoignable.detail") + "\n" + "\n" + e.toString());
+                    showAlert(AlertType.ERROR, resources.getString("exception.erreur"), resources.getString("exception.recuperationMedia"), e.toString());
                 }
 
                 if (mediaFile != null) {
@@ -897,13 +897,12 @@ public final class InterventionsFormController implements Initializable, Desktop
             return interactors.getInterventionMedias.invoke(getEditedIntervention().getId());
         } catch (MediaGetException e) {
             Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("erreur");
-            alert.setHeaderText("erreur recup medias");
+            alert.setTitle(resources.getString("exception.erreur"));
+            alert.setHeaderText(resources.getString("exception.recuperationMedias"));
             alert.setContentText(e.toString());
             alert.showAndWait();
         }
         // Si erreur lors de la récupération, on renvoie une liste d'interventions vide
         return new ArrayList<>();
     }
-
 }

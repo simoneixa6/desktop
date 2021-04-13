@@ -20,7 +20,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import static java.lang.Boolean.parseBoolean;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.concurrent.ExecutionException;
 
 /*
  * @author Eixa6
@@ -56,8 +55,13 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
             var response = httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString());
 
             var resp = response.get();
-
+            
             serverResp = resp.toString();
+            
+            // Serveur injoignable si 404, ou ressource demandé non trouvée
+            if (resp.statusCode() == 404) {
+                throw new InterventionPostException(resources.getString("exception.serveur.404.detail"), new Exception());
+            }
 
         } catch (Exception e) {
             StringBuilder exception = new StringBuilder();
@@ -86,8 +90,13 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
             var resp = response.get();
 
             var res = resp.body();
-
+            
             serverResp = resp.toString();
+            
+            // Serveur injoignable si 404, ou ressource demandé non trouvée
+            if (resp.statusCode() == 404) {
+                throw new InterventionGetException(resources.getString("exception.serveur.404.detail"), new Exception());
+            }
 
             ObjectMapper om = new ObjectMapper();
             om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -105,7 +114,7 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
                     interventions.add(intervention);
                 }
             }
-        } catch (JsonProcessingException | InterruptedException | ExecutionException e) {
+        } catch (Exception e) {
             StringBuilder exception = new StringBuilder();
             exceptionBuilder(serverResp, exception, e);
             throw new InterventionGetException(exception.toString(), e);
@@ -132,10 +141,14 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
             var response = httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString());
 
             var resp = response.get();
-
             serverResp = resp.toString();
+            
+            // Serveur injoignable si 404, ou ressource demandé non trouvée
+            if (resp.statusCode() == 404) {
+                throw new InterventionPutException(resources.getString("exception.serveur.404.detail"), new Exception());
+            }
 
-        } catch (JsonProcessingException | InterruptedException | ExecutionException e) {
+        } catch (Exception e) {
             StringBuilder exception = new StringBuilder();
             exceptionBuilder(serverResp, exception, e);
             throw new InterventionPutException(exception.toString(), e);
@@ -165,8 +178,14 @@ public class WSInterventionsDataSource implements InterventionsDataSource {
             var resp = response.get();
 
             serverResp = resp.toString();
+            
+            // Serveur injoignable si 404, ou ressource demandé non trouvée
+            if (resp.statusCode() == 404) {
+                throw new InterventionPutException(resources.getString("exception.serveur.404.detail"), new Exception());
+            }
 
-        } catch (JsonProcessingException | InterruptedException | ExecutionException e) {
+
+        } catch (Exception e) {
             StringBuilder exception = new StringBuilder();
             exceptionBuilder(serverResp, exception, e);
             throw new InterventionPutException(exception.toString(), e);

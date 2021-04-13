@@ -13,7 +13,6 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutionException;
-import javafx.scene.Cursor;
 
 /*
  * @author Eixa6
@@ -24,7 +23,7 @@ public class WSMediaFilesDataSource implements MediaFilesDataSource {
     ResourceBundle resources;
 
     String url = "https://simon.biz/medias";
-    
+
     public WSMediaFilesDataSource(ResourceBundle resources) {
         this.resources = resources;
     }
@@ -38,7 +37,7 @@ public class WSMediaFilesDataSource implements MediaFilesDataSource {
 
         try {
             var json = om.writeValueAsString(mediaFile);
-      
+
             // Création de la requête
             var request = HttpRequest.newBuilder(
                     URI.create(url))
@@ -49,8 +48,13 @@ public class WSMediaFilesDataSource implements MediaFilesDataSource {
             var response = httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString());
 
             var resp = response.get();
-            
+
             serverResp = resp.toString();
+
+            // Serveur injoignable si 404, ou ressource demandé non trouvée
+            if (resp.statusCode() == 404) {
+                throw new MediaPostException(resources.getString("exception.serveur.404.detail"), new Exception());
+            }
 
             var res = resp.body();
 
@@ -78,7 +82,7 @@ public class WSMediaFilesDataSource implements MediaFilesDataSource {
         try {
             // Création de la requête
             var request = HttpRequest.newBuilder(
-                    URI.create(url + media_id + "/file"))
+                    URI.create(url + "/" + media_id + "/file"))
                     .header("Accept", "application/json")
                     .GET()
                     .build();
@@ -91,12 +95,17 @@ public class WSMediaFilesDataSource implements MediaFilesDataSource {
 
             serverResp = resp.toString();
 
+            // Serveur injoignable si 404, ou ressource demandé non trouvée
+            if (resp.statusCode() == 404) {
+                throw new MediaGetException(resources.getString("exception.serveur.404.detail"), new Exception());
+            }
+
             ObjectMapper om = new ObjectMapper();
             om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
             mediaFile = om.readValue(res, MediaFile.class);
 
-        } catch (JsonProcessingException | InterruptedException | ExecutionException e) {
+        } catch (Exception e) {
             StringBuilder exception = new StringBuilder();
             exceptionBuilder(serverResp, exception, e);
             throw new MediaGetException(exception.toString(), e);

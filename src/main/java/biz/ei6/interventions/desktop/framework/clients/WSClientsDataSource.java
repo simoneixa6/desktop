@@ -49,10 +49,14 @@ public class WSClientsDataSource implements ClientsDataSource {
             var response = httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString());
 
             var resp = response.get();
+            serverResp = resp.toString();
+            
+            // Serveur injoignable si 404, ou ressource demandé non trouvée
+            if (resp.statusCode() == 404) {
+                throw new ClientPostException(resources.getString("exception.serveur.404.detail"), new Exception());
+            }
 
             var res = resp.body();
-
-            serverResp = resp.toString();
 
             ObjectMapper om = new ObjectMapper();
             om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -88,10 +92,14 @@ public class WSClientsDataSource implements ClientsDataSource {
             var response = httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString());
 
             var resp = response.get();
+            serverResp = resp.toString();
+            
+            // Serveur injoignable si 404, ou ressource demandé non trouvée
+            if (resp.statusCode() == 404) {
+                throw new ClientGetException(resources.getString("exception.serveur.404.detail"), new Exception());
+            }
 
             var res = resp.body();
-
-            serverResp = resp.toString();
 
             ObjectMapper om = new ObjectMapper();
             om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -133,10 +141,14 @@ public class WSClientsDataSource implements ClientsDataSource {
             var response = httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString());
 
             var resp = response.get();
+            serverResp = resp.toString();
+            
+            // Serveur injoignable si 404, ou ressource demandé non trouvée
+            if (resp.statusCode() == 404) {
+                throw new ClientPostException(resources.getString("exception.serveur.404.detail"), new Exception());
+            }
 
             var res = resp.body();
-
-            serverResp = resp.toString();
 
             ObjectMapper om = new ObjectMapper();
             om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -171,8 +183,12 @@ public class WSClientsDataSource implements ClientsDataSource {
             var response = httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString());
 
             var resp = response.get();
-
             serverResp = resp.toString();
+            
+            // Serveur injoignable si 404, ou ressource demandé non trouvée
+            if (resp.statusCode() == 404) {
+                throw new ClientPostException(resources.getString("exception.serveur.404.detail"), new Exception());
+            }
 
         } catch (Exception e) {
             StringBuilder exception = new StringBuilder();
@@ -202,8 +218,12 @@ public class WSClientsDataSource implements ClientsDataSource {
             var response = httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString());
 
             var resp = response.get();
-
             serverResp = resp.toString();
+            
+            // Serveur injoignable si 404, ou ressource demandé non trouvée
+            if (resp.statusCode() == 404) {
+                throw new ClientPutException(resources.getString("exception.serveur.404.detail"), new Exception());
+            }
 
         } catch (JsonProcessingException | InterruptedException | ExecutionException e) {
             StringBuilder exception = new StringBuilder();
