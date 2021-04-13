@@ -5,6 +5,7 @@
  */
 package biz.ei6.interventions.desktop.lib.domain;
 
+import java.text.Normalizer;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -315,4 +316,36 @@ public class Client {
     public void setDeleted(Boolean deleted) {
         this.deleted.set(deleted);
     }
+    
+    public boolean checkIfSearched(String input) {
+
+        StringBuilder data = new StringBuilder();
+
+        if(this.getName() != null) data.append(this.getName());
+        if(this.getLastname() != null) data.append(this.getLastname());
+        if(this.getCompany() != null) data.append(this.getCompany());
+        if(this.getCompanyStatus() != null) data.append(this.getCompanyStatus());
+        if(this.getMail() != null) data.append(this.getMail());
+        if(this.getPhone() != null) data.append(this.getPhone());
+        if(this.getPhone() != null) data.append(this.getPhone());
+        if(this.getHow() != null) data.append(this.getHow());
+        if(this.getWhy() != null) data.append(this.getWhy());
+        if(this.getFirstVisitDate() != null) data.append(this.getFirstVisitDate());
+        if(this.getAddresses() != null)
+        {
+            for ( Site site : this.getAddresses() )
+            {
+                if ( site.getAddress() != null ) data.append(site.getAddress());
+                if ( site.getCity() != null ) data.append(site.getCity());
+                if ( site.getZipCode() != null ) data.append(site.getZipCode());
+            }
+        }
+
+        // On supprime les accents et on transforma les châines en minuscule afin de supporter la casse
+        String clientData = Normalizer.normalize(data.toString().toLowerCase(), Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+        String inputData = Normalizer.normalize(input.toLowerCase(), Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+
+        return clientData.contains(inputData);
+    }
+ 
 }

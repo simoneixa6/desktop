@@ -7,8 +7,10 @@ import biz.ei6.interventions.desktop.framework.clients.ClientGetException;
 import biz.ei6.interventions.desktop.lib.domain.Client;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -20,6 +22,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 
 /*
@@ -29,6 +33,9 @@ class ClientsController implements Initializable, DesktopListener {
 
     @FXML
     SplitPane splitPane;
+
+    @FXML
+    TextField searchInput;
 
     @FXML
     ListView<Client> clientsListView;
@@ -58,6 +65,13 @@ class ClientsController implements Initializable, DesktopListener {
     public void initialize(URL location, ResourceBundle resources) {
 
         this.resources = resources;
+
+        // Met à jour la liste des clients quand on appuie sur entrer
+        searchInput.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                updateClientsListView();
+            }
+        });
 
         /*
          * Mise en place de la cell factory de la listview des clients
@@ -116,9 +130,9 @@ class ClientsController implements Initializable, DesktopListener {
 
                     // Sinon on conserve le formulaire et on deselectionne l'élément afin que l'utilisateur continue sa modification
                 } else if (result.get() == ButtonType.CANCEL) {
-                    
+
                     Platform.runLater(clientsListView.getSelectionModel()::clearSelection);
-                    
+
                 }
                 // Si l'utilisateur n'a pas effectué de modification, on remplace le formulaire par le nouveau
             } else {
@@ -132,9 +146,21 @@ class ClientsController implements Initializable, DesktopListener {
     }
 
     public void updateClientsListView() {
-        var clientObs = FXCollections.observableArrayList(getClients());
-        clientObs.sort(new SortClient());
-        clientsListView.setItems(clientObs);
+        var clients = FXCollections.observableArrayList(getClients());
+        List<Client> filteredClients;
+
+        clients.sort(new SortClient());
+
+        // Filtre les interventions en fonction de la valeur du champ de recherche, sauf si il est vide
+        if (!"".equals(searchInput.getText())) {
+            filteredClients = clients.stream().filter(client -> client.checkIfSearched(searchInput.getText())).collect(Collectors.toList());
+        } else {
+            filteredClients = clients;
+        }
+
+        var filteredClientsObs = FXCollections.observableArrayList(filteredClients);
+
+        clientsListView.setItems(filteredClientsObs);
     }
 
     public ArrayList<Client> getClients() {
