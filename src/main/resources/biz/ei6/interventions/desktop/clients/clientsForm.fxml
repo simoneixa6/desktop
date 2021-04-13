@@ -18,238 +18,241 @@
 
 <fx:root id="AnchorPane" fx:id="anchorPane" stylesheets="@../style.css" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">     
     <children>
-            <ScrollPane id="AnchorPane" fitToWidth="true" minHeight="0.0" minWidth="0.0" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <content>
-                  <VBox prefHeight="606.0" prefWidth="710.0">
-                     <children>
+        <ScrollPane id="AnchorPane" fitToWidth="true" minHeight="0.0" minWidth="0.0" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <content>
+                <VBox prefHeight="606.0" prefWidth="710.0">
+                    <children>
                         <Label id="title" fx:id="titleLbl" text="%modifier.le.client">
-                           <VBox.margin>
-                              <Insets bottom="20.0" top="10.0" />
-                           </VBox.margin>
+                            <VBox.margin>
+                                <Insets bottom="20.0" top="10.0" />
+                            </VBox.margin>
                         </Label>
-                  <HBox alignment="BOTTOM_LEFT" prefWidth="200.0">
-                     <children>
-                        <VBox prefHeight="42.0" prefWidth="126.0">
-                           <children>
-                              <Label id="textinputlabel" text="%civilite">
-                                 <VBox.margin>
-                                    <Insets bottom="5.0" right="5.0" top="5.0" />
-                                 </VBox.margin>
-                              </Label>
-                              <ChoiceBox id="combobox" fx:id="civilityBox" prefWidth="150.0" />
-                           </children>
-                           <HBox.margin>
-                              <Insets right="20.0" />
-                           </HBox.margin>
-                        </VBox>
-                        <CheckBox fx:id="problematicInput" mnemonicParsing="false" text="%client.problematique">
-                           <HBox.margin>
-                              <Insets left="10.0" />
-                           </HBox.margin>
-                           <padding>
-                              <Insets bottom="5.0" />
-                           </padding>
-                        </CheckBox>
-                     </children>
-                     <VBox.margin>
-                        <Insets bottom="10.0" left="5.0" />
-                     </VBox.margin>
-                  </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="696.0">
-                     <children>
-                        <VBox prefHeight="73.0" prefWidth="380.0">
-                           <children>
-                              <Label id="textinputlabel" text="%prenom">
-                                 <VBox.margin>
-                                    <Insets bottom="5.0" right="5.0" top="5.0" />
-                                 </VBox.margin>
-                              </Label>
-                              <TextField id="textInput" fx:id="nameInput" minHeight="28.0" prefHeight="28.0" />
-                           </children>
-                           <HBox.margin>
-                              <Insets left="5.0" right="20.0" />
-                           </HBox.margin>
-                        </VBox>
-                        <VBox prefHeight="55.0" prefWidth="254.0">
-                           <children>
-                              <Label id="textinputlabel" text="%nom">
-                                 <VBox.margin>
-                                    <Insets bottom="5.0" right="5.0" top="5.0" />
-                                 </VBox.margin>
-                              </Label>
-                              <TextField id="textInput" fx:id="lastnameInput" minHeight="28.0" prefHeight="28.0" prefWidth="270.0" />
-                           </children>
-                           <HBox.margin>
-                              <Insets left="10.0" right="10.0" />
-                           </HBox.margin>
-                        </VBox>
-                     </children>
-                     <VBox.margin>
-                        <Insets bottom="10.0" />
-                     </VBox.margin>
-                  </HBox>
+                        <HBox alignment="BOTTOM_LEFT" prefWidth="200.0">
+                            <children>
+                                <VBox prefHeight="42.0" prefWidth="126.0">
+                                    <children>
+                                        <Label id="textinputlabel" text="%civilite">
+                                            <VBox.margin>
+                                                <Insets bottom="5.0" right="5.0" top="5.0" />
+                                            </VBox.margin>
+                                        </Label>
+                                        <ChoiceBox id="combobox" fx:id="civilityBox" prefWidth="150.0" />
+                                    </children>
+                                    <HBox.margin>
+                                        <Insets right="20.0" />
+                                    </HBox.margin>
+                                </VBox>
+                                <CheckBox fx:id="problematicInput" mnemonicParsing="false" text="%client.problematique">
+                                    <HBox.margin>
+                                        <Insets left="10.0" />
+                                    </HBox.margin>
+                                    <padding>
+                                        <Insets bottom="5.0" />
+                                    </padding>
+                                </CheckBox>
+                            </children>
+                            <VBox.margin>
+                                <Insets bottom="10.0" left="5.0" />
+                            </VBox.margin>
+                        </HBox>
                         <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="696.0">
-                           <children>
-                              <VBox prefHeight="73.0" prefWidth="380.0">
-                                 <children>
-                                    <Label id="textinputlabel" text="%entreprise">
-                                       <VBox.margin>
-                                          <Insets bottom="5.0" right="5.0" top="5.0" />
-                                       </VBox.margin>
-                                    </Label>
-                              <TextField id="textInput" fx:id="companyInput" minHeight="28.0" prefHeight="28.0" />
-                                 </children>
-                                 <HBox.margin>
-                                    <Insets left="5.0" right="20.0" />
-                                 </HBox.margin>
-                              </VBox>
-                              <VBox prefHeight="55.0" prefWidth="255.0">
-                                 <children>
-                                    <Label id="textinputlabel" text="%statut">
-                                       <VBox.margin>
-                                          <Insets bottom="5.0" right="5.0" top="5.0" />
-                                       </VBox.margin>
-                                    </Label>
-                              <ChoiceBox id="combobox" fx:id="companyStatusBox" minHeight="28.0" prefHeight="28.0" prefWidth="270.0" />
-                                 </children>
-                                 <HBox.margin>
-                                    <Insets left="10.0" right="10.0" />
-                                 </HBox.margin>
-                              </VBox>
-                           </children>
-                           <VBox.margin>
-                              <Insets bottom="10.0" />
-                           </VBox.margin>
+                            <children>
+                                <VBox prefHeight="73.0" prefWidth="380.0">
+                                    <children>
+                                        <Label id="textinputlabel" text="%prenom">
+                                            <VBox.margin>
+                                                <Insets bottom="5.0" right="5.0" top="5.0" />
+                                            </VBox.margin>
+                                        </Label>
+                                        <TextField id="textInput" fx:id="nameInput" minHeight="28.0" prefHeight="28.0" />
+                                    </children>
+                                    <HBox.margin>
+                                        <Insets left="5.0" right="20.0" />
+                                    </HBox.margin>
+                                </VBox>
+                                <VBox prefHeight="55.0" prefWidth="254.0">
+                                    <children>
+                                        <Label id="textinputlabel" text="%nom">
+                                            <VBox.margin>
+                                                <Insets bottom="5.0" right="5.0" top="5.0" />
+                                            </VBox.margin>
+                                        </Label>
+                                        <TextField id="textInput" fx:id="lastnameInput" minHeight="28.0" prefHeight="28.0" prefWidth="270.0" />
+                                    </children>
+                                    <HBox.margin>
+                                        <Insets left="10.0" right="10.0" />
+                                    </HBox.margin>
+                                </VBox>
+                            </children>
+                            <VBox.margin>
+                                <Insets bottom="10.0" />
+                            </VBox.margin>
                         </HBox>
-                  <HBox layoutX="10.0" layoutY="214.0">
-                     <children>
-                        <VBox minWidth="100.0" prefHeight="50.0" prefWidth="180.0">
-                           <children>
-                              <Label id="textinputlabel" text="%telephone">
-                                 <VBox.margin>
-                                    <Insets bottom="5.0" />
-                                 </VBox.margin>
-                              </Label>
-                              <TextField id="textInput" fx:id="phoneInput" minHeight="28.0" prefHeight="28.0" prefWidth="280.0" />
-                           </children>
-                           <HBox.margin>
-                              <Insets left="5.0" right="10.0" />
-                           </HBox.margin>
-                        </VBox>
-                        <VBox maxWidth="350.0" minWidth="150.0" prefHeight="50.0" prefWidth="250.0">
-                           <children>
-                              <Label id="textinputlabel" text="%adresse.mail">
-                                 <VBox.margin>
-                                    <Insets bottom="5.0" />
-                                 </VBox.margin>
-                              </Label>
-                              <TextField id="textInput" fx:id="mailInput" minHeight="28.0" prefHeight="28.0" prefWidth="298.0" />
-                           </children>
-                           <HBox.margin>
-                              <Insets right="10.0" />
-                           </HBox.margin>
-                        </VBox>
-                        <VBox prefHeight="50.0" prefWidth="135.0">
-                           <children>
-                              <Label id="textinputlabel" text="%date.de.premiere.visite">
-                                 <VBox.margin>
-                                    <Insets bottom="5.0" />
-                                 </VBox.margin>
-                              </Label>
-                              <DatePicker fx:id="firstVisitDateInput" prefHeight="28.0" prefWidth="136.0" />
-                           </children>
-                           <HBox.margin>
-                              <Insets left="10.0" right="10.0" />
-                           </HBox.margin>
-                        </VBox>
-                     </children>
-                     <VBox.margin>
-                        <Insets bottom="10.0" />
-                     </VBox.margin>
-                  </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="696.0">
+                            <children>
+                                <VBox prefHeight="73.0" prefWidth="380.0">
+                                    <children>
+                                        <Label id="textinputlabel" text="%entreprise">
+                                            <VBox.margin>
+                                                <Insets bottom="5.0" right="5.0" top="5.0" />
+                                            </VBox.margin>
+                                        </Label>
+                                        <TextField id="textInput" fx:id="companyInput" minHeight="28.0" prefHeight="28.0" />
+                                    </children>
+                                    <HBox.margin>
+                                        <Insets left="5.0" right="20.0" />
+                                    </HBox.margin>
+                                </VBox>
+                                <VBox prefHeight="55.0" prefWidth="255.0">
+                                    <children>
+                                        <Label id="textinputlabel" text="%statut">
+                                            <VBox.margin>
+                                                <Insets bottom="5.0" right="5.0" top="5.0" />
+                                            </VBox.margin>
+                                        </Label>
+                                        <ChoiceBox id="combobox" fx:id="companyStatusBox" minHeight="28.0" prefHeight="28.0" prefWidth="270.0" />
+                                    </children>
+                                    <HBox.margin>
+                                        <Insets left="10.0" right="10.0" />
+                                    </HBox.margin>
+                                </VBox>
+                            </children>
+                            <VBox.margin>
+                                <Insets bottom="10.0" />
+                            </VBox.margin>
+                        </HBox>
+                        <HBox layoutX="10.0" layoutY="214.0">
+                            <children>
+                                <VBox minWidth="100.0" prefHeight="50.0" prefWidth="180.0">
+                                    <children>
+                                        <Label id="textinputlabel" text="%telephone">
+                                            <VBox.margin>
+                                                <Insets bottom="5.0" />
+                                            </VBox.margin>
+                                        </Label>
+                                        <TextField id="textInput" fx:id="phoneInput" minHeight="28.0" prefHeight="28.0" prefWidth="280.0" />
+                                    </children>
+                                    <HBox.margin>
+                                        <Insets left="5.0" right="10.0" />
+                                    </HBox.margin>
+                                </VBox>
+                                <VBox maxWidth="350.0" minWidth="150.0" prefHeight="50.0" prefWidth="250.0">
+                                    <children>
+                                        <Label id="textinputlabel" text="%adresse.mail">
+                                            <VBox.margin>
+                                                <Insets bottom="5.0" />
+                                            </VBox.margin>
+                                        </Label>
+                                        <TextField id="textInput" fx:id="mailInput" minHeight="28.0" prefHeight="28.0" prefWidth="298.0" />
+                                    </children>
+                                    <HBox.margin>
+                                        <Insets right="10.0" />
+                                    </HBox.margin>
+                                </VBox>
+                                <VBox prefHeight="50.0" prefWidth="135.0">
+                                    <children>
+                                        <Label id="textinputlabel" text="%date.de.premiere.visite">
+                                            <VBox.margin>
+                                                <Insets bottom="5.0" />
+                                            </VBox.margin>
+                                        </Label>
+                                        <DatePicker fx:id="firstVisitDateInput" prefHeight="28.0" prefWidth="136.0" />
+                                    </children>
+                                    <HBox.margin>
+                                        <Insets left="10.0" right="10.0" />
+                                    </HBox.margin>
+                                </VBox>
+                            </children>
+                            <VBox.margin>
+                                <Insets bottom="10.0" />
+                            </VBox.margin>
+                        </HBox>
                         <HBox prefHeight="87.0" prefWidth="710.0">
-                           <children>
-                              <VBox prefHeight="60.0" prefWidth="311.0">
-                                 <children>
-                                    <Label id="textinputlabel" text="%comment">
-                                       <VBox.margin>
-                                          <Insets bottom="5.0" />
-                                       </VBox.margin>
-                                    </Label>
-                              <TextArea id="textAreaInput" fx:id="howInput" prefHeight="200.0" prefWidth="200.0" />
-                                 </children>
-                                 <HBox.margin>
-                                    <Insets left="5.0" right="10.0" />
-                                 </HBox.margin>
-                              </VBox>
-                        <VBox prefHeight="50.0" prefWidth="374.0">
-                           <children>
-                              <Label id="textinputlabel" text="%pourquoi">
-                                 <VBox.margin>
-                                    <Insets bottom="5.0" />
-                                 </VBox.margin>
-                              </Label>
-                              <TextArea id="textAreaInput" fx:id="whyInput" prefHeight="200.0" prefWidth="200.0" />
-                           </children>
-                           <HBox.margin>
-                              <Insets right="10.0" />
-                           </HBox.margin>
-                        </VBox>
-                           </children>
-                           <VBox.margin>
-                              <Insets bottom="10.0" />
-                           </VBox.margin>
+                            <children>
+                                <VBox prefHeight="60.0" prefWidth="311.0">
+                                    <children>
+                                        <Label id="textinputlabel" text="%comment">
+                                            <VBox.margin>
+                                                <Insets bottom="5.0" />
+                                            </VBox.margin>
+                                        </Label>
+                                        <TextArea id="textAreaInput" fx:id="howInput" prefHeight="200.0" prefWidth="200.0" />
+                                    </children>
+                                    <HBox.margin>
+                                        <Insets left="5.0" right="10.0" />
+                                    </HBox.margin>
+                                </VBox>
+                                <VBox prefHeight="50.0" prefWidth="374.0">
+                                    <children>
+                                        <Label id="textinputlabel" text="%pourquoi">
+                                            <VBox.margin>
+                                                <Insets bottom="5.0" />
+                                            </VBox.margin>
+                                        </Label>
+                                        <TextArea id="textAreaInput" fx:id="whyInput" prefHeight="200.0" prefWidth="200.0" />
+                                    </children>
+                                    <HBox.margin>
+                                        <Insets right="10.0" />
+                                    </HBox.margin>
+                                </VBox>
+                            </children>
+                            <VBox.margin>
+                                <Insets bottom="10.0" />
+                            </VBox.margin>
                         </HBox>
-                  <HBox prefHeight="166.0" prefWidth="705.0">
-                     <children>
-                        <VBox prefHeight="199.0" prefWidth="622.0">
-                           <children>
-                              <TableView fx:id="siteTableView" prefHeight="176.0" prefWidth="617.0">
-                                 <columns>
-                                    <TableColumn fx:id="addressCol" maxWidth="450.0" minWidth="100.0" onEditCommit="#ChangeAddressCellEvent" prefWidth="295.0" text="%adresse" />
-                                    <TableColumn fx:id="zipCodeCol" maxWidth="150.0" minWidth="100.0" onEditCommit="#ChangeZipCodeCellEvent" prefWidth="100.0" text="%code.postal" />
-                                    <TableColumn id="lastColumn" fx:id="cityCol" maxWidth="300.0" minWidth="100.0" onEditCommit="#ChangeCityCellEvent" prefWidth="200.0" text="%ville" />
-                                 </columns>
-                                 <VBox.margin>
-                                    <Insets bottom="5.0" right="5.0" />
-                                 </VBox.margin>
-                              </TableView>
-                              <HBox prefHeight="0.0" prefWidth="580.0">
-                                 <children>
-                                    <Button id="tableViewButton" fx:id="addAddressBtn" mnemonicParsing="false" text="%ajouter" />
-                                    <Button id="tableViewButton" fx:id="deleteAddressBtn" mnemonicParsing="false" text="%supprimer" />
-                                 </children>
-                              </HBox>
-                           </children>
-                           <HBox.margin>
-                              <Insets />
-                           </HBox.margin>
-                        </VBox>
-                     </children>
-                     <VBox.margin>
-                        <Insets bottom="30.0" right="5.0" />
-                     </VBox.margin>
-                  </HBox>
-                     </children>
-                  </VBox>
-               </content>
-               <padding>
-                  <Insets left="20.0" />
-               </padding>
-            </ScrollPane>
-            <FlowPane id="buttonflowpane" alignment="CENTER_LEFT" columnHalignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-               <children>
-                  <Button id="bluebtn" fx:id="registerBtn" mnemonicParsing="false" prefHeight="30.0" prefWidth="80.0" text="%enregistrer">
-                     <FlowPane.margin>
+                        <HBox prefHeight="166.0" prefWidth="705.0">
+                            <children>
+                                <VBox prefHeight="199.0" prefWidth="622.0">
+                                    <children>
+                                        <TableView fx:id="siteTableView" prefHeight="176.0" prefWidth="617.0">
+                                            <placeholder>
+                                                <Label text="Aucune adresse pour ce client"/>
+                                            </placeholder>
+                                            <columns>
+                                                <TableColumn fx:id="addressCol" maxWidth="450.0" minWidth="100.0" onEditCommit="#ChangeAddressCellEvent" prefWidth="295.0" text="%adresse" />
+                                                <TableColumn fx:id="zipCodeCol" maxWidth="150.0" minWidth="100.0" onEditCommit="#ChangeZipCodeCellEvent" prefWidth="100.0" text="%code.postal" />
+                                                <TableColumn id="lastColumn" fx:id="cityCol" maxWidth="300.0" minWidth="100.0" onEditCommit="#ChangeCityCellEvent" prefWidth="200.0" text="%ville" />
+                                            </columns>
+                                            <VBox.margin>
+                                                <Insets bottom="5.0" right="5.0" />
+                                            </VBox.margin>
+                                        </TableView>
+                                        <HBox prefHeight="0.0" prefWidth="580.0">
+                                            <children>
+                                                <Button id="tableViewButton" fx:id="addAddressBtn" mnemonicParsing="false" text="%ajouter" />
+                                                <Button id="tableViewButton" fx:id="deleteAddressBtn" mnemonicParsing="false" text="%supprimer" />
+                                            </children>
+                                        </HBox>
+                                    </children>
+                                    <HBox.margin>
+                                        <Insets />
+                                    </HBox.margin>
+                                </VBox>
+                            </children>
+                            <VBox.margin>
+                                <Insets bottom="30.0" right="5.0" />
+                            </VBox.margin>
+                        </HBox>
+                    </children>
+                </VBox>
+            </content>
+            <padding>
+                <Insets left="20.0" />
+            </padding>
+        </ScrollPane>
+        <FlowPane id="buttonflowpane" alignment="CENTER_LEFT" columnHalignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <children>
+                <Button id="bluebtn" fx:id="registerBtn" mnemonicParsing="false" prefHeight="30.0" prefWidth="80.0" text="%enregistrer">
+                    <FlowPane.margin>
                         <Insets bottom="10.0" left="25.0" right="5.0" top="10.0" />
-                     </FlowPane.margin>
-                  </Button>
-                  <Button id="redbtn" fx:id="deleteBtn" mnemonicParsing="false" prefHeight="30.0" prefWidth="80.0" text="%supprimer">
-                     <FlowPane.margin>
+                    </FlowPane.margin>
+                </Button>
+                <Button id="redbtn" fx:id="deleteBtn" mnemonicParsing="false" prefHeight="30.0" prefWidth="80.0" text="%supprimer">
+                    <FlowPane.margin>
                         <Insets bottom="10.0" left="5.0" top="10.0" />
-                     </FlowPane.margin>
-                  </Button>
-               </children>
-            </FlowPane>
-         </children>
+                    </FlowPane.margin>
+                </Button>
+            </children>
+        </FlowPane>
+    </children>
 </fx:root>

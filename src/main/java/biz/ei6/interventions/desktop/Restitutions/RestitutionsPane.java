@@ -1,11 +1,9 @@
 package biz.ei6.interventions.desktop.restitutions;
 
-import biz.ei6.interventions.desktop.restitutions.RestitutionsController;
 import biz.ei6.interventions.desktop.App.Interactors;
 import java.io.IOException;
 import java.util.ResourceBundle;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 
 /**
