@@ -12,7 +12,7 @@
 
 <fx:root id="splitpanestyle" fx:id="splitPane" minWidth="400.0" type="SplitPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <items>
-      <AnchorPane id="AnchorPane" maxWidth="400.0">
+      <AnchorPane id="AnchorPane" maxWidth="500.0">
          <children>
             <Label id="title" alignment="TOP_LEFT" contentDisplay="TOP" text="%clients" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="10.0">
                <padding>

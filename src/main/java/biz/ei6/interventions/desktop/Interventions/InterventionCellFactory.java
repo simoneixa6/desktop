@@ -3,6 +3,7 @@ package biz.ei6.interventions.desktop.interventions;
 import biz.ei6.interventions.desktop.lib.domain.Intervention;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.format.DateTimeFormatter;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ContentDisplay;
@@ -59,7 +60,11 @@ public class InterventionCellFactory implements Callback<ListView<Intervention>,
             }
             else {
 
+                DateTimeFormatter Dateformatter = DateTimeFormatter.ofPattern("dd/MM/yy");
+                
                 StringBuilder interventionString = new StringBuilder();
+                
+                interventionString.append(Dateformatter.format(intervention.getPeriods().get(0).getDate()) + "  ");
 
                 // Si il y a un titre d'intervention
                 if ( intervention.getTitle() != null ){
@@ -81,6 +86,7 @@ public class InterventionCellFactory implements Callback<ListView<Intervention>,
                         interventionString.append(intervention.getClient().getCompany());
                     }
                 }
+                
 
                 lblIntervention.setText(interventionString.toString());
 
