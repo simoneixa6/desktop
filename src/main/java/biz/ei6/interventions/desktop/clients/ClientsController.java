@@ -38,6 +38,9 @@ class ClientsController implements Initializable, DesktopListener {
     TextField searchInput;
 
     @FXML
+    Button clearSearchInputBtn;
+    
+    @FXML
     ListView<Client> clientsListView;
 
     @FXML
@@ -71,6 +74,14 @@ class ClientsController implements Initializable, DesktopListener {
             if (event.getCode() == KeyCode.ENTER) {
                 updateClientsListView();
             }
+        });
+
+        /**
+         * Action sur le clic du bouton "x"
+         */
+        clearSearchInputBtn.setOnAction((ActionEvent event) -> {
+            searchInput.clear();
+            updateClientsListView();
         });
 
         /*

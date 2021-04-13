@@ -9,6 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
 
 <fx:root id="splitpanestyle" fx:id="splitPane" minWidth="400.0" type="SplitPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <items>
@@ -19,7 +20,19 @@
                   <Insets right="10.0" />
                </padding>
             </Label>
-            <TextField id="textInput" fx:id="searchInput" minWidth="40.0" prefHeight="28.0" prefWidth="360.0" promptText="%rechercher" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="80.0" />
+            <HBox layoutX="19.0" layoutY="80.0" prefHeight="34.0" prefWidth="360.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
+               <children>
+                  <TextField id="textInput" fx:id="searchInput" minWidth="40.0" prefHeight="28.0" prefWidth="663.0" promptText="%rechercher" />
+                  <Button fx:id="clearSearchInputBtn" graphicTextGap="0.0" minHeight="20.0" minWidth="20.0" mnemonicParsing="false" prefHeight="28.0" style="-fx-background-color: #f4f6f5;" text="X" textFill="#8d8d8d" wrapText="true">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                     <padding>
+                        <Insets right="5.0" />
+                     </padding>
+                  </Button>
+               </children>
+            </HBox>
             <ListView id="greylistview" fx:id="clientsListView" layoutY="120.0" prefHeight="720.0" prefWidth="360.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="120.0" />
             <FlowPane prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
             <HBox alignment="CENTER" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">

@@ -49,6 +49,9 @@ public class InterventionsController implements Initializable, DesktopListener {
     TextField searchInput;
 
     @FXML
+    Button clearSearchInputBtn;
+
+    @FXML
     ToggleButton sortByDatesBtn;
 
     @FXML
@@ -135,6 +138,14 @@ public class InterventionsController implements Initializable, DesktopListener {
             if (event.getCode() == KeyCode.ENTER) {
                 updateInterventionsListView();
             }
+        });
+
+        /**
+         * Action sur le clic du bouton "x"
+         */
+        clearSearchInputBtn.setOnAction((ActionEvent event) -> {
+            searchInput.clear();
+            updateInterventionsListView();
         });
 
         /*
